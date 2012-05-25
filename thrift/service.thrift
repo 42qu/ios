@@ -1,7 +1,7 @@
 include "error.shrift"
 include "type.shrift"
 
-service UserAPI {
+service Sns {
 
 
 AuthResponse login(
