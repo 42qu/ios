@@ -1,14 +1,28 @@
 include "Types.shrift"
 
 service UserAPI {
-  UserInfo getUserInfo(1: string accessToken,
-                       2: UserID id)
-    throws (1: Errors.UserException userException,
-            2: Errors.SystemException systemException
-            3: Errors.NotFoundException notFoundException),
 
-  UserInfo editUserInfo(1: string accessToken,
-                        2: UserInfo userInfo)
-    throws (1: Errors.UserException userException,
-            2: Errors.SystemException systemException)
+
+
+UserInfo user_info_get(
+    1: string access_token,
+    2: i64 id
+)
+    throws (
+        1: Errors.UserException user_exception,
+        2: Errors.SystemException system_exception
+        3: Errors.NotFoundException not_found_exception
+    ),
+
+
+UserInfo user_info_save(
+    1: string access_token,
+    2: UserInfo user_info
+)
+    throws (
+        1: Errors.UserException user_exception,
+        2: Errors.SystemException system_exception
+    )
+
+
 }
