@@ -1,3 +1,31 @@
+// ----- Auth -----
+struct Auth {
+  1:  required i64 id,
+  2:  required string password,
+  3:  required string clientKey,
+  4:  required string clientSecret
+}
+
+enum {
+  AUTH_SUCCESS = 0,
+  AUTH_FAIL_REASON_UNKNOWN,
+  AUTH_FAIL_SERVER_ERROR,
+  AUTH_FAIL_CLIENT_KEY_NOT_AUTHORIZED,
+  AUTH_FAIL_CLIENT_SECRET_WRONG,
+  AUTH_FAIL_ID_NOT_EXIST,
+  AUTH_FAIL_ID_INVALID,
+  AUTH_FAIL_PASSWORD_WRONG
+} typedef i64 AUTH_RESPONSE_STATUS
+
+struct AuthResponse {
+  1:  required AUTH_RESPONSE_STATUS status,
+  2:  required i64 id,
+  3:  optional string name,
+  4:  required string accessToken,
+  5:  optional i64 expireDate,
+  6:  optional string refreshToken
+}
+
 // ----- User Link -----
 
 enum {

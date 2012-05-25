@@ -4,6 +4,15 @@ include "type.shrift"
 service UserAPI {
 
 
+AuthResponse login(
+    1: Auth auth
+)
+    throws (
+        1: Error.UserException userException,
+        2: Error.SystemException systemException,
+    ),
+
+
 UserInfo userInfo_Get(
     1: string accessToken,
     2: i64 id
