@@ -21,11 +21,11 @@ typedef i64 PhoneID
 enum {
   UserPhoneTypeUnknown = 0,
   UserPhoneTypePublic,
+  UserPhoneTypeCustom,
   UserPhoneTypeMobile,
   UserPhoneTypeHome,
   UserPhoneTypeBusiness,
-  UserPhoneTypeFax,
-  UserPhoneTypeCustom
+  UserPhoneTypeFax
 } typedef i64 UserPhoneType
 
 struct UserPhone {
@@ -39,9 +39,9 @@ typedef i64 MailID
 enum {
   UserMailTypeUnknown = 0,
   UserMailTypePublic,
+  UserMailTypeCustom,
   UserMailTypeHome,
-  UserMailTypeBusiness,
-  UserMailTypeCustom
+  UserMailTypeBusiness
 } typedef i64 UserMailType
 
 struct UserMail {
