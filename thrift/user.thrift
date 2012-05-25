@@ -4,7 +4,7 @@ include "type.shrift"
 service UserAPI {
 
 
-UserInfo getUserInfo(
+UserInfo userInfo_Get(
     1: string accessToken,
     2: i64 id
 )
@@ -15,7 +15,7 @@ UserInfo getUserInfo(
     ),
 
 
-UserInfo saveUserInfo(
+UserInfo userInfo_Save(
     1: string accessToken,
     2: UserInfo userInfo
 )
