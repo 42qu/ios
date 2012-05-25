@@ -15,7 +15,8 @@ enum {
   AUTH_FAIL_ID_NOT_EXIST,
   AUTH_FAIL_ID_INVALID,
   AUTH_FAIL_PASSWORD_WRONG
-} typedef i64 AUTH_RESPONSE_STATUS
+}
+typedef i64 AUTH_RESPONSE_STATUS
 
 struct AuthResponse {
   1:  required AUTH_RESPONSE_STATUS status,
@@ -33,7 +34,8 @@ enum {
   USER_LINK_TYPE_42QU,
   USER_LINK_TYPE_DOUBAN,
   USER_LINK_TYPE_WEIBO
-} typedef i64 USER_LINK_TYPE
+}
+typedef i64 USER_LINK_TYPE
 
 struct UserLink {
   1:  required  i64 id,
@@ -52,7 +54,8 @@ enum {
   USER_PHONE_TYPE_HOME,
   USER_PHONE_TYPE_BUSINESS,
   USER_PHONE_TYPE_FAX
-} typedef i64 USER_PHONE_TYPE
+}
+typedef i64 USER_PHONE_TYPE
 
 struct UserPhone {
   1:  required  i64 id,
@@ -69,7 +72,8 @@ enum {
   USER_MAIL_TYPE_CUSTOM,
   USER_MAIL_TYPE_HOME,
   USER_MAIL_TYPE_BUSINESS
-} typedef i64 USER_MAIL_TYPE
+}
+typedef i64 USER_MAIL_TYPE
 
 struct UserMail {
   1:  required  i64 id,
