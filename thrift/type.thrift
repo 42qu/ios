@@ -6,7 +6,7 @@ struct Auth {
   4:  required string clientSecret
 }
 
-enum {
+enum AUTH_RESPONSE_STATUS {
   AUTH_SUCCESS = 0,
   AUTH_FAIL_REASON_UNKNOWN,
   AUTH_FAIL_SERVER_ERROR,
@@ -16,7 +16,6 @@ enum {
   AUTH_FAIL_ID_INVALID,
   AUTH_FAIL_PASSWORD_WRONG
 }
-typedef i64 AUTH_RESPONSE_STATUS
 
 struct AuthResponse {
   1:  required AUTH_RESPONSE_STATUS status,
@@ -29,13 +28,12 @@ struct AuthResponse {
 
 // ----- User Link -----
 
-enum {
+enum USER_LINK_TYPE {
   USER_LINK_TYPE_UNKNOWN = 0,
   USER_LINK_TYPE_42QU,
   USER_LINK_TYPE_DOUBAN,
   USER_LINK_TYPE_WEIBO
 }
-typedef i64 USER_LINK_TYPE
 
 struct UserLink {
   1:  required  i64 id,
@@ -46,7 +44,7 @@ struct UserLink {
 
 // ----- User Phone -----
 
-enum {
+enum USER_PHONE_TYPE {
   USER_PHONE_TYPE_UNKNOWN = 0,
   USER_PHONE_TYPE_PUBLIC,
   USER_PHONE_TYPE_CUSTOM,
@@ -55,7 +53,6 @@ enum {
   USER_PHONE_TYPE_BUSINESS,
   USER_PHONE_TYPE_FAX
 }
-typedef i64 USER_PHONE_TYPE
 
 struct UserPhone {
   1:  required  i64 id,
@@ -66,14 +63,13 @@ struct UserPhone {
 
 // ----- User Mail -----
 
-enum {
+enum USER_MAIL_TYPE {
   USER_MAIL_TYPE_UNKNOWN = 0,
   USER_MAIL_TYPE_PUBLIC,
   USER_MAIL_TYPE_CUSTOM,
   USER_MAIL_TYPE_HOME,
   USER_MAIL_TYPE_BUSINESS
 }
-typedef i64 USER_MAIL_TYPE
 
 struct UserMail {
   1:  required  i64 id,
