@@ -6,7 +6,7 @@ struct Auth {
   4:  required string clientSecret
 }
 
-enum AUTH_RESPONSE_STATUS {
+enum AuthResponseStatus {
   AUTH_SUCCESS = 0,
   AUTH_FAIL_REASON_UNKNOWN,
   AUTH_FAIL_SERVER_ERROR,
@@ -18,17 +18,17 @@ enum AUTH_RESPONSE_STATUS {
 }
 
 struct AuthResponse {
-  1:  required AUTH_RESPONSE_STATUS status,
-  2:  required i64 id,
-  3:  optional string name,
-  4:  required string accessToken,
-  5:  optional i64 expireDate,
-  6:  optional string refreshToken
+  1:  required  AuthResponseStatus status,
+  2:  required  i64 id,
+  3:  optional  string name,
+  4:  required  string accessToken,
+  5:  optional  i64 expireDate,
+  6:  optional  string refreshToken
 }
 
 // ----- User Link -----
 
-enum USER_LINK_TYPE {
+enum UserLinkType {
   USER_LINK_TYPE_UNKNOWN = 0,
   USER_LINK_TYPE_42QU,
   USER_LINK_TYPE_DOUBAN,
@@ -37,14 +37,14 @@ enum USER_LINK_TYPE {
 
 struct UserLink {
   1:  required  i64 id,
-  2:  required  USER_LINK_TYPE type,
+  2:  required  UserLinkType type,
   3:  required  string value,
   4:  optional  string customType
 }
 
 // ----- User Phone -----
 
-enum USER_PHONE_TYPE {
+enum UserPhoneType {
   USER_PHONE_TYPE_UNKNOWN = 0,
   USER_PHONE_TYPE_PUBLIC,
   USER_PHONE_TYPE_CUSTOM,
@@ -56,14 +56,14 @@ enum USER_PHONE_TYPE {
 
 struct UserPhone {
   1:  required  i64 id,
-  2:  required  USER_PHONE_TYPE type,
+  2:  required  UserPhoneType type,
   3:  required  string value,
   4:  optional  string customType 
 }
 
 // ----- User Mail -----
 
-enum USER_MAIL_TYPE {
+enum UserMailType {
   USER_MAIL_TYPE_UNKNOWN = 0,
   USER_MAIL_TYPE_PUBLIC,
   USER_MAIL_TYPE_CUSTOM,
@@ -73,7 +73,7 @@ enum USER_MAIL_TYPE {
 
 struct UserMail {
   1:  required  i64 id,
-  2:  required  USER_MAIL_TYPE type,
+  2:  required  UserMailType type,
   3:  required  string value,
   4:  optional  string customType
 }
