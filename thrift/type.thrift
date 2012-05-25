@@ -1,22 +1,21 @@
-
 // ----- User Link -----
 
-typedef i64 LinkID
 enum {
-  USER_LINK_CID_UNKNOWN = 0,
-  USER_LINK_CID_42QU,
-  USER_LINK_CID_DOUBAN,
-  USER_LINK_CID_WEIBO
-} typedef i64 USER_LINK_CID
+  USER_LINK_TYPE_UNKNOWN = 0,
+  USER_LINK_TYPE_42QU,
+  USER_LINK_TYPE_DOUBAN,
+  USER_LINK_TYPE_WEIBO
+} typedef i64 USER_LINK_TYPE
 
 struct UserLink {
   1:  required  i64 id,
-  2:  required  USER_LINK_CID cid,
-  3:  required  string rid
-  4:  optional  string txt //自定义的描述 , 比如 饭否 , 点点
+  2:  required  USER_LINK_TYPE type,
+  3:  required  string value,
+  4:  optional  string customType
 }
 
-typedef i64 PhoneID
+// ----- User Phone -----
+
 enum {
   USER_PHONE_TYPE_UNKNOWN = 0,
   USER_PHONE_TYPE_PUBLIC,
@@ -29,34 +28,36 @@ enum {
 
 struct UserPhone {
   1:  required  i64 id,
-  2:  required  USER_PHONE_TYPE cid,
-  3:  required  string rid,
-  4:  optional  string txt 
+  2:  required  USER_PHONE_TYPE type,
+  3:  required  string value,
+  4:  optional  string customType 
 }
 
+// ----- User Mail -----
+
 enum {
-  UserMailTypeUnknown = 0,
-  UserMailTypePublic,
-  UserMailTypeCustom,
-  UserMailTypeHome,
-  UserMailTypeBusiness
-} typedef i64 UserMailType
+  USER_MAIL_TYPE_UNKNOWN = 0,
+  USER_MAIL_TYPE_PUBLIC,
+  USER_MAIL_TYPE_CUSTOM,
+  USER_MAIL_TYPE_HOME,
+  USER_MAIL_TYPE_BUSINESS
+} typedef i64 USER_MAIL_TYPE
 
 struct UserMail {
   1:  required  i64 id,
-  2:  required  UserMailType cid,
-  3:  required  string rid,
+  2:  required  USER_MAIL_TYPE type,
+  3:  required  string value,
   4:  optional  string customType
 }
+
+// ----- User Info -----
 
 struct UserInfo {
   1:  required  i64                 id,
   2:  required  string              name,
-  3:  optional  string              txt,
-  4:  optional  string              ico,
-  5:  optional  list<UserLink>      user_link_list,
-  6:  optional  list<UserPhone>     user_phone_list,
-  7:  optional  list<UserMail>      user_mail_list
+  3:  optional  string              intro,
+  4:  optional  binary              picture,
+  5:  optional  list<UserLink>      userLinkList,
+  6:  optional  list<UserPhone>     userPhoneList,
+  7:  optional  list<UserMail>      userMailList
 }
-
-

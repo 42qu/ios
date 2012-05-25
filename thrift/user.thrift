@@ -1,27 +1,27 @@
-include "Types.shrift"
+include "error.shrift"
+include "type.shrift"
 
 service UserAPI {
 
 
-
-UserInfo user_info_get(
-    1: string access_token,
+UserInfo getUserInfo(
+    1: string accessToken,
     2: i64 id
 )
     throws (
-        1: Errors.UserException user_exception,
-        2: Errors.SystemException system_exception
-        3: Errors.NotFoundException not_found_exception
+        1: Error.UserException userException,
+        2: Error.SystemException systemException,
+        3: Error.NotFoundException notFoundException
     ),
 
 
-UserInfo user_info_save(
-    1: string access_token,
-    2: UserInfo user_info
+UserInfo saveUserInfo(
+    1: string accessToken,
+    2: UserInfo userInfo
 )
     throws (
-        1: Errors.UserException user_exception,
-        2: Errors.SystemException system_exception
+        1: Error.UserException userException,
+        2: Error.SystemException systemException
     )
 
 
