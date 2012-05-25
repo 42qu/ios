@@ -89,3 +89,4 @@ struct UserInfo {
   6:  optional  list<UserPhone>     userPhoneList,
   7:  optional  list<UserMail>      userMailList
 }
+
