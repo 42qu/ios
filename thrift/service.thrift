@@ -1,5 +1,5 @@
-include "error.shrift"
-include "type.shrift"
+include "error.thrift"
+include "type.thrift"
 
 service Sns {
 
