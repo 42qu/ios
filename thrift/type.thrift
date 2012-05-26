@@ -1,9 +1,11 @@
+typedef i64 TimeStamp
+
 // ----- Auth -----
 struct Auth {
-  1:  required string user,
-  2:  required string password,
-  3:  required string clientKey,
-  4:  required string clientSecret
+  1:  required  string  user,
+  2:  required  string  password,
+  3:  required  string  clientKey,
+  4:  required  string  clientSecret
 }
 
 enum AuthResponseStatus {
@@ -18,12 +20,12 @@ enum AuthResponseStatus {
 }
 
 struct AuthResponse {
-  1:  required  AuthResponseStatus status,
-  2:  required  i64 id,
-  3:  optional  string name,
-  4:  required  string accessToken,
-  5:  optional  i64 expireDate,
-  6:  optional  string refreshToken
+  1:  required  AuthResponseStatus  status,
+  2:  required  i64                 id,
+  3:  optional  string              name,
+  4:  required  string              accessToken,
+  5:  optional  i64                 expireDate,
+  6:  optional  string              refreshToken
 }
 
 // ----- User Link -----
@@ -36,10 +38,10 @@ enum UserLinkType {
 }
 
 struct UserLink {
-  1:  required  i64 id,
-  2:  required  UserLinkType type,
-  3:  required  string value,
-  4:  optional  string label
+  1:  required  i64           id,
+  2:  required  UserLinkType  type,
+  3:  required  string        value,
+  4:  optional  string        label
 }
 
 // ----- User Phone -----
@@ -55,10 +57,10 @@ enum UserPhoneType {
 }
 
 struct UserPhone {
-  1:  required  i64 id,
-  2:  required  UserPhoneType type,
-  3:  required  string value,
-  4:  optional  string label 
+  1:  required  i64            id,
+  2:  required  UserPhoneType  type,
+  3:  required  string         value,
+  4:  optional  string         label 
 }
 
 // ----- User Mail -----
@@ -72,10 +74,10 @@ enum UserMailType {
 }
 
 struct UserMail {
-  1:  required  i64 id,
-  2:  required  UserMailType type,
-  3:  required  string value,
-  4:  optional  string label
+  1:  required  i64           id,
+  2:  required  UserMailType  type,
+  3:  required  string        value,
+  4:  optional  string        label
 }
 
 // ----- User Info -----
@@ -90,9 +92,32 @@ struct UserInfo {
   7:  optional  list<UserMail>      userMailList
 }
 
-// ----- Event -----
+// ----- Status -----
 
-typedef i64 TimeStamp
+struct StatusPost { // Used when posting a status
+  1:  required  string        content,
+  2:  optional  list<string>  tagList
+}
+
+struct StatusComment {
+  1:  required  i64        id,
+  2:  required  i64        authorID,
+  3:  required  string     authorName,
+  4:  required  TimeStamp  date,
+  5:  required  string     content
+}
+
+struct Status {
+  1:  required  i64                  id,
+  2:  required  i64                  authorID,
+  3:  required  string               authorName,
+  4:  required  TimeStamp            date,
+  5:  required  string               content,
+  6:  required  i64                  commentCount,
+  7:  optional  list<StatusComment>  commentList
+}
+
+// ----- Event -----
 
 enum EventType {
   EVENT_TYPE_DEFAULT = 0 // Not used for now
