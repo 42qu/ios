@@ -1,7 +1,9 @@
+
 files=$(ls ./thrift | grep '.thrift$')
 for file in $files
 do
-    thrift --gen py thrift/$file
-    thrift --gen cocoa thrift/$file
+    thrift --gen py  -out service/. thrift/$file
+    thrift --gen cocoa -out cocoa/. thrift/$file
     echo "$file"
 done
+
