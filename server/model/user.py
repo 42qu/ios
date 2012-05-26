@@ -1,7 +1,7 @@
 #coding:utf-8
 import _env
-import sys
-from utils.type.ttypes import AuthResponse, AuthResponseStatus
+from utils.type.ttypes import AuthResponse, AuthResponseStatus, UserInfo
+
 from model.user_mail import user_id_by_mail
 from model.user_auth import mail_password_verify
 from model.zsite import Zsite
@@ -33,14 +33,16 @@ def login(mail, pw, client_id, client_secret):
                     'refresh_Token' : refresh_token,
                     'expireDate'    : 87063,
                 })
-            else:
-                print 'failed 2'
-    else:
-        print 'failed 1 '
+
+def userinfo_get(accessToken, id):
+    user_id = user_id_by_mail(mail)
+    #return 
+
+def userinfo_set(accessToken, userInfo):
+    pass
+
 
 if __name__ == '__main__':
-    print login('userm','pw','10299882','df36723f6bc246f0a485e74ff852a6c3')
-
-    #10299882
+    print login('user','pw',10299882,'df36723f6bc246f0a485e74ff852a6c3')
 
 
