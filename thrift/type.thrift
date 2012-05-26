@@ -1,6 +1,6 @@
 // ----- Auth -----
 struct Auth {
-  1:  required i64 id,
+  1:  required string user,
   2:  required string password,
   3:  required string clientKey,
   4:  required string clientSecret
@@ -109,6 +109,6 @@ struct EventInfo {
   8:  required  list<UserInfo>  guestList,
   9:  required  i64             participantAuthedCount,
   10: required  i64             participantUnauthedCount,
-  11:  optional  list<UserInfo>  participantAuthedList,
+  11: optional  list<UserInfo>  participantAuthedList,
   12: optional  list<UserInfo>  participantUnauthedList
 }
