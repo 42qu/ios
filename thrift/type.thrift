@@ -39,7 +39,7 @@ struct UserLink {
   1:  required  i64 id,
   2:  required  UserLinkType type,
   3:  required  string value,
-  4:  optional  string customType
+  4:  optional  string label
 }
 
 // ----- User Phone -----
@@ -58,7 +58,7 @@ struct UserPhone {
   1:  required  i64 id,
   2:  required  UserPhoneType type,
   3:  required  string value,
-  4:  optional  string customType 
+  4:  optional  string label 
 }
 
 // ----- User Mail -----
@@ -75,7 +75,7 @@ struct UserMail {
   1:  required  i64 id,
   2:  required  UserMailType type,
   3:  required  string value,
-  4:  optional  string customType
+  4:  optional  string label
 }
 
 // ----- User Info -----
