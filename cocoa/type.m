@@ -1823,15 +1823,15 @@
 
 @implementation EventInfo
 
-- (id) initWithId: (int64_t) id title: (NSString *) title description: (NSString *) description eventType: (int) eventType startDate: (TimeStamp) startDate expireDate: (TimeStamp) expireDate initiator: (UserInfo *) initiator guestList: (NSArray *) guestList participantAuthedCount: (int64_t) participantAuthedCount participantUnauthedCount: (int64_t) participantUnauthedCount participantAuthedList: (NSArray *) participantAuthedList participantUnauthedList: (NSArray *) participantUnauthedList
+- (id) initWithId: (int64_t) id title: (NSString *) title intro: (NSString *) intro eventType: (int) eventType startDate: (TimeStamp) startDate expireDate: (TimeStamp) expireDate initiator: (UserInfo *) initiator guestList: (NSArray *) guestList participantAuthedCount: (int64_t) participantAuthedCount participantUnauthedCount: (int64_t) participantUnauthedCount participantAuthedList: (NSArray *) participantAuthedList participantUnauthedList: (NSArray *) participantUnauthedList
 {
   self = [super init];
   __id = id;
   __id_isset = YES;
   __title = [title retain];
   __title_isset = YES;
-  __description = [description retain];
-  __description_isset = YES;
+  __intro = [intro retain];
+  __intro_isset = YES;
   __eventType = eventType;
   __eventType_isset = YES;
   __startDate = startDate;
@@ -1866,10 +1866,10 @@
     __title = [[decoder decodeObjectForKey: @"title"] retain];
     __title_isset = YES;
   }
-  if ([decoder containsValueForKey: @"description"])
+  if ([decoder containsValueForKey: @"intro"])
   {
-    __description = [[decoder decodeObjectForKey: @"description"] retain];
-    __description_isset = YES;
+    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
+    __intro_isset = YES;
   }
   if ([decoder containsValueForKey: @"eventType"])
   {
@@ -1929,9 +1929,9 @@
   {
     [encoder encodeObject: __title forKey: @"title"];
   }
-  if (__description_isset)
+  if (__intro_isset)
   {
-    [encoder encodeObject: __description forKey: @"description"];
+    [encoder encodeObject: __intro forKey: @"intro"];
   }
   if (__eventType_isset)
   {
@@ -1974,7 +1974,7 @@
 - (void) dealloc
 {
   [__title release];
-  [__description release];
+  [__intro release];
   [__initiator release];
   [__guestList release];
   [__participantAuthedList release];
@@ -2020,25 +2020,25 @@
   __title_isset = NO;
 }
 
-- (NSString *) description {
-  return [[__description retain] autorelease];
+- (NSString *) intro {
+  return [[__intro retain] autorelease];
 }
 
-- (void) setDescription: (NSString *) description {
-  [description retain];
-  [__description release];
-  __description = description;
-  __description_isset = YES;
+- (void) setIntro: (NSString *) intro {
+  [intro retain];
+  [__intro release];
+  __intro = intro;
+  __intro_isset = YES;
 }
 
-- (BOOL) descriptionIsSet {
-  return __description_isset;
+- (BOOL) introIsSet {
+  return __intro_isset;
 }
 
-- (void) unsetDescription {
-  [__description release];
-  __description = nil;
-  __description_isset = NO;
+- (void) unsetIntro {
+  [__intro release];
+  __intro = nil;
+  __intro_isset = NO;
 }
 
 - (int) eventType {
@@ -2244,7 +2244,7 @@
       case 3:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setDescription: fieldValue];
+          [self setIntro: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -2382,10 +2382,10 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__description_isset) {
-    if (__description != nil) {
-      [outProtocol writeFieldBeginWithName: @"description" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __description];
+  if (__intro_isset) {
+    if (__intro != nil) {
+      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __intro];
       [outProtocol writeFieldEnd];
     }
   }
@@ -2476,8 +2476,8 @@
   [ms appendFormat: @"%qi", __id];
   [ms appendString: @",title:"];
   [ms appendFormat: @"\"%@\"", __title];
-  [ms appendString: @",description:"];
-  [ms appendFormat: @"\"%@\"", __description];
+  [ms appendString: @",intro:"];
+  [ms appendFormat: @"\"%@\"", __intro];
   [ms appendString: @",eventType:"];
   [ms appendFormat: @"%i", __eventType];
   [ms appendString: @",startDate:"];

@@ -836,7 +836,7 @@ class EventInfo:
   Attributes:
    - id
    - title
-   - description
+   - intro
    - eventType
    - startDate
    - expireDate
@@ -852,7 +852,7 @@ class EventInfo:
     None, # 0
     (1, TType.I64, 'id', None, None, ), # 1
     (2, TType.STRING, 'title', None, None, ), # 2
-    (3, TType.STRING, 'description', None, None, ), # 3
+    (3, TType.STRING, 'intro', None, None, ), # 3
     (4, TType.I32, 'eventType', None, None, ), # 4
     (5, TType.I64, 'startDate', None, None, ), # 5
     (6, TType.I64, 'expireDate', None, None, ), # 6
@@ -864,10 +864,10 @@ class EventInfo:
     (12, TType.LIST, 'participantUnauthedList', (TType.STRUCT,(UserInfo, UserInfo.thrift_spec)), None, ), # 12
   )
 
-  def __init__(self, id=None, title=None, description=None, eventType=None, startDate=None, expireDate=None, initiator=None, guestList=None, participantAuthedCount=None, participantUnauthedCount=None, participantAuthedList=None, participantUnauthedList=None,):
+  def __init__(self, id=None, title=None, intro=None, eventType=None, startDate=None, expireDate=None, initiator=None, guestList=None, participantAuthedCount=None, participantUnauthedCount=None, participantAuthedList=None, participantUnauthedList=None,):
     self.id = id
     self.title = title
-    self.description = description
+    self.intro = intro
     self.eventType = eventType
     self.startDate = startDate
     self.expireDate = expireDate
@@ -899,7 +899,7 @@ class EventInfo:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.STRING:
-          self.description = iprot.readString();
+          self.intro = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 4:
@@ -984,9 +984,9 @@ class EventInfo:
       oprot.writeFieldBegin('title', TType.STRING, 2)
       oprot.writeString(self.title)
       oprot.writeFieldEnd()
-    if self.description is not None:
-      oprot.writeFieldBegin('description', TType.STRING, 3)
-      oprot.writeString(self.description)
+    if self.intro is not None:
+      oprot.writeFieldBegin('intro', TType.STRING, 3)
+      oprot.writeString(self.intro)
       oprot.writeFieldEnd()
     if self.eventType is not None:
       oprot.writeFieldBegin('eventType', TType.I32, 4)
@@ -1041,8 +1041,8 @@ class EventInfo:
       raise TProtocol.TProtocolException(message='Required field id is unset!')
     if self.title is None:
       raise TProtocol.TProtocolException(message='Required field title is unset!')
-    if self.description is None:
-      raise TProtocol.TProtocolException(message='Required field description is unset!')
+    if self.intro is None:
+      raise TProtocol.TProtocolException(message='Required field intro is unset!')
     if self.eventType is None:
       raise TProtocol.TProtocolException(message='Required field eventType is unset!')
     if self.startDate is None:
