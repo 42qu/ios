@@ -94,13 +94,18 @@ struct UserInfo {
 
 typedef i64 TimeStamp
 
+enum EventType {
+  EVENT_TYPE_DEFAULT = 0 // Not used for now
+}
+
 struct EventInfo {
   1:  required  i64             id,
   2:  required  string          title,
   3:  required  string          description,
-  4:  required  TimeStamp       startDate,
-  5:  required  TimeStamp       expireDate,
-  6:  required  UserInfo        initiator,
-  7:  required  list<UserInfo>  guestList,
-  8:  required  list<UserInfo>  participantList
+  4:  required  EventType       eventType, // Not used for now - -|
+  5:  required  TimeStamp       startDate,
+  6:  required  TimeStamp       expireDate,
+  7:  required  UserInfo        initiator,
+  8:  required  list<UserInfo>  guestList,
+  9:  required  list<UserInfo>  participantList
 }
