@@ -90,3 +90,17 @@ struct UserInfo {
   7:  optional  list<UserMail>      userMailList
 }
 
+// ----- Event -----
+
+typedef i64 TimeStamp
+
+struct EventInfo {
+  1:  required  i64             id,
+  2:  required  string          title,
+  3:  required  string          description,
+  4:  required  TimeStamp       startDate,
+  5:  required  TimeStamp       expireDate,
+  6:  required  UserInfo        initiator,
+  7:  required  list<UserInfo>  guestList,
+  8:  required  list<UserInfo>  participantList
+}
