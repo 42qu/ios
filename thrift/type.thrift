@@ -101,7 +101,7 @@ enum EventType {
 struct EventInfo {
   1:  required  i64             id,
   2:  required  string          title,
-  3:  required  string          description,
+  3:  required  string          intro,
   4:  required  EventType       eventType, // Not used for now - -|
   5:  required  TimeStamp       startDate,
   6:  required  TimeStamp       expireDate,
