@@ -17,8 +17,12 @@
 
 @protocol Sns <NSObject>
 - (AuthResponse *) login: (Auth *) auth;  // throws UserException *, SystemException *, TException
-- (UserInfo *) info_get: (NSString *) accessToken : (int64_t) id;  // throws UserException *, SystemException *, NotFoundException *, TException
-- (UserInfo *) info_set: (NSString *) accessToken : (UserInfo *) userInfo;  // throws UserException *, SystemException *, TException
+- (UserInfo *) userInfo_get: (NSString *) accessToken : (int64_t) id;  // throws UserException *, SystemException *, NotFoundException *, TException
+- (UserInfo *) userInfo_set: (NSString *) accessToken : (UserInfo *) userInfo;  // throws UserException *, SystemException *, TException
+- (EventInfo *) eventInfo_get: (NSString *) accessToken : (int64_t) id;  // throws UserException *, SystemException *, NotFoundException *, TException
+- (EventInfo *) eventInfo_set: (NSString *) accessToken : (EventInfo *) eventInfo;  // throws UserException *, SystemException *, TException
+- (int64_t) eventPublish: (NSString *) accessToken;  // throws UserException *, SystemException *, TException
+- (EventInfo *) eventApply: (NSString *) accessToken : (int64_t) id;  // throws UserException *, SystemException *, NotFoundException *, TException
 @end
 
 @interface SnsClient : NSObject <Sns> {

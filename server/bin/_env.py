@@ -3,7 +3,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
+sys.path.append('../../utils')
 
 from getpass import getuser
 
@@ -15,3 +15,4 @@ sys.path.append(PREFIX)
 
 from zkit.algorithm.unique import unique
 sys.path = unique(sys.path)
+

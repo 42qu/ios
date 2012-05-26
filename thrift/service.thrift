@@ -29,9 +29,6 @@ service Sns {
             1: error.UserException userException,
             2: error.SystemException systemException
         )
-}
-
-service Event {
 
     type.EventInfo eventInfo_get(
         1: string accessToken,

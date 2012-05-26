@@ -408,7 +408,7 @@
 
 @end
 
-@interface info_get_args : NSObject <NSCoding> {
+@interface userInfo_get_args : NSObject <NSCoding> {
   NSString * __accessToken;
   int64_t __id;
 
@@ -436,7 +436,7 @@
 
 @end
 
-@implementation info_get_args
+@implementation userInfo_get_args
 
 - (id) initWithAccessToken: (NSString *) accessToken id: (int64_t) id
 {
@@ -561,7 +561,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"info_get_args"];
+  [outProtocol writeStructBeginWithName: @"userInfo_get_args"];
   if (__accessToken_isset) {
     if (__accessToken != nil) {
       [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
@@ -579,7 +579,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"info_get_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"userInfo_get_args("];
   [ms appendString: @"accessToken:"];
   [ms appendFormat: @"\"%@\"", __accessToken];
   [ms appendString: @",id:"];
@@ -590,7 +590,7 @@
 
 @end
 
-@interface Info_get_result : NSObject <NSCoding> {
+@interface UserInfo_get_result : NSObject <NSCoding> {
   UserInfo * __success;
   UserException * __userException;
   SystemException * __systemException;
@@ -632,7 +632,7 @@
 
 @end
 
-@implementation Info_get_result
+@implementation UserInfo_get_result
 
 - (id) initWithSuccess: (UserInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException notFoundException: (NotFoundException *) notFoundException
 {
@@ -852,7 +852,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Info_get_result"];
+  [outProtocol writeStructBeginWithName: @"UserInfo_get_result"];
 
   if (__success_isset) {
     if (__success != nil) {
@@ -884,7 +884,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Info_get_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo_get_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @",userException:"];
@@ -899,7 +899,7 @@
 
 @end
 
-@interface info_set_args : NSObject <NSCoding> {
+@interface userInfo_set_args : NSObject <NSCoding> {
   NSString * __accessToken;
   UserInfo * __userInfo;
 
@@ -927,7 +927,7 @@
 
 @end
 
-@implementation info_set_args
+@implementation userInfo_set_args
 
 - (id) initWithAccessToken: (NSString *) accessToken userInfo: (UserInfo *) userInfo
 {
@@ -1059,7 +1059,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"info_set_args"];
+  [outProtocol writeStructBeginWithName: @"userInfo_set_args"];
   if (__accessToken_isset) {
     if (__accessToken != nil) {
       [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
@@ -1079,7 +1079,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"info_set_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"userInfo_set_args("];
   [ms appendString: @"accessToken:"];
   [ms appendFormat: @"\"%@\"", __accessToken];
   [ms appendString: @",userInfo:"];
@@ -1090,7 +1090,7 @@
 
 @end
 
-@interface Info_set_result : NSObject <NSCoding> {
+@interface UserInfo_set_result : NSObject <NSCoding> {
   UserInfo * __success;
   UserException * __userException;
   SystemException * __systemException;
@@ -1125,7 +1125,7 @@
 
 @end
 
-@implementation Info_set_result
+@implementation UserInfo_set_result
 
 - (id) initWithSuccess: (UserInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException
 {
@@ -1302,7 +1302,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Info_set_result"];
+  [outProtocol writeStructBeginWithName: @"UserInfo_set_result"];
 
   if (__success_isset) {
     if (__success != nil) {
@@ -1328,13 +1328,1811 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Info_set_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo_set_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @",userException:"];
   [ms appendFormat: @"%@", __userException];
   [ms appendString: @",systemException:"];
   [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface eventInfo_get_args : NSObject <NSCoding> {
+  NSString * __accessToken;
+  int64_t __id;
+
+  BOOL __accessToken_isset;
+  BOOL __id_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=accessToken, setter=setAccessToken:) NSString * accessToken;
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
+#endif
+
+- (id) initWithAccessToken: (NSString *) accessToken id: (int64_t) id;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) accessToken;
+- (void) setAccessToken: (NSString *) accessToken;
+- (BOOL) accessTokenIsSet;
+
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
+
+@end
+
+@implementation eventInfo_get_args
+
+- (id) initWithAccessToken: (NSString *) accessToken id: (int64_t) id
+{
+  self = [super init];
+  __accessToken = [accessToken retain];
+  __accessToken_isset = YES;
+  __id = id;
+  __id_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"accessToken"])
+  {
+    __accessToken = [[decoder decodeObjectForKey: @"accessToken"] retain];
+    __accessToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"id"])
+  {
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__accessToken_isset)
+  {
+    [encoder encodeObject: __accessToken forKey: @"accessToken"];
+  }
+  if (__id_isset)
+  {
+    [encoder encodeInt64: __id forKey: @"id"];
+  }
+}
+
+- (void) dealloc
+{
+  [__accessToken release];
+  [super dealloc];
+}
+
+- (NSString *) accessToken {
+  return [[__accessToken retain] autorelease];
+}
+
+- (void) setAccessToken: (NSString *) accessToken {
+  [accessToken retain];
+  [__accessToken release];
+  __accessToken = accessToken;
+  __accessToken_isset = YES;
+}
+
+- (BOOL) accessTokenIsSet {
+  return __accessToken_isset;
+}
+
+- (void) unsetAccessToken {
+  [__accessToken release];
+  __accessToken = nil;
+  __accessToken_isset = NO;
+}
+
+- (int64_t) id {
+  return __id;
+}
+
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
+}
+
+- (BOOL) idIsSet {
+  return __id_isset;
+}
+
+- (void) unsetId {
+  __id_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccessToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"eventInfo_get_args"];
+  if (__accessToken_isset) {
+    if (__accessToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __accessToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __id];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"eventInfo_get_args("];
+  [ms appendString: @"accessToken:"];
+  [ms appendFormat: @"\"%@\"", __accessToken];
+  [ms appendString: @",id:"];
+  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EventInfo_get_result : NSObject <NSCoding> {
+  EventInfo * __success;
+  UserException * __userException;
+  SystemException * __systemException;
+  NotFoundException * __notFoundException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+  BOOL __notFoundException_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EventInfo * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) UserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) SystemException * systemException;
+@property (nonatomic, retain, getter=notFoundException, setter=setNotFoundException:) NotFoundException * notFoundException;
+#endif
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException notFoundException: (NotFoundException *) notFoundException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (EventInfo *) success;
+- (void) setSuccess: (EventInfo *) success;
+- (BOOL) successIsSet;
+
+- (UserException *) userException;
+- (void) setUserException: (UserException *) userException;
+- (BOOL) userExceptionIsSet;
+
+- (SystemException *) systemException;
+- (void) setSystemException: (SystemException *) systemException;
+- (BOOL) systemExceptionIsSet;
+
+- (NotFoundException *) notFoundException;
+- (void) setNotFoundException: (NotFoundException *) notFoundException;
+- (BOOL) notFoundExceptionIsSet;
+
+@end
+
+@implementation EventInfo_get_result
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException notFoundException: (NotFoundException *) notFoundException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  __notFoundException = [notFoundException retain];
+  __notFoundException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"notFoundException"])
+  {
+    __notFoundException = [[decoder decodeObjectForKey: @"notFoundException"] retain];
+    __notFoundException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+  if (__notFoundException_isset)
+  {
+    [encoder encodeObject: __notFoundException forKey: @"notFoundException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [__notFoundException release];
+  [super dealloc];
+}
+
+- (EventInfo *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EventInfo *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (UserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (UserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (SystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (SystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (NotFoundException *) notFoundException {
+  return [[__notFoundException retain] autorelease];
+}
+
+- (void) setNotFoundException: (NotFoundException *) notFoundException {
+  [notFoundException retain];
+  [__notFoundException release];
+  __notFoundException = notFoundException;
+  __notFoundException_isset = YES;
+}
+
+- (BOOL) notFoundExceptionIsSet {
+  return __notFoundException_isset;
+}
+
+- (void) unsetNotFoundException {
+  [__notFoundException release];
+  __notFoundException = nil;
+  __notFoundException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EventInfo *fieldValue = [[EventInfo alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserException *fieldValue = [[UserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          SystemException *fieldValue = [[SystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRUCT) {
+          NotFoundException *fieldValue = [[NotFoundException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setNotFoundException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"EventInfo_get_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__notFoundException_isset) {
+    if (__notFoundException != nil) {
+      [outProtocol writeFieldBeginWithName: @"notFoundException" type: TType_STRUCT fieldID: 3];
+      [__notFoundException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"EventInfo_get_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @",notFoundException:"];
+  [ms appendFormat: @"%@", __notFoundException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface eventInfo_set_args : NSObject <NSCoding> {
+  NSString * __accessToken;
+  EventInfo * __eventInfo;
+
+  BOOL __accessToken_isset;
+  BOOL __eventInfo_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=accessToken, setter=setAccessToken:) NSString * accessToken;
+@property (nonatomic, retain, getter=eventInfo, setter=setEventInfo:) EventInfo * eventInfo;
+#endif
+
+- (id) initWithAccessToken: (NSString *) accessToken eventInfo: (EventInfo *) eventInfo;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) accessToken;
+- (void) setAccessToken: (NSString *) accessToken;
+- (BOOL) accessTokenIsSet;
+
+- (EventInfo *) eventInfo;
+- (void) setEventInfo: (EventInfo *) eventInfo;
+- (BOOL) eventInfoIsSet;
+
+@end
+
+@implementation eventInfo_set_args
+
+- (id) initWithAccessToken: (NSString *) accessToken eventInfo: (EventInfo *) eventInfo
+{
+  self = [super init];
+  __accessToken = [accessToken retain];
+  __accessToken_isset = YES;
+  __eventInfo = [eventInfo retain];
+  __eventInfo_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"accessToken"])
+  {
+    __accessToken = [[decoder decodeObjectForKey: @"accessToken"] retain];
+    __accessToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"eventInfo"])
+  {
+    __eventInfo = [[decoder decodeObjectForKey: @"eventInfo"] retain];
+    __eventInfo_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__accessToken_isset)
+  {
+    [encoder encodeObject: __accessToken forKey: @"accessToken"];
+  }
+  if (__eventInfo_isset)
+  {
+    [encoder encodeObject: __eventInfo forKey: @"eventInfo"];
+  }
+}
+
+- (void) dealloc
+{
+  [__accessToken release];
+  [__eventInfo release];
+  [super dealloc];
+}
+
+- (NSString *) accessToken {
+  return [[__accessToken retain] autorelease];
+}
+
+- (void) setAccessToken: (NSString *) accessToken {
+  [accessToken retain];
+  [__accessToken release];
+  __accessToken = accessToken;
+  __accessToken_isset = YES;
+}
+
+- (BOOL) accessTokenIsSet {
+  return __accessToken_isset;
+}
+
+- (void) unsetAccessToken {
+  [__accessToken release];
+  __accessToken = nil;
+  __accessToken_isset = NO;
+}
+
+- (EventInfo *) eventInfo {
+  return [[__eventInfo retain] autorelease];
+}
+
+- (void) setEventInfo: (EventInfo *) eventInfo {
+  [eventInfo retain];
+  [__eventInfo release];
+  __eventInfo = eventInfo;
+  __eventInfo_isset = YES;
+}
+
+- (BOOL) eventInfoIsSet {
+  return __eventInfo_isset;
+}
+
+- (void) unsetEventInfo {
+  [__eventInfo release];
+  __eventInfo = nil;
+  __eventInfo_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccessToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EventInfo *fieldValue = [[EventInfo alloc] init];
+          [fieldValue read: inProtocol];
+          [self setEventInfo: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"eventInfo_set_args"];
+  if (__accessToken_isset) {
+    if (__accessToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __accessToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__eventInfo_isset) {
+    if (__eventInfo != nil) {
+      [outProtocol writeFieldBeginWithName: @"eventInfo" type: TType_STRUCT fieldID: 2];
+      [__eventInfo write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"eventInfo_set_args("];
+  [ms appendString: @"accessToken:"];
+  [ms appendFormat: @"\"%@\"", __accessToken];
+  [ms appendString: @",eventInfo:"];
+  [ms appendFormat: @"%@", __eventInfo];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EventInfo_set_result : NSObject <NSCoding> {
+  EventInfo * __success;
+  UserException * __userException;
+  SystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EventInfo * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) UserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) SystemException * systemException;
+#endif
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (EventInfo *) success;
+- (void) setSuccess: (EventInfo *) success;
+- (BOOL) successIsSet;
+
+- (UserException *) userException;
+- (void) setUserException: (UserException *) userException;
+- (BOOL) userExceptionIsSet;
+
+- (SystemException *) systemException;
+- (void) setSystemException: (SystemException *) systemException;
+- (BOOL) systemExceptionIsSet;
+
+@end
+
+@implementation EventInfo_set_result
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (EventInfo *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EventInfo *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (UserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (UserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (SystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (SystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EventInfo *fieldValue = [[EventInfo alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserException *fieldValue = [[UserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          SystemException *fieldValue = [[SystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"EventInfo_set_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"EventInfo_set_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface eventPublish_args : NSObject <NSCoding> {
+  NSString * __accessToken;
+
+  BOOL __accessToken_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=accessToken, setter=setAccessToken:) NSString * accessToken;
+#endif
+
+- (id) initWithAccessToken: (NSString *) accessToken;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) accessToken;
+- (void) setAccessToken: (NSString *) accessToken;
+- (BOOL) accessTokenIsSet;
+
+@end
+
+@implementation eventPublish_args
+
+- (id) initWithAccessToken: (NSString *) accessToken
+{
+  self = [super init];
+  __accessToken = [accessToken retain];
+  __accessToken_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"accessToken"])
+  {
+    __accessToken = [[decoder decodeObjectForKey: @"accessToken"] retain];
+    __accessToken_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__accessToken_isset)
+  {
+    [encoder encodeObject: __accessToken forKey: @"accessToken"];
+  }
+}
+
+- (void) dealloc
+{
+  [__accessToken release];
+  [super dealloc];
+}
+
+- (NSString *) accessToken {
+  return [[__accessToken retain] autorelease];
+}
+
+- (void) setAccessToken: (NSString *) accessToken {
+  [accessToken retain];
+  [__accessToken release];
+  __accessToken = accessToken;
+  __accessToken_isset = YES;
+}
+
+- (BOOL) accessTokenIsSet {
+  return __accessToken_isset;
+}
+
+- (void) unsetAccessToken {
+  [__accessToken release];
+  __accessToken = nil;
+  __accessToken_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccessToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"eventPublish_args"];
+  if (__accessToken_isset) {
+    if (__accessToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __accessToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"eventPublish_args("];
+  [ms appendString: @"accessToken:"];
+  [ms appendFormat: @"\"%@\"", __accessToken];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EventPublish_result : NSObject <NSCoding> {
+  int64_t __success;
+  UserException * __userException;
+  SystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=success, setter=setSuccess:) int64_t success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) UserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) SystemException * systemException;
+#endif
+
+- (id) initWithSuccess: (int64_t) success userException: (UserException *) userException systemException: (SystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) success;
+- (void) setSuccess: (int64_t) success;
+- (BOOL) successIsSet;
+
+- (UserException *) userException;
+- (void) setUserException: (UserException *) userException;
+- (BOOL) userExceptionIsSet;
+
+- (SystemException *) systemException;
+- (void) setSystemException: (SystemException *) systemException;
+- (BOOL) systemExceptionIsSet;
+
+@end
+
+@implementation EventPublish_result
+
+- (id) initWithSuccess: (int64_t) success userException: (UserException *) userException systemException: (SystemException *) systemException
+{
+  self = [super init];
+  __success = success;
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [decoder decodeInt64ForKey: @"success"];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeInt64: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__userException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (int64_t) success {
+  return __success;
+}
+
+- (void) setSuccess: (int64_t) success {
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  __success_isset = NO;
+}
+
+- (UserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (UserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (SystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (SystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setSuccess: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserException *fieldValue = [[UserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          SystemException *fieldValue = [[SystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"EventPublish_result"];
+
+  if (__success_isset) {
+    [outProtocol writeFieldBeginWithName: @"success" type: TType_I64 fieldID: 0];
+    [outProtocol writeI64: __success];
+    [outProtocol writeFieldEnd];
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"EventPublish_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%qi", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface eventApply_args : NSObject <NSCoding> {
+  NSString * __accessToken;
+  int64_t __id;
+
+  BOOL __accessToken_isset;
+  BOOL __id_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=accessToken, setter=setAccessToken:) NSString * accessToken;
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
+#endif
+
+- (id) initWithAccessToken: (NSString *) accessToken id: (int64_t) id;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) accessToken;
+- (void) setAccessToken: (NSString *) accessToken;
+- (BOOL) accessTokenIsSet;
+
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
+
+@end
+
+@implementation eventApply_args
+
+- (id) initWithAccessToken: (NSString *) accessToken id: (int64_t) id
+{
+  self = [super init];
+  __accessToken = [accessToken retain];
+  __accessToken_isset = YES;
+  __id = id;
+  __id_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"accessToken"])
+  {
+    __accessToken = [[decoder decodeObjectForKey: @"accessToken"] retain];
+    __accessToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"id"])
+  {
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__accessToken_isset)
+  {
+    [encoder encodeObject: __accessToken forKey: @"accessToken"];
+  }
+  if (__id_isset)
+  {
+    [encoder encodeInt64: __id forKey: @"id"];
+  }
+}
+
+- (void) dealloc
+{
+  [__accessToken release];
+  [super dealloc];
+}
+
+- (NSString *) accessToken {
+  return [[__accessToken retain] autorelease];
+}
+
+- (void) setAccessToken: (NSString *) accessToken {
+  [accessToken retain];
+  [__accessToken release];
+  __accessToken = accessToken;
+  __accessToken_isset = YES;
+}
+
+- (BOOL) accessTokenIsSet {
+  return __accessToken_isset;
+}
+
+- (void) unsetAccessToken {
+  [__accessToken release];
+  __accessToken = nil;
+  __accessToken_isset = NO;
+}
+
+- (int64_t) id {
+  return __id;
+}
+
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
+}
+
+- (BOOL) idIsSet {
+  return __id_isset;
+}
+
+- (void) unsetId {
+  __id_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccessToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"eventApply_args"];
+  if (__accessToken_isset) {
+    if (__accessToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __accessToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __id];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"eventApply_args("];
+  [ms appendString: @"accessToken:"];
+  [ms appendFormat: @"\"%@\"", __accessToken];
+  [ms appendString: @",id:"];
+  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EventApply_result : NSObject <NSCoding> {
+  EventInfo * __success;
+  UserException * __userException;
+  SystemException * __systemException;
+  NotFoundException * __notFoundException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+  BOOL __notFoundException_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EventInfo * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) UserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) SystemException * systemException;
+@property (nonatomic, retain, getter=notFoundException, setter=setNotFoundException:) NotFoundException * notFoundException;
+#endif
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException notFoundException: (NotFoundException *) notFoundException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (EventInfo *) success;
+- (void) setSuccess: (EventInfo *) success;
+- (BOOL) successIsSet;
+
+- (UserException *) userException;
+- (void) setUserException: (UserException *) userException;
+- (BOOL) userExceptionIsSet;
+
+- (SystemException *) systemException;
+- (void) setSystemException: (SystemException *) systemException;
+- (BOOL) systemExceptionIsSet;
+
+- (NotFoundException *) notFoundException;
+- (void) setNotFoundException: (NotFoundException *) notFoundException;
+- (BOOL) notFoundExceptionIsSet;
+
+@end
+
+@implementation EventApply_result
+
+- (id) initWithSuccess: (EventInfo *) success userException: (UserException *) userException systemException: (SystemException *) systemException notFoundException: (NotFoundException *) notFoundException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  __notFoundException = [notFoundException retain];
+  __notFoundException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"notFoundException"])
+  {
+    __notFoundException = [[decoder decodeObjectForKey: @"notFoundException"] retain];
+    __notFoundException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+  if (__notFoundException_isset)
+  {
+    [encoder encodeObject: __notFoundException forKey: @"notFoundException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [__notFoundException release];
+  [super dealloc];
+}
+
+- (EventInfo *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EventInfo *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (UserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (UserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (SystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (SystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (NotFoundException *) notFoundException {
+  return [[__notFoundException retain] autorelease];
+}
+
+- (void) setNotFoundException: (NotFoundException *) notFoundException {
+  [notFoundException retain];
+  [__notFoundException release];
+  __notFoundException = notFoundException;
+  __notFoundException_isset = YES;
+}
+
+- (BOOL) notFoundExceptionIsSet {
+  return __notFoundException_isset;
+}
+
+- (void) unsetNotFoundException {
+  [__notFoundException release];
+  __notFoundException = nil;
+  __notFoundException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EventInfo *fieldValue = [[EventInfo alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserException *fieldValue = [[UserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          SystemException *fieldValue = [[SystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRUCT) {
+          NotFoundException *fieldValue = [[NotFoundException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setNotFoundException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"EventApply_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__notFoundException_isset) {
+    if (__notFoundException != nil) {
+      [outProtocol writeFieldBeginWithName: @"notFoundException" type: TType_STRUCT fieldID: 3];
+      [__notFoundException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"EventApply_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @",notFoundException:"];
+  [ms appendFormat: @"%@", __notFoundException];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -1408,10 +3206,10 @@
   return [self recv_login];
 }
 
-- (void) send_info_get: (NSString *) accessToken : (int64_t) id
+- (void) send_userInfo_get: (NSString *) accessToken : (int64_t) id
 {
-  [outProtocol writeMessageBeginWithName: @"info_get" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"info_get_args"];
+  [outProtocol writeMessageBeginWithName: @"userInfo_get" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"userInfo_get_args"];
   if (accessToken != nil)  {
     [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
     [outProtocol writeString: accessToken];
@@ -1426,7 +3224,7 @@
   [[outProtocol transport] flush];
 }
 
-- (UserInfo *) recv_info_get
+- (UserInfo *) recv_userInfo_get
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -1435,7 +3233,7 @@
     [inProtocol readMessageEnd];
     @throw x;
   }
-  Info_get_result * result = [[[Info_get_result alloc] init] autorelease];
+  UserInfo_get_result * result = [[[UserInfo_get_result alloc] init] autorelease];
   [result read: inProtocol];
   [inProtocol readMessageEnd];
   if ([result successIsSet]) {
@@ -1451,19 +3249,19 @@
     @throw [result notFoundException];
   }
   @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"info_get failed: unknown result"];
+                                           reason: @"userInfo_get failed: unknown result"];
 }
 
-- (UserInfo *) info_get: (NSString *) accessToken : (int64_t) id
+- (UserInfo *) userInfo_get: (NSString *) accessToken : (int64_t) id
 {
-  [self send_info_get: accessToken : id];
-  return [self recv_info_get];
+  [self send_userInfo_get: accessToken : id];
+  return [self recv_userInfo_get];
 }
 
-- (void) send_info_set: (NSString *) accessToken : (UserInfo *) userInfo
+- (void) send_userInfo_set: (NSString *) accessToken : (UserInfo *) userInfo
 {
-  [outProtocol writeMessageBeginWithName: @"info_set" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"info_set_args"];
+  [outProtocol writeMessageBeginWithName: @"userInfo_set" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"userInfo_set_args"];
   if (accessToken != nil)  {
     [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
     [outProtocol writeString: accessToken];
@@ -1480,7 +3278,7 @@
   [[outProtocol transport] flush];
 }
 
-- (UserInfo *) recv_info_set
+- (UserInfo *) recv_userInfo_set
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -1489,7 +3287,7 @@
     [inProtocol readMessageEnd];
     @throw x;
   }
-  Info_set_result * result = [[[Info_set_result alloc] init] autorelease];
+  UserInfo_set_result * result = [[[UserInfo_set_result alloc] init] autorelease];
   [result read: inProtocol];
   [inProtocol readMessageEnd];
   if ([result successIsSet]) {
@@ -1502,13 +3300,214 @@
     @throw [result systemException];
   }
   @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"info_set failed: unknown result"];
+                                           reason: @"userInfo_set failed: unknown result"];
 }
 
-- (UserInfo *) info_set: (NSString *) accessToken : (UserInfo *) userInfo
+- (UserInfo *) userInfo_set: (NSString *) accessToken : (UserInfo *) userInfo
 {
-  [self send_info_set: accessToken : userInfo];
-  return [self recv_info_set];
+  [self send_userInfo_set: accessToken : userInfo];
+  return [self recv_userInfo_set];
+}
+
+- (void) send_eventInfo_get: (NSString *) accessToken : (int64_t) id
+{
+  [outProtocol writeMessageBeginWithName: @"eventInfo_get" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"eventInfo_get_args"];
+  if (accessToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: accessToken];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EventInfo *) recv_eventInfo_get
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EventInfo_get_result * result = [[[EventInfo_get_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  if ([result notFoundExceptionIsSet]) {
+    @throw [result notFoundException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"eventInfo_get failed: unknown result"];
+}
+
+- (EventInfo *) eventInfo_get: (NSString *) accessToken : (int64_t) id
+{
+  [self send_eventInfo_get: accessToken : id];
+  return [self recv_eventInfo_get];
+}
+
+- (void) send_eventInfo_set: (NSString *) accessToken : (EventInfo *) eventInfo
+{
+  [outProtocol writeMessageBeginWithName: @"eventInfo_set" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"eventInfo_set_args"];
+  if (accessToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: accessToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (eventInfo != nil)  {
+    [outProtocol writeFieldBeginWithName: @"eventInfo" type: TType_STRUCT fieldID: 2];
+    [eventInfo write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EventInfo *) recv_eventInfo_set
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EventInfo_set_result * result = [[[EventInfo_set_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"eventInfo_set failed: unknown result"];
+}
+
+- (EventInfo *) eventInfo_set: (NSString *) accessToken : (EventInfo *) eventInfo
+{
+  [self send_eventInfo_set: accessToken : eventInfo];
+  return [self recv_eventInfo_set];
+}
+
+- (void) send_eventPublish: (NSString *) accessToken
+{
+  [outProtocol writeMessageBeginWithName: @"eventPublish" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"eventPublish_args"];
+  if (accessToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: accessToken];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (int64_t) recv_eventPublish
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EventPublish_result * result = [[[EventPublish_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"eventPublish failed: unknown result"];
+}
+
+- (int64_t) eventPublish: (NSString *) accessToken
+{
+  [self send_eventPublish: accessToken];
+  return [self recv_eventPublish];
+}
+
+- (void) send_eventApply: (NSString *) accessToken : (int64_t) id
+{
+  [outProtocol writeMessageBeginWithName: @"eventApply" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"eventApply_args"];
+  if (accessToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: accessToken];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EventInfo *) recv_eventApply
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EventApply_result * result = [[[EventApply_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  if ([result notFoundExceptionIsSet]) {
+    @throw [result notFoundException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"eventApply failed: unknown result"];
+}
+
+- (EventInfo *) eventApply: (NSString *) accessToken : (int64_t) id
+{
+  [self send_eventApply: accessToken : id];
+  return [self recv_eventApply];
 }
 
 @end
@@ -1532,20 +3531,52 @@
     [mMethodMap setValue: invocation forKey: @"login"];
   }
   {
-    SEL s = @selector(process_info_get_withSequenceID:inProtocol:outProtocol:);
+    SEL s = @selector(process_userInfo_get_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
     [invocation setSelector: s];
     [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"info_get"];
+    [mMethodMap setValue: invocation forKey: @"userInfo_get"];
   }
   {
-    SEL s = @selector(process_info_set_withSequenceID:inProtocol:outProtocol:);
+    SEL s = @selector(process_userInfo_set_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
     [invocation setSelector: s];
     [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"info_set"];
+    [mMethodMap setValue: invocation forKey: @"userInfo_set"];
+  }
+  {
+    SEL s = @selector(process_eventInfo_get_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"eventInfo_get"];
+  }
+  {
+    SEL s = @selector(process_eventInfo_set_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"eventInfo_set"];
+  }
+  {
+    SEL s = @selector(process_eventPublish_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"eventPublish"];
+  }
+  {
+    SEL s = @selector(process_eventApply_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"eventApply"];
   }
   return self;
 }
@@ -1605,14 +3636,14 @@
   [args release];
 }
 
-- (void) process_info_get_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+- (void) process_userInfo_get_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
 {
-  info_get_args * args = [[info_get_args alloc] init];
+  userInfo_get_args * args = [[userInfo_get_args alloc] init];
   [args read: inProtocol];
   [inProtocol readMessageEnd];
-  Info_get_result * result = [[Info_get_result alloc] init];
-  [result setSuccess: [mService info_get: [args accessToken]: [args id]]];
-  [outProtocol writeMessageBeginWithName: @"info_get"
+  UserInfo_get_result * result = [[UserInfo_get_result alloc] init];
+  [result setSuccess: [mService userInfo_get: [args accessToken]: [args id]]];
+  [outProtocol writeMessageBeginWithName: @"userInfo_get"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
@@ -1622,14 +3653,82 @@
   [args release];
 }
 
-- (void) process_info_set_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+- (void) process_userInfo_set_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
 {
-  info_set_args * args = [[info_set_args alloc] init];
+  userInfo_set_args * args = [[userInfo_set_args alloc] init];
   [args read: inProtocol];
   [inProtocol readMessageEnd];
-  Info_set_result * result = [[Info_set_result alloc] init];
-  [result setSuccess: [mService info_set: [args accessToken]: [args userInfo]]];
-  [outProtocol writeMessageBeginWithName: @"info_set"
+  UserInfo_set_result * result = [[UserInfo_set_result alloc] init];
+  [result setSuccess: [mService userInfo_set: [args accessToken]: [args userInfo]]];
+  [outProtocol writeMessageBeginWithName: @"userInfo_set"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_eventInfo_get_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  eventInfo_get_args * args = [[eventInfo_get_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EventInfo_get_result * result = [[EventInfo_get_result alloc] init];
+  [result setSuccess: [mService eventInfo_get: [args accessToken]: [args id]]];
+  [outProtocol writeMessageBeginWithName: @"eventInfo_get"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_eventInfo_set_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  eventInfo_set_args * args = [[eventInfo_set_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EventInfo_set_result * result = [[EventInfo_set_result alloc] init];
+  [result setSuccess: [mService eventInfo_set: [args accessToken]: [args eventInfo]]];
+  [outProtocol writeMessageBeginWithName: @"eventInfo_set"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_eventPublish_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  eventPublish_args * args = [[eventPublish_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EventPublish_result * result = [[EventPublish_result alloc] init];
+  [result setSuccess: [mService eventPublish: [args accessToken]]];
+  [outProtocol writeMessageBeginWithName: @"eventPublish"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_eventApply_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  eventApply_args * args = [[eventApply_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EventApply_result * result = [[EventApply_result alloc] init];
+  [result setSuccess: [mService eventApply: [args accessToken]: [args id]]];
+  [outProtocol writeMessageBeginWithName: @"eventApply"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

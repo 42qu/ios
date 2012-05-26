@@ -49,6 +49,12 @@ enum UserMailType {
   UserMailType_USER_MAIL_TYPE_BUSINESS = 4
 };
 
+enum EventType {
+  EventType_EVENT_TYPE_DEFAULT = 0
+};
+
+typedef int64_t TimeStamp;
+
 @interface Auth : NSObject <NSCoding> {
   int64_t __id;
   NSString * __password;
@@ -151,22 +157,22 @@ enum UserMailType {
   int64_t __id;
   int __type;
   NSString * __value;
-  NSString * __customType;
+  NSString * __label;
 
   BOOL __id_isset;
   BOOL __type_isset;
   BOOL __value_isset;
-  BOOL __customType_isset;
+  BOOL __label_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, getter=type, setter=setType:) int type;
 @property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
-@property (nonatomic, retain, getter=customType, setter=setCustomType:) NSString * customType;
+@property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
 #endif
 
-- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value customType: (NSString *) customType;
+- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value label: (NSString *) label;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -183,9 +189,9 @@ enum UserMailType {
 - (void) setValue: (NSString *) value;
 - (BOOL) valueIsSet;
 
-- (NSString *) customType;
-- (void) setCustomType: (NSString *) customType;
-- (BOOL) customTypeIsSet;
+- (NSString *) label;
+- (void) setLabel: (NSString *) label;
+- (BOOL) labelIsSet;
 
 @end
 
@@ -193,22 +199,22 @@ enum UserMailType {
   int64_t __id;
   int __type;
   NSString * __value;
-  NSString * __customType;
+  NSString * __label;
 
   BOOL __id_isset;
   BOOL __type_isset;
   BOOL __value_isset;
-  BOOL __customType_isset;
+  BOOL __label_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, getter=type, setter=setType:) int type;
 @property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
-@property (nonatomic, retain, getter=customType, setter=setCustomType:) NSString * customType;
+@property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
 #endif
 
-- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value customType: (NSString *) customType;
+- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value label: (NSString *) label;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -225,9 +231,9 @@ enum UserMailType {
 - (void) setValue: (NSString *) value;
 - (BOOL) valueIsSet;
 
-- (NSString *) customType;
-- (void) setCustomType: (NSString *) customType;
-- (BOOL) customTypeIsSet;
+- (NSString *) label;
+- (void) setLabel: (NSString *) label;
+- (BOOL) labelIsSet;
 
 @end
 
@@ -235,22 +241,22 @@ enum UserMailType {
   int64_t __id;
   int __type;
   NSString * __value;
-  NSString * __customType;
+  NSString * __label;
 
   BOOL __id_isset;
   BOOL __type_isset;
   BOOL __value_isset;
-  BOOL __customType_isset;
+  BOOL __label_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, getter=type, setter=setType:) int type;
 @property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
-@property (nonatomic, retain, getter=customType, setter=setCustomType:) NSString * customType;
+@property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
 #endif
 
-- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value customType: (NSString *) customType;
+- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value label: (NSString *) label;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -267,9 +273,9 @@ enum UserMailType {
 - (void) setValue: (NSString *) value;
 - (BOOL) valueIsSet;
 
-- (NSString *) customType;
-- (void) setCustomType: (NSString *) customType;
-- (BOOL) customTypeIsSet;
+- (NSString *) label;
+- (void) setLabel: (NSString *) label;
+- (BOOL) labelIsSet;
 
 @end
 
@@ -333,6 +339,104 @@ enum UserMailType {
 - (NSArray *) userMailList;
 - (void) setUserMailList: (NSArray *) userMailList;
 - (BOOL) userMailListIsSet;
+
+@end
+
+@interface EventInfo : NSObject <NSCoding> {
+  int64_t __id;
+  NSString * __title;
+  NSString * __description;
+  int __eventType;
+  TimeStamp __startDate;
+  TimeStamp __expireDate;
+  UserInfo * __initiator;
+  NSArray * __guestList;
+  int64_t __participantAuthedCount;
+  int64_t __participantUnauthedCount;
+  NSArray * __participantAuthedList;
+  NSArray * __participantUnauthedList;
+
+  BOOL __id_isset;
+  BOOL __title_isset;
+  BOOL __description_isset;
+  BOOL __eventType_isset;
+  BOOL __startDate_isset;
+  BOOL __expireDate_isset;
+  BOOL __initiator_isset;
+  BOOL __guestList_isset;
+  BOOL __participantAuthedCount_isset;
+  BOOL __participantUnauthedCount_isset;
+  BOOL __participantAuthedList_isset;
+  BOOL __participantUnauthedList_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, retain, getter=title, setter=setTitle:) NSString * title;
+@property (nonatomic, retain, getter=description, setter=setDescription:) NSString * description;
+@property (nonatomic, getter=eventType, setter=setEventType:) int eventType;
+@property (nonatomic, getter=startDate, setter=setStartDate:) TimeStamp startDate;
+@property (nonatomic, getter=expireDate, setter=setExpireDate:) TimeStamp expireDate;
+@property (nonatomic, retain, getter=initiator, setter=setInitiator:) UserInfo * initiator;
+@property (nonatomic, retain, getter=guestList, setter=setGuestList:) NSArray * guestList;
+@property (nonatomic, getter=participantAuthedCount, setter=setParticipantAuthedCount:) int64_t participantAuthedCount;
+@property (nonatomic, getter=participantUnauthedCount, setter=setParticipantUnauthedCount:) int64_t participantUnauthedCount;
+@property (nonatomic, retain, getter=participantAuthedList, setter=setParticipantAuthedList:) NSArray * participantAuthedList;
+@property (nonatomic, retain, getter=participantUnauthedList, setter=setParticipantUnauthedList:) NSArray * participantUnauthedList;
+#endif
+
+- (id) initWithId: (int64_t) id title: (NSString *) title description: (NSString *) description eventType: (int) eventType startDate: (TimeStamp) startDate expireDate: (TimeStamp) expireDate initiator: (UserInfo *) initiator guestList: (NSArray *) guestList participantAuthedCount: (int64_t) participantAuthedCount participantUnauthedCount: (int64_t) participantUnauthedCount participantAuthedList: (NSArray *) participantAuthedList participantUnauthedList: (NSArray *) participantUnauthedList;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
+
+- (NSString *) title;
+- (void) setTitle: (NSString *) title;
+- (BOOL) titleIsSet;
+
+- (NSString *) description;
+- (void) setDescription: (NSString *) description;
+- (BOOL) descriptionIsSet;
+
+- (int) eventType;
+- (void) setEventType: (int) eventType;
+- (BOOL) eventTypeIsSet;
+
+- (TimeStamp) startDate;
+- (void) setStartDate: (TimeStamp) startDate;
+- (BOOL) startDateIsSet;
+
+- (TimeStamp) expireDate;
+- (void) setExpireDate: (TimeStamp) expireDate;
+- (BOOL) expireDateIsSet;
+
+- (UserInfo *) initiator;
+- (void) setInitiator: (UserInfo *) initiator;
+- (BOOL) initiatorIsSet;
+
+- (NSArray *) guestList;
+- (void) setGuestList: (NSArray *) guestList;
+- (BOOL) guestListIsSet;
+
+- (int64_t) participantAuthedCount;
+- (void) setParticipantAuthedCount: (int64_t) participantAuthedCount;
+- (BOOL) participantAuthedCountIsSet;
+
+- (int64_t) participantUnauthedCount;
+- (void) setParticipantUnauthedCount: (int64_t) participantUnauthedCount;
+- (BOOL) participantUnauthedCountIsSet;
+
+- (NSArray *) participantAuthedList;
+- (void) setParticipantAuthedList: (NSArray *) participantAuthedList;
+- (BOOL) participantAuthedListIsSet;
+
+- (NSArray *) participantUnauthedList;
+- (void) setParticipantUnauthedList: (NSArray *) participantUnauthedList;
+- (BOOL) participantUnauthedListIsSet;
 
 @end
 
