@@ -56,32 +56,32 @@ enum EventType {
 typedef int64_t TimeStamp;
 
 @interface Auth : NSObject <NSCoding> {
-  int64_t __id;
+  NSString * __user;
   NSString * __password;
   NSString * __clientKey;
   NSString * __clientSecret;
 
-  BOOL __id_isset;
+  BOOL __user_isset;
   BOOL __password_isset;
   BOOL __clientKey_isset;
   BOOL __clientSecret_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, retain, getter=user, setter=setUser:) NSString * user;
 @property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
 @property (nonatomic, retain, getter=clientKey, setter=setClientKey:) NSString * clientKey;
 @property (nonatomic, retain, getter=clientSecret, setter=setClientSecret:) NSString * clientSecret;
 #endif
 
-- (id) initWithId: (int64_t) id password: (NSString *) password clientKey: (NSString *) clientKey clientSecret: (NSString *) clientSecret;
+- (id) initWithUser: (NSString *) user password: (NSString *) password clientKey: (NSString *) clientKey clientSecret: (NSString *) clientSecret;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
+- (NSString *) user;
+- (void) setUser: (NSString *) user;
+- (BOOL) userIsSet;
 
 - (NSString *) password;
 - (void) setPassword: (NSString *) password;

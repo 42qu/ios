@@ -135,7 +135,7 @@ class EventType:
 class Auth:
   """
   Attributes:
-   - id
+   - user
    - password
    - clientKey
    - clientSecret
@@ -143,14 +143,14 @@ class Auth:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'id', None, None, ), # 1
+    (1, TType.STRING, 'user', None, None, ), # 1
     (2, TType.STRING, 'password', None, None, ), # 2
     (3, TType.STRING, 'clientKey', None, None, ), # 3
     (4, TType.STRING, 'clientSecret', None, None, ), # 4
   )
 
-  def __init__(self, id=None, password=None, clientKey=None, clientSecret=None,):
-    self.id = id
+  def __init__(self, user=None, password=None, clientKey=None, clientSecret=None,):
+    self.user = user
     self.password = password
     self.clientKey = clientKey
     self.clientSecret = clientSecret
@@ -165,8 +165,8 @@ class Auth:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.I64:
-          self.id = iprot.readI64();
+        if ftype == TType.STRING:
+          self.user = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -194,9 +194,9 @@ class Auth:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('Auth')
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 1)
-      oprot.writeI64(self.id)
+    if self.user is not None:
+      oprot.writeFieldBegin('user', TType.STRING, 1)
+      oprot.writeString(self.user)
       oprot.writeFieldEnd()
     if self.password is not None:
       oprot.writeFieldBegin('password', TType.STRING, 2)
@@ -214,8 +214,8 @@ class Auth:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.user is None:
+      raise TProtocol.TProtocolException(message='Required field user is unset!')
     if self.password is None:
       raise TProtocol.TProtocolException(message='Required field password is unset!')
     if self.clientKey is None:
