@@ -107,5 +107,8 @@ struct EventInfo {
   6:  required  TimeStamp       expireDate,
   7:  required  UserInfo        initiator,
   8:  required  list<UserInfo>  guestList,
-  9:  required  list<UserInfo>  participantList
+  9:  required  i64             participantAuthedCount,
+  10: required  i64             participantUnauthedCount,
+  11:  optional  list<UserInfo>  participantAuthedList,
+  12: optional  list<UserInfo>  participantUnauthedList
 }
