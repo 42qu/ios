@@ -2,6 +2,13 @@ typedef i64 timestamp
 
 // ----- Auth -----
 
+struct AuthRequest {
+  1:  required  string  client_id,
+  2:  required  string  client_secret,
+  3:  required  string  mail,
+  3:  required  string  password
+}
+
 enum AuthResponseStatus {
   AUTH_SUCCESS = 0,
   AUTH_FAIL_REASON_UNKNOWN,

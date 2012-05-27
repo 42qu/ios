@@ -4,10 +4,7 @@ include "type.thrift"
 service Sns {
 
     type.AuthResponse login_by_email(
-        1:string  client_key,
-        2:string  client_secret
-        3:string  email,
-        4:string  password,
+        1:AuthRequest auth_request
     )
 
     type.AuthResponse login_by_oauth(
@@ -38,13 +35,12 @@ service Sns {
 
 
 
-
     type.Task task_get(
         1: string access_token,
         2: i64 id
     )
 
-    i64 task_new(
+    i64 task_new( // Return task id
         1: string access_token,
         2: type.Task task 
     )
