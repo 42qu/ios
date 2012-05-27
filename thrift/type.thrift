@@ -6,7 +6,7 @@ struct AuthRequestMail {
   1:  required  string  client_id,
   2:  required  string  client_secret,
   3:  required  string  mail,
-  3:  required  string  password
+  4:  required  string  password
 }
 
 enum AuthResponseStatus {

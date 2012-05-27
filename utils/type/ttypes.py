@@ -132,6 +132,110 @@ class TaskCid:
   }
 
 
+class AuthRequestMail:
+  """
+  Attributes:
+   - client_id
+   - client_secret
+   - mail
+   - password
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'client_id', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.STRING, 'mail', None, None, ), # 3
+    (4, TType.STRING, 'password', None, None, ), # 4
+  )
+
+  def __init__(self, client_id=None, client_secret=None, mail=None, password=None,):
+    self.client_id = client_id
+    self.client_secret = client_secret
+    self.mail = mail
+    self.password = password
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.client_id = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.client_secret = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.mail = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.password = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('AuthRequestMail')
+    if self.client_id is not None:
+      oprot.writeFieldBegin('client_id', TType.STRING, 1)
+      oprot.writeString(self.client_id)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    if self.mail is not None:
+      oprot.writeFieldBegin('mail', TType.STRING, 3)
+      oprot.writeString(self.mail)
+      oprot.writeFieldEnd()
+    if self.password is not None:
+      oprot.writeFieldBegin('password', TType.STRING, 4)
+      oprot.writeString(self.password)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.client_id is None:
+      raise TProtocol.TProtocolException(message='Required field client_id is unset!')
+    if self.client_secret is None:
+      raise TProtocol.TProtocolException(message='Required field client_secret is unset!')
+    if self.mail is None:
+      raise TProtocol.TProtocolException(message='Required field mail is unset!')
+    if self.password is None:
+      raise TProtocol.TProtocolException(message='Required field password is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class AuthResponse:
   """
   Attributes:

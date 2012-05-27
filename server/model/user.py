@@ -43,5 +43,5 @@ def userinfo_set(accessToken, userInfo):
 
 
 if __name__ == '__main__':
-    #print login('user','pw',10299882,'df36723f6bc246f0a485e74ff852a6c3')
+    print login('54080@42qu.com','794613852',u'10046352',u'1f082771f7c940849f6fd02ba5d3519f')
 

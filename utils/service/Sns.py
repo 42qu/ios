@@ -18,13 +18,10 @@ except:
 
 
 class Iface:
-  def login_by_email(self, client_key, client_secret, email, password):
+  def login_by_email(self, auth_request_mail):
     """
     Parameters:
-     - client_key
-     - client_secret
-     - email
-     - password
+     - auth_request_mail
     """
     pass
 
@@ -115,24 +112,18 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login_by_email(self, client_key, client_secret, email, password):
+  def login_by_email(self, auth_request_mail):
     """
     Parameters:
-     - client_key
-     - client_secret
-     - email
-     - password
+     - auth_request_mail
     """
-    self.send_login_by_email(client_key, client_secret, email, password)
+    self.send_login_by_email(auth_request_mail)
     return self.recv_login_by_email()
 
-  def send_login_by_email(self, client_key, client_secret, email, password):
+  def send_login_by_email(self, auth_request_mail):
     self._oprot.writeMessageBegin('login_by_email', TMessageType.CALL, self._seqid)
     args = login_by_email_args()
-    args.client_key = client_key
-    args.client_secret = client_secret
-    args.email = email
-    args.password = password
+    args.auth_request_mail = auth_request_mail
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -498,7 +489,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_email_result()
-    result.success = self._handler.login_by_email(args.client_key, args.client_secret, args.email, args.password)
+    result.success = self._handler.login_by_email(args.auth_request_mail)
     oprot.writeMessageBegin("login_by_email", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -620,25 +611,16 @@ class Processor(Iface, TProcessor):
 class login_by_email_args:
   """
   Attributes:
-   - client_key
-   - client_secret
-   - email
-   - password
+   - auth_request_mail
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'client_key', None, None, ), # 1
-    (2, TType.STRING, 'client_secret', None, None, ), # 2
-    (3, TType.STRING, 'email', None, None, ), # 3
-    (4, TType.STRING, 'password', None, None, ), # 4
+    (1, TType.STRUCT, 'auth_request_mail', (type.ttypes.AuthRequestMail, type.ttypes.AuthRequestMail.thrift_spec), None, ), # 1
   )
 
-  def __init__(self, client_key=None, client_secret=None, email=None, password=None,):
-    self.client_key = client_key
-    self.client_secret = client_secret
-    self.email = email
-    self.password = password
+  def __init__(self, auth_request_mail=None,):
+    self.auth_request_mail = auth_request_mail
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -650,23 +632,9 @@ class login_by_email_args:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.client_key = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRING:
-          self.client_secret = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRING:
-          self.email = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.STRING:
-          self.password = iprot.readString();
+        if ftype == TType.STRUCT:
+          self.auth_request_mail = type.ttypes.AuthRequestMail()
+          self.auth_request_mail.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -679,21 +647,9 @@ class login_by_email_args:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('login_by_email_args')
-    if self.client_key is not None:
-      oprot.writeFieldBegin('client_key', TType.STRING, 1)
-      oprot.writeString(self.client_key)
-      oprot.writeFieldEnd()
-    if self.client_secret is not None:
-      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
-      oprot.writeString(self.client_secret)
-      oprot.writeFieldEnd()
-    if self.email is not None:
-      oprot.writeFieldBegin('email', TType.STRING, 3)
-      oprot.writeString(self.email)
-      oprot.writeFieldEnd()
-    if self.password is not None:
-      oprot.writeFieldBegin('password', TType.STRING, 4)
-      oprot.writeString(self.password)
+    if self.auth_request_mail is not None:
+      oprot.writeFieldBegin('auth_request_mail', TType.STRUCT, 1)
+      self.auth_request_mail.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

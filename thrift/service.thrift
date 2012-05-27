@@ -4,7 +4,7 @@ include "type.thrift"
 service Sns {
 
     type.AuthResponse login_by_email(
-        1:AuthRequestMail auth_request_mail
+        1:type.AuthRequestMail auth_request_mail
     )
 
     type.AuthResponse login_by_oauth(

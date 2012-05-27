@@ -15,6 +15,267 @@
 
 #import "type.h"
 
+@implementation AuthRequestMail
+
+- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret mail: (NSString *) mail password: (NSString *) password
+{
+  self = [super init];
+  __client_id = [client_id retain];
+  __client_id_isset = YES;
+  __client_secret = [client_secret retain];
+  __client_secret_isset = YES;
+  __mail = [mail retain];
+  __mail_isset = YES;
+  __password = [password retain];
+  __password_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"client_id"])
+  {
+    __client_id = [[decoder decodeObjectForKey: @"client_id"] retain];
+    __client_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"client_secret"])
+  {
+    __client_secret = [[decoder decodeObjectForKey: @"client_secret"] retain];
+    __client_secret_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"mail"])
+  {
+    __mail = [[decoder decodeObjectForKey: @"mail"] retain];
+    __mail_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"password"])
+  {
+    __password = [[decoder decodeObjectForKey: @"password"] retain];
+    __password_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__client_id_isset)
+  {
+    [encoder encodeObject: __client_id forKey: @"client_id"];
+  }
+  if (__client_secret_isset)
+  {
+    [encoder encodeObject: __client_secret forKey: @"client_secret"];
+  }
+  if (__mail_isset)
+  {
+    [encoder encodeObject: __mail forKey: @"mail"];
+  }
+  if (__password_isset)
+  {
+    [encoder encodeObject: __password forKey: @"password"];
+  }
+}
+
+- (void) dealloc
+{
+  [__client_id release];
+  [__client_secret release];
+  [__mail release];
+  [__password release];
+  [super dealloc];
+}
+
+- (NSString *) client_id {
+  return [[__client_id retain] autorelease];
+}
+
+- (void) setClient_id: (NSString *) client_id {
+  [client_id retain];
+  [__client_id release];
+  __client_id = client_id;
+  __client_id_isset = YES;
+}
+
+- (BOOL) client_idIsSet {
+  return __client_id_isset;
+}
+
+- (void) unsetClient_id {
+  [__client_id release];
+  __client_id = nil;
+  __client_id_isset = NO;
+}
+
+- (NSString *) client_secret {
+  return [[__client_secret retain] autorelease];
+}
+
+- (void) setClient_secret: (NSString *) client_secret {
+  [client_secret retain];
+  [__client_secret release];
+  __client_secret = client_secret;
+  __client_secret_isset = YES;
+}
+
+- (BOOL) client_secretIsSet {
+  return __client_secret_isset;
+}
+
+- (void) unsetClient_secret {
+  [__client_secret release];
+  __client_secret = nil;
+  __client_secret_isset = NO;
+}
+
+- (NSString *) mail {
+  return [[__mail retain] autorelease];
+}
+
+- (void) setMail: (NSString *) mail {
+  [mail retain];
+  [__mail release];
+  __mail = mail;
+  __mail_isset = YES;
+}
+
+- (BOOL) mailIsSet {
+  return __mail_isset;
+}
+
+- (void) unsetMail {
+  [__mail release];
+  __mail = nil;
+  __mail_isset = NO;
+}
+
+- (NSString *) password {
+  return [[__password retain] autorelease];
+}
+
+- (void) setPassword: (NSString *) password {
+  [password retain];
+  [__password release];
+  __password = password;
+  __password_isset = YES;
+}
+
+- (BOOL) passwordIsSet {
+  return __password_isset;
+}
+
+- (void) unsetPassword {
+  [__password release];
+  __password = nil;
+  __password_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setClient_id: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setClient_secret: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setMail: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setPassword: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"AuthRequestMail"];
+  if (__client_id_isset) {
+    if (__client_id != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_id" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __client_id];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__client_secret_isset) {
+    if (__client_secret != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __client_secret];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__mail_isset) {
+    if (__mail != nil) {
+      [outProtocol writeFieldBeginWithName: @"mail" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __mail];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__password_isset) {
+    if (__password != nil) {
+      [outProtocol writeFieldBeginWithName: @"password" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __password];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequestMail("];
+  [ms appendString: @"client_id:"];
+  [ms appendFormat: @"\"%@\"", __client_id];
+  [ms appendString: @",client_secret:"];
+  [ms appendFormat: @"\"%@\"", __client_secret];
+  [ms appendString: @",mail:"];
+  [ms appendFormat: @"\"%@\"", __mail];
+  [ms appendString: @",password:"];
+  [ms appendFormat: @"\"%@\"", __password];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @implementation AuthResponse
 
 - (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token expire_time: (int64_t) expire_time refresh_token: (NSString *) refresh_token

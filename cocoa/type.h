@@ -55,6 +55,48 @@ enum TaskCid {
 
 typedef int64_t timestamp;
 
+@interface AuthRequestMail : NSObject <NSCoding> {
+  NSString * __client_id;
+  NSString * __client_secret;
+  NSString * __mail;
+  NSString * __password;
+
+  BOOL __client_id_isset;
+  BOOL __client_secret_isset;
+  BOOL __mail_isset;
+  BOOL __password_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
+@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
+@property (nonatomic, retain, getter=mail, setter=setMail:) NSString * mail;
+@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
+#endif
+
+- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret mail: (NSString *) mail password: (NSString *) password;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) client_id;
+- (void) setClient_id: (NSString *) client_id;
+- (BOOL) client_idIsSet;
+
+- (NSString *) client_secret;
+- (void) setClient_secret: (NSString *) client_secret;
+- (BOOL) client_secretIsSet;
+
+- (NSString *) mail;
+- (void) setMail: (NSString *) mail;
+- (BOOL) mailIsSet;
+
+- (NSString *) password;
+- (void) setPassword: (NSString *) password;
+- (BOOL) passwordIsSet;
+
+@end
+
 @interface AuthResponse : NSObject <NSCoding> {
   int __status;
   int64_t __id;
