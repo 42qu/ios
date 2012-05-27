@@ -15,270 +15,9 @@
 
 #import "type.h"
 
-@implementation Auth
-
-- (id) initWithUser: (NSString *) user password: (NSString *) password clientKey: (NSString *) clientKey clientSecret: (NSString *) clientSecret
-{
-  self = [super init];
-  __user = [user retain];
-  __user_isset = YES;
-  __password = [password retain];
-  __password_isset = YES;
-  __clientKey = [clientKey retain];
-  __clientKey_isset = YES;
-  __clientSecret = [clientSecret retain];
-  __clientSecret_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"user"])
-  {
-    __user = [[decoder decodeObjectForKey: @"user"] retain];
-    __user_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"password"])
-  {
-    __password = [[decoder decodeObjectForKey: @"password"] retain];
-    __password_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"clientKey"])
-  {
-    __clientKey = [[decoder decodeObjectForKey: @"clientKey"] retain];
-    __clientKey_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"clientSecret"])
-  {
-    __clientSecret = [[decoder decodeObjectForKey: @"clientSecret"] retain];
-    __clientSecret_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__user_isset)
-  {
-    [encoder encodeObject: __user forKey: @"user"];
-  }
-  if (__password_isset)
-  {
-    [encoder encodeObject: __password forKey: @"password"];
-  }
-  if (__clientKey_isset)
-  {
-    [encoder encodeObject: __clientKey forKey: @"clientKey"];
-  }
-  if (__clientSecret_isset)
-  {
-    [encoder encodeObject: __clientSecret forKey: @"clientSecret"];
-  }
-}
-
-- (void) dealloc
-{
-  [__user release];
-  [__password release];
-  [__clientKey release];
-  [__clientSecret release];
-  [super dealloc];
-}
-
-- (NSString *) user {
-  return [[__user retain] autorelease];
-}
-
-- (void) setUser: (NSString *) user {
-  [user retain];
-  [__user release];
-  __user = user;
-  __user_isset = YES;
-}
-
-- (BOOL) userIsSet {
-  return __user_isset;
-}
-
-- (void) unsetUser {
-  [__user release];
-  __user = nil;
-  __user_isset = NO;
-}
-
-- (NSString *) password {
-  return [[__password retain] autorelease];
-}
-
-- (void) setPassword: (NSString *) password {
-  [password retain];
-  [__password release];
-  __password = password;
-  __password_isset = YES;
-}
-
-- (BOOL) passwordIsSet {
-  return __password_isset;
-}
-
-- (void) unsetPassword {
-  [__password release];
-  __password = nil;
-  __password_isset = NO;
-}
-
-- (NSString *) clientKey {
-  return [[__clientKey retain] autorelease];
-}
-
-- (void) setClientKey: (NSString *) clientKey {
-  [clientKey retain];
-  [__clientKey release];
-  __clientKey = clientKey;
-  __clientKey_isset = YES;
-}
-
-- (BOOL) clientKeyIsSet {
-  return __clientKey_isset;
-}
-
-- (void) unsetClientKey {
-  [__clientKey release];
-  __clientKey = nil;
-  __clientKey_isset = NO;
-}
-
-- (NSString *) clientSecret {
-  return [[__clientSecret retain] autorelease];
-}
-
-- (void) setClientSecret: (NSString *) clientSecret {
-  [clientSecret retain];
-  [__clientSecret release];
-  __clientSecret = clientSecret;
-  __clientSecret_isset = YES;
-}
-
-- (BOOL) clientSecretIsSet {
-  return __clientSecret_isset;
-}
-
-- (void) unsetClientSecret {
-  [__clientSecret release];
-  __clientSecret = nil;
-  __clientSecret_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setUser: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setPassword: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setClientKey: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setClientSecret: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Auth"];
-  if (__user_isset) {
-    if (__user != nil) {
-      [outProtocol writeFieldBeginWithName: @"user" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __user];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__password_isset) {
-    if (__password != nil) {
-      [outProtocol writeFieldBeginWithName: @"password" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __password];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__clientKey_isset) {
-    if (__clientKey != nil) {
-      [outProtocol writeFieldBeginWithName: @"clientKey" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __clientKey];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__clientSecret_isset) {
-    if (__clientSecret != nil) {
-      [outProtocol writeFieldBeginWithName: @"clientSecret" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __clientSecret];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Auth("];
-  [ms appendString: @"user:"];
-  [ms appendFormat: @"\"%@\"", __user];
-  [ms appendString: @",password:"];
-  [ms appendFormat: @"\"%@\"", __password];
-  [ms appendString: @",clientKey:"];
-  [ms appendFormat: @"\"%@\"", __clientKey];
-  [ms appendString: @",clientSecret:"];
-  [ms appendFormat: @"\"%@\"", __clientSecret];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
 @implementation AuthResponse
 
-- (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name accessToken: (NSString *) accessToken expireDate: (int64_t) expireDate refreshToken: (NSString *) refreshToken
+- (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token expire_time: (int64_t) expire_time refresh_token: (NSString *) refresh_token
 {
   self = [super init];
   __status = status;
@@ -287,12 +26,12 @@
   __id_isset = YES;
   __name = [name retain];
   __name_isset = YES;
-  __accessToken = [accessToken retain];
-  __accessToken_isset = YES;
-  __expireDate = expireDate;
-  __expireDate_isset = YES;
-  __refreshToken = [refreshToken retain];
-  __refreshToken_isset = YES;
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __expire_time = expire_time;
+  __expire_time_isset = YES;
+  __refresh_token = [refresh_token retain];
+  __refresh_token_isset = YES;
   return self;
 }
 
@@ -314,20 +53,20 @@
     __name = [[decoder decodeObjectForKey: @"name"] retain];
     __name_isset = YES;
   }
-  if ([decoder containsValueForKey: @"accessToken"])
+  if ([decoder containsValueForKey: @"access_token"])
   {
-    __accessToken = [[decoder decodeObjectForKey: @"accessToken"] retain];
-    __accessToken_isset = YES;
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
   }
-  if ([decoder containsValueForKey: @"expireDate"])
+  if ([decoder containsValueForKey: @"expire_time"])
   {
-    __expireDate = [decoder decodeInt64ForKey: @"expireDate"];
-    __expireDate_isset = YES;
+    __expire_time = [decoder decodeInt64ForKey: @"expire_time"];
+    __expire_time_isset = YES;
   }
-  if ([decoder containsValueForKey: @"refreshToken"])
+  if ([decoder containsValueForKey: @"refresh_token"])
   {
-    __refreshToken = [[decoder decodeObjectForKey: @"refreshToken"] retain];
-    __refreshToken_isset = YES;
+    __refresh_token = [[decoder decodeObjectForKey: @"refresh_token"] retain];
+    __refresh_token_isset = YES;
   }
   return self;
 }
@@ -346,25 +85,25 @@
   {
     [encoder encodeObject: __name forKey: @"name"];
   }
-  if (__accessToken_isset)
+  if (__access_token_isset)
   {
-    [encoder encodeObject: __accessToken forKey: @"accessToken"];
+    [encoder encodeObject: __access_token forKey: @"access_token"];
   }
-  if (__expireDate_isset)
+  if (__expire_time_isset)
   {
-    [encoder encodeInt64: __expireDate forKey: @"expireDate"];
+    [encoder encodeInt64: __expire_time forKey: @"expire_time"];
   }
-  if (__refreshToken_isset)
+  if (__refresh_token_isset)
   {
-    [encoder encodeObject: __refreshToken forKey: @"refreshToken"];
+    [encoder encodeObject: __refresh_token forKey: @"refresh_token"];
   }
 }
 
 - (void) dealloc
 {
   [__name release];
-  [__accessToken release];
-  [__refreshToken release];
+  [__access_token release];
+  [__refresh_token release];
   [super dealloc];
 }
 
@@ -423,63 +162,63 @@
   __name_isset = NO;
 }
 
-- (NSString *) accessToken {
-  return [[__accessToken retain] autorelease];
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
 }
 
-- (void) setAccessToken: (NSString *) accessToken {
-  [accessToken retain];
-  [__accessToken release];
-  __accessToken = accessToken;
-  __accessToken_isset = YES;
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
 }
 
-- (BOOL) accessTokenIsSet {
-  return __accessToken_isset;
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
 }
 
-- (void) unsetAccessToken {
-  [__accessToken release];
-  __accessToken = nil;
-  __accessToken_isset = NO;
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
 }
 
-- (int64_t) expireDate {
-  return __expireDate;
+- (int64_t) expire_time {
+  return __expire_time;
 }
 
-- (void) setExpireDate: (int64_t) expireDate {
-  __expireDate = expireDate;
-  __expireDate_isset = YES;
+- (void) setExpire_time: (int64_t) expire_time {
+  __expire_time = expire_time;
+  __expire_time_isset = YES;
 }
 
-- (BOOL) expireDateIsSet {
-  return __expireDate_isset;
+- (BOOL) expire_timeIsSet {
+  return __expire_time_isset;
 }
 
-- (void) unsetExpireDate {
-  __expireDate_isset = NO;
+- (void) unsetExpire_time {
+  __expire_time_isset = NO;
 }
 
-- (NSString *) refreshToken {
-  return [[__refreshToken retain] autorelease];
+- (NSString *) refresh_token {
+  return [[__refresh_token retain] autorelease];
 }
 
-- (void) setRefreshToken: (NSString *) refreshToken {
-  [refreshToken retain];
-  [__refreshToken release];
-  __refreshToken = refreshToken;
-  __refreshToken_isset = YES;
+- (void) setRefresh_token: (NSString *) refresh_token {
+  [refresh_token retain];
+  [__refresh_token release];
+  __refresh_token = refresh_token;
+  __refresh_token_isset = YES;
 }
 
-- (BOOL) refreshTokenIsSet {
-  return __refreshToken_isset;
+- (BOOL) refresh_tokenIsSet {
+  return __refresh_token_isset;
 }
 
-- (void) unsetRefreshToken {
-  [__refreshToken release];
-  __refreshToken = nil;
-  __refreshToken_isset = NO;
+- (void) unsetRefresh_token {
+  [__refresh_token release];
+  __refresh_token = nil;
+  __refresh_token_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -524,7 +263,7 @@
       case 4:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setAccessToken: fieldValue];
+          [self setAccess_token: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -532,7 +271,7 @@
       case 5:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setExpireDate: fieldValue];
+          [self setExpire_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -540,7 +279,7 @@
       case 6:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setRefreshToken: fieldValue];
+          [self setRefresh_token: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -573,22 +312,22 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__accessToken_isset) {
-    if (__accessToken != nil) {
-      [outProtocol writeFieldBeginWithName: @"accessToken" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __accessToken];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __access_token];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__expireDate_isset) {
-    [outProtocol writeFieldBeginWithName: @"expireDate" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __expireDate];
+  if (__expire_time_isset) {
+    [outProtocol writeFieldBeginWithName: @"expire_time" type: TType_I64 fieldID: 5];
+    [outProtocol writeI64: __expire_time];
     [outProtocol writeFieldEnd];
   }
-  if (__refreshToken_isset) {
-    if (__refreshToken != nil) {
-      [outProtocol writeFieldBeginWithName: @"refreshToken" type: TType_STRING fieldID: 6];
-      [outProtocol writeString: __refreshToken];
+  if (__refresh_token_isset) {
+    if (__refresh_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 6];
+      [outProtocol writeString: __refresh_token];
       [outProtocol writeFieldEnd];
     }
   }
@@ -604,12 +343,12 @@
   [ms appendFormat: @"%qi", __id];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
-  [ms appendString: @",accessToken:"];
-  [ms appendFormat: @"\"%@\"", __accessToken];
-  [ms appendString: @",expireDate:"];
-  [ms appendFormat: @"%qi", __expireDate];
-  [ms appendString: @",refreshToken:"];
-  [ms appendFormat: @"\"%@\"", __refreshToken];
+  [ms appendString: @",access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",expire_time:"];
+  [ms appendFormat: @"%qi", __expire_time];
+  [ms appendString: @",refresh_token:"];
+  [ms appendFormat: @"\"%@\"", __refresh_token];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -2002,7 +1741,7 @@
 
 @implementation StatusComment
 
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content
 {
   self = [super init];
   __id = id;
@@ -2292,7 +2031,7 @@
 
 @implementation Status
 
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList
 {
   self = [super init];
   __id = id;
@@ -2693,35 +2432,31 @@
 
 @end
 
-@implementation EventInfo
+@implementation Task
 
-- (id) initWithId: (int64_t) id title: (NSString *) title intro: (NSString *) intro eventType: (int) eventType startDate: (TimeStamp) startDate expireDate: (TimeStamp) expireDate initiator: (UserInfo *) initiator guestList: (NSArray *) guestList participantAuthedCount: (int64_t) participantAuthedCount participantUnauthedCount: (int64_t) participantUnauthedCount participantAuthedList: (NSArray *) participantAuthedList participantUnauthedList: (NSArray *) participantUnauthedList
+- (id) initWithId: (int64_t) id name: (NSString *) name intro: (NSString *) intro cid: (int) cid begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (UserInfo *) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list
 {
   self = [super init];
   __id = id;
   __id_isset = YES;
-  __title = [title retain];
-  __title_isset = YES;
+  __name = [name retain];
+  __name_isset = YES;
   __intro = [intro retain];
   __intro_isset = YES;
-  __eventType = eventType;
-  __eventType_isset = YES;
-  __startDate = startDate;
-  __startDate_isset = YES;
-  __expireDate = expireDate;
-  __expireDate_isset = YES;
-  __initiator = [initiator retain];
-  __initiator_isset = YES;
-  __guestList = [guestList retain];
-  __guestList_isset = YES;
-  __participantAuthedCount = participantAuthedCount;
-  __participantAuthedCount_isset = YES;
-  __participantUnauthedCount = participantUnauthedCount;
-  __participantUnauthedCount_isset = YES;
-  __participantAuthedList = [participantAuthedList retain];
-  __participantAuthedList_isset = YES;
-  __participantUnauthedList = [participantUnauthedList retain];
-  __participantUnauthedList_isset = YES;
+  __cid = cid;
+  __cid_isset = YES;
+  __begin_time = begin_time;
+  __begin_time_isset = YES;
+  __end_time = end_time;
+  __end_time_isset = YES;
+  __owner = [owner retain];
+  __owner_isset = YES;
+  __user_apply_list = [user_apply_list retain];
+  __user_apply_list_isset = YES;
+  __user_accept_list = [user_accept_list retain];
+  __user_accept_list_isset = YES;
+  __user_reject_list = [user_reject_list retain];
+  __user_reject_list_isset = YES;
   return self;
 }
 
@@ -2733,60 +2468,50 @@
     __id = [decoder decodeInt64ForKey: @"id"];
     __id_isset = YES;
   }
-  if ([decoder containsValueForKey: @"title"])
+  if ([decoder containsValueForKey: @"name"])
   {
-    __title = [[decoder decodeObjectForKey: @"title"] retain];
-    __title_isset = YES;
+    __name = [[decoder decodeObjectForKey: @"name"] retain];
+    __name_isset = YES;
   }
   if ([decoder containsValueForKey: @"intro"])
   {
     __intro = [[decoder decodeObjectForKey: @"intro"] retain];
     __intro_isset = YES;
   }
-  if ([decoder containsValueForKey: @"eventType"])
+  if ([decoder containsValueForKey: @"cid"])
   {
-    __eventType = [decoder decodeIntForKey: @"eventType"];
-    __eventType_isset = YES;
+    __cid = [decoder decodeIntForKey: @"cid"];
+    __cid_isset = YES;
   }
-  if ([decoder containsValueForKey: @"startDate"])
+  if ([decoder containsValueForKey: @"begin_time"])
   {
-    __startDate = [decoder decodeInt64ForKey: @"startDate"];
-    __startDate_isset = YES;
+    __begin_time = [decoder decodeInt64ForKey: @"begin_time"];
+    __begin_time_isset = YES;
   }
-  if ([decoder containsValueForKey: @"expireDate"])
+  if ([decoder containsValueForKey: @"end_time"])
   {
-    __expireDate = [decoder decodeInt64ForKey: @"expireDate"];
-    __expireDate_isset = YES;
+    __end_time = [decoder decodeInt64ForKey: @"end_time"];
+    __end_time_isset = YES;
   }
-  if ([decoder containsValueForKey: @"initiator"])
+  if ([decoder containsValueForKey: @"owner"])
   {
-    __initiator = [[decoder decodeObjectForKey: @"initiator"] retain];
-    __initiator_isset = YES;
+    __owner = [[decoder decodeObjectForKey: @"owner"] retain];
+    __owner_isset = YES;
   }
-  if ([decoder containsValueForKey: @"guestList"])
+  if ([decoder containsValueForKey: @"user_apply_list"])
   {
-    __guestList = [[decoder decodeObjectForKey: @"guestList"] retain];
-    __guestList_isset = YES;
+    __user_apply_list = [[decoder decodeObjectForKey: @"user_apply_list"] retain];
+    __user_apply_list_isset = YES;
   }
-  if ([decoder containsValueForKey: @"participantAuthedCount"])
+  if ([decoder containsValueForKey: @"user_accept_list"])
   {
-    __participantAuthedCount = [decoder decodeInt64ForKey: @"participantAuthedCount"];
-    __participantAuthedCount_isset = YES;
+    __user_accept_list = [[decoder decodeObjectForKey: @"user_accept_list"] retain];
+    __user_accept_list_isset = YES;
   }
-  if ([decoder containsValueForKey: @"participantUnauthedCount"])
+  if ([decoder containsValueForKey: @"user_reject_list"])
   {
-    __participantUnauthedCount = [decoder decodeInt64ForKey: @"participantUnauthedCount"];
-    __participantUnauthedCount_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"participantAuthedList"])
-  {
-    __participantAuthedList = [[decoder decodeObjectForKey: @"participantAuthedList"] retain];
-    __participantAuthedList_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"participantUnauthedList"])
-  {
-    __participantUnauthedList = [[decoder decodeObjectForKey: @"participantUnauthedList"] retain];
-    __participantUnauthedList_isset = YES;
+    __user_reject_list = [[decoder decodeObjectForKey: @"user_reject_list"] retain];
+    __user_reject_list_isset = YES;
   }
   return self;
 }
@@ -2797,60 +2522,52 @@
   {
     [encoder encodeInt64: __id forKey: @"id"];
   }
-  if (__title_isset)
+  if (__name_isset)
   {
-    [encoder encodeObject: __title forKey: @"title"];
+    [encoder encodeObject: __name forKey: @"name"];
   }
   if (__intro_isset)
   {
     [encoder encodeObject: __intro forKey: @"intro"];
   }
-  if (__eventType_isset)
+  if (__cid_isset)
   {
-    [encoder encodeInt: __eventType forKey: @"eventType"];
+    [encoder encodeInt: __cid forKey: @"cid"];
   }
-  if (__startDate_isset)
+  if (__begin_time_isset)
   {
-    [encoder encodeInt64: __startDate forKey: @"startDate"];
+    [encoder encodeInt64: __begin_time forKey: @"begin_time"];
   }
-  if (__expireDate_isset)
+  if (__end_time_isset)
   {
-    [encoder encodeInt64: __expireDate forKey: @"expireDate"];
+    [encoder encodeInt64: __end_time forKey: @"end_time"];
   }
-  if (__initiator_isset)
+  if (__owner_isset)
   {
-    [encoder encodeObject: __initiator forKey: @"initiator"];
+    [encoder encodeObject: __owner forKey: @"owner"];
   }
-  if (__guestList_isset)
+  if (__user_apply_list_isset)
   {
-    [encoder encodeObject: __guestList forKey: @"guestList"];
+    [encoder encodeObject: __user_apply_list forKey: @"user_apply_list"];
   }
-  if (__participantAuthedCount_isset)
+  if (__user_accept_list_isset)
   {
-    [encoder encodeInt64: __participantAuthedCount forKey: @"participantAuthedCount"];
+    [encoder encodeObject: __user_accept_list forKey: @"user_accept_list"];
   }
-  if (__participantUnauthedCount_isset)
+  if (__user_reject_list_isset)
   {
-    [encoder encodeInt64: __participantUnauthedCount forKey: @"participantUnauthedCount"];
-  }
-  if (__participantAuthedList_isset)
-  {
-    [encoder encodeObject: __participantAuthedList forKey: @"participantAuthedList"];
-  }
-  if (__participantUnauthedList_isset)
-  {
-    [encoder encodeObject: __participantUnauthedList forKey: @"participantUnauthedList"];
+    [encoder encodeObject: __user_reject_list forKey: @"user_reject_list"];
   }
 }
 
 - (void) dealloc
 {
-  [__title release];
+  [__name release];
   [__intro release];
-  [__initiator release];
-  [__guestList release];
-  [__participantAuthedList release];
-  [__participantUnauthedList release];
+  [__owner release];
+  [__user_apply_list release];
+  [__user_accept_list release];
+  [__user_reject_list release];
   [super dealloc];
 }
 
@@ -2871,25 +2588,25 @@
   __id_isset = NO;
 }
 
-- (NSString *) title {
-  return [[__title retain] autorelease];
+- (NSString *) name {
+  return [[__name retain] autorelease];
 }
 
-- (void) setTitle: (NSString *) title {
-  [title retain];
-  [__title release];
-  __title = title;
-  __title_isset = YES;
+- (void) setName: (NSString *) name {
+  [name retain];
+  [__name release];
+  __name = name;
+  __name_isset = YES;
 }
 
-- (BOOL) titleIsSet {
-  return __title_isset;
+- (BOOL) nameIsSet {
+  return __name_isset;
 }
 
-- (void) unsetTitle {
-  [__title release];
-  __title = nil;
-  __title_isset = NO;
+- (void) unsetName {
+  [__name release];
+  __name = nil;
+  __name_isset = NO;
 }
 
 - (NSString *) intro {
@@ -2913,173 +2630,139 @@
   __intro_isset = NO;
 }
 
-- (int) eventType {
-  return __eventType;
+- (int) cid {
+  return __cid;
 }
 
-- (void) setEventType: (int) eventType {
-  __eventType = eventType;
-  __eventType_isset = YES;
+- (void) setCid: (int) cid {
+  __cid = cid;
+  __cid_isset = YES;
 }
 
-- (BOOL) eventTypeIsSet {
-  return __eventType_isset;
+- (BOOL) cidIsSet {
+  return __cid_isset;
 }
 
-- (void) unsetEventType {
-  __eventType_isset = NO;
+- (void) unsetCid {
+  __cid_isset = NO;
 }
 
-- (int64_t) startDate {
-  return __startDate;
+- (int64_t) begin_time {
+  return __begin_time;
 }
 
-- (void) setStartDate: (int64_t) startDate {
-  __startDate = startDate;
-  __startDate_isset = YES;
+- (void) setBegin_time: (int64_t) begin_time {
+  __begin_time = begin_time;
+  __begin_time_isset = YES;
 }
 
-- (BOOL) startDateIsSet {
-  return __startDate_isset;
+- (BOOL) begin_timeIsSet {
+  return __begin_time_isset;
 }
 
-- (void) unsetStartDate {
-  __startDate_isset = NO;
+- (void) unsetBegin_time {
+  __begin_time_isset = NO;
 }
 
-- (int64_t) expireDate {
-  return __expireDate;
+- (int64_t) end_time {
+  return __end_time;
 }
 
-- (void) setExpireDate: (int64_t) expireDate {
-  __expireDate = expireDate;
-  __expireDate_isset = YES;
+- (void) setEnd_time: (int64_t) end_time {
+  __end_time = end_time;
+  __end_time_isset = YES;
 }
 
-- (BOOL) expireDateIsSet {
-  return __expireDate_isset;
+- (BOOL) end_timeIsSet {
+  return __end_time_isset;
 }
 
-- (void) unsetExpireDate {
-  __expireDate_isset = NO;
+- (void) unsetEnd_time {
+  __end_time_isset = NO;
 }
 
-- (UserInfo *) initiator {
-  return [[__initiator retain] autorelease];
+- (UserInfo *) owner {
+  return [[__owner retain] autorelease];
 }
 
-- (void) setInitiator: (UserInfo *) initiator {
-  [initiator retain];
-  [__initiator release];
-  __initiator = initiator;
-  __initiator_isset = YES;
+- (void) setOwner: (UserInfo *) owner {
+  [owner retain];
+  [__owner release];
+  __owner = owner;
+  __owner_isset = YES;
 }
 
-- (BOOL) initiatorIsSet {
-  return __initiator_isset;
+- (BOOL) ownerIsSet {
+  return __owner_isset;
 }
 
-- (void) unsetInitiator {
-  [__initiator release];
-  __initiator = nil;
-  __initiator_isset = NO;
+- (void) unsetOwner {
+  [__owner release];
+  __owner = nil;
+  __owner_isset = NO;
 }
 
-- (NSArray *) guestList {
-  return [[__guestList retain] autorelease];
+- (NSArray *) user_apply_list {
+  return [[__user_apply_list retain] autorelease];
 }
 
-- (void) setGuestList: (NSArray *) guestList {
-  [guestList retain];
-  [__guestList release];
-  __guestList = guestList;
-  __guestList_isset = YES;
+- (void) setUser_apply_list: (NSArray *) user_apply_list {
+  [user_apply_list retain];
+  [__user_apply_list release];
+  __user_apply_list = user_apply_list;
+  __user_apply_list_isset = YES;
 }
 
-- (BOOL) guestListIsSet {
-  return __guestList_isset;
+- (BOOL) user_apply_listIsSet {
+  return __user_apply_list_isset;
 }
 
-- (void) unsetGuestList {
-  [__guestList release];
-  __guestList = nil;
-  __guestList_isset = NO;
+- (void) unsetUser_apply_list {
+  [__user_apply_list release];
+  __user_apply_list = nil;
+  __user_apply_list_isset = NO;
 }
 
-- (int64_t) participantAuthedCount {
-  return __participantAuthedCount;
+- (NSArray *) user_accept_list {
+  return [[__user_accept_list retain] autorelease];
 }
 
-- (void) setParticipantAuthedCount: (int64_t) participantAuthedCount {
-  __participantAuthedCount = participantAuthedCount;
-  __participantAuthedCount_isset = YES;
+- (void) setUser_accept_list: (NSArray *) user_accept_list {
+  [user_accept_list retain];
+  [__user_accept_list release];
+  __user_accept_list = user_accept_list;
+  __user_accept_list_isset = YES;
 }
 
-- (BOOL) participantAuthedCountIsSet {
-  return __participantAuthedCount_isset;
+- (BOOL) user_accept_listIsSet {
+  return __user_accept_list_isset;
 }
 
-- (void) unsetParticipantAuthedCount {
-  __participantAuthedCount_isset = NO;
+- (void) unsetUser_accept_list {
+  [__user_accept_list release];
+  __user_accept_list = nil;
+  __user_accept_list_isset = NO;
 }
 
-- (int64_t) participantUnauthedCount {
-  return __participantUnauthedCount;
+- (NSArray *) user_reject_list {
+  return [[__user_reject_list retain] autorelease];
 }
 
-- (void) setParticipantUnauthedCount: (int64_t) participantUnauthedCount {
-  __participantUnauthedCount = participantUnauthedCount;
-  __participantUnauthedCount_isset = YES;
+- (void) setUser_reject_list: (NSArray *) user_reject_list {
+  [user_reject_list retain];
+  [__user_reject_list release];
+  __user_reject_list = user_reject_list;
+  __user_reject_list_isset = YES;
 }
 
-- (BOOL) participantUnauthedCountIsSet {
-  return __participantUnauthedCount_isset;
+- (BOOL) user_reject_listIsSet {
+  return __user_reject_list_isset;
 }
 
-- (void) unsetParticipantUnauthedCount {
-  __participantUnauthedCount_isset = NO;
-}
-
-- (NSArray *) participantAuthedList {
-  return [[__participantAuthedList retain] autorelease];
-}
-
-- (void) setParticipantAuthedList: (NSArray *) participantAuthedList {
-  [participantAuthedList retain];
-  [__participantAuthedList release];
-  __participantAuthedList = participantAuthedList;
-  __participantAuthedList_isset = YES;
-}
-
-- (BOOL) participantAuthedListIsSet {
-  return __participantAuthedList_isset;
-}
-
-- (void) unsetParticipantAuthedList {
-  [__participantAuthedList release];
-  __participantAuthedList = nil;
-  __participantAuthedList_isset = NO;
-}
-
-- (NSArray *) participantUnauthedList {
-  return [[__participantUnauthedList retain] autorelease];
-}
-
-- (void) setParticipantUnauthedList: (NSArray *) participantUnauthedList {
-  [participantUnauthedList retain];
-  [__participantUnauthedList release];
-  __participantUnauthedList = participantUnauthedList;
-  __participantUnauthedList_isset = YES;
-}
-
-- (BOOL) participantUnauthedListIsSet {
-  return __participantUnauthedList_isset;
-}
-
-- (void) unsetParticipantUnauthedList {
-  [__participantUnauthedList release];
-  __participantUnauthedList = nil;
-  __participantUnauthedList_isset = NO;
+- (void) unsetUser_reject_list {
+  [__user_reject_list release];
+  __user_reject_list = nil;
+  __user_reject_list_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -3108,7 +2791,7 @@
       case 2:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setTitle: fieldValue];
+          [self setName: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -3124,7 +2807,7 @@
       case 4:
         if (fieldType == TType_I32) {
           int fieldValue = [inProtocol readI32];
-          [self setEventType: fieldValue];
+          [self setCid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -3132,7 +2815,7 @@
       case 5:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setStartDate: fieldValue];
+          [self setBegin_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -3140,7 +2823,7 @@
       case 6:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setExpireDate: fieldValue];
+          [self setEnd_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -3149,7 +2832,7 @@
         if (fieldType == TType_STRUCT) {
           UserInfo *fieldValue = [[UserInfo alloc] init];
           [fieldValue read: inProtocol];
-          [self setInitiator: fieldValue];
+          [self setOwner: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -3169,24 +2852,8 @@
             [_elem27 release];
           }
           [inProtocol readListEnd];
-          [self setGuestList: fieldValue];
+          [self setUser_apply_list: fieldValue];
           [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 9:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setParticipantAuthedCount: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 10:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setParticipantUnauthedCount: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -3205,7 +2872,7 @@
             [_elem30 release];
           }
           [inProtocol readListEnd];
-          [self setParticipantAuthedList: fieldValue];
+          [self setUser_accept_list: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -3225,7 +2892,7 @@
             [_elem33 release];
           }
           [inProtocol readListEnd];
-          [self setParticipantUnauthedList: fieldValue];
+          [self setUser_reject_list: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -3241,16 +2908,16 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"EventInfo"];
+  [outProtocol writeStructBeginWithName: @"Task"];
   if (__id_isset) {
     [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
     [outProtocol writeI64: __id];
     [outProtocol writeFieldEnd];
   }
-  if (__title_isset) {
-    if (__title != nil) {
-      [outProtocol writeFieldBeginWithName: @"title" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __title];
+  if (__name_isset) {
+    if (__name != nil) {
+      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __name];
       [outProtocol writeFieldEnd];
     }
   }
@@ -3261,77 +2928,67 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__eventType_isset) {
-    [outProtocol writeFieldBeginWithName: @"eventType" type: TType_I32 fieldID: 4];
-    [outProtocol writeI32: __eventType];
+  if (__cid_isset) {
+    [outProtocol writeFieldBeginWithName: @"cid" type: TType_I32 fieldID: 4];
+    [outProtocol writeI32: __cid];
     [outProtocol writeFieldEnd];
   }
-  if (__startDate_isset) {
-    [outProtocol writeFieldBeginWithName: @"startDate" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __startDate];
+  if (__begin_time_isset) {
+    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 5];
+    [outProtocol writeI64: __begin_time];
     [outProtocol writeFieldEnd];
   }
-  if (__expireDate_isset) {
-    [outProtocol writeFieldBeginWithName: @"expireDate" type: TType_I64 fieldID: 6];
-    [outProtocol writeI64: __expireDate];
+  if (__end_time_isset) {
+    [outProtocol writeFieldBeginWithName: @"end_time" type: TType_I64 fieldID: 6];
+    [outProtocol writeI64: __end_time];
     [outProtocol writeFieldEnd];
   }
-  if (__initiator_isset) {
-    if (__initiator != nil) {
-      [outProtocol writeFieldBeginWithName: @"initiator" type: TType_STRUCT fieldID: 7];
-      [__initiator write: outProtocol];
+  if (__owner_isset) {
+    if (__owner != nil) {
+      [outProtocol writeFieldBeginWithName: @"owner" type: TType_STRUCT fieldID: 7];
+      [__owner write: outProtocol];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__guestList_isset) {
-    if (__guestList != nil) {
-      [outProtocol writeFieldBeginWithName: @"guestList" type: TType_LIST fieldID: 8];
+  if (__user_apply_list_isset) {
+    if (__user_apply_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"user_apply_list" type: TType_LIST fieldID: 8];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__guestList count]];
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_apply_list count]];
         int i35;
-        for (i35 = 0; i35 < [__guestList count]; i35++)
+        for (i35 = 0; i35 < [__user_apply_list count]; i35++)
         {
-          [[__guestList objectAtIndex: i35] write: outProtocol];
+          [[__user_apply_list objectAtIndex: i35] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
       [outProtocol writeFieldEnd];
     }
   }
-  if (__participantAuthedCount_isset) {
-    [outProtocol writeFieldBeginWithName: @"participantAuthedCount" type: TType_I64 fieldID: 9];
-    [outProtocol writeI64: __participantAuthedCount];
-    [outProtocol writeFieldEnd];
-  }
-  if (__participantUnauthedCount_isset) {
-    [outProtocol writeFieldBeginWithName: @"participantUnauthedCount" type: TType_I64 fieldID: 10];
-    [outProtocol writeI64: __participantUnauthedCount];
-    [outProtocol writeFieldEnd];
-  }
-  if (__participantAuthedList_isset) {
-    if (__participantAuthedList != nil) {
-      [outProtocol writeFieldBeginWithName: @"participantAuthedList" type: TType_LIST fieldID: 11];
+  if (__user_accept_list_isset) {
+    if (__user_accept_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"user_accept_list" type: TType_LIST fieldID: 11];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__participantAuthedList count]];
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_accept_list count]];
         int i37;
-        for (i37 = 0; i37 < [__participantAuthedList count]; i37++)
+        for (i37 = 0; i37 < [__user_accept_list count]; i37++)
         {
-          [[__participantAuthedList objectAtIndex: i37] write: outProtocol];
+          [[__user_accept_list objectAtIndex: i37] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
       [outProtocol writeFieldEnd];
     }
   }
-  if (__participantUnauthedList_isset) {
-    if (__participantUnauthedList != nil) {
-      [outProtocol writeFieldBeginWithName: @"participantUnauthedList" type: TType_LIST fieldID: 12];
+  if (__user_reject_list_isset) {
+    if (__user_reject_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"user_reject_list" type: TType_LIST fieldID: 12];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__participantUnauthedList count]];
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_reject_list count]];
         int i39;
-        for (i39 = 0; i39 < [__participantUnauthedList count]; i39++)
+        for (i39 = 0; i39 < [__user_reject_list count]; i39++)
         {
-          [[__participantUnauthedList objectAtIndex: i39] write: outProtocol];
+          [[__user_reject_list objectAtIndex: i39] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -3343,31 +3000,27 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"EventInfo("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Task("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",title:"];
-  [ms appendFormat: @"\"%@\"", __title];
+  [ms appendString: @",name:"];
+  [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",intro:"];
   [ms appendFormat: @"\"%@\"", __intro];
-  [ms appendString: @",eventType:"];
-  [ms appendFormat: @"%i", __eventType];
-  [ms appendString: @",startDate:"];
-  [ms appendFormat: @"%qi", __startDate];
-  [ms appendString: @",expireDate:"];
-  [ms appendFormat: @"%qi", __expireDate];
-  [ms appendString: @",initiator:"];
-  [ms appendFormat: @"%@", __initiator];
-  [ms appendString: @",guestList:"];
-  [ms appendFormat: @"%@", __guestList];
-  [ms appendString: @",participantAuthedCount:"];
-  [ms appendFormat: @"%qi", __participantAuthedCount];
-  [ms appendString: @",participantUnauthedCount:"];
-  [ms appendFormat: @"%qi", __participantUnauthedCount];
-  [ms appendString: @",participantAuthedList:"];
-  [ms appendFormat: @"%@", __participantAuthedList];
-  [ms appendString: @",participantUnauthedList:"];
-  [ms appendFormat: @"%@", __participantUnauthedList];
+  [ms appendString: @",cid:"];
+  [ms appendFormat: @"%i", __cid];
+  [ms appendString: @",begin_time:"];
+  [ms appendFormat: @"%qi", __begin_time];
+  [ms appendString: @",end_time:"];
+  [ms appendFormat: @"%qi", __end_time];
+  [ms appendString: @",owner:"];
+  [ms appendFormat: @"%@", __owner];
+  [ms appendString: @",user_apply_list:"];
+  [ms appendFormat: @"%@", __user_apply_list];
+  [ms appendString: @",user_accept_list:"];
+  [ms appendFormat: @"%@", __user_accept_list];
+  [ms appendString: @",user_reject_list:"];
+  [ms appendFormat: @"%@", __user_reject_list];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
