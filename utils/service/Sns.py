@@ -25,50 +25,66 @@ class Iface:
     """
     pass
 
-  def userInfo_get(self, accessToken, id):
+  def logout(self, access_token):
     """
     Parameters:
-     - accessToken
+     - access_token
+    """
+    pass
+
+  def user_info_get(self, access_token, id):
+    """
+    Parameters:
+     - access_token
      - id
     """
     pass
 
-  def userInfo_set(self, accessToken, userInfo):
+  def user_info_set(self, access_token, user_info):
     """
     Parameters:
-     - accessToken
-     - userInfo
+     - access_token
+     - user_info
     """
     pass
 
-  def eventInfo_get(self, accessToken, id):
+  def task_get(self, access_token, id):
     """
     Parameters:
-     - accessToken
+     - access_token
      - id
     """
     pass
 
-  def eventInfo_set(self, accessToken, eventInfo):
+  def task_new(self, access_token, task):
     """
     Parameters:
-     - accessToken
-     - eventInfo
+     - access_token
+     - task
     """
     pass
 
-  def eventPublish(self, accessToken):
+  def task_apply(self, access_token, task_id):
     """
     Parameters:
-     - accessToken
+     - access_token
+     - task_id
     """
     pass
 
-  def eventApply(self, accessToken, id):
+  def task_reject(self, access_token, user_id):
     """
     Parameters:
-     - accessToken
-     - id
+     - access_token
+     - user_id
+    """
+    pass
+
+  def task_accept(self, access_token, user_id):
+    """
+    Parameters:
+     - access_token
+     - user_id
     """
     pass
 
@@ -108,231 +124,253 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
     raise TApplicationException(TApplicationException.MISSING_RESULT, "login failed: unknown result");
 
-  def userInfo_get(self, accessToken, id):
+  def logout(self, access_token):
     """
     Parameters:
-     - accessToken
+     - access_token
+    """
+    self.send_logout(access_token)
+    self.recv_logout()
+
+  def send_logout(self, access_token):
+    self._oprot.writeMessageBegin('logout', TMessageType.CALL, self._seqid)
+    args = logout_args()
+    args.access_token = access_token
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_logout(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = logout_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    return
+
+  def user_info_get(self, access_token, id):
+    """
+    Parameters:
+     - access_token
      - id
     """
-    self.send_userInfo_get(accessToken, id)
-    return self.recv_userInfo_get()
+    self.send_user_info_get(access_token, id)
+    return self.recv_user_info_get()
 
-  def send_userInfo_get(self, accessToken, id):
-    self._oprot.writeMessageBegin('userInfo_get', TMessageType.CALL, self._seqid)
-    args = userInfo_get_args()
-    args.accessToken = accessToken
+  def send_user_info_get(self, access_token, id):
+    self._oprot.writeMessageBegin('user_info_get', TMessageType.CALL, self._seqid)
+    args = user_info_get_args()
+    args.access_token = access_token
     args.id = id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_userInfo_get(self, ):
+  def recv_user_info_get(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = userInfo_get_result()
+    result = user_info_get_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    if result.notFoundException is not None:
-      raise result.notFoundException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "userInfo_get failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "user_info_get failed: unknown result");
 
-  def userInfo_set(self, accessToken, userInfo):
+  def user_info_set(self, access_token, user_info):
     """
     Parameters:
-     - accessToken
-     - userInfo
+     - access_token
+     - user_info
     """
-    self.send_userInfo_set(accessToken, userInfo)
-    return self.recv_userInfo_set()
+    self.send_user_info_set(access_token, user_info)
+    return self.recv_user_info_set()
 
-  def send_userInfo_set(self, accessToken, userInfo):
-    self._oprot.writeMessageBegin('userInfo_set', TMessageType.CALL, self._seqid)
-    args = userInfo_set_args()
-    args.accessToken = accessToken
-    args.userInfo = userInfo
+  def send_user_info_set(self, access_token, user_info):
+    self._oprot.writeMessageBegin('user_info_set', TMessageType.CALL, self._seqid)
+    args = user_info_set_args()
+    args.access_token = access_token
+    args.user_info = user_info
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_userInfo_set(self, ):
+  def recv_user_info_set(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = userInfo_set_result()
+    result = user_info_set_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "userInfo_set failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "user_info_set failed: unknown result");
 
-  def eventInfo_get(self, accessToken, id):
+  def task_get(self, access_token, id):
     """
     Parameters:
-     - accessToken
+     - access_token
      - id
     """
-    self.send_eventInfo_get(accessToken, id)
-    return self.recv_eventInfo_get()
+    self.send_task_get(access_token, id)
+    return self.recv_task_get()
 
-  def send_eventInfo_get(self, accessToken, id):
-    self._oprot.writeMessageBegin('eventInfo_get', TMessageType.CALL, self._seqid)
-    args = eventInfo_get_args()
-    args.accessToken = accessToken
+  def send_task_get(self, access_token, id):
+    self._oprot.writeMessageBegin('task_get', TMessageType.CALL, self._seqid)
+    args = task_get_args()
+    args.access_token = access_token
     args.id = id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_eventInfo_get(self, ):
+  def recv_task_get(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = eventInfo_get_result()
+    result = task_get_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    if result.notFoundException is not None:
-      raise result.notFoundException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "eventInfo_get failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_get failed: unknown result");
 
-  def eventInfo_set(self, accessToken, eventInfo):
+  def task_new(self, access_token, task):
     """
     Parameters:
-     - accessToken
-     - eventInfo
+     - access_token
+     - task
     """
-    self.send_eventInfo_set(accessToken, eventInfo)
-    return self.recv_eventInfo_set()
+    self.send_task_new(access_token, task)
+    return self.recv_task_new()
 
-  def send_eventInfo_set(self, accessToken, eventInfo):
-    self._oprot.writeMessageBegin('eventInfo_set', TMessageType.CALL, self._seqid)
-    args = eventInfo_set_args()
-    args.accessToken = accessToken
-    args.eventInfo = eventInfo
+  def send_task_new(self, access_token, task):
+    self._oprot.writeMessageBegin('task_new', TMessageType.CALL, self._seqid)
+    args = task_new_args()
+    args.access_token = access_token
+    args.task = task
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_eventInfo_set(self, ):
+  def recv_task_new(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = eventInfo_set_result()
+    result = task_new_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "eventInfo_set failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_new failed: unknown result");
 
-  def eventPublish(self, accessToken):
+  def task_apply(self, access_token, task_id):
     """
     Parameters:
-     - accessToken
+     - access_token
+     - task_id
     """
-    self.send_eventPublish(accessToken)
-    return self.recv_eventPublish()
+    self.send_task_apply(access_token, task_id)
+    self.recv_task_apply()
 
-  def send_eventPublish(self, accessToken):
-    self._oprot.writeMessageBegin('eventPublish', TMessageType.CALL, self._seqid)
-    args = eventPublish_args()
-    args.accessToken = accessToken
+  def send_task_apply(self, access_token, task_id):
+    self._oprot.writeMessageBegin('task_apply', TMessageType.CALL, self._seqid)
+    args = task_apply_args()
+    args.access_token = access_token
+    args.task_id = task_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_eventPublish(self, ):
+  def recv_task_apply(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = eventPublish_result()
+    result = task_apply_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "eventPublish failed: unknown result");
+    return
 
-  def eventApply(self, accessToken, id):
+  def task_reject(self, access_token, user_id):
     """
     Parameters:
-     - accessToken
-     - id
+     - access_token
+     - user_id
     """
-    self.send_eventApply(accessToken, id)
-    return self.recv_eventApply()
+    self.send_task_reject(access_token, user_id)
+    self.recv_task_reject()
 
-  def send_eventApply(self, accessToken, id):
-    self._oprot.writeMessageBegin('eventApply', TMessageType.CALL, self._seqid)
-    args = eventApply_args()
-    args.accessToken = accessToken
-    args.id = id
+  def send_task_reject(self, access_token, user_id):
+    self._oprot.writeMessageBegin('task_reject', TMessageType.CALL, self._seqid)
+    args = task_reject_args()
+    args.access_token = access_token
+    args.user_id = user_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_eventApply(self, ):
+  def recv_task_reject(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = eventApply_result()
+    result = task_reject_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    if result.userException is not None:
-      raise result.userException
-    if result.systemException is not None:
-      raise result.systemException
-    if result.notFoundException is not None:
-      raise result.notFoundException
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "eventApply failed: unknown result");
+    return
+
+  def task_accept(self, access_token, user_id):
+    """
+    Parameters:
+     - access_token
+     - user_id
+    """
+    self.send_task_accept(access_token, user_id)
+    self.recv_task_accept()
+
+  def send_task_accept(self, access_token, user_id):
+    self._oprot.writeMessageBegin('task_accept', TMessageType.CALL, self._seqid)
+    args = task_accept_args()
+    args.access_token = access_token
+    args.user_id = user_id
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_task_accept(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = task_accept_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    return
 
 
 class Processor(Iface, TProcessor):
@@ -340,12 +378,14 @@ class Processor(Iface, TProcessor):
     self._handler = handler
     self._processMap = {}
     self._processMap["login"] = Processor.process_login
-    self._processMap["userInfo_get"] = Processor.process_userInfo_get
-    self._processMap["userInfo_set"] = Processor.process_userInfo_set
-    self._processMap["eventInfo_get"] = Processor.process_eventInfo_get
-    self._processMap["eventInfo_set"] = Processor.process_eventInfo_set
-    self._processMap["eventPublish"] = Processor.process_eventPublish
-    self._processMap["eventApply"] = Processor.process_eventApply
+    self._processMap["logout"] = Processor.process_logout
+    self._processMap["user_info_get"] = Processor.process_user_info_get
+    self._processMap["user_info_set"] = Processor.process_user_info_set
+    self._processMap["task_get"] = Processor.process_task_get
+    self._processMap["task_new"] = Processor.process_task_new
+    self._processMap["task_apply"] = Processor.process_task_apply
+    self._processMap["task_reject"] = Processor.process_task_reject
+    self._processMap["task_accept"] = Processor.process_task_accept
 
   def process(self, iprot, oprot):
     (name, type, seqid) = iprot.readMessageBegin()
@@ -367,115 +407,96 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_result()
-    try:
-      result.success = self._handler.login(args.auth)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
+    result.success = self._handler.login(args.auth)
     oprot.writeMessageBegin("login", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_userInfo_get(self, seqid, iprot, oprot):
-    args = userInfo_get_args()
+  def process_logout(self, seqid, iprot, oprot):
+    args = logout_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = userInfo_get_result()
-    try:
-      result.success = self._handler.userInfo_get(args.accessToken, args.id)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    except error.ttypes.NotFoundException, notFoundException:
-      result.notFoundException = notFoundException
-    oprot.writeMessageBegin("userInfo_get", TMessageType.REPLY, seqid)
+    result = logout_result()
+    self._handler.logout(args.access_token)
+    oprot.writeMessageBegin("logout", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_userInfo_set(self, seqid, iprot, oprot):
-    args = userInfo_set_args()
+  def process_user_info_get(self, seqid, iprot, oprot):
+    args = user_info_get_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = userInfo_set_result()
-    try:
-      result.success = self._handler.userInfo_set(args.accessToken, args.userInfo)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    oprot.writeMessageBegin("userInfo_set", TMessageType.REPLY, seqid)
+    result = user_info_get_result()
+    result.success = self._handler.user_info_get(args.access_token, args.id)
+    oprot.writeMessageBegin("user_info_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_eventInfo_get(self, seqid, iprot, oprot):
-    args = eventInfo_get_args()
+  def process_user_info_set(self, seqid, iprot, oprot):
+    args = user_info_set_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = eventInfo_get_result()
-    try:
-      result.success = self._handler.eventInfo_get(args.accessToken, args.id)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    except error.ttypes.NotFoundException, notFoundException:
-      result.notFoundException = notFoundException
-    oprot.writeMessageBegin("eventInfo_get", TMessageType.REPLY, seqid)
+    result = user_info_set_result()
+    result.success = self._handler.user_info_set(args.access_token, args.user_info)
+    oprot.writeMessageBegin("user_info_set", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_eventInfo_set(self, seqid, iprot, oprot):
-    args = eventInfo_set_args()
+  def process_task_get(self, seqid, iprot, oprot):
+    args = task_get_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = eventInfo_set_result()
-    try:
-      result.success = self._handler.eventInfo_set(args.accessToken, args.eventInfo)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    oprot.writeMessageBegin("eventInfo_set", TMessageType.REPLY, seqid)
+    result = task_get_result()
+    result.success = self._handler.task_get(args.access_token, args.id)
+    oprot.writeMessageBegin("task_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_eventPublish(self, seqid, iprot, oprot):
-    args = eventPublish_args()
+  def process_task_new(self, seqid, iprot, oprot):
+    args = task_new_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = eventPublish_result()
-    try:
-      result.success = self._handler.eventPublish(args.accessToken)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    oprot.writeMessageBegin("eventPublish", TMessageType.REPLY, seqid)
+    result = task_new_result()
+    result.success = self._handler.task_new(args.access_token, args.task)
+    oprot.writeMessageBegin("task_new", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_eventApply(self, seqid, iprot, oprot):
-    args = eventApply_args()
+  def process_task_apply(self, seqid, iprot, oprot):
+    args = task_apply_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = eventApply_result()
-    try:
-      result.success = self._handler.eventApply(args.accessToken, args.id)
-    except error.ttypes.UserException, userException:
-      result.userException = userException
-    except error.ttypes.SystemException, systemException:
-      result.systemException = systemException
-    except error.ttypes.NotFoundException, notFoundException:
-      result.notFoundException = notFoundException
-    oprot.writeMessageBegin("eventApply", TMessageType.REPLY, seqid)
+    result = task_apply_result()
+    self._handler.task_apply(args.access_token, args.task_id)
+    oprot.writeMessageBegin("task_apply", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_task_reject(self, seqid, iprot, oprot):
+    args = task_reject_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = task_reject_result()
+    self._handler.task_reject(args.access_token, args.user_id)
+    oprot.writeMessageBegin("task_reject", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_task_accept(self, seqid, iprot, oprot):
+    args = task_accept_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = task_accept_result()
+    self._handler.task_accept(args.access_token, args.user_id)
+    oprot.writeMessageBegin("task_accept", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -548,20 +569,14 @@ class login_result:
   """
   Attributes:
    - success
-   - userException
-   - systemException
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (type.ttypes.AuthResponse, type.ttypes.AuthResponse.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, userException=None, systemException=None,):
+  def __init__(self, success=None,):
     self.success = success
-    self.userException = userException
-    self.systemException = systemException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -578,18 +593,6 @@ class login_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -604,13 +607,65 @@ class login_result:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
       oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class logout_args:
+  """
+  Attributes:
+   - access_token
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+  )
+
+  def __init__(self, access_token=None,):
+    self.access_token = access_token
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('logout_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -630,21 +685,63 @@ class login_result:
   def __ne__(self, other):
     return not (self == other)
 
-class userInfo_get_args:
+class logout_result:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('logout_result')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class user_info_get_args:
   """
   Attributes:
-   - accessToken
+   - access_token
    - id
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
+    (1, TType.STRING, 'access_token', None, None, ), # 1
     (2, TType.I64, 'id', None, None, ), # 2
   )
 
-  def __init__(self, accessToken=None, id=None,):
-    self.accessToken = accessToken
+  def __init__(self, access_token=None, id=None,):
+    self.access_token = access_token
     self.id = id
 
   def read(self, iprot):
@@ -658,7 +755,7 @@ class userInfo_get_args:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -675,10 +772,10 @@ class userInfo_get_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('userInfo_get_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
+    oprot.writeStructBegin('user_info_get_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
     if self.id is not None:
       oprot.writeFieldBegin('id', TType.I64, 2)
@@ -702,27 +799,18 @@ class userInfo_get_args:
   def __ne__(self, other):
     return not (self == other)
 
-class userInfo_get_result:
+class user_info_get_result:
   """
   Attributes:
    - success
-   - userException
-   - systemException
-   - notFoundException
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (type.ttypes.UserInfo, type.ttypes.UserInfo.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'notFoundException', (error.ttypes.NotFoundException, error.ttypes.NotFoundException.thrift_spec), None, ), # 3
   )
 
-  def __init__(self, success=None, userException=None, systemException=None, notFoundException=None,):
+  def __init__(self, success=None,):
     self.success = success
-    self.userException = userException
-    self.systemException = systemException
-    self.notFoundException = notFoundException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -739,24 +827,6 @@ class userInfo_get_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.notFoundException = error.ttypes.NotFoundException()
-          self.notFoundException.read(iprot)
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -766,22 +836,10 @@ class userInfo_get_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('userInfo_get_result')
+    oprot.writeStructBegin('user_info_get_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
-      oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.notFoundException is not None:
-      oprot.writeFieldBegin('notFoundException', TType.STRUCT, 3)
-      self.notFoundException.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -801,22 +859,22 @@ class userInfo_get_result:
   def __ne__(self, other):
     return not (self == other)
 
-class userInfo_set_args:
+class user_info_set_args:
   """
   Attributes:
-   - accessToken
-   - userInfo
+   - access_token
+   - user_info
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
-    (2, TType.STRUCT, 'userInfo', (type.ttypes.UserInfo, type.ttypes.UserInfo.thrift_spec), None, ), # 2
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.STRUCT, 'user_info', (type.ttypes.UserInfo, type.ttypes.UserInfo.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, accessToken=None, userInfo=None,):
-    self.accessToken = accessToken
-    self.userInfo = userInfo
+  def __init__(self, access_token=None, user_info=None,):
+    self.access_token = access_token
+    self.user_info = user_info
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -829,13 +887,13 @@ class userInfo_set_args:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRUCT:
-          self.userInfo = type.ttypes.UserInfo()
-          self.userInfo.read(iprot)
+          self.user_info = type.ttypes.UserInfo()
+          self.user_info.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -847,14 +905,14 @@ class userInfo_set_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('userInfo_set_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
+    oprot.writeStructBegin('user_info_set_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.userInfo is not None:
-      oprot.writeFieldBegin('userInfo', TType.STRUCT, 2)
-      self.userInfo.write(oprot)
+    if self.user_info is not None:
+      oprot.writeFieldBegin('user_info', TType.STRUCT, 2)
+      self.user_info.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -874,24 +932,18 @@ class userInfo_set_args:
   def __ne__(self, other):
     return not (self == other)
 
-class userInfo_set_result:
+class user_info_set_result:
   """
   Attributes:
    - success
-   - userException
-   - systemException
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (type.ttypes.UserInfo, type.ttypes.UserInfo.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, userException=None, systemException=None,):
+  def __init__(self, success=None,):
     self.success = success
-    self.userException = userException
-    self.systemException = systemException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -908,18 +960,6 @@ class userInfo_set_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -929,18 +969,10 @@ class userInfo_set_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('userInfo_set_result')
+    oprot.writeStructBegin('user_info_set_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
-      oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -960,21 +992,21 @@ class userInfo_set_result:
   def __ne__(self, other):
     return not (self == other)
 
-class eventInfo_get_args:
+class task_get_args:
   """
   Attributes:
-   - accessToken
+   - access_token
    - id
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
+    (1, TType.STRING, 'access_token', None, None, ), # 1
     (2, TType.I64, 'id', None, None, ), # 2
   )
 
-  def __init__(self, accessToken=None, id=None,):
-    self.accessToken = accessToken
+  def __init__(self, access_token=None, id=None,):
+    self.access_token = access_token
     self.id = id
 
   def read(self, iprot):
@@ -988,7 +1020,7 @@ class eventInfo_get_args:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -1005,10 +1037,10 @@ class eventInfo_get_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventInfo_get_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
+    oprot.writeStructBegin('task_get_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
     if self.id is not None:
       oprot.writeFieldBegin('id', TType.I64, 2)
@@ -1032,27 +1064,18 @@ class eventInfo_get_args:
   def __ne__(self, other):
     return not (self == other)
 
-class eventInfo_get_result:
+class task_get_result:
   """
   Attributes:
    - success
-   - userException
-   - systemException
-   - notFoundException
   """
 
   thrift_spec = (
-    (0, TType.STRUCT, 'success', (type.ttypes.EventInfo, type.ttypes.EventInfo.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'notFoundException', (error.ttypes.NotFoundException, error.ttypes.NotFoundException.thrift_spec), None, ), # 3
+    (0, TType.STRUCT, 'success', (type.ttypes.Task, type.ttypes.Task.thrift_spec), None, ), # 0
   )
 
-  def __init__(self, success=None, userException=None, systemException=None, notFoundException=None,):
+  def __init__(self, success=None,):
     self.success = success
-    self.userException = userException
-    self.systemException = systemException
-    self.notFoundException = notFoundException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1065,26 +1088,8 @@ class eventInfo_get_result:
         break
       if fid == 0:
         if ftype == TType.STRUCT:
-          self.success = type.ttypes.EventInfo()
+          self.success = type.ttypes.Task()
           self.success.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.notFoundException = error.ttypes.NotFoundException()
-          self.notFoundException.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -1096,22 +1101,10 @@ class eventInfo_get_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventInfo_get_result')
+    oprot.writeStructBegin('task_get_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
-      oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.notFoundException is not None:
-      oprot.writeFieldBegin('notFoundException', TType.STRUCT, 3)
-      self.notFoundException.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1131,22 +1124,22 @@ class eventInfo_get_result:
   def __ne__(self, other):
     return not (self == other)
 
-class eventInfo_set_args:
+class task_new_args:
   """
   Attributes:
-   - accessToken
-   - eventInfo
+   - access_token
+   - task
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
-    (2, TType.STRUCT, 'eventInfo', (type.ttypes.EventInfo, type.ttypes.EventInfo.thrift_spec), None, ), # 2
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.STRUCT, 'task', (type.ttypes.Task, type.ttypes.Task.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, accessToken=None, eventInfo=None,):
-    self.accessToken = accessToken
-    self.eventInfo = eventInfo
+  def __init__(self, access_token=None, task=None,):
+    self.access_token = access_token
+    self.task = task
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1159,13 +1152,13 @@ class eventInfo_set_args:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRUCT:
-          self.eventInfo = type.ttypes.EventInfo()
-          self.eventInfo.read(iprot)
+          self.task = type.ttypes.Task()
+          self.task.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -1177,14 +1170,14 @@ class eventInfo_set_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventInfo_set_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
+    oprot.writeStructBegin('task_new_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.eventInfo is not None:
-      oprot.writeFieldBegin('eventInfo', TType.STRUCT, 2)
-      self.eventInfo.write(oprot)
+    if self.task is not None:
+      oprot.writeFieldBegin('task', TType.STRUCT, 2)
+      self.task.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1204,170 +1197,18 @@ class eventInfo_set_args:
   def __ne__(self, other):
     return not (self == other)
 
-class eventInfo_set_result:
+class task_new_result:
   """
   Attributes:
    - success
-   - userException
-   - systemException
-  """
-
-  thrift_spec = (
-    (0, TType.STRUCT, 'success', (type.ttypes.EventInfo, type.ttypes.EventInfo.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
-  )
-
-  def __init__(self, success=None, userException=None, systemException=None,):
-    self.success = success
-    self.userException = userException
-    self.systemException = systemException
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 0:
-        if ftype == TType.STRUCT:
-          self.success = type.ttypes.EventInfo()
-          self.success.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('eventInfo_set_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRUCT, 0)
-      self.success.write(oprot)
-      oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class eventPublish_args:
-  """
-  Attributes:
-   - accessToken
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
-  )
-
-  def __init__(self, accessToken=None,):
-    self.accessToken = accessToken
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('eventPublish_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class eventPublish_result:
-  """
-  Attributes:
-   - success
-   - userException
-   - systemException
   """
 
   thrift_spec = (
     (0, TType.I64, 'success', None, None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, userException=None, systemException=None,):
+  def __init__(self, success=None,):
     self.success = success
-    self.userException = userException
-    self.systemException = systemException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1383,18 +1224,6 @@ class eventPublish_result:
           self.success = iprot.readI64();
         else:
           iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1404,18 +1233,10 @@ class eventPublish_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventPublish_result')
+    oprot.writeStructBegin('task_new_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.I64, 0)
       oprot.writeI64(self.success)
-      oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
-      oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1435,22 +1256,22 @@ class eventPublish_result:
   def __ne__(self, other):
     return not (self == other)
 
-class eventApply_args:
+class task_apply_args:
   """
   Attributes:
-   - accessToken
-   - id
+   - access_token
+   - task_id
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'accessToken', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.I64, 'task_id', None, None, ), # 2
   )
 
-  def __init__(self, accessToken=None, id=None,):
-    self.accessToken = accessToken
-    self.id = id
+  def __init__(self, access_token=None, task_id=None,):
+    self.access_token = access_token
+    self.task_id = task_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1463,12 +1284,12 @@ class eventApply_args:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.accessToken = iprot.readString();
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
+          self.task_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -1480,14 +1301,14 @@ class eventApply_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventApply_args')
-    if self.accessToken is not None:
-      oprot.writeFieldBegin('accessToken', TType.STRING, 1)
-      oprot.writeString(self.accessToken)
+    oprot.writeStructBegin('task_apply_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
-      oprot.writeI64(self.id)
+    if self.task_id is not None:
+      oprot.writeFieldBegin('task_id', TType.I64, 2)
+      oprot.writeI64(self.task_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1507,27 +1328,10 @@ class eventApply_args:
   def __ne__(self, other):
     return not (self == other)
 
-class eventApply_result:
-  """
-  Attributes:
-   - success
-   - userException
-   - systemException
-   - notFoundException
-  """
+class task_apply_result:
 
   thrift_spec = (
-    (0, TType.STRUCT, 'success', (type.ttypes.EventInfo, type.ttypes.EventInfo.thrift_spec), None, ), # 0
-    (1, TType.STRUCT, 'userException', (error.ttypes.UserException, error.ttypes.UserException.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'systemException', (error.ttypes.SystemException, error.ttypes.SystemException.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'notFoundException', (error.ttypes.NotFoundException, error.ttypes.NotFoundException.thrift_spec), None, ), # 3
   )
-
-  def __init__(self, success=None, userException=None, systemException=None, notFoundException=None,):
-    self.success = success
-    self.userException = userException
-    self.systemException = systemException
-    self.notFoundException = notFoundException
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1538,28 +1342,68 @@ class eventApply_result:
       (fname, ftype, fid) = iprot.readFieldBegin()
       if ftype == TType.STOP:
         break
-      if fid == 0:
-        if ftype == TType.STRUCT:
-          self.success = type.ttypes.EventInfo()
-          self.success.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 1:
-        if ftype == TType.STRUCT:
-          self.userException = error.ttypes.UserException()
-          self.userException.read(iprot)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_apply_result')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_reject_args:
+  """
+  Attributes:
+   - access_token
+   - user_id
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.I64, 'user_id', None, None, ), # 2
+  )
+
+  def __init__(self, access_token=None, user_id=None,):
+    self.access_token = access_token
+    self.user_id = user_id
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.STRUCT:
-          self.systemException = error.ttypes.SystemException()
-          self.systemException.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.notFoundException = error.ttypes.NotFoundException()
-          self.notFoundException.read(iprot)
+        if ftype == TType.I64:
+          self.user_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -1571,23 +1415,171 @@ class eventApply_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('eventApply_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRUCT, 0)
-      self.success.write(oprot)
+    oprot.writeStructBegin('task_reject_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.userException is not None:
-      oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-      self.userException.write(oprot)
+    if self.user_id is not None:
+      oprot.writeFieldBegin('user_id', TType.I64, 2)
+      oprot.writeI64(self.user_id)
       oprot.writeFieldEnd()
-    if self.systemException is not None:
-      oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-      self.systemException.write(oprot)
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_reject_result:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_reject_result')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_accept_args:
+  """
+  Attributes:
+   - access_token
+   - user_id
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.I64, 'user_id', None, None, ), # 2
+  )
+
+  def __init__(self, access_token=None, user_id=None,):
+    self.access_token = access_token
+    self.user_id = user_id
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I64:
+          self.user_id = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_accept_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.notFoundException is not None:
-      oprot.writeFieldBegin('notFoundException', TType.STRUCT, 3)
-      self.notFoundException.write(oprot)
+    if self.user_id is not None:
+      oprot.writeFieldBegin('user_id', TType.I64, 2)
+      oprot.writeI64(self.user_id)
       oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_accept_result:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_accept_result')
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 

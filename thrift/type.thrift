@@ -1,11 +1,11 @@
-typedef i64 TimeStamp
+typedef i64 timestamp
 
 // ----- Auth -----
 struct Auth {
-  1:  required  string  user,
+  1:  required  string  email,
   2:  required  string  password,
-  3:  required  string  clientKey,
-  4:  required  string  clientSecret
+  3:  required  string  client_key,
+  4:  required  string  client_secret
 }
 
 enum AuthResponseStatus {
@@ -23,9 +23,9 @@ struct AuthResponse {
   1:  required  AuthResponseStatus  status,
   2:  required  i64                 id,
   3:  optional  string              name,
-  4:  required  string              accessToken,
-  5:  optional  i64                 expireDate,
-  6:  optional  string              refreshToken
+  4:  required  string              access_token,
+  5:  optional  i64                 expire_time,
+  6:  optional  string              refresh_token
 }
 
 // ----- User Link -----
@@ -103,7 +103,7 @@ struct StatusComment {
   1:  required  i64        id,
   2:  required  i64        authorID,
   3:  required  string     authorName,
-  4:  required  TimeStamp  date,
+  4:  required  timestamp  date,
   5:  required  string     content
 }
 
@@ -111,29 +111,28 @@ struct Status {
   1:  required  i64                  id,
   2:  required  i64                  authorID,
   3:  required  string               authorName,
-  4:  required  TimeStamp            date,
+  4:  required  timestamp            date,
   5:  required  string               content,
   6:  required  i64                  commentCount,
   7:  optional  list<StatusComment>  commentList
 }
 
-// ----- Event -----
+// ----- Task -----
 
-enum EventType {
-  EVENT_TYPE_DEFAULT = 0 // Not used for now
+enum TaskCid {
+    TASK_CID_EVENT = 1 // Not used for now
 }
 
-struct EventInfo {
-  1:  required  i64             id,
-  2:  required  string          title,
+struct Task {
+  1:  optional i64              id,
+  2:  required  string          name,
   3:  required  string          intro,
-  4:  required  EventType       eventType, // Not used for now - -|
-  5:  required  TimeStamp       startDate,
-  6:  required  TimeStamp       expireDate,
-  7:  required  UserInfo        initiator,
-  8:  required  list<UserInfo>  guestList,
-  9:  required  i64             participantAuthedCount,
-  10: required  i64             participantUnauthedCount,
-  11: optional  list<UserInfo>  participantAuthedList,
-  12: optional  list<UserInfo>  participantUnauthedList
+  4:  required  TaskCid         cid,                        // Not used for now - -|
+  5:  required  timestamp       begin_time,
+  6:  required  timestamp       end_time,
+  7:  optional  UserInfo        owner,
+  8:  optional  list<UserInfo>  user_apply_list,
+  11: optional  list<UserInfo>  user_accept_list,
+  12: optional  list<UserInfo>  user_reject_list 
 }
+
