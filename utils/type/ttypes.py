@@ -831,6 +831,359 @@ class UserInfo:
   def __ne__(self, other):
     return not (self == other)
 
+class StatusPost:
+  """
+  Attributes:
+   - content
+   - tagList
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'content', None, None, ), # 1
+    (2, TType.LIST, 'tagList', (TType.STRING,None), None, ), # 2
+  )
+
+  def __init__(self, content=None, tagList=None,):
+    self.content = content
+    self.tagList = tagList
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.content = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.LIST:
+          self.tagList = []
+          (_etype24, _size21) = iprot.readListBegin()
+          for _i25 in xrange(_size21):
+            _elem26 = iprot.readString();
+            self.tagList.append(_elem26)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('StatusPost')
+    if self.content is not None:
+      oprot.writeFieldBegin('content', TType.STRING, 1)
+      oprot.writeString(self.content)
+      oprot.writeFieldEnd()
+    if self.tagList is not None:
+      oprot.writeFieldBegin('tagList', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRING, len(self.tagList))
+      for iter27 in self.tagList:
+        oprot.writeString(iter27)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.content is None:
+      raise TProtocol.TProtocolException(message='Required field content is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class StatusComment:
+  """
+  Attributes:
+   - id
+   - authorID
+   - authorName
+   - date
+   - content
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I64, 'id', None, None, ), # 1
+    (2, TType.I64, 'authorID', None, None, ), # 2
+    (3, TType.STRING, 'authorName', None, None, ), # 3
+    (4, TType.I64, 'date', None, None, ), # 4
+    (5, TType.STRING, 'content', None, None, ), # 5
+  )
+
+  def __init__(self, id=None, authorID=None, authorName=None, date=None, content=None,):
+    self.id = id
+    self.authorID = authorID
+    self.authorName = authorName
+    self.date = date
+    self.content = content
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I64:
+          self.id = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I64:
+          self.authorID = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.authorName = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.I64:
+          self.date = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.content = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('StatusComment')
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.I64, 1)
+      oprot.writeI64(self.id)
+      oprot.writeFieldEnd()
+    if self.authorID is not None:
+      oprot.writeFieldBegin('authorID', TType.I64, 2)
+      oprot.writeI64(self.authorID)
+      oprot.writeFieldEnd()
+    if self.authorName is not None:
+      oprot.writeFieldBegin('authorName', TType.STRING, 3)
+      oprot.writeString(self.authorName)
+      oprot.writeFieldEnd()
+    if self.date is not None:
+      oprot.writeFieldBegin('date', TType.I64, 4)
+      oprot.writeI64(self.date)
+      oprot.writeFieldEnd()
+    if self.content is not None:
+      oprot.writeFieldBegin('content', TType.STRING, 5)
+      oprot.writeString(self.content)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.authorID is None:
+      raise TProtocol.TProtocolException(message='Required field authorID is unset!')
+    if self.authorName is None:
+      raise TProtocol.TProtocolException(message='Required field authorName is unset!')
+    if self.date is None:
+      raise TProtocol.TProtocolException(message='Required field date is unset!')
+    if self.content is None:
+      raise TProtocol.TProtocolException(message='Required field content is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Status:
+  """
+  Attributes:
+   - id
+   - authorID
+   - authorName
+   - date
+   - content
+   - commentCount
+   - commentList
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I64, 'id', None, None, ), # 1
+    (2, TType.I64, 'authorID', None, None, ), # 2
+    (3, TType.STRING, 'authorName', None, None, ), # 3
+    (4, TType.I64, 'date', None, None, ), # 4
+    (5, TType.STRING, 'content', None, None, ), # 5
+    (6, TType.I64, 'commentCount', None, None, ), # 6
+    (7, TType.LIST, 'commentList', (TType.STRUCT,(StatusComment, StatusComment.thrift_spec)), None, ), # 7
+  )
+
+  def __init__(self, id=None, authorID=None, authorName=None, date=None, content=None, commentCount=None, commentList=None,):
+    self.id = id
+    self.authorID = authorID
+    self.authorName = authorName
+    self.date = date
+    self.content = content
+    self.commentCount = commentCount
+    self.commentList = commentList
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I64:
+          self.id = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I64:
+          self.authorID = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.authorName = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.I64:
+          self.date = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.content = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.I64:
+          self.commentCount = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.LIST:
+          self.commentList = []
+          (_etype31, _size28) = iprot.readListBegin()
+          for _i32 in xrange(_size28):
+            _elem33 = StatusComment()
+            _elem33.read(iprot)
+            self.commentList.append(_elem33)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Status')
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.I64, 1)
+      oprot.writeI64(self.id)
+      oprot.writeFieldEnd()
+    if self.authorID is not None:
+      oprot.writeFieldBegin('authorID', TType.I64, 2)
+      oprot.writeI64(self.authorID)
+      oprot.writeFieldEnd()
+    if self.authorName is not None:
+      oprot.writeFieldBegin('authorName', TType.STRING, 3)
+      oprot.writeString(self.authorName)
+      oprot.writeFieldEnd()
+    if self.date is not None:
+      oprot.writeFieldBegin('date', TType.I64, 4)
+      oprot.writeI64(self.date)
+      oprot.writeFieldEnd()
+    if self.content is not None:
+      oprot.writeFieldBegin('content', TType.STRING, 5)
+      oprot.writeString(self.content)
+      oprot.writeFieldEnd()
+    if self.commentCount is not None:
+      oprot.writeFieldBegin('commentCount', TType.I64, 6)
+      oprot.writeI64(self.commentCount)
+      oprot.writeFieldEnd()
+    if self.commentList is not None:
+      oprot.writeFieldBegin('commentList', TType.LIST, 7)
+      oprot.writeListBegin(TType.STRUCT, len(self.commentList))
+      for iter34 in self.commentList:
+        iter34.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.authorID is None:
+      raise TProtocol.TProtocolException(message='Required field authorID is unset!')
+    if self.authorName is None:
+      raise TProtocol.TProtocolException(message='Required field authorName is unset!')
+    if self.date is None:
+      raise TProtocol.TProtocolException(message='Required field date is unset!')
+    if self.content is None:
+      raise TProtocol.TProtocolException(message='Required field content is unset!')
+    if self.commentCount is None:
+      raise TProtocol.TProtocolException(message='Required field commentCount is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class EventInfo:
   """
   Attributes:
@@ -926,11 +1279,11 @@ class EventInfo:
       elif fid == 8:
         if ftype == TType.LIST:
           self.guestList = []
-          (_etype24, _size21) = iprot.readListBegin()
-          for _i25 in xrange(_size21):
-            _elem26 = UserInfo()
-            _elem26.read(iprot)
-            self.guestList.append(_elem26)
+          (_etype38, _size35) = iprot.readListBegin()
+          for _i39 in xrange(_size35):
+            _elem40 = UserInfo()
+            _elem40.read(iprot)
+            self.guestList.append(_elem40)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -947,22 +1300,22 @@ class EventInfo:
       elif fid == 11:
         if ftype == TType.LIST:
           self.participantAuthedList = []
-          (_etype30, _size27) = iprot.readListBegin()
-          for _i31 in xrange(_size27):
-            _elem32 = UserInfo()
-            _elem32.read(iprot)
-            self.participantAuthedList.append(_elem32)
+          (_etype44, _size41) = iprot.readListBegin()
+          for _i45 in xrange(_size41):
+            _elem46 = UserInfo()
+            _elem46.read(iprot)
+            self.participantAuthedList.append(_elem46)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 12:
         if ftype == TType.LIST:
           self.participantUnauthedList = []
-          (_etype36, _size33) = iprot.readListBegin()
-          for _i37 in xrange(_size33):
-            _elem38 = UserInfo()
-            _elem38.read(iprot)
-            self.participantUnauthedList.append(_elem38)
+          (_etype50, _size47) = iprot.readListBegin()
+          for _i51 in xrange(_size47):
+            _elem52 = UserInfo()
+            _elem52.read(iprot)
+            self.participantUnauthedList.append(_elem52)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1007,8 +1360,8 @@ class EventInfo:
     if self.guestList is not None:
       oprot.writeFieldBegin('guestList', TType.LIST, 8)
       oprot.writeListBegin(TType.STRUCT, len(self.guestList))
-      for iter39 in self.guestList:
-        iter39.write(oprot)
+      for iter53 in self.guestList:
+        iter53.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.participantAuthedCount is not None:
@@ -1022,15 +1375,15 @@ class EventInfo:
     if self.participantAuthedList is not None:
       oprot.writeFieldBegin('participantAuthedList', TType.LIST, 11)
       oprot.writeListBegin(TType.STRUCT, len(self.participantAuthedList))
-      for iter40 in self.participantAuthedList:
-        iter40.write(oprot)
+      for iter54 in self.participantAuthedList:
+        iter54.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.participantUnauthedList is not None:
       oprot.writeFieldBegin('participantUnauthedList', TType.LIST, 12)
       oprot.writeListBegin(TType.STRUCT, len(self.participantUnauthedList))
-      for iter41 in self.participantUnauthedList:
-        iter41.write(oprot)
+      for iter55 in self.participantUnauthedList:
+        iter55.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()

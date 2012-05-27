@@ -342,6 +342,146 @@ typedef int64_t TimeStamp;
 
 @end
 
+@interface StatusPost : NSObject <NSCoding> {
+  NSString * __content;
+  NSArray * __tagList;
+
+  BOOL __content_isset;
+  BOOL __tagList_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
+@property (nonatomic, retain, getter=tagList, setter=setTagList:) NSArray * tagList;
+#endif
+
+- (id) initWithContent: (NSString *) content tagList: (NSArray *) tagList;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) content;
+- (void) setContent: (NSString *) content;
+- (BOOL) contentIsSet;
+
+- (NSArray *) tagList;
+- (void) setTagList: (NSArray *) tagList;
+- (BOOL) tagListIsSet;
+
+@end
+
+@interface StatusComment : NSObject <NSCoding> {
+  int64_t __id;
+  int64_t __authorID;
+  NSString * __authorName;
+  TimeStamp __date;
+  NSString * __content;
+
+  BOOL __id_isset;
+  BOOL __authorID_isset;
+  BOOL __authorName_isset;
+  BOOL __date_isset;
+  BOOL __content_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=authorID, setter=setAuthorID:) int64_t authorID;
+@property (nonatomic, retain, getter=authorName, setter=setAuthorName:) NSString * authorName;
+@property (nonatomic, getter=date, setter=setDate:) TimeStamp date;
+@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
+#endif
+
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
+
+- (int64_t) authorID;
+- (void) setAuthorID: (int64_t) authorID;
+- (BOOL) authorIDIsSet;
+
+- (NSString *) authorName;
+- (void) setAuthorName: (NSString *) authorName;
+- (BOOL) authorNameIsSet;
+
+- (TimeStamp) date;
+- (void) setDate: (TimeStamp) date;
+- (BOOL) dateIsSet;
+
+- (NSString *) content;
+- (void) setContent: (NSString *) content;
+- (BOOL) contentIsSet;
+
+@end
+
+@interface Status : NSObject <NSCoding> {
+  int64_t __id;
+  int64_t __authorID;
+  NSString * __authorName;
+  TimeStamp __date;
+  NSString * __content;
+  int64_t __commentCount;
+  NSArray * __commentList;
+
+  BOOL __id_isset;
+  BOOL __authorID_isset;
+  BOOL __authorName_isset;
+  BOOL __date_isset;
+  BOOL __content_isset;
+  BOOL __commentCount_isset;
+  BOOL __commentList_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=authorID, setter=setAuthorID:) int64_t authorID;
+@property (nonatomic, retain, getter=authorName, setter=setAuthorName:) NSString * authorName;
+@property (nonatomic, getter=date, setter=setDate:) TimeStamp date;
+@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
+@property (nonatomic, getter=commentCount, setter=setCommentCount:) int64_t commentCount;
+@property (nonatomic, retain, getter=commentList, setter=setCommentList:) NSArray * commentList;
+#endif
+
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
+
+- (int64_t) authorID;
+- (void) setAuthorID: (int64_t) authorID;
+- (BOOL) authorIDIsSet;
+
+- (NSString *) authorName;
+- (void) setAuthorName: (NSString *) authorName;
+- (BOOL) authorNameIsSet;
+
+- (TimeStamp) date;
+- (void) setDate: (TimeStamp) date;
+- (BOOL) dateIsSet;
+
+- (NSString *) content;
+- (void) setContent: (NSString *) content;
+- (BOOL) contentIsSet;
+
+- (int64_t) commentCount;
+- (void) setCommentCount: (int64_t) commentCount;
+- (BOOL) commentCountIsSet;
+
+- (NSArray *) commentList;
+- (void) setCommentList: (NSArray *) commentList;
+- (BOOL) commentListIsSet;
+
+@end
+
 @interface EventInfo : NSObject <NSCoding> {
   int64_t __id;
   NSString * __title;

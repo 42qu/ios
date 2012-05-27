@@ -1821,6 +1821,878 @@
 
 @end
 
+@implementation StatusPost
+
+- (id) initWithContent: (NSString *) content tagList: (NSArray *) tagList
+{
+  self = [super init];
+  __content = [content retain];
+  __content_isset = YES;
+  __tagList = [tagList retain];
+  __tagList_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"content"])
+  {
+    __content = [[decoder decodeObjectForKey: @"content"] retain];
+    __content_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"tagList"])
+  {
+    __tagList = [[decoder decodeObjectForKey: @"tagList"] retain];
+    __tagList_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__content_isset)
+  {
+    [encoder encodeObject: __content forKey: @"content"];
+  }
+  if (__tagList_isset)
+  {
+    [encoder encodeObject: __tagList forKey: @"tagList"];
+  }
+}
+
+- (void) dealloc
+{
+  [__content release];
+  [__tagList release];
+  [super dealloc];
+}
+
+- (NSString *) content {
+  return [[__content retain] autorelease];
+}
+
+- (void) setContent: (NSString *) content {
+  [content retain];
+  [__content release];
+  __content = content;
+  __content_isset = YES;
+}
+
+- (BOOL) contentIsSet {
+  return __content_isset;
+}
+
+- (void) unsetContent {
+  [__content release];
+  __content = nil;
+  __content_isset = NO;
+}
+
+- (NSArray *) tagList {
+  return [[__tagList retain] autorelease];
+}
+
+- (void) setTagList: (NSArray *) tagList {
+  [tagList retain];
+  [__tagList release];
+  __tagList = tagList;
+  __tagList_isset = YES;
+}
+
+- (BOOL) tagListIsSet {
+  return __tagList_isset;
+}
+
+- (void) unsetTagList {
+  [__tagList release];
+  __tagList = nil;
+  __tagList_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setContent: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_LIST) {
+          int _size15;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size15];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size15];
+          int _i16;
+          for (_i16 = 0; _i16 < _size15; ++_i16)
+          {
+            NSString * _elem17 = [inProtocol readString];
+            [fieldValue addObject: _elem17];
+          }
+          [inProtocol readListEnd];
+          [self setTagList: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"StatusPost"];
+  if (__content_isset) {
+    if (__content != nil) {
+      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __content];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__tagList_isset) {
+    if (__tagList != nil) {
+      [outProtocol writeFieldBeginWithName: @"tagList" type: TType_LIST fieldID: 2];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRING size: [__tagList count]];
+        int i19;
+        for (i19 = 0; i19 < [__tagList count]; i19++)
+        {
+          [outProtocol writeString: [__tagList objectAtIndex: i19]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"StatusPost("];
+  [ms appendString: @"content:"];
+  [ms appendFormat: @"\"%@\"", __content];
+  [ms appendString: @",tagList:"];
+  [ms appendFormat: @"%@", __tagList];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation StatusComment
+
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content
+{
+  self = [super init];
+  __id = id;
+  __id_isset = YES;
+  __authorID = authorID;
+  __authorID_isset = YES;
+  __authorName = [authorName retain];
+  __authorName_isset = YES;
+  __date = date;
+  __date_isset = YES;
+  __content = [content retain];
+  __content_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"id"])
+  {
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"authorID"])
+  {
+    __authorID = [decoder decodeInt64ForKey: @"authorID"];
+    __authorID_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"authorName"])
+  {
+    __authorName = [[decoder decodeObjectForKey: @"authorName"] retain];
+    __authorName_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"date"])
+  {
+    __date = [decoder decodeInt64ForKey: @"date"];
+    __date_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"content"])
+  {
+    __content = [[decoder decodeObjectForKey: @"content"] retain];
+    __content_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__id_isset)
+  {
+    [encoder encodeInt64: __id forKey: @"id"];
+  }
+  if (__authorID_isset)
+  {
+    [encoder encodeInt64: __authorID forKey: @"authorID"];
+  }
+  if (__authorName_isset)
+  {
+    [encoder encodeObject: __authorName forKey: @"authorName"];
+  }
+  if (__date_isset)
+  {
+    [encoder encodeInt64: __date forKey: @"date"];
+  }
+  if (__content_isset)
+  {
+    [encoder encodeObject: __content forKey: @"content"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authorName release];
+  [__content release];
+  [super dealloc];
+}
+
+- (int64_t) id {
+  return __id;
+}
+
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
+}
+
+- (BOOL) idIsSet {
+  return __id_isset;
+}
+
+- (void) unsetId {
+  __id_isset = NO;
+}
+
+- (int64_t) authorID {
+  return __authorID;
+}
+
+- (void) setAuthorID: (int64_t) authorID {
+  __authorID = authorID;
+  __authorID_isset = YES;
+}
+
+- (BOOL) authorIDIsSet {
+  return __authorID_isset;
+}
+
+- (void) unsetAuthorID {
+  __authorID_isset = NO;
+}
+
+- (NSString *) authorName {
+  return [[__authorName retain] autorelease];
+}
+
+- (void) setAuthorName: (NSString *) authorName {
+  [authorName retain];
+  [__authorName release];
+  __authorName = authorName;
+  __authorName_isset = YES;
+}
+
+- (BOOL) authorNameIsSet {
+  return __authorName_isset;
+}
+
+- (void) unsetAuthorName {
+  [__authorName release];
+  __authorName = nil;
+  __authorName_isset = NO;
+}
+
+- (int64_t) date {
+  return __date;
+}
+
+- (void) setDate: (int64_t) date {
+  __date = date;
+  __date_isset = YES;
+}
+
+- (BOOL) dateIsSet {
+  return __date_isset;
+}
+
+- (void) unsetDate {
+  __date_isset = NO;
+}
+
+- (NSString *) content {
+  return [[__content retain] autorelease];
+}
+
+- (void) setContent: (NSString *) content {
+  [content retain];
+  [__content release];
+  __content = content;
+  __content_isset = YES;
+}
+
+- (BOOL) contentIsSet {
+  return __content_isset;
+}
+
+- (void) unsetContent {
+  [__content release];
+  __content = nil;
+  __content_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setAuthorID: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthorName: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDate: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setContent: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"StatusComment"];
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__authorID_isset) {
+    [outProtocol writeFieldBeginWithName: @"authorID" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __authorID];
+    [outProtocol writeFieldEnd];
+  }
+  if (__authorName_isset) {
+    if (__authorName != nil) {
+      [outProtocol writeFieldBeginWithName: @"authorName" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __authorName];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__date_isset) {
+    [outProtocol writeFieldBeginWithName: @"date" type: TType_I64 fieldID: 4];
+    [outProtocol writeI64: __date];
+    [outProtocol writeFieldEnd];
+  }
+  if (__content_isset) {
+    if (__content != nil) {
+      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __content];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"StatusComment("];
+  [ms appendString: @"id:"];
+  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @",authorID:"];
+  [ms appendFormat: @"%qi", __authorID];
+  [ms appendString: @",authorName:"];
+  [ms appendFormat: @"\"%@\"", __authorName];
+  [ms appendString: @",date:"];
+  [ms appendFormat: @"%qi", __date];
+  [ms appendString: @",content:"];
+  [ms appendFormat: @"\"%@\"", __content];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation Status
+
+- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (TimeStamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList
+{
+  self = [super init];
+  __id = id;
+  __id_isset = YES;
+  __authorID = authorID;
+  __authorID_isset = YES;
+  __authorName = [authorName retain];
+  __authorName_isset = YES;
+  __date = date;
+  __date_isset = YES;
+  __content = [content retain];
+  __content_isset = YES;
+  __commentCount = commentCount;
+  __commentCount_isset = YES;
+  __commentList = [commentList retain];
+  __commentList_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"id"])
+  {
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"authorID"])
+  {
+    __authorID = [decoder decodeInt64ForKey: @"authorID"];
+    __authorID_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"authorName"])
+  {
+    __authorName = [[decoder decodeObjectForKey: @"authorName"] retain];
+    __authorName_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"date"])
+  {
+    __date = [decoder decodeInt64ForKey: @"date"];
+    __date_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"content"])
+  {
+    __content = [[decoder decodeObjectForKey: @"content"] retain];
+    __content_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"commentCount"])
+  {
+    __commentCount = [decoder decodeInt64ForKey: @"commentCount"];
+    __commentCount_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"commentList"])
+  {
+    __commentList = [[decoder decodeObjectForKey: @"commentList"] retain];
+    __commentList_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__id_isset)
+  {
+    [encoder encodeInt64: __id forKey: @"id"];
+  }
+  if (__authorID_isset)
+  {
+    [encoder encodeInt64: __authorID forKey: @"authorID"];
+  }
+  if (__authorName_isset)
+  {
+    [encoder encodeObject: __authorName forKey: @"authorName"];
+  }
+  if (__date_isset)
+  {
+    [encoder encodeInt64: __date forKey: @"date"];
+  }
+  if (__content_isset)
+  {
+    [encoder encodeObject: __content forKey: @"content"];
+  }
+  if (__commentCount_isset)
+  {
+    [encoder encodeInt64: __commentCount forKey: @"commentCount"];
+  }
+  if (__commentList_isset)
+  {
+    [encoder encodeObject: __commentList forKey: @"commentList"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authorName release];
+  [__content release];
+  [__commentList release];
+  [super dealloc];
+}
+
+- (int64_t) id {
+  return __id;
+}
+
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
+}
+
+- (BOOL) idIsSet {
+  return __id_isset;
+}
+
+- (void) unsetId {
+  __id_isset = NO;
+}
+
+- (int64_t) authorID {
+  return __authorID;
+}
+
+- (void) setAuthorID: (int64_t) authorID {
+  __authorID = authorID;
+  __authorID_isset = YES;
+}
+
+- (BOOL) authorIDIsSet {
+  return __authorID_isset;
+}
+
+- (void) unsetAuthorID {
+  __authorID_isset = NO;
+}
+
+- (NSString *) authorName {
+  return [[__authorName retain] autorelease];
+}
+
+- (void) setAuthorName: (NSString *) authorName {
+  [authorName retain];
+  [__authorName release];
+  __authorName = authorName;
+  __authorName_isset = YES;
+}
+
+- (BOOL) authorNameIsSet {
+  return __authorName_isset;
+}
+
+- (void) unsetAuthorName {
+  [__authorName release];
+  __authorName = nil;
+  __authorName_isset = NO;
+}
+
+- (int64_t) date {
+  return __date;
+}
+
+- (void) setDate: (int64_t) date {
+  __date = date;
+  __date_isset = YES;
+}
+
+- (BOOL) dateIsSet {
+  return __date_isset;
+}
+
+- (void) unsetDate {
+  __date_isset = NO;
+}
+
+- (NSString *) content {
+  return [[__content retain] autorelease];
+}
+
+- (void) setContent: (NSString *) content {
+  [content retain];
+  [__content release];
+  __content = content;
+  __content_isset = YES;
+}
+
+- (BOOL) contentIsSet {
+  return __content_isset;
+}
+
+- (void) unsetContent {
+  [__content release];
+  __content = nil;
+  __content_isset = NO;
+}
+
+- (int64_t) commentCount {
+  return __commentCount;
+}
+
+- (void) setCommentCount: (int64_t) commentCount {
+  __commentCount = commentCount;
+  __commentCount_isset = YES;
+}
+
+- (BOOL) commentCountIsSet {
+  return __commentCount_isset;
+}
+
+- (void) unsetCommentCount {
+  __commentCount_isset = NO;
+}
+
+- (NSArray *) commentList {
+  return [[__commentList retain] autorelease];
+}
+
+- (void) setCommentList: (NSArray *) commentList {
+  [commentList retain];
+  [__commentList release];
+  __commentList = commentList;
+  __commentList_isset = YES;
+}
+
+- (BOOL) commentListIsSet {
+  return __commentList_isset;
+}
+
+- (void) unsetCommentList {
+  [__commentList release];
+  __commentList = nil;
+  __commentList_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setAuthorID: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthorName: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDate: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setContent: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setCommentCount: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 7:
+        if (fieldType == TType_LIST) {
+          int _size20;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size20];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size20];
+          int _i21;
+          for (_i21 = 0; _i21 < _size20; ++_i21)
+          {
+            StatusComment *_elem22 = [[StatusComment alloc] init];
+            [_elem22 read: inProtocol];
+            [fieldValue addObject: _elem22];
+            [_elem22 release];
+          }
+          [inProtocol readListEnd];
+          [self setCommentList: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Status"];
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__authorID_isset) {
+    [outProtocol writeFieldBeginWithName: @"authorID" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __authorID];
+    [outProtocol writeFieldEnd];
+  }
+  if (__authorName_isset) {
+    if (__authorName != nil) {
+      [outProtocol writeFieldBeginWithName: @"authorName" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __authorName];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__date_isset) {
+    [outProtocol writeFieldBeginWithName: @"date" type: TType_I64 fieldID: 4];
+    [outProtocol writeI64: __date];
+    [outProtocol writeFieldEnd];
+  }
+  if (__content_isset) {
+    if (__content != nil) {
+      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __content];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__commentCount_isset) {
+    [outProtocol writeFieldBeginWithName: @"commentCount" type: TType_I64 fieldID: 6];
+    [outProtocol writeI64: __commentCount];
+    [outProtocol writeFieldEnd];
+  }
+  if (__commentList_isset) {
+    if (__commentList != nil) {
+      [outProtocol writeFieldBeginWithName: @"commentList" type: TType_LIST fieldID: 7];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__commentList count]];
+        int i24;
+        for (i24 = 0; i24 < [__commentList count]; i24++)
+        {
+          [[__commentList objectAtIndex: i24] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Status("];
+  [ms appendString: @"id:"];
+  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @",authorID:"];
+  [ms appendFormat: @"%qi", __authorID];
+  [ms appendString: @",authorName:"];
+  [ms appendFormat: @"\"%@\"", __authorName];
+  [ms appendString: @",date:"];
+  [ms appendFormat: @"%qi", __date];
+  [ms appendString: @",content:"];
+  [ms appendFormat: @"\"%@\"", __content];
+  [ms appendString: @",commentCount:"];
+  [ms appendFormat: @"%qi", __commentCount];
+  [ms appendString: @",commentList:"];
+  [ms appendFormat: @"%@", __commentList];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @implementation EventInfo
 
 - (id) initWithId: (int64_t) id title: (NSString *) title intro: (NSString *) intro eventType: (int) eventType startDate: (TimeStamp) startDate expireDate: (TimeStamp) expireDate initiator: (UserInfo *) initiator guestList: (NSArray *) guestList participantAuthedCount: (int64_t) participantAuthedCount participantUnauthedCount: (int64_t) participantUnauthedCount participantAuthedList: (NSArray *) participantAuthedList participantUnauthedList: (NSArray *) participantUnauthedList
@@ -2285,16 +3157,16 @@
         break;
       case 8:
         if (fieldType == TType_LIST) {
-          int _size15;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size15];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size15];
-          int _i16;
-          for (_i16 = 0; _i16 < _size15; ++_i16)
+          int _size25;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size25];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size25];
+          int _i26;
+          for (_i26 = 0; _i26 < _size25; ++_i26)
           {
-            UserInfo *_elem17 = [[UserInfo alloc] init];
-            [_elem17 read: inProtocol];
-            [fieldValue addObject: _elem17];
-            [_elem17 release];
+            UserInfo *_elem27 = [[UserInfo alloc] init];
+            [_elem27 read: inProtocol];
+            [fieldValue addObject: _elem27];
+            [_elem27 release];
           }
           [inProtocol readListEnd];
           [self setGuestList: fieldValue];
@@ -2321,16 +3193,16 @@
         break;
       case 11:
         if (fieldType == TType_LIST) {
-          int _size18;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size18];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size18];
-          int _i19;
-          for (_i19 = 0; _i19 < _size18; ++_i19)
+          int _size28;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size28];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size28];
+          int _i29;
+          for (_i29 = 0; _i29 < _size28; ++_i29)
           {
-            UserInfo *_elem20 = [[UserInfo alloc] init];
-            [_elem20 read: inProtocol];
-            [fieldValue addObject: _elem20];
-            [_elem20 release];
+            UserInfo *_elem30 = [[UserInfo alloc] init];
+            [_elem30 read: inProtocol];
+            [fieldValue addObject: _elem30];
+            [_elem30 release];
           }
           [inProtocol readListEnd];
           [self setParticipantAuthedList: fieldValue];
@@ -2341,16 +3213,16 @@
         break;
       case 12:
         if (fieldType == TType_LIST) {
-          int _size21;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size21];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size21];
-          int _i22;
-          for (_i22 = 0; _i22 < _size21; ++_i22)
+          int _size31;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size31];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size31];
+          int _i32;
+          for (_i32 = 0; _i32 < _size31; ++_i32)
           {
-            UserInfo *_elem23 = [[UserInfo alloc] init];
-            [_elem23 read: inProtocol];
-            [fieldValue addObject: _elem23];
-            [_elem23 release];
+            UserInfo *_elem33 = [[UserInfo alloc] init];
+            [_elem33 read: inProtocol];
+            [fieldValue addObject: _elem33];
+            [_elem33 release];
           }
           [inProtocol readListEnd];
           [self setParticipantUnauthedList: fieldValue];
@@ -2416,10 +3288,10 @@
       [outProtocol writeFieldBeginWithName: @"guestList" type: TType_LIST fieldID: 8];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__guestList count]];
-        int i25;
-        for (i25 = 0; i25 < [__guestList count]; i25++)
+        int i35;
+        for (i35 = 0; i35 < [__guestList count]; i35++)
         {
-          [[__guestList objectAtIndex: i25] write: outProtocol];
+          [[__guestList objectAtIndex: i35] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -2441,10 +3313,10 @@
       [outProtocol writeFieldBeginWithName: @"participantAuthedList" type: TType_LIST fieldID: 11];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__participantAuthedList count]];
-        int i27;
-        for (i27 = 0; i27 < [__participantAuthedList count]; i27++)
+        int i37;
+        for (i37 = 0; i37 < [__participantAuthedList count]; i37++)
         {
-          [[__participantAuthedList objectAtIndex: i27] write: outProtocol];
+          [[__participantAuthedList objectAtIndex: i37] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -2456,10 +3328,10 @@
       [outProtocol writeFieldBeginWithName: @"participantUnauthedList" type: TType_LIST fieldID: 12];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__participantUnauthedList count]];
-        int i29;
-        for (i29 = 0; i29 < [__participantUnauthedList count]; i29++)
+        int i39;
+        for (i39 = 0; i39 < [__participantUnauthedList count]; i39++)
         {
-          [[__participantUnauthedList objectAtIndex: i29] write: outProtocol];
+          [[__participantUnauthedList objectAtIndex: i39] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }

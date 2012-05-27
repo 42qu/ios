@@ -2,14 +2,16 @@
 import _env
 #from utils.type.ttypes import 
 #from server.model.ios import t
+import server.model.ios as m
 import logging
 
 class Handler(object):
     def login(self,auth):
-        pass
+        return m.login(auth.user,auth.password,auth.clientKey,
+                auth.clientSecret)
 
     def userInfo_get(self, accessToken, id):
-        pass
+        return m.userinfo_get(accessToken, id)
 
     def userInfo_set(self, accessToken, userInfo):
         pass
