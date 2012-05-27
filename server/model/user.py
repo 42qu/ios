@@ -24,7 +24,7 @@ def login(mail, pw, client_id, client_secret):
                 user = Zsite.mc_get(user_id)
                 name = user.name
                 
-                status = AuthResponseStatus(AUTH_SUCCESS)
+                status = AuthResponseStatus.AUTH_SUCCESS
                 return AuthResponse({
                     'status'        : status,
                     'id'            : user_id,
@@ -43,6 +43,5 @@ def userinfo_set(accessToken, userInfo):
 
 
 if __name__ == '__main__':
-    print login('user','pw',10299882,'df36723f6bc246f0a485e74ff852a6c3')
-
+    #print login('user','pw',10299882,'df36723f6bc246f0a485e74ff852a6c3')
 
