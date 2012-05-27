@@ -55,48 +55,6 @@ enum TaskCid {
 
 typedef int64_t timestamp;
 
-@interface Auth : NSObject <NSCoding> {
-  NSString * __email;
-  NSString * __password;
-  NSString * __client_key;
-  NSString * __client_secret;
-
-  BOOL __email_isset;
-  BOOL __password_isset;
-  BOOL __client_key_isset;
-  BOOL __client_secret_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=email, setter=setEmail:) NSString * email;
-@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
-@property (nonatomic, retain, getter=client_key, setter=setClient_key:) NSString * client_key;
-@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
-#endif
-
-- (id) initWithEmail: (NSString *) email password: (NSString *) password client_key: (NSString *) client_key client_secret: (NSString *) client_secret;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) email;
-- (void) setEmail: (NSString *) email;
-- (BOOL) emailIsSet;
-
-- (NSString *) password;
-- (void) setPassword: (NSString *) password;
-- (BOOL) passwordIsSet;
-
-- (NSString *) client_key;
-- (void) setClient_key: (NSString *) client_key;
-- (BOOL) client_keyIsSet;
-
-- (NSString *) client_secret;
-- (void) setClient_secret: (NSString *) client_secret;
-- (BOOL) client_secretIsSet;
-
-@end
-
 @interface AuthResponse : NSObject <NSCoding> {
   int __status;
   int64_t __id;

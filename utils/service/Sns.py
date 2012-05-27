@@ -18,10 +18,21 @@ except:
 
 
 class Iface:
-  def login(self, auth):
+  def login_by_email(self, client_key, client_secret, email, password):
     """
     Parameters:
-     - auth
+     - client_key
+     - client_secret
+     - email
+     - password
+    """
+    pass
+
+  def login_by_oauth(self, client_key, client_secret):
+    """
+    Parameters:
+     - client_key
+     - client_secret
     """
     pass
 
@@ -96,35 +107,73 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login(self, auth):
+  def login_by_email(self, client_key, client_secret, email, password):
     """
     Parameters:
-     - auth
+     - client_key
+     - client_secret
+     - email
+     - password
     """
-    self.send_login(auth)
-    return self.recv_login()
+    self.send_login_by_email(client_key, client_secret, email, password)
+    return self.recv_login_by_email()
 
-  def send_login(self, auth):
-    self._oprot.writeMessageBegin('login', TMessageType.CALL, self._seqid)
-    args = login_args()
-    args.auth = auth
+  def send_login_by_email(self, client_key, client_secret, email, password):
+    self._oprot.writeMessageBegin('login_by_email', TMessageType.CALL, self._seqid)
+    args = login_by_email_args()
+    args.client_key = client_key
+    args.client_secret = client_secret
+    args.email = email
+    args.password = password
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_login(self, ):
+  def recv_login_by_email(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = login_result()
+    result = login_by_email_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "login failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_email failed: unknown result");
+
+  def login_by_oauth(self, client_key, client_secret):
+    """
+    Parameters:
+     - client_key
+     - client_secret
+    """
+    self.send_login_by_oauth(client_key, client_secret)
+    return self.recv_login_by_oauth()
+
+  def send_login_by_oauth(self, client_key, client_secret):
+    self._oprot.writeMessageBegin('login_by_oauth', TMessageType.CALL, self._seqid)
+    args = login_by_oauth_args()
+    args.client_key = client_key
+    args.client_secret = client_secret
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_login_by_oauth(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = login_by_oauth_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_oauth failed: unknown result");
 
   def logout(self, access_token):
     """
@@ -377,7 +426,8 @@ class Processor(Iface, TProcessor):
   def __init__(self, handler):
     self._handler = handler
     self._processMap = {}
-    self._processMap["login"] = Processor.process_login
+    self._processMap["login_by_email"] = Processor.process_login_by_email
+    self._processMap["login_by_oauth"] = Processor.process_login_by_oauth
     self._processMap["logout"] = Processor.process_logout
     self._processMap["user_info_get"] = Processor.process_user_info_get
     self._processMap["user_info_set"] = Processor.process_user_info_set
@@ -402,13 +452,24 @@ class Processor(Iface, TProcessor):
       self._processMap[name](self, seqid, iprot, oprot)
     return True
 
-  def process_login(self, seqid, iprot, oprot):
-    args = login_args()
+  def process_login_by_email(self, seqid, iprot, oprot):
+    args = login_by_email_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = login_result()
-    result.success = self._handler.login(args.auth)
-    oprot.writeMessageBegin("login", TMessageType.REPLY, seqid)
+    result = login_by_email_result()
+    result.success = self._handler.login_by_email(args.client_key, args.client_secret, args.email, args.password)
+    oprot.writeMessageBegin("login_by_email", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_login_by_oauth(self, seqid, iprot, oprot):
+    args = login_by_oauth_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = login_by_oauth_result()
+    result.success = self._handler.login_by_oauth(args.client_key, args.client_secret)
+    oprot.writeMessageBegin("login_by_oauth", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -504,19 +565,28 @@ class Processor(Iface, TProcessor):
 
 # HELPER FUNCTIONS AND STRUCTURES
 
-class login_args:
+class login_by_email_args:
   """
   Attributes:
-   - auth
+   - client_key
+   - client_secret
+   - email
+   - password
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'auth', (type.ttypes.Auth, type.ttypes.Auth.thrift_spec), None, ), # 1
+    (1, TType.STRING, 'client_key', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.STRING, 'email', None, None, ), # 3
+    (4, TType.STRING, 'password', None, None, ), # 4
   )
 
-  def __init__(self, auth=None,):
-    self.auth = auth
+  def __init__(self, client_key=None, client_secret=None, email=None, password=None,):
+    self.client_key = client_key
+    self.client_secret = client_secret
+    self.email = email
+    self.password = password
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -528,9 +598,23 @@ class login_args:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRUCT:
-          self.auth = type.ttypes.Auth()
-          self.auth.read(iprot)
+        if ftype == TType.STRING:
+          self.client_key = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.client_secret = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.email = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.password = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -542,10 +626,22 @@ class login_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_args')
-    if self.auth is not None:
-      oprot.writeFieldBegin('auth', TType.STRUCT, 1)
-      self.auth.write(oprot)
+    oprot.writeStructBegin('login_by_email_args')
+    if self.client_key is not None:
+      oprot.writeFieldBegin('client_key', TType.STRING, 1)
+      oprot.writeString(self.client_key)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    if self.email is not None:
+      oprot.writeFieldBegin('email', TType.STRING, 3)
+      oprot.writeString(self.email)
+      oprot.writeFieldEnd()
+    if self.password is not None:
+      oprot.writeFieldBegin('password', TType.STRING, 4)
+      oprot.writeString(self.password)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -565,7 +661,7 @@ class login_args:
   def __ne__(self, other):
     return not (self == other)
 
-class login_result:
+class login_by_email_result:
   """
   Attributes:
    - success
@@ -602,7 +698,139 @@ class login_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_result')
+    oprot.writeStructBegin('login_by_email_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRUCT, 0)
+      self.success.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class login_by_oauth_args:
+  """
+  Attributes:
+   - client_key
+   - client_secret
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'client_key', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+  )
+
+  def __init__(self, client_key=None, client_secret=None,):
+    self.client_key = client_key
+    self.client_secret = client_secret
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.client_key = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.client_secret = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('login_by_oauth_args')
+    if self.client_key is not None:
+      oprot.writeFieldBegin('client_key', TType.STRING, 1)
+      oprot.writeString(self.client_key)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class login_by_oauth_result:
+  """
+  Attributes:
+   - success
+  """
+
+  thrift_spec = (
+    (0, TType.STRUCT, 'success', (type.ttypes.AuthResponse, type.ttypes.AuthResponse.thrift_spec), None, ), # 0
+  )
+
+  def __init__(self, success=None,):
+    self.success = success
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRUCT:
+          self.success = type.ttypes.AuthResponse()
+          self.success.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('login_by_oauth_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)

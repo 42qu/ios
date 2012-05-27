@@ -1,12 +1,6 @@
 typedef i64 timestamp
 
 // ----- Auth -----
-struct Auth {
-  1:  required  string  email,
-  2:  required  string  password,
-  3:  required  string  client_key,
-  4:  required  string  client_secret
-}
 
 enum AuthResponseStatus {
   AUTH_SUCCESS = 0,
