@@ -16,6 +16,12 @@ service Sns {
         //todo
     )
 
+    type.AuthResponse login_by_oauth2(
+        1:string  client_key,
+        2:string  client_secret,
+        //todo
+    )
+
     void logout(1:string access_token)
 
 

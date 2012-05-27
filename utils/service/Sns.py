@@ -36,6 +36,14 @@ class Iface:
     """
     pass
 
+  def login_by_oauth2(self, client_key, client_secret):
+    """
+    Parameters:
+     - client_key
+     - client_secret
+    """
+    pass
+
   def logout(self, access_token):
     """
     Parameters:
@@ -174,6 +182,38 @@ class Client(Iface):
     if result.success is not None:
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_oauth failed: unknown result");
+
+  def login_by_oauth2(self, client_key, client_secret):
+    """
+    Parameters:
+     - client_key
+     - client_secret
+    """
+    self.send_login_by_oauth2(client_key, client_secret)
+    return self.recv_login_by_oauth2()
+
+  def send_login_by_oauth2(self, client_key, client_secret):
+    self._oprot.writeMessageBegin('login_by_oauth2', TMessageType.CALL, self._seqid)
+    args = login_by_oauth2_args()
+    args.client_key = client_key
+    args.client_secret = client_secret
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_login_by_oauth2(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = login_by_oauth2_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_oauth2 failed: unknown result");
 
   def logout(self, access_token):
     """
@@ -428,6 +468,7 @@ class Processor(Iface, TProcessor):
     self._processMap = {}
     self._processMap["login_by_email"] = Processor.process_login_by_email
     self._processMap["login_by_oauth"] = Processor.process_login_by_oauth
+    self._processMap["login_by_oauth2"] = Processor.process_login_by_oauth2
     self._processMap["logout"] = Processor.process_logout
     self._processMap["user_info_get"] = Processor.process_user_info_get
     self._processMap["user_info_set"] = Processor.process_user_info_set
@@ -470,6 +511,17 @@ class Processor(Iface, TProcessor):
     result = login_by_oauth_result()
     result.success = self._handler.login_by_oauth(args.client_key, args.client_secret)
     oprot.writeMessageBegin("login_by_oauth", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_login_by_oauth2(self, seqid, iprot, oprot):
+    args = login_by_oauth2_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = login_by_oauth2_result()
+    result.success = self._handler.login_by_oauth2(args.client_key, args.client_secret)
+    oprot.writeMessageBegin("login_by_oauth2", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -831,6 +883,138 @@ class login_by_oauth_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('login_by_oauth_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRUCT, 0)
+      self.success.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class login_by_oauth2_args:
+  """
+  Attributes:
+   - client_key
+   - client_secret
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'client_key', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+  )
+
+  def __init__(self, client_key=None, client_secret=None,):
+    self.client_key = client_key
+    self.client_secret = client_secret
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.client_key = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.client_secret = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('login_by_oauth2_args')
+    if self.client_key is not None:
+      oprot.writeFieldBegin('client_key', TType.STRING, 1)
+      oprot.writeString(self.client_key)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class login_by_oauth2_result:
+  """
+  Attributes:
+   - success
+  """
+
+  thrift_spec = (
+    (0, TType.STRUCT, 'success', (type.ttypes.AuthResponse, type.ttypes.AuthResponse.thrift_spec), None, ), # 0
+  )
+
+  def __init__(self, success=None,):
+    self.success = success
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRUCT:
+          self.success = type.ttypes.AuthResponse()
+          self.success.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('login_by_oauth2_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)

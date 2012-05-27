@@ -785,6 +785,330 @@
 
 @end
 
+@interface login_by_oauth2_args : NSObject <NSCoding> {
+  NSString * __client_key;
+  NSString * __client_secret;
+
+  BOOL __client_key_isset;
+  BOOL __client_secret_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=client_key, setter=setClient_key:) NSString * client_key;
+@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
+#endif
+
+- (id) initWithClient_key: (NSString *) client_key client_secret: (NSString *) client_secret;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) client_key;
+- (void) setClient_key: (NSString *) client_key;
+- (BOOL) client_keyIsSet;
+
+- (NSString *) client_secret;
+- (void) setClient_secret: (NSString *) client_secret;
+- (BOOL) client_secretIsSet;
+
+@end
+
+@implementation login_by_oauth2_args
+
+- (id) initWithClient_key: (NSString *) client_key client_secret: (NSString *) client_secret
+{
+  self = [super init];
+  __client_key = [client_key retain];
+  __client_key_isset = YES;
+  __client_secret = [client_secret retain];
+  __client_secret_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"client_key"])
+  {
+    __client_key = [[decoder decodeObjectForKey: @"client_key"] retain];
+    __client_key_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"client_secret"])
+  {
+    __client_secret = [[decoder decodeObjectForKey: @"client_secret"] retain];
+    __client_secret_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__client_key_isset)
+  {
+    [encoder encodeObject: __client_key forKey: @"client_key"];
+  }
+  if (__client_secret_isset)
+  {
+    [encoder encodeObject: __client_secret forKey: @"client_secret"];
+  }
+}
+
+- (void) dealloc
+{
+  [__client_key release];
+  [__client_secret release];
+  [super dealloc];
+}
+
+- (NSString *) client_key {
+  return [[__client_key retain] autorelease];
+}
+
+- (void) setClient_key: (NSString *) client_key {
+  [client_key retain];
+  [__client_key release];
+  __client_key = client_key;
+  __client_key_isset = YES;
+}
+
+- (BOOL) client_keyIsSet {
+  return __client_key_isset;
+}
+
+- (void) unsetClient_key {
+  [__client_key release];
+  __client_key = nil;
+  __client_key_isset = NO;
+}
+
+- (NSString *) client_secret {
+  return [[__client_secret retain] autorelease];
+}
+
+- (void) setClient_secret: (NSString *) client_secret {
+  [client_secret retain];
+  [__client_secret release];
+  __client_secret = client_secret;
+  __client_secret_isset = YES;
+}
+
+- (BOOL) client_secretIsSet {
+  return __client_secret_isset;
+}
+
+- (void) unsetClient_secret {
+  [__client_secret release];
+  __client_secret = nil;
+  __client_secret_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setClient_key: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setClient_secret: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"login_by_oauth2_args"];
+  if (__client_key_isset) {
+    if (__client_key != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_key" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __client_key];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__client_secret_isset) {
+    if (__client_secret != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __client_secret];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"login_by_oauth2_args("];
+  [ms appendString: @"client_key:"];
+  [ms appendFormat: @"\"%@\"", __client_key];
+  [ms appendString: @",client_secret:"];
+  [ms appendFormat: @"\"%@\"", __client_secret];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Login_by_oauth2_result : NSObject <NSCoding> {
+  AuthResponse * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) AuthResponse * success;
+#endif
+
+- (id) initWithSuccess: (AuthResponse *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (AuthResponse *) success;
+- (void) setSuccess: (AuthResponse *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation Login_by_oauth2_result
+
+- (id) initWithSuccess: (AuthResponse *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (AuthResponse *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (AuthResponse *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          AuthResponse *fieldValue = [[AuthResponse alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Login_by_oauth2_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Login_by_oauth2_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @interface logout_args : NSObject <NSCoding> {
   NSString * __access_token;
 
@@ -3101,6 +3425,51 @@
   return [self recv_login_by_oauth];
 }
 
+- (void) send_login_by_oauth2: (NSString *) client_key : (NSString *) client_secret
+{
+  [outProtocol writeMessageBeginWithName: @"login_by_oauth2" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"login_by_oauth2_args"];
+  if (client_key != nil)  {
+    [outProtocol writeFieldBeginWithName: @"client_key" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: client_key];
+    [outProtocol writeFieldEnd];
+  }
+  if (client_secret != nil)  {
+    [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: client_secret];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (AuthResponse *) recv_login_by_oauth2
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Login_by_oauth2_result * result = [[[Login_by_oauth2_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"login_by_oauth2 failed: unknown result"];
+}
+
+- (AuthResponse *) login_by_oauth2: (NSString *) client_key : (NSString *) client_secret
+{
+  [self send_login_by_oauth2: client_key : client_secret];
+  return [self recv_login_by_oauth2];
+}
+
 - (void) send_logout: (NSString *) access_token
 {
   [outProtocol writeMessageBeginWithName: @"logout" type: TMessageType_CALL sequenceID: 0];
@@ -3459,6 +3828,14 @@
     [mMethodMap setValue: invocation forKey: @"login_by_oauth"];
   }
   {
+    SEL s = @selector(process_login_by_oauth2_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"login_by_oauth2"];
+  }
+  {
     SEL s = @selector(process_logout_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -3588,6 +3965,23 @@
   Login_by_oauth_result * result = [[Login_by_oauth_result alloc] init];
   [result setSuccess: [mService login_by_oauth: [args client_key]: [args client_secret]]];
   [outProtocol writeMessageBeginWithName: @"login_by_oauth"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_login_by_oauth2_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  login_by_oauth2_args * args = [[login_by_oauth2_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Login_by_oauth2_result * result = [[Login_by_oauth2_result alloc] init];
+  [result setSuccess: [mService login_by_oauth2: [args client_key]: [args client_secret]]];
+  [outProtocol writeMessageBeginWithName: @"login_by_oauth2"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
