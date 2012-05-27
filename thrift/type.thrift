@@ -2,7 +2,7 @@ typedef i64 timestamp
 
 // ----- Auth -----
 
-struct AuthRequest {
+struct AuthRequestMail {
   1:  required  string  client_id,
   2:  required  string  client_secret,
   3:  required  string  mail,
