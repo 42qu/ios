@@ -18,7 +18,7 @@ except:
 
 
 class Iface:
-  def login_by_email(self, auth_request_mail):
+  def login_by_mail(self, auth_request_mail):
     """
     Parameters:
      - auth_request_mail
@@ -112,35 +112,35 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login_by_email(self, auth_request_mail):
+  def login_by_mail(self, auth_request_mail):
     """
     Parameters:
      - auth_request_mail
     """
-    self.send_login_by_email(auth_request_mail)
-    return self.recv_login_by_email()
+    self.send_login_by_mail(auth_request_mail)
+    return self.recv_login_by_mail()
 
-  def send_login_by_email(self, auth_request_mail):
-    self._oprot.writeMessageBegin('login_by_email', TMessageType.CALL, self._seqid)
-    args = login_by_email_args()
+  def send_login_by_mail(self, auth_request_mail):
+    self._oprot.writeMessageBegin('login_by_mail', TMessageType.CALL, self._seqid)
+    args = login_by_mail_args()
     args.auth_request_mail = auth_request_mail
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_login_by_email(self, ):
+  def recv_login_by_mail(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = login_by_email_result()
+    result = login_by_mail_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_email failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_mail failed: unknown result");
 
   def login_by_oauth(self, client_key, client_secret):
     """
@@ -457,7 +457,7 @@ class Processor(Iface, TProcessor):
   def __init__(self, handler):
     self._handler = handler
     self._processMap = {}
-    self._processMap["login_by_email"] = Processor.process_login_by_email
+    self._processMap["login_by_mail"] = Processor.process_login_by_mail
     self._processMap["login_by_oauth"] = Processor.process_login_by_oauth
     self._processMap["login_by_oauth2"] = Processor.process_login_by_oauth2
     self._processMap["logout"] = Processor.process_logout
@@ -484,13 +484,13 @@ class Processor(Iface, TProcessor):
       self._processMap[name](self, seqid, iprot, oprot)
     return True
 
-  def process_login_by_email(self, seqid, iprot, oprot):
-    args = login_by_email_args()
+  def process_login_by_mail(self, seqid, iprot, oprot):
+    args = login_by_mail_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = login_by_email_result()
-    result.success = self._handler.login_by_email(args.auth_request_mail)
-    oprot.writeMessageBegin("login_by_email", TMessageType.REPLY, seqid)
+    result = login_by_mail_result()
+    result.success = self._handler.login_by_mail(args.auth_request_mail)
+    oprot.writeMessageBegin("login_by_mail", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -608,7 +608,7 @@ class Processor(Iface, TProcessor):
 
 # HELPER FUNCTIONS AND STRUCTURES
 
-class login_by_email_args:
+class login_by_mail_args:
   """
   Attributes:
    - auth_request_mail
@@ -646,7 +646,7 @@ class login_by_email_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_by_email_args')
+    oprot.writeStructBegin('login_by_mail_args')
     if self.auth_request_mail is not None:
       oprot.writeFieldBegin('auth_request_mail', TType.STRUCT, 1)
       self.auth_request_mail.write(oprot)
@@ -669,7 +669,7 @@ class login_by_email_args:
   def __ne__(self, other):
     return not (self == other)
 
-class login_by_email_result:
+class login_by_mail_result:
   """
   Attributes:
    - success
@@ -706,7 +706,7 @@ class login_by_email_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_by_email_result')
+    oprot.writeStructBegin('login_by_mail_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)

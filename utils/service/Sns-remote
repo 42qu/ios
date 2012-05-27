@@ -23,7 +23,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] function [arg1 [arg2...]]'
   print ''
   print 'Functions:'
-  print '  AuthResponse login_by_email(AuthRequestMail auth_request_mail)'
+  print '  AuthResponse login_by_mail(AuthRequestMail auth_request_mail)'
   print '  AuthResponse login_by_oauth(string client_key, string client_secret)'
   print '  AuthResponse login_by_oauth2(string client_key, string client_secret)'
   print '  void logout(string access_token)'
@@ -85,11 +85,11 @@ protocol = TBinaryProtocol.TBinaryProtocol(transport)
 client = Sns.Client(protocol)
 transport.open()
 
-if cmd == 'login_by_email':
+if cmd == 'login_by_mail':
   if len(args) != 1:
-    print 'login_by_email requires 1 args'
+    print 'login_by_mail requires 1 args'
     sys.exit(1)
-  pp.pprint(client.login_by_email(eval(args[0]),))
+  pp.pprint(client.login_by_mail(eval(args[0]),))
 
 elif cmd == 'login_by_oauth':
   if len(args) != 2:

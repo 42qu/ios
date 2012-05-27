@@ -23,7 +23,7 @@
 }
 @end
 
-@interface login_by_email_args : NSObject <NSCoding> {
+@interface login_by_mail_args : NSObject <NSCoding> {
   AuthRequestMail * __auth_request_mail;
 
   BOOL __auth_request_mail_isset;
@@ -44,7 +44,7 @@
 
 @end
 
-@implementation login_by_email_args
+@implementation login_by_mail_args
 
 - (id) initWithAuth_request_mail: (AuthRequestMail *) auth_request_mail
 {
@@ -135,7 +135,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"login_by_email_args"];
+  [outProtocol writeStructBeginWithName: @"login_by_mail_args"];
   if (__auth_request_mail_isset) {
     if (__auth_request_mail != nil) {
       [outProtocol writeFieldBeginWithName: @"auth_request_mail" type: TType_STRUCT fieldID: 1];
@@ -148,7 +148,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"login_by_email_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"login_by_mail_args("];
   [ms appendString: @"auth_request_mail:"];
   [ms appendFormat: @"%@", __auth_request_mail];
   [ms appendString: @")"];
@@ -157,7 +157,7 @@
 
 @end
 
-@interface Login_by_email_result : NSObject <NSCoding> {
+@interface Login_by_mail_result : NSObject <NSCoding> {
   AuthResponse * __success;
 
   BOOL __success_isset;
@@ -178,7 +178,7 @@
 
 @end
 
-@implementation Login_by_email_result
+@implementation Login_by_mail_result
 
 - (id) initWithSuccess: (AuthResponse *) success
 {
@@ -269,7 +269,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Login_by_email_result"];
+  [outProtocol writeStructBeginWithName: @"Login_by_mail_result"];
 
   if (__success_isset) {
     if (__success != nil) {
@@ -283,7 +283,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Login_by_email_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Login_by_mail_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @")"];
@@ -3156,10 +3156,10 @@
   [super dealloc];
 }
 
-- (void) send_login_by_email: (AuthRequestMail *) auth_request_mail
+- (void) send_login_by_mail: (AuthRequestMail *) auth_request_mail
 {
-  [outProtocol writeMessageBeginWithName: @"login_by_email" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"login_by_email_args"];
+  [outProtocol writeMessageBeginWithName: @"login_by_mail" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"login_by_mail_args"];
   if (auth_request_mail != nil)  {
     [outProtocol writeFieldBeginWithName: @"auth_request_mail" type: TType_STRUCT fieldID: 1];
     [auth_request_mail write: outProtocol];
@@ -3171,7 +3171,7 @@
   [[outProtocol transport] flush];
 }
 
-- (AuthResponse *) recv_login_by_email
+- (AuthResponse *) recv_login_by_mail
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -3180,20 +3180,20 @@
     [inProtocol readMessageEnd];
     @throw x;
   }
-  Login_by_email_result * result = [[[Login_by_email_result alloc] init] autorelease];
+  Login_by_mail_result * result = [[[Login_by_mail_result alloc] init] autorelease];
   [result read: inProtocol];
   [inProtocol readMessageEnd];
   if ([result successIsSet]) {
     return [result success];
   }
   @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"login_by_email failed: unknown result"];
+                                           reason: @"login_by_mail failed: unknown result"];
 }
 
-- (AuthResponse *) login_by_email: (AuthRequestMail *) auth_request_mail
+- (AuthResponse *) login_by_mail: (AuthRequestMail *) auth_request_mail
 {
-  [self send_login_by_email: auth_request_mail];
-  return [self recv_login_by_email];
+  [self send_login_by_mail: auth_request_mail];
+  return [self recv_login_by_mail];
 }
 
 - (void) send_login_by_oauth: (NSString *) client_key : (NSString *) client_secret
@@ -3628,12 +3628,12 @@
   mService = [service retain];
   mMethodMap = [[NSMutableDictionary dictionary] retain];
   {
-    SEL s = @selector(process_login_by_email_withSequenceID:inProtocol:outProtocol:);
+    SEL s = @selector(process_login_by_mail_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
     [invocation setSelector: s];
     [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"login_by_email"];
+    [mMethodMap setValue: invocation forKey: @"login_by_mail"];
   }
   {
     SEL s = @selector(process_login_by_oauth_withSequenceID:inProtocol:outProtocol:);
@@ -3756,14 +3756,14 @@
   return YES;
 }
 
-- (void) process_login_by_email_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+- (void) process_login_by_mail_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
 {
-  login_by_email_args * args = [[login_by_email_args alloc] init];
+  login_by_mail_args * args = [[login_by_mail_args alloc] init];
   [args read: inProtocol];
   [inProtocol readMessageEnd];
-  Login_by_email_result * result = [[Login_by_email_result alloc] init];
-  [result setSuccess: [mService login_by_email: [args auth_request_mail]]];
-  [outProtocol writeMessageBeginWithName: @"login_by_email"
+  Login_by_mail_result * result = [[Login_by_mail_result alloc] init];
+  [result setSuccess: [mService login_by_mail: [args auth_request_mail]]];
+  [outProtocol writeMessageBeginWithName: @"login_by_mail"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

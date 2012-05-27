@@ -3,7 +3,7 @@ include "type.thrift"
 
 service Sns {
 
-    type.AuthResponse login_by_email(
+    type.AuthResponse login_by_mail(
         1:type.AuthRequestMail auth_request_mail
     )
 

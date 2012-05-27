@@ -16,7 +16,7 @@
 #import "type.h"
 
 @protocol Sns <NSObject>
-- (AuthResponse *) login_by_email: (AuthRequestMail *) auth_request_mail;  // throws TException
+- (AuthResponse *) login_by_mail: (AuthRequestMail *) auth_request_mail;  // throws TException
 - (AuthResponse *) login_by_oauth: (NSString *) client_key : (NSString *) client_secret;  // throws TException
 - (AuthResponse *) login_by_oauth2: (NSString *) client_key : (NSString *) client_secret;  // throws TException
 - (void) logout: (NSString *) access_token;  // throws TException
