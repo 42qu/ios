@@ -6,7 +6,8 @@ import server.model.user as u
 import logging
 
 class Handler(object):
-    def login_by_email(self,auth):
+    def login_by_mail(self,auth):
+        print('登入')
         return u.login_by_email(auth.mail,auth.password,auth.client_id,
                 auth.client_secret)
 

@@ -25,8 +25,8 @@ struct AuthResponse {
   2:  required  i64                 id,
   3:  optional  string              name,
   4:  required  string              access_token,
-  5:  optional  i64                 expire_time,
-  6:  optional  string              refresh_token
+  5:  optional  string              refresh_token,
+  6:  optional  i64                 expire_time
 }
 
 // ----- User Link -----

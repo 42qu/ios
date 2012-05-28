@@ -278,7 +278,7 @@
 
 @implementation AuthResponse
 
-- (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token expire_time: (int64_t) expire_time refresh_token: (NSString *) refresh_token
+- (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time
 {
   self = [super init];
   __status = status;
@@ -289,10 +289,10 @@
   __name_isset = YES;
   __access_token = [access_token retain];
   __access_token_isset = YES;
-  __expire_time = expire_time;
-  __expire_time_isset = YES;
   __refresh_token = [refresh_token retain];
   __refresh_token_isset = YES;
+  __expire_time = expire_time;
+  __expire_time_isset = YES;
   return self;
 }
 
@@ -319,15 +319,15 @@
     __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
     __access_token_isset = YES;
   }
-  if ([decoder containsValueForKey: @"expire_time"])
-  {
-    __expire_time = [decoder decodeInt64ForKey: @"expire_time"];
-    __expire_time_isset = YES;
-  }
   if ([decoder containsValueForKey: @"refresh_token"])
   {
     __refresh_token = [[decoder decodeObjectForKey: @"refresh_token"] retain];
     __refresh_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"expire_time"])
+  {
+    __expire_time = [decoder decodeInt64ForKey: @"expire_time"];
+    __expire_time_isset = YES;
   }
   return self;
 }
@@ -350,13 +350,13 @@
   {
     [encoder encodeObject: __access_token forKey: @"access_token"];
   }
-  if (__expire_time_isset)
-  {
-    [encoder encodeInt64: __expire_time forKey: @"expire_time"];
-  }
   if (__refresh_token_isset)
   {
     [encoder encodeObject: __refresh_token forKey: @"refresh_token"];
+  }
+  if (__expire_time_isset)
+  {
+    [encoder encodeInt64: __expire_time forKey: @"expire_time"];
   }
 }
 
@@ -444,23 +444,6 @@
   __access_token_isset = NO;
 }
 
-- (int64_t) expire_time {
-  return __expire_time;
-}
-
-- (void) setExpire_time: (int64_t) expire_time {
-  __expire_time = expire_time;
-  __expire_time_isset = YES;
-}
-
-- (BOOL) expire_timeIsSet {
-  return __expire_time_isset;
-}
-
-- (void) unsetExpire_time {
-  __expire_time_isset = NO;
-}
-
 - (NSString *) refresh_token {
   return [[__refresh_token retain] autorelease];
 }
@@ -480,6 +463,23 @@
   [__refresh_token release];
   __refresh_token = nil;
   __refresh_token_isset = NO;
+}
+
+- (int64_t) expire_time {
+  return __expire_time;
+}
+
+- (void) setExpire_time: (int64_t) expire_time {
+  __expire_time = expire_time;
+  __expire_time_isset = YES;
+}
+
+- (BOOL) expire_timeIsSet {
+  return __expire_time_isset;
+}
+
+- (void) unsetExpire_time {
+  __expire_time_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -530,17 +530,17 @@
         }
         break;
       case 5:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setExpire_time: fieldValue];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setRefresh_token: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 6:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setRefresh_token: fieldValue];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setExpire_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -580,17 +580,17 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__expire_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"expire_time" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __expire_time];
-    [outProtocol writeFieldEnd];
-  }
   if (__refresh_token_isset) {
     if (__refresh_token != nil) {
-      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 6];
+      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 5];
       [outProtocol writeString: __refresh_token];
       [outProtocol writeFieldEnd];
     }
+  }
+  if (__expire_time_isset) {
+    [outProtocol writeFieldBeginWithName: @"expire_time" type: TType_I64 fieldID: 6];
+    [outProtocol writeI64: __expire_time];
+    [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -606,10 +606,10 @@
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",access_token:"];
   [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",expire_time:"];
-  [ms appendFormat: @"%qi", __expire_time];
   [ms appendString: @",refresh_token:"];
   [ms appendFormat: @"\"%@\"", __refresh_token];
+  [ms appendString: @",expire_time:"];
+  [ms appendFormat: @"%qi", __expire_time];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }

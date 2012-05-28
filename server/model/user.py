@@ -25,7 +25,7 @@ def login_by_email(mail, pw, client_id, client_secret):
     user_id = None
     if oauth_secret_verify(client_id, client_secret):
         if mail_password_verify(mail,pw):
-            user_id = user_id_by_mail(mail)
+            user_id = int(user_id_by_mail(mail))
             if user_id:
                 id, access_token = oauth_access_token_new(client_id, user_id)
                 refresh_token = oauth_refresh_token_new(client_id, id)
@@ -41,6 +41,12 @@ def login_by_email(mail, pw, client_id, client_secret):
                         refresh_token,
                         87063
                 )
+            else:
+                print 'failed 1'
+        else:
+            print 'failed 2'
+    else:
+        print 'failed 3'
 
 @access_token_verify
 def user_info_get(access_token, id):

@@ -243,8 +243,8 @@ class AuthResponse:
    - id
    - name
    - access_token
-   - expire_time
    - refresh_token
+   - expire_time
   """
 
   thrift_spec = (
@@ -253,17 +253,17 @@ class AuthResponse:
     (2, TType.I64, 'id', None, None, ), # 2
     (3, TType.STRING, 'name', None, None, ), # 3
     (4, TType.STRING, 'access_token', None, None, ), # 4
-    (5, TType.I64, 'expire_time', None, None, ), # 5
-    (6, TType.STRING, 'refresh_token', None, None, ), # 6
+    (5, TType.STRING, 'refresh_token', None, None, ), # 5
+    (6, TType.I64, 'expire_time', None, None, ), # 6
   )
 
-  def __init__(self, status=None, id=None, name=None, access_token=None, expire_time=None, refresh_token=None,):
+  def __init__(self, status=None, id=None, name=None, access_token=None, refresh_token=None, expire_time=None,):
     self.status = status
     self.id = id
     self.name = name
     self.access_token = access_token
-    self.expire_time = expire_time
     self.refresh_token = refresh_token
+    self.expire_time = expire_time
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -295,13 +295,13 @@ class AuthResponse:
         else:
           iprot.skip(ftype)
       elif fid == 5:
-        if ftype == TType.I64:
-          self.expire_time = iprot.readI64();
+        if ftype == TType.STRING:
+          self.refresh_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 6:
-        if ftype == TType.STRING:
-          self.refresh_token = iprot.readString();
+        if ftype == TType.I64:
+          self.expire_time = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -330,13 +330,13 @@ class AuthResponse:
       oprot.writeFieldBegin('access_token', TType.STRING, 4)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.expire_time is not None:
-      oprot.writeFieldBegin('expire_time', TType.I64, 5)
-      oprot.writeI64(self.expire_time)
-      oprot.writeFieldEnd()
     if self.refresh_token is not None:
-      oprot.writeFieldBegin('refresh_token', TType.STRING, 6)
+      oprot.writeFieldBegin('refresh_token', TType.STRING, 5)
       oprot.writeString(self.refresh_token)
+      oprot.writeFieldEnd()
+    if self.expire_time is not None:
+      oprot.writeFieldBegin('expire_time', TType.I64, 6)
+      oprot.writeI64(self.expire_time)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
