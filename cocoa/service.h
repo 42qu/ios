@@ -12,7 +12,7 @@
 #import <TProtocolUtil.h>
 #import <TProcessor.h>
 
-#import "error.h"
+#import "exception.h"
 #import "type.h"
 
 @protocol Sns <NSObject>
