@@ -9,6 +9,24 @@ struct AuthRequestMail {
   4:  required  string  password
 }
 
+enum AuthLoginPartner {
+    AUTH_PARTNER_DOUBAN = 1,
+    AUTH_PARTNER_SINA = 2,
+    AUTH_PARTNER_TENCENT = 3,
+    AUTH_PARTNER_RENREN = 4,
+    AUTH_PARTNER_KAIXIN = 5,
+    AUTH_PARTNER_163 = 6,
+    AUTH_PARTNER_FANFOU = 7
+}
+
+struct AuthRequestPartner {
+  1:  required  string            client_id,
+  2:  required  string            client_secret,
+  3:  required  AuthLoginPartner  partner,
+  4:  required  string            access_token,
+  5:  required  string            mail
+}
+
 enum AuthResponseStatus {
   AUTH_SUCCESS = 0,
   AUTH_FAIL_REASON_UNKNOWN,
@@ -21,12 +39,11 @@ enum AuthResponseStatus {
 }
 
 struct AuthResponse {
-  1:  required  AuthResponseStatus  status,
-  2:  required  i64                 id,
-  3:  optional  string              name,
-  4:  required  string              access_token,
-  5:  optional  string              refresh_token,
-  6:  optional  i64                 expire_time
+  1:  required  i64                 id,
+  2:  optional  string              name,
+  3:  required  string              access_token,
+  4:  optional  string              refresh_token,
+  5:  optional  i64                 expire_time
 }
 
 // ----- User Link -----

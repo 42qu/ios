@@ -23,9 +23,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] function [arg1 [arg2...]]'
   print ''
   print 'Functions:'
-  print '  AuthResponse login_by_mail(AuthRequestMail auth_request_mail)'
-  print '  AuthResponse login_by_oauth(string client_key, string client_secret, string mail)'
-  print '  AuthResponse login_by_oauth2(string client_key, string client_secret, string mail)'
+  print '  AuthResponse login_by_mail(AuthRequestMail auth)'
+  print '  AuthResponse login_by_oauth(string client_id, string client_secret, string access_token, string mail)'
+  print '  AuthResponse login_by_oauth2(string client_id, string client_secret, string access_token, string mail)'
   print '  void logout(string access_token)'
   print '  UserInfo user_info_get(string access_token, i64 id)'
   print '  UserInfo user_info_set(string access_token, UserInfo user_info)'
@@ -92,16 +92,16 @@ if cmd == 'login_by_mail':
   pp.pprint(client.login_by_mail(eval(args[0]),))
 
 elif cmd == 'login_by_oauth':
-  if len(args) != 3:
-    print 'login_by_oauth requires 3 args'
+  if len(args) != 4:
+    print 'login_by_oauth requires 4 args'
     sys.exit(1)
-  pp.pprint(client.login_by_oauth(args[0],args[1],args[2],))
+  pp.pprint(client.login_by_oauth(args[0],args[1],args[2],args[3],))
 
 elif cmd == 'login_by_oauth2':
-  if len(args) != 3:
-    print 'login_by_oauth2 requires 3 args'
+  if len(args) != 4:
+    print 'login_by_oauth2 requires 4 args'
     sys.exit(1)
-  pp.pprint(client.login_by_oauth2(args[0],args[1],args[2],))
+  pp.pprint(client.login_by_oauth2(args[0],args[1],args[2],args[3],))
 
 elif cmd == 'logout':
   if len(args) != 1:

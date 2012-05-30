@@ -1,6 +1,6 @@
 #coding:utf-8
 import _env
-from utils.type.ttypes import AuthResponse, AuthResponseStatus, UserInfo
+from utils.type.ttypes import AuthResponse, UserInfo
 from utils.exception.ttypes import Exception, ExceptionCode as ecode
 
 from model.user_mail import user_id_by_mail, mail_by_user_id
@@ -34,9 +34,7 @@ def login_by_email(mail, pw, client_id, client_secret):
                 user = Zsite.mc_get(user_id)
                 name = user.name
                 
-                status = AuthResponseStatus.AUTH_SUCCESS
                 return AuthResponse(
-                        status,
                         user_id,
                         name,
                         access_token,
@@ -49,10 +47,6 @@ def login_by_email(mail, pw, client_id, client_secret):
             raise Exception(ecode.USER_VERIFY_FAILED)
     else:
         raise Exception(ecode.PERMISSION_DENIED)
-
-def login_by_oauth2(client_id, client_secret):
-    if oauth_secret_verify(client_id, client_secret):
-        pass
 
 @access_token_verify
 def user_info_get(access_token, id):
@@ -72,7 +66,7 @@ def user_info_set(access_token, user_info):
     pass
 
 if __name__ == '__main__':
-    login_by_oauth2('10046352','1f082771f7c940849f6fd02ba5d3519f')
+    #login_by_oauth2('10046352','1f082771f7c940849f6fd02ba5d3519f')
 
     #ret = login_by_email('54080@42qu.com','pw',u'10046352',u'1f082771f7c940849f6fd02ba5d3519f')
     #print ret.access_token

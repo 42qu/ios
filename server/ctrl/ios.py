@@ -11,11 +11,12 @@ class Handler(object):
         return u.login_by_email(auth.mail,auth.password,auth.client_id,
                 auth.client_secret)
 
-    def login_by_oauth(self, client_key, client_secret):
+    def login_by_oauth(self, client_id, client_secret):
         pass
 
-    def login_by_oauth2(self, client_key, client_secret):
-        pass
+    def login_by_oauth2(self, client_id, client_secret, access_token ,mail):
+        if u.oauth_secret_verify(client_id, client_secret):
+            pass
 
     def logout(self, acess_token):
         pass

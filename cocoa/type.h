@@ -13,6 +13,16 @@
 #import <TProcessor.h>
 
 
+enum AuthLoginPartner {
+  AuthLoginPartner_AUTH_PARTNER_DOUBAN = 1,
+  AuthLoginPartner_AUTH_PARTNER_SINA = 2,
+  AuthLoginPartner_AUTH_PARTNER_TENCENT = 3,
+  AuthLoginPartner_AUTH_PARTNER_RENREN = 4,
+  AuthLoginPartner_AUTH_PARTNER_KAIXIN = 5,
+  AuthLoginPartner_AUTH_PARTNER_163 = 6,
+  AuthLoginPartner_AUTH_PARTNER_FANFOU = 7
+};
+
 enum AuthResponseStatus {
   AuthResponseStatus_AUTH_SUCCESS = 0,
   AuthResponseStatus_AUTH_FAIL_REASON_UNKNOWN = 1,
@@ -97,15 +107,62 @@ typedef int64_t timestamp;
 
 @end
 
+@interface AuthRequestPartner : NSObject <NSCoding> {
+  NSString * __client_id;
+  NSString * __client_secret;
+  int __partner;
+  NSString * __access_token;
+  NSString * __mail;
+
+  BOOL __client_id_isset;
+  BOOL __client_secret_isset;
+  BOOL __partner_isset;
+  BOOL __access_token_isset;
+  BOOL __mail_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
+@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
+@property (nonatomic, getter=partner, setter=setPartner:) int partner;
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, retain, getter=mail, setter=setMail:) NSString * mail;
+#endif
+
+- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret partner: (int) partner access_token: (NSString *) access_token mail: (NSString *) mail;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) client_id;
+- (void) setClient_id: (NSString *) client_id;
+- (BOOL) client_idIsSet;
+
+- (NSString *) client_secret;
+- (void) setClient_secret: (NSString *) client_secret;
+- (BOOL) client_secretIsSet;
+
+- (int) partner;
+- (void) setPartner: (int) partner;
+- (BOOL) partnerIsSet;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (NSString *) mail;
+- (void) setMail: (NSString *) mail;
+- (BOOL) mailIsSet;
+
+@end
+
 @interface AuthResponse : NSObject <NSCoding> {
-  int __status;
   int64_t __id;
   NSString * __name;
   NSString * __access_token;
   NSString * __refresh_token;
   int64_t __expire_time;
 
-  BOOL __status_isset;
   BOOL __id_isset;
   BOOL __name_isset;
   BOOL __access_token_isset;
@@ -114,7 +171,6 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=status, setter=setStatus:) int status;
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
@@ -122,14 +178,10 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=expire_time, setter=setExpire_time:) int64_t expire_time;
 #endif
 
-- (id) initWithStatus: (int) status id: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time;
+- (id) initWithId: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
-
-- (int) status;
-- (void) setStatus: (int) status;
-- (BOOL) statusIsSet;
 
 - (int64_t) id;
 - (void) setId: (int64_t) id;

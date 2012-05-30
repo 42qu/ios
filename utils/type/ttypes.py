@@ -16,6 +16,35 @@ except:
   fastbinary = None
 
 
+class AuthLoginPartner:
+  AUTH_PARTNER_DOUBAN = 1
+  AUTH_PARTNER_SINA = 2
+  AUTH_PARTNER_TENCENT = 3
+  AUTH_PARTNER_RENREN = 4
+  AUTH_PARTNER_KAIXIN = 5
+  AUTH_PARTNER_163 = 6
+  AUTH_PARTNER_FANFOU = 7
+
+  _VALUES_TO_NAMES = {
+    1: "AUTH_PARTNER_DOUBAN",
+    2: "AUTH_PARTNER_SINA",
+    3: "AUTH_PARTNER_TENCENT",
+    4: "AUTH_PARTNER_RENREN",
+    5: "AUTH_PARTNER_KAIXIN",
+    6: "AUTH_PARTNER_163",
+    7: "AUTH_PARTNER_FANFOU",
+  }
+
+  _NAMES_TO_VALUES = {
+    "AUTH_PARTNER_DOUBAN": 1,
+    "AUTH_PARTNER_SINA": 2,
+    "AUTH_PARTNER_TENCENT": 3,
+    "AUTH_PARTNER_RENREN": 4,
+    "AUTH_PARTNER_KAIXIN": 5,
+    "AUTH_PARTNER_163": 6,
+    "AUTH_PARTNER_FANFOU": 7,
+  }
+
 class AuthResponseStatus:
   AUTH_SUCCESS = 0
   AUTH_FAIL_REASON_UNKNOWN = 1
@@ -236,10 +265,127 @@ class AuthRequestMail:
   def __ne__(self, other):
     return not (self == other)
 
+class AuthRequestPartner:
+  """
+  Attributes:
+   - client_id
+   - client_secret
+   - partner
+   - access_token
+   - mail
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'client_id', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.I32, 'partner', None, None, ), # 3
+    (4, TType.STRING, 'access_token', None, None, ), # 4
+    (5, TType.STRING, 'mail', None, None, ), # 5
+  )
+
+  def __init__(self, client_id=None, client_secret=None, partner=None, access_token=None, mail=None,):
+    self.client_id = client_id
+    self.client_secret = client_secret
+    self.partner = partner
+    self.access_token = access_token
+    self.mail = mail
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.client_id = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.client_secret = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.partner = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.mail = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('AuthRequestPartner')
+    if self.client_id is not None:
+      oprot.writeFieldBegin('client_id', TType.STRING, 1)
+      oprot.writeString(self.client_id)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    if self.partner is not None:
+      oprot.writeFieldBegin('partner', TType.I32, 3)
+      oprot.writeI32(self.partner)
+      oprot.writeFieldEnd()
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 4)
+      oprot.writeString(self.access_token)
+      oprot.writeFieldEnd()
+    if self.mail is not None:
+      oprot.writeFieldBegin('mail', TType.STRING, 5)
+      oprot.writeString(self.mail)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.client_id is None:
+      raise TProtocol.TProtocolException(message='Required field client_id is unset!')
+    if self.client_secret is None:
+      raise TProtocol.TProtocolException(message='Required field client_secret is unset!')
+    if self.partner is None:
+      raise TProtocol.TProtocolException(message='Required field partner is unset!')
+    if self.access_token is None:
+      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
+    if self.mail is None:
+      raise TProtocol.TProtocolException(message='Required field mail is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class AuthResponse:
   """
   Attributes:
-   - status
    - id
    - name
    - access_token
@@ -249,16 +395,14 @@ class AuthResponse:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I32, 'status', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
-    (3, TType.STRING, 'name', None, None, ), # 3
-    (4, TType.STRING, 'access_token', None, None, ), # 4
-    (5, TType.STRING, 'refresh_token', None, None, ), # 5
-    (6, TType.I64, 'expire_time', None, None, ), # 6
+    (1, TType.I64, 'id', None, None, ), # 1
+    (2, TType.STRING, 'name', None, None, ), # 2
+    (3, TType.STRING, 'access_token', None, None, ), # 3
+    (4, TType.STRING, 'refresh_token', None, None, ), # 4
+    (5, TType.I64, 'expire_time', None, None, ), # 5
   )
 
-  def __init__(self, status=None, id=None, name=None, access_token=None, refresh_token=None, expire_time=None,):
-    self.status = status
+  def __init__(self, id=None, name=None, access_token=None, refresh_token=None, expire_time=None,):
     self.id = id
     self.name = name
     self.access_token = access_token
@@ -275,31 +419,26 @@ class AuthResponse:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.I32:
-          self.status = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
         if ftype == TType.I64:
           self.id = iprot.readI64();
         else:
           iprot.skip(ftype)
-      elif fid == 3:
+      elif fid == 2:
         if ftype == TType.STRING:
           self.name = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 4:
+      elif fid == 3:
         if ftype == TType.STRING:
           self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 5:
+      elif fid == 4:
         if ftype == TType.STRING:
           self.refresh_token = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 6:
+      elif fid == 5:
         if ftype == TType.I64:
           self.expire_time = iprot.readI64();
         else:
@@ -314,36 +453,30 @@ class AuthResponse:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('AuthResponse')
-    if self.status is not None:
-      oprot.writeFieldBegin('status', TType.I32, 1)
-      oprot.writeI32(self.status)
-      oprot.writeFieldEnd()
     if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
+      oprot.writeFieldBegin('id', TType.I64, 1)
       oprot.writeI64(self.id)
       oprot.writeFieldEnd()
     if self.name is not None:
-      oprot.writeFieldBegin('name', TType.STRING, 3)
+      oprot.writeFieldBegin('name', TType.STRING, 2)
       oprot.writeString(self.name)
       oprot.writeFieldEnd()
     if self.access_token is not None:
-      oprot.writeFieldBegin('access_token', TType.STRING, 4)
+      oprot.writeFieldBegin('access_token', TType.STRING, 3)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
     if self.refresh_token is not None:
-      oprot.writeFieldBegin('refresh_token', TType.STRING, 5)
+      oprot.writeFieldBegin('refresh_token', TType.STRING, 4)
       oprot.writeString(self.refresh_token)
       oprot.writeFieldEnd()
     if self.expire_time is not None:
-      oprot.writeFieldBegin('expire_time', TType.I64, 6)
+      oprot.writeFieldBegin('expire_time', TType.I64, 5)
       oprot.writeI64(self.expire_time)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.status is None:
-      raise TProtocol.TProtocolException(message='Required field status is unset!')
     if self.id is None:
       raise TProtocol.TProtocolException(message='Required field id is unset!')
     if self.access_token is None:

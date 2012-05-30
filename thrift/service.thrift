@@ -4,23 +4,24 @@ include "type.thrift"
 service Sns {
 
     type.AuthResponse login_by_mail(
-        1:type.AuthRequestMail auth_request_mail
+        1:type.AuthRequestMail auth
     )
 
     type.AuthResponse login_by_oauth(
-        1:string  client_key,
+        1:string  client_id,
         2:string  client_secret,
-        3:string  mail
+        3:string  access_token,
+        4:string  mail
     )
 
     type.AuthResponse login_by_oauth2(
-        1:string  client_key,
+        1:string  client_id,
         2:string  client_secret,
-        3:string  mail
+        3:string  access_token,
+        4:string  mail
     )
 
     void logout(1:string access_token)
-
 
     type.UserInfo user_info_get(
         1: string access_token,
