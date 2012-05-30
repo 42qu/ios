@@ -1,6 +1,7 @@
 #coding:utf-8
 import _env
 from utils.type.ttypes import AuthResponse, AuthResponseStatus, UserInfo
+from utils.exception.ttypes import Exception, ExceptionCode as ecode
 
 from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import mail_password_verify
@@ -18,10 +19,11 @@ def access_token_verify(func):
             return func()
         if oauth_access_token_verify(args[0]):
             return func(*args,**argkw)
+        else:
+            raise Exception(ecode.PERMISSION_DENIED)
     return new
 
 def login_by_email(mail, pw, client_id, client_secret):
-    
     user_id = None
     if oauth_secret_verify(client_id, client_secret):
         if mail_password_verify(mail,pw):
@@ -42,17 +44,21 @@ def login_by_email(mail, pw, client_id, client_secret):
                         87063
                 )
             else:
-                print 'failed 1'
+                raise Exception(ecode.INNER_ERROR)
         else:
-            print 'failed 2'
+            raise Exception(ecode.USER_VERIFY_FAILED)
     else:
-        print 'failed 3'
+        raise Exception(ecode.PERMISSION_DENIED)
+
+def login_by_oauth2(client_id, client_secret):
+    if oauth_secret_verify(client_id, client_secret):
+        pass
 
 @access_token_verify
 def user_info_get(access_token, id):
     user = Zsite.mc_get(id)
     if not user:
-        # TODO:ERROR 查无此人
+        raise Exception(ecode.USER_NOT_EXIST)
         return
     name = user.name
     intro = user.txt
@@ -65,18 +71,11 @@ def user_info_get(access_token, id):
 def user_info_set(access_token, user_info):
     pass
 
-def b(f):
-    def new(*arg,**argw):
-        return f(*arg,**argw)
-    return new
-
-@b
-def a(c):
-    print 'a'
-
 if __name__ == '__main__':
-    ret = login_by_email('54080@42qu.com','pw',u'10046352',u'1f082771f7c940849f6fd02ba5d3519f')
-    print ret.access_token
-    print ret.id
-    print user_info_get(ret.access_token,ret.id)
+    login_by_oauth2('10046352','1f082771f7c940849f6fd02ba5d3519f')
+
+    #ret = login_by_email('54080@42qu.com','pw',u'10046352',u'1f082771f7c940849f6fd02ba5d3519f')
+    #print ret.access_token
+    #print ret.id
+    #print user_info_get(ret.access_token,ret.id)
 

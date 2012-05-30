@@ -25,19 +25,21 @@ class Iface:
     """
     pass
 
-  def login_by_oauth(self, client_key, client_secret):
+  def login_by_oauth(self, client_key, client_secret, mail):
     """
     Parameters:
      - client_key
      - client_secret
+     - mail
     """
     pass
 
-  def login_by_oauth2(self, client_key, client_secret):
+  def login_by_oauth2(self, client_key, client_secret, mail):
     """
     Parameters:
      - client_key
      - client_secret
+     - mail
     """
     pass
 
@@ -142,20 +144,22 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_mail failed: unknown result");
 
-  def login_by_oauth(self, client_key, client_secret):
+  def login_by_oauth(self, client_key, client_secret, mail):
     """
     Parameters:
      - client_key
      - client_secret
+     - mail
     """
-    self.send_login_by_oauth(client_key, client_secret)
+    self.send_login_by_oauth(client_key, client_secret, mail)
     return self.recv_login_by_oauth()
 
-  def send_login_by_oauth(self, client_key, client_secret):
+  def send_login_by_oauth(self, client_key, client_secret, mail):
     self._oprot.writeMessageBegin('login_by_oauth', TMessageType.CALL, self._seqid)
     args = login_by_oauth_args()
     args.client_key = client_key
     args.client_secret = client_secret
+    args.mail = mail
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -174,20 +178,22 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_oauth failed: unknown result");
 
-  def login_by_oauth2(self, client_key, client_secret):
+  def login_by_oauth2(self, client_key, client_secret, mail):
     """
     Parameters:
      - client_key
      - client_secret
+     - mail
     """
-    self.send_login_by_oauth2(client_key, client_secret)
+    self.send_login_by_oauth2(client_key, client_secret, mail)
     return self.recv_login_by_oauth2()
 
-  def send_login_by_oauth2(self, client_key, client_secret):
+  def send_login_by_oauth2(self, client_key, client_secret, mail):
     self._oprot.writeMessageBegin('login_by_oauth2', TMessageType.CALL, self._seqid)
     args = login_by_oauth2_args()
     args.client_key = client_key
     args.client_secret = client_secret
+    args.mail = mail
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -500,7 +506,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_oauth_result()
-    result.success = self._handler.login_by_oauth(args.client_key, args.client_secret)
+    result.success = self._handler.login_by_oauth(args.client_key, args.client_secret, args.mail)
     oprot.writeMessageBegin("login_by_oauth", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -511,7 +517,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_oauth2_result()
-    result.success = self._handler.login_by_oauth2(args.client_key, args.client_secret)
+    result.success = self._handler.login_by_oauth2(args.client_key, args.client_secret, args.mail)
     oprot.writeMessageBegin("login_by_oauth2", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -734,17 +740,20 @@ class login_by_oauth_args:
   Attributes:
    - client_key
    - client_secret
+   - mail
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'client_key', None, None, ), # 1
     (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.STRING, 'mail', None, None, ), # 3
   )
 
-  def __init__(self, client_key=None, client_secret=None,):
+  def __init__(self, client_key=None, client_secret=None, mail=None,):
     self.client_key = client_key
     self.client_secret = client_secret
+    self.mail = mail
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -765,6 +774,11 @@ class login_by_oauth_args:
           self.client_secret = iprot.readString();
         else:
           iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.mail = iprot.readString();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -782,6 +796,10 @@ class login_by_oauth_args:
     if self.client_secret is not None:
       oprot.writeFieldBegin('client_secret', TType.STRING, 2)
       oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    if self.mail is not None:
+      oprot.writeFieldBegin('mail', TType.STRING, 3)
+      oprot.writeString(self.mail)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -866,17 +884,20 @@ class login_by_oauth2_args:
   Attributes:
    - client_key
    - client_secret
+   - mail
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'client_key', None, None, ), # 1
     (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.STRING, 'mail', None, None, ), # 3
   )
 
-  def __init__(self, client_key=None, client_secret=None,):
+  def __init__(self, client_key=None, client_secret=None, mail=None,):
     self.client_key = client_key
     self.client_secret = client_secret
+    self.mail = mail
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -897,6 +918,11 @@ class login_by_oauth2_args:
           self.client_secret = iprot.readString();
         else:
           iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.mail = iprot.readString();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -914,6 +940,10 @@ class login_by_oauth2_args:
     if self.client_secret is not None:
       oprot.writeFieldBegin('client_secret', TType.STRING, 2)
       oprot.writeString(self.client_secret)
+      oprot.writeFieldEnd()
+    if self.mail is not None:
+      oprot.writeFieldBegin('mail', TType.STRING, 3)
+      oprot.writeString(self.mail)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

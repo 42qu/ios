@@ -10,17 +10,16 @@ service Sns {
     type.AuthResponse login_by_oauth(
         1:string  client_key,
         2:string  client_secret,
-        //todo
+        3:string  mail
     )
 
     type.AuthResponse login_by_oauth2(
         1:string  client_key,
         2:string  client_secret,
-        //todo
+        3:string  mail
     )
 
     void logout(1:string access_token)
-
 
 
     type.UserInfo user_info_get(
@@ -32,8 +31,6 @@ service Sns {
         1: string access_token,
         2: type.UserInfo user_info
     )
-
-
 
     type.Task task_get(
         1: string access_token,
@@ -59,6 +56,4 @@ service Sns {
         1: string access_token,
         2: i64 user_id
     )
-
-
 }
