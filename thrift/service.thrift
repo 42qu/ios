@@ -5,7 +5,7 @@ service Sns {
 
     type.AuthResponse login_by_mail(
         1:type.AuthRequestMail auth
-    )
+    ) throws (1: exception.Exception e),
 
     type.AuthResponse login_by_oauth(
         1:string  client_id,
@@ -26,7 +26,7 @@ service Sns {
     type.UserInfo user_info_get(
         1: string access_token,
         2: i64 id
-    )
+    ) throws (1: exception.Exception e),
 
     type.UserInfo user_info_set(
         1: string access_token,
@@ -58,3 +58,4 @@ service Sns {
         2: i64 user_id
     )
 }
+

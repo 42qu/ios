@@ -144,6 +144,8 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
+    if result.e is not None:
+      raise result.e
     raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_mail failed: unknown result");
 
   def login_by_oauth(self, client_id, client_secret, access_token, mail):
@@ -276,6 +278,8 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
+    if result.e is not None:
+      raise result.e
     raise TApplicationException(TApplicationException.MISSING_RESULT, "user_info_get failed: unknown result");
 
   def user_info_set(self, access_token, user_info):
@@ -501,7 +505,10 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_mail_result()
-    result.success = self._handler.login_by_mail(args.auth)
+    try:
+      result.success = self._handler.login_by_mail(args.auth)
+    except exception.ttypes.Exception, e:
+      result.e = e
     oprot.writeMessageBegin("login_by_mail", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -545,7 +552,10 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = user_info_get_result()
-    result.success = self._handler.user_info_get(args.access_token, args.id)
+    try:
+      result.success = self._handler.user_info_get(args.access_token, args.id)
+    except exception.ttypes.Exception, e:
+      result.e = e
     oprot.writeMessageBegin("user_info_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -685,14 +695,17 @@ class login_by_mail_result:
   """
   Attributes:
    - success
+   - e
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (type.ttypes.AuthResponse, type.ttypes.AuthResponse.thrift_spec), None, ), # 0
+    (1, TType.STRUCT, 'e', (exception.ttypes.Exception, exception.ttypes.Exception.thrift_spec), None, ), # 1
   )
 
-  def __init__(self, success=None,):
+  def __init__(self, success=None, e=None,):
     self.success = success
+    self.e = e
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -709,6 +722,12 @@ class login_by_mail_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.e = exception.ttypes.Exception()
+          self.e.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -722,6 +741,10 @@ class login_by_mail_result:
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
+      oprot.writeFieldEnd()
+    if self.e is not None:
+      oprot.writeFieldBegin('e', TType.STRUCT, 1)
+      self.e.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1231,14 +1254,17 @@ class user_info_get_result:
   """
   Attributes:
    - success
+   - e
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (type.ttypes.UserInfo, type.ttypes.UserInfo.thrift_spec), None, ), # 0
+    (1, TType.STRUCT, 'e', (exception.ttypes.Exception, exception.ttypes.Exception.thrift_spec), None, ), # 1
   )
 
-  def __init__(self, success=None,):
+  def __init__(self, success=None, e=None,):
     self.success = success
+    self.e = e
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1255,6 +1281,12 @@ class user_info_get_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.e = exception.ttypes.Exception()
+          self.e.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1268,6 +1300,10 @@ class user_info_get_result:
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
+      oprot.writeFieldEnd()
+    if self.e is not None:
+      oprot.writeFieldBegin('e', TType.STRUCT, 1)
+      self.e.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

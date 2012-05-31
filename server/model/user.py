@@ -66,6 +66,7 @@ def user_info_set(access_token, user_info):
     pass
 
 if __name__ == '__main__':
+    pass
     #login_by_oauth2('10046352','1f082771f7c940849f6fd02ba5d3519f')
 
     #ret = login_by_email('54080@42qu.com','pw',u'10046352',u'1f082771f7c940849f6fd02ba5d3519f')

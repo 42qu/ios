@@ -14,8 +14,8 @@ class Handler(object):
     def login_by_oauth(self, client_id, client_secret):
         pass
 
-    def login_by_oauth2(self, client_id, client_secret, access_token ,mail):
-        if u.oauth_secret_verify(client_id, client_secret):
+    def login_by_oauth2(self, auth):
+        if u.oauth_secret_verify(auth.client_id, auth.client_secret):
             pass
 
     def logout(self, acess_token):
