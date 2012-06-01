@@ -6,7 +6,6 @@ from utils.exception.ttypes import Exception, ExceptionCode as ecode
 from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import mail_password_verify
 from model.zsite import Zsite
-#from model.api_user import json_info
 #from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id, follow_rm, follow_new
 from model.oauth2 import oauth_access_token_new, oauth_refresh_token_new, oauth_secret_verify, oauth_access_token_verify
 
@@ -20,7 +19,7 @@ def access_token_verify(func):
         if oauth_access_token_verify(args[0]):
             return func(*args,**argkw)
         else:
-            raise Exception(ecode.PERMISSION_DENIED)
+            return Exception(ecode.PERMISSION_DENIED)
     return new
 
 def login_by_email(mail, pw, client_id, client_secret):
@@ -42,11 +41,11 @@ def login_by_email(mail, pw, client_id, client_secret):
                         87063
                 )
             else:
-                raise Exception(ecode.INNER_ERROR)
+                return Exception(ecode.INNER_ERROR)
         else:
-            raise Exception(ecode.USER_VERIFY_FAILED)
+            return Exception(ecode.USER_VERIFY_FAILED)
     else:
-        raise Exception(ecode.PERMISSION_DENIED)
+        return Exception(ecode.PERMISSION_DENIED)
 
 @access_token_verify
 def user_info_get(access_token, id):
