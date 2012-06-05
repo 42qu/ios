@@ -1525,6 +1525,89 @@ class Task:
   def __ne__(self, other):
     return not (self == other)
 
+class TaskList:
+  """
+  Attributes:
+   - num
+   - data
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I64, 'num', None, None, ), # 1
+    (2, TType.LIST, 'data', (TType.STRUCT,(Task, Task.thrift_spec)), None, ), # 2
+  )
+
+  def __init__(self, num=None, data=None,):
+    self.num = num
+    self.data = data
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I64:
+          self.num = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.LIST:
+          self.data = []
+          (_etype59, _size56) = iprot.readListBegin()
+          for _i60 in xrange(_size56):
+            _elem61 = Task()
+            _elem61.read(iprot)
+            self.data.append(_elem61)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('TaskList')
+    if self.num is not None:
+      oprot.writeFieldBegin('num', TType.I64, 1)
+      oprot.writeI64(self.num)
+      oprot.writeFieldEnd()
+    if self.data is not None:
+      oprot.writeFieldBegin('data', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.data))
+      for iter62 in self.data:
+        iter62.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.num is None:
+      raise TProtocol.TProtocolException(message='Required field num is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class Person:
   """
   Attributes:
@@ -1687,11 +1770,11 @@ class PersonList:
       elif fid == 2:
         if ftype == TType.LIST:
           self.data = []
-          (_etype59, _size56) = iprot.readListBegin()
-          for _i60 in xrange(_size56):
-            _elem61 = Person()
-            _elem61.read(iprot)
-            self.data.append(_elem61)
+          (_etype66, _size63) = iprot.readListBegin()
+          for _i67 in xrange(_size63):
+            _elem68 = Person()
+            _elem68.read(iprot)
+            self.data.append(_elem68)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1712,8 +1795,8 @@ class PersonList:
     if self.data is not None:
       oprot.writeFieldBegin('data', TType.LIST, 2)
       oprot.writeListBegin(TType.STRUCT, len(self.data))
-      for iter62 in self.data:
-        iter62.write(oprot)
+      for iter69 in self.data:
+        iter69.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1860,11 +1943,11 @@ class CommentList:
       elif fid == 2:
         if ftype == TType.LIST:
           self.data = []
-          (_etype66, _size63) = iprot.readListBegin()
-          for _i67 in xrange(_size63):
-            _elem68 = Comment()
-            _elem68.read(iprot)
-            self.data.append(_elem68)
+          (_etype73, _size70) = iprot.readListBegin()
+          for _i74 in xrange(_size70):
+            _elem75 = Comment()
+            _elem75.read(iprot)
+            self.data.append(_elem75)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1885,8 +1968,8 @@ class CommentList:
     if self.data is not None:
       oprot.writeFieldBegin('data', TType.LIST, 2)
       oprot.writeListBegin(TType.STRUCT, len(self.data))
-      for iter69 in self.data:
-        iter69.write(oprot)
+      for iter76 in self.data:
+        iter76.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()

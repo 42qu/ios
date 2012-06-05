@@ -618,6 +618,34 @@ typedef int64_t timestamp;
 
 @end
 
+@interface TaskList : NSObject <NSCoding> {
+  int64_t __num;
+  NSArray * __data;
+
+  BOOL __num_isset;
+  BOOL __data_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=num, setter=setNum:) int64_t num;
+@property (nonatomic, retain, getter=data, setter=setData:) NSArray * data;
+#endif
+
+- (id) initWithNum: (int64_t) num data: (NSArray *) data;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) num;
+- (void) setNum: (int64_t) num;
+- (BOOL) numIsSet;
+
+- (NSArray *) data;
+- (void) setData: (NSArray *) data;
+- (BOOL) dataIsSet;
+
+@end
+
 @interface Person : NSObject <NSCoding> {
   NSString * __name;
   NSString * __org;

@@ -33,37 +33,47 @@ service Sns {
         2: type.UserInfo user_info
     )
 
-    type.Task task_get(
+    type.TaskList task_list(
+        1: string access_token
+        2: i64 start,
+        3: i64 limit
+    )
+
+    type.Task task_info(
         1: string access_token,
         2: i64 id
     )
 
+    # 创建任务
     i64 task_new( // Return task id
         1: string access_token,
         2: type.Task task 
     )
 
+    # 申请任务
     void task_apply(
         1: string access_token,
         2: i64 task_id
     )
-
+    
+    # 拒绝任务
     void task_reject(
         1: string access_token,
         2: i64 user_id
     )
     
+    # 接收任务
     void task_accept(
         1: string access_token,
         2: i64 user_id
     )
     
-    type.CommentList get_comment(
+    type.CommentList comment_get(
         1: string access_token,
         2: i64 id
     )
     
-    void make_comment(
+    void comment_make(
         1: string access_token,
         2: i64    id,
         3: string text

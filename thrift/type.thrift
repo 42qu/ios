@@ -154,6 +154,11 @@ struct Task {
   12: optional  list<UserInfo>  user_reject_list 
 }
 
+struct TaskList {
+    1: required i64             num,                # 数量
+    2: optional list<Task>      data                # 数据
+}
+
 // ----- Person -----
 struct Person {
     1: required string          name,               # 名字
