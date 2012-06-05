@@ -1524,3 +1524,387 @@ class Task:
 
   def __ne__(self, other):
     return not (self == other)
+
+class Person:
+  """
+  Attributes:
+   - name
+   - org
+   - job
+   - page
+   - url_avatar
+   - url_avarar_small
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'name', None, None, ), # 1
+    (2, TType.STRING, 'org', None, None, ), # 2
+    (3, TType.STRING, 'job', None, None, ), # 3
+    (4, TType.STRING, 'page', None, None, ), # 4
+    (5, TType.STRING, 'url_avatar', None, None, ), # 5
+    (6, TType.STRING, 'url_avarar_small', None, None, ), # 6
+  )
+
+  def __init__(self, name=None, org=None, job=None, page=None, url_avatar=None, url_avarar_small=None,):
+    self.name = name
+    self.org = org
+    self.job = job
+    self.page = page
+    self.url_avatar = url_avatar
+    self.url_avarar_small = url_avarar_small
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.org = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.job = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.page = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.url_avatar = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.STRING:
+          self.url_avarar_small = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Person')
+    if self.name is not None:
+      oprot.writeFieldBegin('name', TType.STRING, 1)
+      oprot.writeString(self.name)
+      oprot.writeFieldEnd()
+    if self.org is not None:
+      oprot.writeFieldBegin('org', TType.STRING, 2)
+      oprot.writeString(self.org)
+      oprot.writeFieldEnd()
+    if self.job is not None:
+      oprot.writeFieldBegin('job', TType.STRING, 3)
+      oprot.writeString(self.job)
+      oprot.writeFieldEnd()
+    if self.page is not None:
+      oprot.writeFieldBegin('page', TType.STRING, 4)
+      oprot.writeString(self.page)
+      oprot.writeFieldEnd()
+    if self.url_avatar is not None:
+      oprot.writeFieldBegin('url_avatar', TType.STRING, 5)
+      oprot.writeString(self.url_avatar)
+      oprot.writeFieldEnd()
+    if self.url_avarar_small is not None:
+      oprot.writeFieldBegin('url_avarar_small', TType.STRING, 6)
+      oprot.writeString(self.url_avarar_small)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.name is None:
+      raise TProtocol.TProtocolException(message='Required field name is unset!')
+    if self.org is None:
+      raise TProtocol.TProtocolException(message='Required field org is unset!')
+    if self.job is None:
+      raise TProtocol.TProtocolException(message='Required field job is unset!')
+    if self.page is None:
+      raise TProtocol.TProtocolException(message='Required field page is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class PersonList:
+  """
+  Attributes:
+   - num
+   - data
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I64, 'num', None, None, ), # 1
+    (2, TType.LIST, 'data', (TType.STRUCT,(Person, Person.thrift_spec)), None, ), # 2
+  )
+
+  def __init__(self, num=None, data=None,):
+    self.num = num
+    self.data = data
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I64:
+          self.num = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.LIST:
+          self.data = []
+          (_etype59, _size56) = iprot.readListBegin()
+          for _i60 in xrange(_size56):
+            _elem61 = Person()
+            _elem61.read(iprot)
+            self.data.append(_elem61)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('PersonList')
+    if self.num is not None:
+      oprot.writeFieldBegin('num', TType.I64, 1)
+      oprot.writeI64(self.num)
+      oprot.writeFieldEnd()
+    if self.data is not None:
+      oprot.writeFieldBegin('data', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.data))
+      for iter62 in self.data:
+        iter62.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.num is None:
+      raise TProtocol.TProtocolException(message='Required field num is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Comment:
+  """
+  Attributes:
+   - who
+   - text
+   - time
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRUCT, 'who', (Person, Person.thrift_spec), None, ), # 1
+    None, # 2
+    (3, TType.I64, 'time', None, None, ), # 3
+    (4, TType.STRING, 'text', None, None, ), # 4
+  )
+
+  def __init__(self, who=None, text=None, time=None,):
+    self.who = who
+    self.text = text
+    self.time = time
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.who = Person()
+          self.who.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.text = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I64:
+          self.time = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Comment')
+    if self.who is not None:
+      oprot.writeFieldBegin('who', TType.STRUCT, 1)
+      self.who.write(oprot)
+      oprot.writeFieldEnd()
+    if self.time is not None:
+      oprot.writeFieldBegin('time', TType.I64, 3)
+      oprot.writeI64(self.time)
+      oprot.writeFieldEnd()
+    if self.text is not None:
+      oprot.writeFieldBegin('text', TType.STRING, 4)
+      oprot.writeString(self.text)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.who is None:
+      raise TProtocol.TProtocolException(message='Required field who is unset!')
+    if self.text is None:
+      raise TProtocol.TProtocolException(message='Required field text is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class CommentList:
+  """
+  Attributes:
+   - num
+   - data
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I64, 'num', None, None, ), # 1
+    (2, TType.LIST, 'data', (TType.STRUCT,(Comment, Comment.thrift_spec)), None, ), # 2
+  )
+
+  def __init__(self, num=None, data=None,):
+    self.num = num
+    self.data = data
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I64:
+          self.num = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.LIST:
+          self.data = []
+          (_etype66, _size63) = iprot.readListBegin()
+          for _i67 in xrange(_size63):
+            _elem68 = Comment()
+            _elem68.read(iprot)
+            self.data.append(_elem68)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('CommentList')
+    if self.num is not None:
+      oprot.writeFieldBegin('num', TType.I64, 1)
+      oprot.writeI64(self.num)
+      oprot.writeFieldEnd()
+    if self.data is not None:
+      oprot.writeFieldBegin('data', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.data))
+      for iter69 in self.data:
+        iter69.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.num is None:
+      raise TProtocol.TProtocolException(message='Required field num is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)

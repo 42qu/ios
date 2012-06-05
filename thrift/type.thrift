@@ -154,3 +154,30 @@ struct Task {
   12: optional  list<UserInfo>  user_reject_list 
 }
 
+// ----- Person -----
+struct Person {
+    1: required string          name,               # 名字
+    2: required string          org,                # 组织/学校
+    3: required string          job,                # 工作/院系
+    4: required string          page,               # 个人页链接
+    5: optional string          url_avatar,         # 头像
+    6: optional string          url_avarar_small    # 小头像
+}
+
+struct PersonList {
+    1: required i64             num,                # 数量
+    2: optional list<Person>    data                # 数据
+}
+
+// ----- Comment -----
+struct Comment {
+    1: required Person          who,                # 评论者
+    4: required string          text,               # 评论文本
+    3: optional timestamp       time                # 评论时间
+}
+
+struct CommentList {
+    1: required i64             num,
+    2: optional list<Comment>   data
+}
+

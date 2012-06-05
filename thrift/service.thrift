@@ -57,5 +57,23 @@ service Sns {
         1: string access_token,
         2: i64 user_id
     )
+    
+    type.CommentList get_comment(
+        1: string access_token,
+        2: i64 id
+    )
+    
+    void make_comment(
+        1: string access_token,
+        2: i64    id,
+        3: string text
+    )
+
+    type.PersonList person_page(
+        1: string access_token,
+        2: i64 start,
+        3: i64 limit
+    )
+
 }
 
