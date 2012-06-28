@@ -1,4 +1,3 @@
-typedef i64 timestamp
 
 // ----- Auth -----
 
@@ -46,69 +45,174 @@ struct AuthResponse {
   5:  optional  i64                 expire_time
 }
 
-// ----- User Link -----
+############################################
+# ------------- Global Begin ------------- #
+############################################
 
-enum UserLinkType {
-  USER_LINK_TYPE_UNKNOWN = 0,
-  USER_LINK_TYPE_42QU,
-  USER_LINK_TYPE_DOUBAN,
-  USER_LINK_TYPE_WEIBO
+typedef i64 timestamp # Use '0' for now
+
+# ############# Global End ############# #
+
+##########################################
+# ------------- User Begin ------------- #
+##########################################
+
+###
+struct UserInfoBasic {
+    1:  required    i64     id,
+    2:  required    string  nickname,
+    3:  required    string  avatar # Image URL
 }
 
-struct UserLink {
-  1:  required  i64           id,
-  2:  required  UserLinkType  type,
-  3:  required  string        value,
-  4:  optional  string        label
+###
+struct UserInfoDetail {
+    1:  required    string      firstname,
+    2:  required    string      lastname,
+    3:  required    string      gender,
+    4:  required    timestamp   birthday,
+    5:  required    string      location,
+    6:  required    string      org, # Company / School
+    7:  required    string      job # Job / Major
 }
 
-// ----- User Phone -----
-
-enum UserPhoneType {
-  USER_PHONE_TYPE_UNKNOWN = 0,
-  USER_PHONE_TYPE_PUBLIC,
-  USER_PHONE_TYPE_CUSTOM,
-  USER_PHONE_TYPE_MOBILE,
-  USER_PHONE_TYPE_HOME,
-  USER_PHONE_TYPE_BUSINESS,
-  USER_PHONE_TYPE_FAX
+###
+struct UserInfoIntro {
+    1:  required    string  motto,
+    2:  required    string  description # Self introduction
 }
 
-struct UserPhone {
-  1:  required  i64            id,
-  2:  required  UserPhoneType  type,
-  3:  required  string         value,
-  4:  optional  string         label 
-}
-
-// ----- User Mail -----
-
-enum UserMailType {
-  USER_MAIL_TYPE_UNKNOWN = 0,
-  USER_MAIL_TYPE_PUBLIC,
-  USER_MAIL_TYPE_CUSTOM,
-  USER_MAIL_TYPE_HOME,
-  USER_MAIL_TYPE_BUSINESS
-}
-
-struct UserMail {
-  1:  required  i64           id,
-  2:  required  UserMailType  type,
-  3:  required  string        value,
-  4:  optional  string        label
-}
-
-// ----- User Info -----
-
+##
 struct UserInfo {
-  1:  required  i64                 id,
-  2:  required  string              name,
-  3:  optional  string              intro,
-  4:  optional  binary              picture,
-  5:  optional  list<UserLink>      userLinkList,
-  6:  optional  list<UserPhone>     userPhoneList,
-  7:  optional  list<UserMail>      userMailList
+    1:  required    UserInfoBasic   basic,
+    2:  required    UserInfoDetail  detail,
+    3:  required    UserInfoIntro   intro
 }
+
+####
+enum UserContactLinkType {
+    Custom = 0,
+    Public,
+
+    Homepage,
+    Home,
+    Work,
+    Other,
+    
+    SNSDouban,
+    SNSWeibo, # Sina
+    SNSRenren,
+    SNSTencent, # Tencent twitr
+    SNSGoogle
+}
+
+###
+struct UserContactLink {
+    1:  required    i64     id,
+    2:  required    UserContactLinkType type,
+    3:  required    string  value, # URL
+    4:  optional    string  label
+}
+
+####
+enum UserContactPhoneType {
+    Custom = 0,
+    Public,
+
+    Mobile,
+    IPhone,
+    Home,
+    Work,
+    Main,
+    HomeFax,
+    WorkFax,
+    OtherFax,
+    Pager,
+    Other
+}
+    
+###
+struct UserContactPhone {
+    1:  required    i64     id,
+    2:  required    UserContactPhoneType type,
+    3:  required    string  value, # Phone number
+    4:  optional    string  label
+}
+
+####
+enum UserContactMailType {
+    Custom = 0,
+    Public,
+
+    Home,
+    Work,
+    Other
+}
+
+###
+struct UserContactMail {
+    1:  required    i64     id,
+    2:  required    UserContactMailType type,
+    3:  required    string  value, # Mail address
+    4:  optional    string  label
+}
+
+
+##
+struct UserContact {
+    1:  required    list<UserContactLink>   linkList,
+    2:  required    list<UserContactPhone>  phoneList,
+    3:  required    list<UserContactMail>   mailList
+}
+
+####
+enum UserResumeStudyType {
+    Undergraduate = 0,
+    Master,
+    Doctor,
+    Janitor,
+    Teacher
+}
+
+###
+struct UserResumeStudy {
+    1:  required    timestamp   start,
+    2:  required    timestamp   end,
+    3:  required    string      school,
+    4:  required    string      major,
+    5:  required    UserResumeStudyType type,
+    6:  required    string      description
+}
+
+###
+struct UserResumeWork {
+    1:  required    timestamp   start,
+    2:  required    timestamp   end,
+    3:  required    string      org,
+    4:  required    string      job,
+    5:  required    string      description
+}
+
+##
+struct UserResume {
+    1:  required    list<UserResumeStudy>   studyList,
+    2:  required    list<UserResumeWork>    workList
+}
+
+##
+enum UserRelationship {
+    None = 0,
+    Followed
+}
+
+#
+struct User {
+    1:  required    UserInfo          info,
+    2:  required    UserContact       contact,
+    3:  required    UserResume        resume,
+    4:  required    UserRelationship  relationship
+}
+
+# ############# User End ############# #
 
 // ----- Status -----
 
@@ -157,21 +261,6 @@ struct Task {
 struct TaskList {
     1: required i64             num,                # 数量
     2: optional list<Task>      data                # 数据
-}
-
-// ----- Person -----
-struct Person {
-    1: required string          name,               # 名字
-    2: required string          org,                # 组织/学校
-    3: required string          job,                # 工作/院系
-    4: required string          page,               # 个人页链接
-    5: optional string          url_avatar,         # 头像
-    6: optional string          url_avarar_small    # 小头像
-}
-
-struct PersonList {
-    1: required i64             num,                # 数量
-    2: optional list<Person>    data                # 数据
 }
 
 // ----- Comment -----
