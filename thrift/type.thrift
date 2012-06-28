@@ -265,7 +265,7 @@ struct TaskList {
 
 // ----- Comment -----
 struct Comment {
-    1: required Person          who,                # 评论者
+    #1: required Person          who,                # 评论者
     4: required string          text,               # 评论文本
     3: optional timestamp       time                # 评论时间
 }

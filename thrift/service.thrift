@@ -79,11 +79,11 @@ service Sns {
         3: string text
     )
 
-    type.PersonList person_page(
-        1: string access_token,
-        2: i64 start,
-        3: i64 limit
-    )
+    #type.PersonList person_page(
+    #    1: string access_token,
+    #    2: i64 start,
+    #    3: i64 limit
+    #)
 
 }
 

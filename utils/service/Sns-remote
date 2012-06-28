@@ -37,7 +37,6 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  void task_accept(string access_token, i64 user_id)'
   print '  CommentList comment_get(string access_token, i64 id)'
   print '  void comment_make(string access_token, i64 id, string text)'
-  print '  PersonList person_page(string access_token, i64 start, i64 limit)'
   print ''
   sys.exit(0)
 
@@ -172,12 +171,6 @@ elif cmd == 'comment_make':
     print 'comment_make requires 3 args'
     sys.exit(1)
   pp.pprint(client.comment_make(args[0],eval(args[1]),args[2],))
-
-elif cmd == 'person_page':
-  if len(args) != 3:
-    print 'person_page requires 3 args'
-    sys.exit(1)
-  pp.pprint(client.person_page(args[0],eval(args[1]),eval(args[2]),))
 
 else:
   print 'Unrecognized method %s' % cmd

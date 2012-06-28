@@ -134,15 +134,6 @@ class Iface:
     """
     pass
 
-  def person_page(self, access_token, start, limit):
-    """
-    Parameters:
-     - access_token
-     - start
-     - limit
-    """
-    pass
-
 
 class Client(Iface):
   def __init__(self, iprot, oprot=None):
@@ -601,40 +592,6 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     return
 
-  def person_page(self, access_token, start, limit):
-    """
-    Parameters:
-     - access_token
-     - start
-     - limit
-    """
-    self.send_person_page(access_token, start, limit)
-    return self.recv_person_page()
-
-  def send_person_page(self, access_token, start, limit):
-    self._oprot.writeMessageBegin('person_page', TMessageType.CALL, self._seqid)
-    args = person_page_args()
-    args.access_token = access_token
-    args.start = start
-    args.limit = limit
-    args.write(self._oprot)
-    self._oprot.writeMessageEnd()
-    self._oprot.trans.flush()
-
-  def recv_person_page(self, ):
-    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
-    if mtype == TMessageType.EXCEPTION:
-      x = TApplicationException()
-      x.read(self._iprot)
-      self._iprot.readMessageEnd()
-      raise x
-    result = person_page_result()
-    result.read(self._iprot)
-    self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "person_page failed: unknown result");
-
 
 class Processor(Iface, TProcessor):
   def __init__(self, handler):
@@ -654,7 +611,6 @@ class Processor(Iface, TProcessor):
     self._processMap["task_accept"] = Processor.process_task_accept
     self._processMap["comment_get"] = Processor.process_comment_get
     self._processMap["comment_make"] = Processor.process_comment_make
-    self._processMap["person_page"] = Processor.process_person_page
 
   def process(self, iprot, oprot):
     (name, type, seqid) = iprot.readMessageBegin()
@@ -827,17 +783,6 @@ class Processor(Iface, TProcessor):
     result = comment_make_result()
     self._handler.comment_make(args.access_token, args.id, args.text)
     oprot.writeMessageBegin("comment_make", TMessageType.REPLY, seqid)
-    result.write(oprot)
-    oprot.writeMessageEnd()
-    oprot.trans.flush()
-
-  def process_person_page(self, seqid, iprot, oprot):
-    args = person_page_args()
-    args.read(iprot)
-    iprot.readMessageEnd()
-    result = person_page_result()
-    result.success = self._handler.person_page(args.access_token, args.start, args.limit)
-    oprot.writeMessageBegin("person_page", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -2661,150 +2606,6 @@ class comment_make_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('comment_make_result')
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class person_page_args:
-  """
-  Attributes:
-   - access_token
-   - start
-   - limit
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'start', None, None, ), # 2
-    (3, TType.I64, 'limit', None, None, ), # 3
-  )
-
-  def __init__(self, access_token=None, start=None, limit=None,):
-    self.access_token = access_token
-    self.start = start
-    self.limit = limit
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRING:
-          self.access_token = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.I64:
-          self.start = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.I64:
-          self.limit = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('person_page_args')
-    if self.access_token is not None:
-      oprot.writeFieldBegin('access_token', TType.STRING, 1)
-      oprot.writeString(self.access_token)
-      oprot.writeFieldEnd()
-    if self.start is not None:
-      oprot.writeFieldBegin('start', TType.I64, 2)
-      oprot.writeI64(self.start)
-      oprot.writeFieldEnd()
-    if self.limit is not None:
-      oprot.writeFieldBegin('limit', TType.I64, 3)
-      oprot.writeI64(self.limit)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class person_page_result:
-  """
-  Attributes:
-   - success
-  """
-
-  thrift_spec = (
-    (0, TType.STRUCT, 'success', (type.ttypes.PersonList, type.ttypes.PersonList.thrift_spec), None, ), # 0
-  )
-
-  def __init__(self, success=None,):
-    self.success = success
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 0:
-        if ftype == TType.STRUCT:
-          self.success = type.ttypes.PersonList()
-          self.success.read(iprot)
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('person_page_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRUCT, 0)
-      self.success.write(oprot)
-      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
