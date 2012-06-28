@@ -175,8 +175,8 @@ enum UserResumeStudyType {
 
 ###
 struct UserResumeStudy {
-    1:  required    timestamp   start,
-    2:  required    timestamp   end,
+    1:  required    timestamp   starttime,
+    2:  required    timestamp   endtime,
     3:  required    string      school,
     4:  required    string      major,
     5:  required    UserResumeStudyType type,
@@ -185,8 +185,8 @@ struct UserResumeStudy {
 
 ###
 struct UserResumeWork {
-    1:  required    timestamp   start,
-    2:  required    timestamp   end,
+    1:  required    timestamp   starttime,
+    2:  required    timestamp   endtime,
     3:  required    string      org,
     4:  required    string      job,
     5:  required    string      description
