@@ -1048,7 +1048,7 @@ class UserContact:
   thrift_spec = (
     None, # 0
     (1, TType.I64, 'id', None, None, ), # 1
-    (2, TType.I64, 'type', None, None, ), # 2
+    (2, TType.I32, 'type', None, None, ), # 2
     (3, TType.I64, 'subtype', None, None, ), # 3
     (4, TType.STRING, 'value', None, None, ), # 4
     (5, TType.STRING, 'label', None, None, ), # 5
@@ -1076,8 +1076,8 @@ class UserContact:
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.I64:
-          self.type = iprot.readI64();
+        if ftype == TType.I32:
+          self.type = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 3:
@@ -1110,8 +1110,8 @@ class UserContact:
       oprot.writeI64(self.id)
       oprot.writeFieldEnd()
     if self.type is not None:
-      oprot.writeFieldBegin('type', TType.I64, 2)
-      oprot.writeI64(self.type)
+      oprot.writeFieldBegin('type', TType.I32, 2)
+      oprot.writeI32(self.type)
       oprot.writeFieldEnd()
     if self.subtype is not None:
       oprot.writeFieldBegin('subtype', TType.I64, 3)

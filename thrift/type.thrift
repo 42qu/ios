@@ -145,7 +145,7 @@ enum UserContactType {
 ##
 struct UserContact {
     1:  required    i64     id,
-    2:  required    i64     type, # Phone or Mail
+    2:  required    UserContactType type, # Phone or Mail
     3:  required    i64     subtype, # PhoneType or MailType
     4:  required    string  value, # Phone number or Mail address
     5:  optional    string  label

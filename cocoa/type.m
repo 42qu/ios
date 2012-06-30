@@ -1999,7 +1999,7 @@
 
 @implementation UserContact
 
-- (id) initWithId: (int64_t) id type: (int64_t) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label
+- (id) initWithId: (int64_t) id type: (int) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label
 {
   self = [super init];
   __id = id;
@@ -2025,7 +2025,7 @@
   }
   if ([decoder containsValueForKey: @"type"])
   {
-    __type = [decoder decodeInt64ForKey: @"type"];
+    __type = [decoder decodeIntForKey: @"type"];
     __type_isset = YES;
   }
   if ([decoder containsValueForKey: @"subtype"])
@@ -2054,7 +2054,7 @@
   }
   if (__type_isset)
   {
-    [encoder encodeInt64: __type forKey: @"type"];
+    [encoder encodeInt: __type forKey: @"type"];
   }
   if (__subtype_isset)
   {
@@ -2094,11 +2094,11 @@
   __id_isset = NO;
 }
 
-- (int64_t) type {
+- (int) type {
   return __type;
 }
 
-- (void) setType: (int64_t) type {
+- (void) setType: (int) type {
   __type = type;
   __type_isset = YES;
 }
@@ -2194,8 +2194,8 @@
         }
         break;
       case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
           [self setType: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -2242,8 +2242,8 @@
     [outProtocol writeFieldEnd];
   }
   if (__type_isset) {
-    [outProtocol writeFieldBeginWithName: @"type" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __type];
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __type];
     [outProtocol writeFieldEnd];
   }
   if (__subtype_isset) {
@@ -2274,7 +2274,7 @@
   [ms appendString: @"id:"];
   [ms appendFormat: @"%qi", __id];
   [ms appendString: @",type:"];
-  [ms appendFormat: @"%qi", __type];
+  [ms appendFormat: @"%i", __type];
   [ms appendString: @",subtype:"];
   [ms appendFormat: @"%qi", __subtype];
   [ms appendString: @",value:"];

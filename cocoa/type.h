@@ -422,7 +422,7 @@ typedef int64_t timestamp;
 
 @interface UserContact : NSObject <NSCoding> {
   int64_t __id;
-  int64_t __type;
+  int __type;
   int64_t __subtype;
   NSString * __value;
   NSString * __label;
@@ -436,13 +436,13 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, getter=type, setter=setType:) int64_t type;
+@property (nonatomic, getter=type, setter=setType:) int type;
 @property (nonatomic, getter=subtype, setter=setSubtype:) int64_t subtype;
 @property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
 @property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
 #endif
 
-- (id) initWithId: (int64_t) id type: (int64_t) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label;
+- (id) initWithId: (int64_t) id type: (int) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -451,8 +451,8 @@ typedef int64_t timestamp;
 - (void) setId: (int64_t) id;
 - (BOOL) idIsSet;
 
-- (int64_t) type;
-- (void) setType: (int64_t) type;
+- (int) type;
+- (void) setType: (int) type;
 - (BOOL) typeIsSet;
 
 - (int64_t) subtype;
