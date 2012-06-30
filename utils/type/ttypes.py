@@ -77,7 +77,7 @@ class AuthResponseStatus:
     "AUTH_FAIL_PASSWORD_WRONG": 7,
   }
 
-class UserContactLinkType:
+class UserLinkType:
   Custom = 0
   Public = 1
   Homepage = 2
@@ -210,16 +210,22 @@ class UserResumeStudyType:
 
 class UserRelationship:
   None = 0
-  Followed = 1
+  Following = 1
+  Followed = 2
+  Friend = 3
 
   _VALUES_TO_NAMES = {
     0: "None",
-    1: "Followed",
+    1: "Following",
+    2: "Followed",
+    3: "Friend",
   }
 
   _NAMES_TO_VALUES = {
     "None": 0,
-    "Followed": 1,
+    "Following": 1,
+    "Followed": 2,
+    "Friend": 3,
   }
 
 class TaskCid:
@@ -574,6 +580,9 @@ class UserInfoBasic:
    - id
    - nickname
    - avatar
+   - motto
+   - org
+   - job
   """
 
   thrift_spec = (
@@ -581,12 +590,18 @@ class UserInfoBasic:
     (1, TType.I64, 'id', None, None, ), # 1
     (2, TType.STRING, 'nickname', None, None, ), # 2
     (3, TType.STRING, 'avatar', None, None, ), # 3
+    (4, TType.STRING, 'motto', None, None, ), # 4
+    (5, TType.STRING, 'org', None, None, ), # 5
+    (6, TType.STRING, 'job', None, None, ), # 6
   )
 
-  def __init__(self, id=None, nickname=None, avatar=None,):
+  def __init__(self, id=None, nickname=None, avatar=None, motto=None, org=None, job=None,):
     self.id = id
     self.nickname = nickname
     self.avatar = avatar
+    self.motto = motto
+    self.org = org
+    self.job = job
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -612,6 +627,21 @@ class UserInfoBasic:
           self.avatar = iprot.readString();
         else:
           iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.motto = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.org = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.STRING:
+          self.job = iprot.readString();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -634,6 +664,18 @@ class UserInfoBasic:
       oprot.writeFieldBegin('avatar', TType.STRING, 3)
       oprot.writeString(self.avatar)
       oprot.writeFieldEnd()
+    if self.motto is not None:
+      oprot.writeFieldBegin('motto', TType.STRING, 4)
+      oprot.writeString(self.motto)
+      oprot.writeFieldEnd()
+    if self.org is not None:
+      oprot.writeFieldBegin('org', TType.STRING, 5)
+      oprot.writeString(self.org)
+      oprot.writeFieldEnd()
+    if self.job is not None:
+      oprot.writeFieldBegin('job', TType.STRING, 6)
+      oprot.writeString(self.job)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -644,6 +686,12 @@ class UserInfoBasic:
       raise TProtocol.TProtocolException(message='Required field nickname is unset!')
     if self.avatar is None:
       raise TProtocol.TProtocolException(message='Required field avatar is unset!')
+    if self.motto is None:
+      raise TProtocol.TProtocolException(message='Required field motto is unset!')
+    if self.org is None:
+      raise TProtocol.TProtocolException(message='Required field org is unset!')
+    if self.job is None:
+      raise TProtocol.TProtocolException(message='Required field job is unset!')
     return
 
 
@@ -666,8 +714,7 @@ class UserInfoDetail:
    - gender
    - birthday
    - location
-   - org
-   - job
+   - introduction
   """
 
   thrift_spec = (
@@ -677,18 +724,16 @@ class UserInfoDetail:
     (3, TType.STRING, 'gender', None, None, ), # 3
     (4, TType.I64, 'birthday', None, None, ), # 4
     (5, TType.STRING, 'location', None, None, ), # 5
-    (6, TType.STRING, 'org', None, None, ), # 6
-    (7, TType.STRING, 'job', None, None, ), # 7
+    (6, TType.STRING, 'introduction', None, None, ), # 6
   )
 
-  def __init__(self, firstname=None, lastname=None, gender=None, birthday=None, location=None, org=None, job=None,):
+  def __init__(self, firstname=None, lastname=None, gender=None, birthday=None, location=None, introduction=None,):
     self.firstname = firstname
     self.lastname = lastname
     self.gender = gender
     self.birthday = birthday
     self.location = location
-    self.org = org
-    self.job = job
+    self.introduction = introduction
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -726,12 +771,7 @@ class UserInfoDetail:
           iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.STRING:
-          self.org = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 7:
-        if ftype == TType.STRING:
-          self.job = iprot.readString();
+          self.introduction = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -764,13 +804,9 @@ class UserInfoDetail:
       oprot.writeFieldBegin('location', TType.STRING, 5)
       oprot.writeString(self.location)
       oprot.writeFieldEnd()
-    if self.org is not None:
-      oprot.writeFieldBegin('org', TType.STRING, 6)
-      oprot.writeString(self.org)
-      oprot.writeFieldEnd()
-    if self.job is not None:
-      oprot.writeFieldBegin('job', TType.STRING, 7)
-      oprot.writeString(self.job)
+    if self.introduction is not None:
+      oprot.writeFieldBegin('introduction', TType.STRING, 6)
+      oprot.writeString(self.introduction)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -786,86 +822,8 @@ class UserInfoDetail:
       raise TProtocol.TProtocolException(message='Required field birthday is unset!')
     if self.location is None:
       raise TProtocol.TProtocolException(message='Required field location is unset!')
-    if self.org is None:
-      raise TProtocol.TProtocolException(message='Required field org is unset!')
-    if self.job is None:
-      raise TProtocol.TProtocolException(message='Required field job is unset!')
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class UserInfoIntro:
-  """
-  Attributes:
-   - motto
-   - description
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRING, 'motto', None, None, ), # 1
-    (2, TType.STRING, 'description', None, None, ), # 2
-  )
-
-  def __init__(self, motto=None, description=None,):
-    self.motto = motto
-    self.description = description
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRING:
-          self.motto = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRING:
-          self.description = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('UserInfoIntro')
-    if self.motto is not None:
-      oprot.writeFieldBegin('motto', TType.STRING, 1)
-      oprot.writeString(self.motto)
-      oprot.writeFieldEnd()
-    if self.description is not None:
-      oprot.writeFieldBegin('description', TType.STRING, 2)
-      oprot.writeString(self.description)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    if self.motto is None:
-      raise TProtocol.TProtocolException(message='Required field motto is unset!')
-    if self.description is None:
-      raise TProtocol.TProtocolException(message='Required field description is unset!')
+    if self.introduction is None:
+      raise TProtocol.TProtocolException(message='Required field introduction is unset!')
     return
 
 
@@ -885,20 +843,17 @@ class UserInfo:
   Attributes:
    - basic
    - detail
-   - intro
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRUCT, 'basic', (UserInfoBasic, UserInfoBasic.thrift_spec), None, ), # 1
     (2, TType.STRUCT, 'detail', (UserInfoDetail, UserInfoDetail.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'intro', (UserInfoIntro, UserInfoIntro.thrift_spec), None, ), # 3
   )
 
-  def __init__(self, basic=None, detail=None, intro=None,):
+  def __init__(self, basic=None, detail=None,):
     self.basic = basic
     self.detail = detail
-    self.intro = intro
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -921,12 +876,6 @@ class UserInfo:
           self.detail.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.intro = UserInfoIntro()
-          self.intro.read(iprot)
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -945,10 +894,6 @@ class UserInfo:
       oprot.writeFieldBegin('detail', TType.STRUCT, 2)
       self.detail.write(oprot)
       oprot.writeFieldEnd()
-    if self.intro is not None:
-      oprot.writeFieldBegin('intro', TType.STRUCT, 3)
-      self.intro.write(oprot)
-      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -957,8 +902,6 @@ class UserInfo:
       raise TProtocol.TProtocolException(message='Required field basic is unset!')
     if self.detail is None:
       raise TProtocol.TProtocolException(message='Required field detail is unset!')
-    if self.intro is None:
-      raise TProtocol.TProtocolException(message='Required field intro is unset!')
     return
 
 
@@ -973,7 +916,7 @@ class UserInfo:
   def __ne__(self, other):
     return not (self == other)
 
-class UserContactLink:
+class UserLink:
   """
   Attributes:
    - id
@@ -1034,7 +977,7 @@ class UserContactLink:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('UserContactLink')
+    oprot.writeStructBegin('UserLink')
     if self.id is not None:
       oprot.writeFieldBegin('id', TType.I64, 1)
       oprot.writeI64(self.id)
@@ -1282,20 +1225,17 @@ class UserContactMail:
 class UserContact:
   """
   Attributes:
-   - linkList
    - phoneList
    - mailList
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.LIST, 'linkList', (TType.STRUCT,(UserContactLink, UserContactLink.thrift_spec)), None, ), # 1
-    (2, TType.LIST, 'phoneList', (TType.STRUCT,(UserContactPhone, UserContactPhone.thrift_spec)), None, ), # 2
-    (3, TType.LIST, 'mailList', (TType.STRUCT,(UserContactMail, UserContactMail.thrift_spec)), None, ), # 3
+    (1, TType.LIST, 'phoneList', (TType.STRUCT,(UserContactPhone, UserContactPhone.thrift_spec)), None, ), # 1
+    (2, TType.LIST, 'mailList', (TType.STRUCT,(UserContactMail, UserContactMail.thrift_spec)), None, ), # 2
   )
 
-  def __init__(self, linkList=None, phoneList=None, mailList=None,):
-    self.linkList = linkList
+  def __init__(self, phoneList=None, mailList=None,):
     self.phoneList = phoneList
     self.mailList = mailList
 
@@ -1310,34 +1250,23 @@ class UserContact:
         break
       if fid == 1:
         if ftype == TType.LIST:
-          self.linkList = []
+          self.phoneList = []
           (_etype3, _size0) = iprot.readListBegin()
           for _i4 in xrange(_size0):
-            _elem5 = UserContactLink()
+            _elem5 = UserContactPhone()
             _elem5.read(iprot)
-            self.linkList.append(_elem5)
+            self.phoneList.append(_elem5)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.LIST:
-          self.phoneList = []
+          self.mailList = []
           (_etype9, _size6) = iprot.readListBegin()
           for _i10 in xrange(_size6):
-            _elem11 = UserContactPhone()
+            _elem11 = UserContactMail()
             _elem11.read(iprot)
-            self.phoneList.append(_elem11)
-          iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.LIST:
-          self.mailList = []
-          (_etype15, _size12) = iprot.readListBegin()
-          for _i16 in xrange(_size12):
-            _elem17 = UserContactMail()
-            _elem17.read(iprot)
-            self.mailList.append(_elem17)
+            self.mailList.append(_elem11)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1351,33 +1280,24 @@ class UserContact:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('UserContact')
-    if self.linkList is not None:
-      oprot.writeFieldBegin('linkList', TType.LIST, 1)
-      oprot.writeListBegin(TType.STRUCT, len(self.linkList))
-      for iter18 in self.linkList:
-        iter18.write(oprot)
-      oprot.writeListEnd()
-      oprot.writeFieldEnd()
     if self.phoneList is not None:
-      oprot.writeFieldBegin('phoneList', TType.LIST, 2)
+      oprot.writeFieldBegin('phoneList', TType.LIST, 1)
       oprot.writeListBegin(TType.STRUCT, len(self.phoneList))
-      for iter19 in self.phoneList:
-        iter19.write(oprot)
+      for iter12 in self.phoneList:
+        iter12.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.mailList is not None:
-      oprot.writeFieldBegin('mailList', TType.LIST, 3)
+      oprot.writeFieldBegin('mailList', TType.LIST, 2)
       oprot.writeListBegin(TType.STRUCT, len(self.mailList))
-      for iter20 in self.mailList:
-        iter20.write(oprot)
+      for iter13 in self.mailList:
+        iter13.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.linkList is None:
-      raise TProtocol.TProtocolException(message='Required field linkList is unset!')
     if self.phoneList is None:
       raise TProtocol.TProtocolException(message='Required field phoneList is unset!')
     if self.mailList is None:
@@ -1404,7 +1324,7 @@ class UserResumeStudy:
    - school
    - major
    - type
-   - description
+   - comment
   """
 
   thrift_spec = (
@@ -1414,16 +1334,16 @@ class UserResumeStudy:
     (3, TType.STRING, 'school', None, None, ), # 3
     (4, TType.STRING, 'major', None, None, ), # 4
     (5, TType.I32, 'type', None, None, ), # 5
-    (6, TType.STRING, 'description', None, None, ), # 6
+    (6, TType.STRING, 'comment', None, None, ), # 6
   )
 
-  def __init__(self, starttime=None, endtime=None, school=None, major=None, type=None, description=None,):
+  def __init__(self, starttime=None, endtime=None, school=None, major=None, type=None, comment=None,):
     self.starttime = starttime
     self.endtime = endtime
     self.school = school
     self.major = major
     self.type = type
-    self.description = description
+    self.comment = comment
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1461,7 +1381,7 @@ class UserResumeStudy:
           iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.STRING:
-          self.description = iprot.readString();
+          self.comment = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -1494,9 +1414,9 @@ class UserResumeStudy:
       oprot.writeFieldBegin('type', TType.I32, 5)
       oprot.writeI32(self.type)
       oprot.writeFieldEnd()
-    if self.description is not None:
-      oprot.writeFieldBegin('description', TType.STRING, 6)
-      oprot.writeString(self.description)
+    if self.comment is not None:
+      oprot.writeFieldBegin('comment', TType.STRING, 6)
+      oprot.writeString(self.comment)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1512,8 +1432,8 @@ class UserResumeStudy:
       raise TProtocol.TProtocolException(message='Required field major is unset!')
     if self.type is None:
       raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.description is None:
-      raise TProtocol.TProtocolException(message='Required field description is unset!')
+    if self.comment is None:
+      raise TProtocol.TProtocolException(message='Required field comment is unset!')
     return
 
 
@@ -1535,7 +1455,7 @@ class UserResumeWork:
    - endtime
    - org
    - job
-   - description
+   - comment
   """
 
   thrift_spec = (
@@ -1544,15 +1464,15 @@ class UserResumeWork:
     (2, TType.I64, 'endtime', None, None, ), # 2
     (3, TType.STRING, 'org', None, None, ), # 3
     (4, TType.STRING, 'job', None, None, ), # 4
-    (5, TType.STRING, 'description', None, None, ), # 5
+    (5, TType.STRING, 'comment', None, None, ), # 5
   )
 
-  def __init__(self, starttime=None, endtime=None, org=None, job=None, description=None,):
+  def __init__(self, starttime=None, endtime=None, org=None, job=None, comment=None,):
     self.starttime = starttime
     self.endtime = endtime
     self.org = org
     self.job = job
-    self.description = description
+    self.comment = comment
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1585,7 +1505,7 @@ class UserResumeWork:
           iprot.skip(ftype)
       elif fid == 5:
         if ftype == TType.STRING:
-          self.description = iprot.readString();
+          self.comment = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -1614,9 +1534,9 @@ class UserResumeWork:
       oprot.writeFieldBegin('job', TType.STRING, 4)
       oprot.writeString(self.job)
       oprot.writeFieldEnd()
-    if self.description is not None:
-      oprot.writeFieldBegin('description', TType.STRING, 5)
-      oprot.writeString(self.description)
+    if self.comment is not None:
+      oprot.writeFieldBegin('comment', TType.STRING, 5)
+      oprot.writeString(self.comment)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -1630,8 +1550,8 @@ class UserResumeWork:
       raise TProtocol.TProtocolException(message='Required field org is unset!')
     if self.job is None:
       raise TProtocol.TProtocolException(message='Required field job is unset!')
-    if self.description is None:
-      raise TProtocol.TProtocolException(message='Required field description is unset!')
+    if self.comment is None:
+      raise TProtocol.TProtocolException(message='Required field comment is unset!')
     return
 
 
@@ -1675,22 +1595,22 @@ class UserResume:
       if fid == 1:
         if ftype == TType.LIST:
           self.studyList = []
-          (_etype24, _size21) = iprot.readListBegin()
-          for _i25 in xrange(_size21):
-            _elem26 = UserResumeStudy()
-            _elem26.read(iprot)
-            self.studyList.append(_elem26)
+          (_etype17, _size14) = iprot.readListBegin()
+          for _i18 in xrange(_size14):
+            _elem19 = UserResumeStudy()
+            _elem19.read(iprot)
+            self.studyList.append(_elem19)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.LIST:
           self.workList = []
-          (_etype30, _size27) = iprot.readListBegin()
-          for _i31 in xrange(_size27):
-            _elem32 = UserResumeWork()
-            _elem32.read(iprot)
-            self.workList.append(_elem32)
+          (_etype23, _size20) = iprot.readListBegin()
+          for _i24 in xrange(_size20):
+            _elem25 = UserResumeWork()
+            _elem25.read(iprot)
+            self.workList.append(_elem25)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1707,15 +1627,15 @@ class UserResume:
     if self.studyList is not None:
       oprot.writeFieldBegin('studyList', TType.LIST, 1)
       oprot.writeListBegin(TType.STRUCT, len(self.studyList))
-      for iter33 in self.studyList:
-        iter33.write(oprot)
+      for iter26 in self.studyList:
+        iter26.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.workList is not None:
       oprot.writeFieldBegin('workList', TType.LIST, 2)
       oprot.writeListBegin(TType.STRUCT, len(self.workList))
-      for iter34 in self.workList:
-        iter34.write(oprot)
+      for iter27 in self.workList:
+        iter27.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1744,6 +1664,7 @@ class User:
   """
   Attributes:
    - info
+   - linkList
    - contact
    - resume
    - relationship
@@ -1752,13 +1673,15 @@ class User:
   thrift_spec = (
     None, # 0
     (1, TType.STRUCT, 'info', (UserInfo, UserInfo.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'contact', (UserContact, UserContact.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'resume', (UserResume, UserResume.thrift_spec), None, ), # 3
-    (4, TType.I32, 'relationship', None, None, ), # 4
+    (2, TType.LIST, 'linkList', (TType.STRUCT,(UserLink, UserLink.thrift_spec)), None, ), # 2
+    (3, TType.STRUCT, 'contact', (UserContact, UserContact.thrift_spec), None, ), # 3
+    (4, TType.STRUCT, 'resume', (UserResume, UserResume.thrift_spec), None, ), # 4
+    (5, TType.I32, 'relationship', None, None, ), # 5
   )
 
-  def __init__(self, info=None, contact=None, resume=None, relationship=None,):
+  def __init__(self, info=None, linkList=None, contact=None, resume=None, relationship=None,):
     self.info = info
+    self.linkList = linkList
     self.contact = contact
     self.resume = resume
     self.relationship = relationship
@@ -1779,18 +1702,29 @@ class User:
         else:
           iprot.skip(ftype)
       elif fid == 2:
+        if ftype == TType.LIST:
+          self.linkList = []
+          (_etype31, _size28) = iprot.readListBegin()
+          for _i32 in xrange(_size28):
+            _elem33 = UserLink()
+            _elem33.read(iprot)
+            self.linkList.append(_elem33)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
         if ftype == TType.STRUCT:
           self.contact = UserContact()
           self.contact.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 3:
+      elif fid == 4:
         if ftype == TType.STRUCT:
           self.resume = UserResume()
           self.resume.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 4:
+      elif fid == 5:
         if ftype == TType.I32:
           self.relationship = iprot.readI32();
         else:
@@ -1809,16 +1743,23 @@ class User:
       oprot.writeFieldBegin('info', TType.STRUCT, 1)
       self.info.write(oprot)
       oprot.writeFieldEnd()
+    if self.linkList is not None:
+      oprot.writeFieldBegin('linkList', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.linkList))
+      for iter34 in self.linkList:
+        iter34.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
     if self.contact is not None:
-      oprot.writeFieldBegin('contact', TType.STRUCT, 2)
+      oprot.writeFieldBegin('contact', TType.STRUCT, 3)
       self.contact.write(oprot)
       oprot.writeFieldEnd()
     if self.resume is not None:
-      oprot.writeFieldBegin('resume', TType.STRUCT, 3)
+      oprot.writeFieldBegin('resume', TType.STRUCT, 4)
       self.resume.write(oprot)
       oprot.writeFieldEnd()
     if self.relationship is not None:
-      oprot.writeFieldBegin('relationship', TType.I32, 4)
+      oprot.writeFieldBegin('relationship', TType.I32, 5)
       oprot.writeI32(self.relationship)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1827,6 +1768,8 @@ class User:
   def validate(self):
     if self.info is None:
       raise TProtocol.TProtocolException(message='Required field info is unset!')
+    if self.linkList is None:
+      raise TProtocol.TProtocolException(message='Required field linkList is unset!')
     if self.contact is None:
       raise TProtocol.TProtocolException(message='Required field contact is unset!')
     if self.resume is None:

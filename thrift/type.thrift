@@ -61,7 +61,10 @@ typedef i64 timestamp # Use '0' for now
 struct UserInfoBasic {
     1:  required    i64     id,
     2:  required    string  nickname,
-    3:  required    string  avatar # Image URL
+    3:  required    string  avatar, # Image URL
+    4:  required    string  motto
+    5:  required    string  org, # Company / School
+    6:  required    string  job, # Job / Major
 }
 
 ###
@@ -71,25 +74,17 @@ struct UserInfoDetail {
     3:  required    string      gender,
     4:  required    timestamp   birthday,
     5:  required    string      location,
-    6:  required    string      org, # Company / School
-    7:  required    string      job # Job / Major
-}
-
-###
-struct UserInfoIntro {
-    1:  required    string  motto,
-    2:  required    string  description # Self introduction
+    6:  required    string      introduction # Self introduction
 }
 
 ##
 struct UserInfo {
     1:  required    UserInfoBasic   basic,
-    2:  required    UserInfoDetail  detail,
-    3:  required    UserInfoIntro   intro
+    2:  required    UserInfoDetail  detail
 }
 
-####
-enum UserContactLinkType {
+###
+enum UserLinkType {
     Custom = 0,
     Public,
 
@@ -105,10 +100,10 @@ enum UserContactLinkType {
     SNSGoogle
 }
 
-###
-struct UserContactLink {
+##
+struct UserLink {
     1:  required    i64     id,
-    2:  required    UserContactLinkType type,
+    2:  required    UserLinkType type,
     3:  required    string  value, # URL
     4:  optional    string  label
 }
@@ -159,9 +154,8 @@ struct UserContactMail {
 
 ##
 struct UserContact {
-    1:  required    list<UserContactLink>   linkList,
-    2:  required    list<UserContactPhone>  phoneList,
-    3:  required    list<UserContactMail>   mailList
+    1:  required    list<UserContactPhone>  phoneList,
+    2:  required    list<UserContactMail>   mailList
 }
 
 ####
@@ -180,7 +174,7 @@ struct UserResumeStudy {
     3:  required    string      school,
     4:  required    string      major,
     5:  required    UserResumeStudyType type,
-    6:  required    string      description
+    6:  required    string      comment
 }
 
 ###
@@ -189,7 +183,7 @@ struct UserResumeWork {
     2:  required    timestamp   endtime,
     3:  required    string      org,
     4:  required    string      job,
-    5:  required    string      description
+    5:  required    string      comment
 }
 
 ##
@@ -201,15 +195,18 @@ struct UserResume {
 ##
 enum UserRelationship {
     None = 0,
-    Followed
+    Following,
+    Followed,
+    Friend
 }
 
 #
 struct User {
     1:  required    UserInfo          info,
-    2:  required    UserContact       contact,
-    3:  required    UserResume        resume,
-    4:  required    UserRelationship  relationship
+    2:  required    list<UserLink>    linkList,
+    3:  required    UserContact       contact,
+    4:  required    UserResume        resume,
+    5:  required    UserRelationship  relationship
 }
 
 # ############# User End ############# #
