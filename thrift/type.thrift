@@ -125,14 +125,6 @@ enum UserContactPhoneType {
     Other
 }
     
-###
-struct UserContactPhone {
-    1:  required    i64     id,
-    2:  required    UserContactPhoneType type,
-    3:  required    string  value, # Phone number
-    4:  optional    string  label
-}
-
 ####
 enum UserContactMailType {
     Custom = 0,
@@ -144,18 +136,19 @@ enum UserContactMailType {
 }
 
 ###
-struct UserContactMail {
-    1:  required    i64     id,
-    2:  required    UserContactMailType type,
-    3:  required    string  value, # Mail address
-    4:  optional    string  label
+enum UserContactType {
+    None = 0,
+    Phone,
+    Mail
 }
-
 
 ##
 struct UserContact {
-    1:  required    list<UserContactPhone>  phoneList,
-    2:  required    list<UserContactMail>   mailList
+    1:  required    i64     id,
+    2:  required    i64     type, # Phone or Mail
+    3:  required    i64     subtype, # PhoneType or MailType
+    4:  required    string  value, # Phone number or Mail address
+    5:  optional    string  label
 }
 
 ####
@@ -202,11 +195,11 @@ enum UserRelationship {
 
 #
 struct User {
-    1:  required    UserInfo          info,
-    2:  required    list<UserLink>    linkList,
-    3:  required    UserContact       contact,
-    4:  required    UserResume        resume,
-    5:  required    UserRelationship  relationship
+    1:  required    UserInfo            info,
+    2:  required    list<UserLink>      linkList,
+    3:  required    list<UserContact>   contactList,
+    4:  required    UserResume          resume,
+    5:  required    UserRelationship    relationship
 }
 
 # ############# User End ############# #
