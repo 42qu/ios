@@ -1,5 +1,3 @@
-
-
 enum AuthLoginPartner {
     AUTH_PARTNER_DOUBAN = 1,
     AUTH_PARTNER_SINA = 2,
@@ -192,7 +190,7 @@ enum UserRelationship {
 struct User {
     1:  required    UserInfo            info,
     2:  required    list<UserLink>      linkList,
-    3:  required    list<UserContact>   contactList,
+    3:  optional    list<UserContact>   contactList,
     4:  required    UserResume          resume,
     5:  required    UserRelationship    relationship
 }
