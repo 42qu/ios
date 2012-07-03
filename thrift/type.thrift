@@ -1,12 +1,4 @@
 
-// ----- Auth -----
-
-struct AuthRequestMail {
-  1:  required  string  client_id,
-  2:  required  string  client_secret,
-  3:  required  string  mail,
-  4:  required  string  password
-}
 
 enum AuthLoginPartner {
     AUTH_PARTNER_DOUBAN = 1,
@@ -54,33 +46,36 @@ typedef i64 timestamp # Use '0' for now
 # ############# Global End ############# #
 
 ##########################################
+# ------------- Auth Begin ------------- #
+##########################################
+
+struct AuthRequestMail {
+  1:  required  string  client_id,
+  2:  required  string  client_secret,
+  3:  required  string  mail,
+  4:  required  string  password
+}
+
+# ############# Auth End ############# #
+
+##########################################
 # ------------- User Begin ------------- #
 ##########################################
 
-###
-struct UserInfoBasic {
-    1:  required    i64     id,
-    2:  required    string  nickname,
-    3:  required    string  avatar, # Image URL
-    4:  required    string  motto
-    5:  required    string  org, # Company / School
-    6:  required    string  job, # Job / Major
-}
-
-###
-struct UserInfoDetail {
-    1:  required    string      firstname,
-    2:  required    string      lastname,
-    3:  required    string      gender,
-    4:  required    timestamp   birthday,
-    5:  required    string      location,
-    6:  required    string      introduction # Self introduction
-}
-
 ##
 struct UserInfo {
-    1:  required    UserInfoBasic   basic,
-    2:  required    UserInfoDetail  detail
+    1:  required    i64         id,
+    2:  required    string      nickname,
+    3:  required    string      avatar, # Image URL
+    4:  required    string      motto
+    5:  required    string      org, # Company / School
+    6:  required    string      job, # Job / Major
+    7:  optional    string      firstname,
+    8:  optional    string      lastname,
+    9:  optional    string      gender,
+    10: optional    timestamp   birthday,
+    11: optional    string      location,
+    12: optional    string      introduction # Self introduction
 }
 
 ###
