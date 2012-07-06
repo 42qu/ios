@@ -23,20 +23,11 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] function [arg1 [arg2...]]'
   print ''
   print 'Functions:'
-  print '  AuthResponse login_by_mail(AuthRequestMail auth)'
-  print '  AuthResponse login_by_oauth(string client_id, string client_secret, string access_token, string mail)'
-  print '  AuthResponse login_by_oauth2(string client_id, string client_secret, string access_token, string mail)'
+  print '  AuthResponse login_by_mail(AuthRequest auth, string mail, string password)'
   print '  void logout(string access_token)'
-  print '  UserInfo user_info_get(string access_token, i64 id)'
-  print '  UserInfo user_info_set(string access_token, UserInfo user_info)'
-  print '  TaskList task_list(string access_token, i64 start, i64 limit)'
-  print '  Task task_info(string access_token, i64 id)'
-  print '  i64 task_new(string access_token, Task task)'
-  print '  void task_apply(string access_token, i64 task_id)'
-  print '  void task_reject(string access_token, i64 user_id)'
-  print '  void task_accept(string access_token, i64 user_id)'
-  print '  CommentList comment_get(string access_token, i64 id)'
-  print '  void comment_make(string access_token, i64 id, string text)'
+  print '  UserInfo user_profile(string access_token, i64 uid)'
+  print '  TaskSummary task_summary(string access_token)'
+  print '  TaskInfo task_info(i64 tid)'
   print ''
   sys.exit(0)
 
@@ -89,22 +80,10 @@ client = Sns.Client(protocol)
 transport.open()
 
 if cmd == 'login_by_mail':
-  if len(args) != 1:
-    print 'login_by_mail requires 1 args'
+  if len(args) != 3:
+    print 'login_by_mail requires 3 args'
     sys.exit(1)
-  pp.pprint(client.login_by_mail(eval(args[0]),))
-
-elif cmd == 'login_by_oauth':
-  if len(args) != 4:
-    print 'login_by_oauth requires 4 args'
-    sys.exit(1)
-  pp.pprint(client.login_by_oauth(args[0],args[1],args[2],args[3],))
-
-elif cmd == 'login_by_oauth2':
-  if len(args) != 4:
-    print 'login_by_oauth2 requires 4 args'
-    sys.exit(1)
-  pp.pprint(client.login_by_oauth2(args[0],args[1],args[2],args[3],))
+  pp.pprint(client.login_by_mail(eval(args[0]),args[1],args[2],))
 
 elif cmd == 'logout':
   if len(args) != 1:
@@ -112,65 +91,23 @@ elif cmd == 'logout':
     sys.exit(1)
   pp.pprint(client.logout(args[0],))
 
-elif cmd == 'user_info_get':
+elif cmd == 'user_profile':
   if len(args) != 2:
-    print 'user_info_get requires 2 args'
+    print 'user_profile requires 2 args'
     sys.exit(1)
-  pp.pprint(client.user_info_get(args[0],eval(args[1]),))
+  pp.pprint(client.user_profile(args[0],eval(args[1]),))
 
-elif cmd == 'user_info_set':
-  if len(args) != 2:
-    print 'user_info_set requires 2 args'
+elif cmd == 'task_summary':
+  if len(args) != 1:
+    print 'task_summary requires 1 args'
     sys.exit(1)
-  pp.pprint(client.user_info_set(args[0],eval(args[1]),))
-
-elif cmd == 'task_list':
-  if len(args) != 3:
-    print 'task_list requires 3 args'
-    sys.exit(1)
-  pp.pprint(client.task_list(args[0],eval(args[1]),eval(args[2]),))
+  pp.pprint(client.task_summary(args[0],))
 
 elif cmd == 'task_info':
-  if len(args) != 2:
-    print 'task_info requires 2 args'
+  if len(args) != 1:
+    print 'task_info requires 1 args'
     sys.exit(1)
-  pp.pprint(client.task_info(args[0],eval(args[1]),))
-
-elif cmd == 'task_new':
-  if len(args) != 2:
-    print 'task_new requires 2 args'
-    sys.exit(1)
-  pp.pprint(client.task_new(args[0],eval(args[1]),))
-
-elif cmd == 'task_apply':
-  if len(args) != 2:
-    print 'task_apply requires 2 args'
-    sys.exit(1)
-  pp.pprint(client.task_apply(args[0],eval(args[1]),))
-
-elif cmd == 'task_reject':
-  if len(args) != 2:
-    print 'task_reject requires 2 args'
-    sys.exit(1)
-  pp.pprint(client.task_reject(args[0],eval(args[1]),))
-
-elif cmd == 'task_accept':
-  if len(args) != 2:
-    print 'task_accept requires 2 args'
-    sys.exit(1)
-  pp.pprint(client.task_accept(args[0],eval(args[1]),))
-
-elif cmd == 'comment_get':
-  if len(args) != 2:
-    print 'comment_get requires 2 args'
-    sys.exit(1)
-  pp.pprint(client.comment_get(args[0],eval(args[1]),))
-
-elif cmd == 'comment_make':
-  if len(args) != 3:
-    print 'comment_make requires 3 args'
-    sys.exit(1)
-  pp.pprint(client.comment_make(args[0],eval(args[1]),args[2],))
+  pp.pprint(client.task_info(eval(args[0]),))
 
 else:
   print 'Unrecognized method %s' % cmd

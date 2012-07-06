@@ -1,4 +1,56 @@
-enum AuthLoginPartner {
+
+typedef i64 timestamp
+
+struct AuthRequest {
+  1: required string client_id,
+  2: required string client_serect
+}
+
+struct AuthResponse {
+  1:  required  i64                 uid,
+  2:  required  string              name,
+  3:  required  string              access_token,
+  4:  optional  string              refresh_token,
+  5:  optional  i64                 expire_time
+}
+
+enum enmSex {
+  MALE,
+  FEMALE,
+  UNKNOW
+}
+
+struct UserInfo {
+  1: required string name,
+  2: required enmSex sex,
+  3: required string org,
+  4: required string job,
+  5: required string small_avator,
+  6: required string big_avator,
+  7: required string intro
+}
+
+struct TaskInfo {
+  1: required  i64              tid,
+  2: required  string          name,
+  3: required  string          intro,
+  4: required  timestamp       begin_time,
+  5: required  timestamp       end_time,
+  6: required  i64             owner,
+  7: required  list<i64>       user_apply_list,
+  8: required  list<i64>       user_accept_list,
+  9: required  list<i64>       user_reject_list 
+}
+
+struct TaskSummary {
+  1: required list<i64> recommend,
+  2: required list<i64> nearby,
+  3: required list<i64> follow
+}
+
+
+
+/*enum AuthLoginPartner {
     AUTH_PARTNER_DOUBAN = 1,
     AUTH_PARTNER_SINA = 2,
     AUTH_PARTNER_TENCENT = 3,
@@ -35,17 +87,7 @@ struct AuthResponse {
   5:  optional  i64                 expire_time
 }
 
-############################################
-# ------------- Global Begin ------------- #
-############################################
 
-typedef i64 timestamp # Use '0' for now
-
-# ############# Global End ############# #
-
-##########################################
-# ------------- Auth Begin ------------- #
-##########################################
 
 struct AuthRequestMail {
   1:  required  string  client_id,
@@ -54,13 +96,6 @@ struct AuthRequestMail {
   4:  required  string  password
 }
 
-# ############# Auth End ############# #
-
-##########################################
-# ------------- User Begin ------------- #
-##########################################
-
-##
 struct UserInfo {
     1:  required    i64         id,
     2:  required    string      nickname,
@@ -257,4 +292,4 @@ struct CommentList {
     1: required i64             num,
     2: optional list<Comment>   data
 }
-
+*/

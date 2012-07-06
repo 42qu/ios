@@ -13,111 +13,28 @@
 #import <TProcessor.h>
 
 
-enum AuthLoginPartner {
-  AuthLoginPartner_AUTH_PARTNER_DOUBAN = 1,
-  AuthLoginPartner_AUTH_PARTNER_SINA = 2,
-  AuthLoginPartner_AUTH_PARTNER_TENCENT = 3,
-  AuthLoginPartner_AUTH_PARTNER_RENREN = 4,
-  AuthLoginPartner_AUTH_PARTNER_KAIXIN = 5,
-  AuthLoginPartner_AUTH_PARTNER_163 = 6,
-  AuthLoginPartner_AUTH_PARTNER_FANFOU = 7
-};
-
-enum AuthResponseStatus {
-  AuthResponseStatus_AUTH_SUCCESS = 0,
-  AuthResponseStatus_AUTH_FAIL_REASON_UNKNOWN = 1,
-  AuthResponseStatus_AUTH_FAIL_SERVER_ERROR = 2,
-  AuthResponseStatus_AUTH_FAIL_CLIENT_KEY_NOT_AUTHORIZED = 3,
-  AuthResponseStatus_AUTH_FAIL_CLIENT_SECRET_WRONG = 4,
-  AuthResponseStatus_AUTH_FAIL_ID_NOT_EXIST = 5,
-  AuthResponseStatus_AUTH_FAIL_ID_INVALID = 6,
-  AuthResponseStatus_AUTH_FAIL_PASSWORD_WRONG = 7
-};
-
-enum UserLinkType {
-  UserLinkType_Custom = 0,
-  UserLinkType_Public = 1,
-  UserLinkType_Homepage = 2,
-  UserLinkType_Home = 3,
-  UserLinkType_Work = 4,
-  UserLinkType_Other = 5,
-  UserLinkType_SNSDouban = 6,
-  UserLinkType_SNSWeibo = 7,
-  UserLinkType_SNSRenren = 8,
-  UserLinkType_SNSTencent = 9,
-  UserLinkType_SNSGoogle = 10
-};
-
-enum UserContactPhoneType {
-  UserContactPhoneType_Custom = 0,
-  UserContactPhoneType_Public = 1,
-  UserContactPhoneType_Mobile = 2,
-  UserContactPhoneType_IPhone = 3,
-  UserContactPhoneType_Home = 4,
-  UserContactPhoneType_Work = 5,
-  UserContactPhoneType_Main = 6,
-  UserContactPhoneType_HomeFax = 7,
-  UserContactPhoneType_WorkFax = 8,
-  UserContactPhoneType_OtherFax = 9,
-  UserContactPhoneType_Pager = 10,
-  UserContactPhoneType_Other = 11
-};
-
-enum UserContactMailType {
-  UserContactMailType_Custom = 0,
-  UserContactMailType_Public = 1,
-  UserContactMailType_Home = 2,
-  UserContactMailType_Work = 3,
-  UserContactMailType_Other = 4
-};
-
-enum UserContactType {
-  UserContactType_None = 0,
-  UserContactType_Phone = 1,
-  UserContactType_Mail = 2
-};
-
-enum UserResumeStudyType {
-  UserResumeStudyType_Undergraduate = 0,
-  UserResumeStudyType_Master = 1,
-  UserResumeStudyType_Doctor = 2,
-  UserResumeStudyType_Janitor = 3,
-  UserResumeStudyType_Teacher = 4
-};
-
-enum UserRelationship {
-  UserRelationship_None = 0,
-  UserRelationship_Following = 1,
-  UserRelationship_Followed = 2,
-  UserRelationship_Friend = 3
-};
-
-enum TaskCid {
-  TaskCid_TASK_CID_EVENT = 1
+enum enmSex {
+  enmSex_MALE = 0,
+  enmSex_FEMALE = 1,
+  enmSex_UNKNOW = 2
 };
 
 typedef int64_t timestamp;
 
-@interface AuthRequestMail : NSObject <NSCoding> {
+@interface AuthRequest : NSObject <NSCoding> {
   NSString * __client_id;
-  NSString * __client_secret;
-  NSString * __mail;
-  NSString * __password;
+  NSString * __client_serect;
 
   BOOL __client_id_isset;
-  BOOL __client_secret_isset;
-  BOOL __mail_isset;
-  BOOL __password_isset;
+  BOOL __client_serect_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
-@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
-@property (nonatomic, retain, getter=mail, setter=setMail:) NSString * mail;
-@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
+@property (nonatomic, retain, getter=client_serect, setter=setClient_serect:) NSString * client_serect;
 #endif
 
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret mail: (NSString *) mail password: (NSString *) password;
+- (id) initWithClient_id: (NSString *) client_id client_serect: (NSString *) client_serect;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -126,77 +43,20 @@ typedef int64_t timestamp;
 - (void) setClient_id: (NSString *) client_id;
 - (BOOL) client_idIsSet;
 
-- (NSString *) client_secret;
-- (void) setClient_secret: (NSString *) client_secret;
-- (BOOL) client_secretIsSet;
-
-- (NSString *) mail;
-- (void) setMail: (NSString *) mail;
-- (BOOL) mailIsSet;
-
-- (NSString *) password;
-- (void) setPassword: (NSString *) password;
-- (BOOL) passwordIsSet;
-
-@end
-
-@interface AuthRequestPartner : NSObject <NSCoding> {
-  NSString * __client_id;
-  NSString * __client_secret;
-  int __partner;
-  NSString * __access_token;
-  NSString * __mail;
-
-  BOOL __client_id_isset;
-  BOOL __client_secret_isset;
-  BOOL __partner_isset;
-  BOOL __access_token_isset;
-  BOOL __mail_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
-@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
-@property (nonatomic, getter=partner, setter=setPartner:) int partner;
-@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, retain, getter=mail, setter=setMail:) NSString * mail;
-#endif
-
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret partner: (int) partner access_token: (NSString *) access_token mail: (NSString *) mail;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) client_id;
-- (void) setClient_id: (NSString *) client_id;
-- (BOOL) client_idIsSet;
-
-- (NSString *) client_secret;
-- (void) setClient_secret: (NSString *) client_secret;
-- (BOOL) client_secretIsSet;
-
-- (int) partner;
-- (void) setPartner: (int) partner;
-- (BOOL) partnerIsSet;
-
-- (NSString *) access_token;
-- (void) setAccess_token: (NSString *) access_token;
-- (BOOL) access_tokenIsSet;
-
-- (NSString *) mail;
-- (void) setMail: (NSString *) mail;
-- (BOOL) mailIsSet;
+- (NSString *) client_serect;
+- (void) setClient_serect: (NSString *) client_serect;
+- (BOOL) client_serectIsSet;
 
 @end
 
 @interface AuthResponse : NSObject <NSCoding> {
-  int64_t __id;
+  int64_t __uid;
   NSString * __name;
   NSString * __access_token;
   NSString * __refresh_token;
   int64_t __expire_time;
 
-  BOOL __id_isset;
+  BOOL __uid_isset;
   BOOL __name_isset;
   BOOL __access_token_isset;
   BOOL __refresh_token_isset;
@@ -204,21 +64,21 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=uid, setter=setUid:) int64_t uid;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
 @property (nonatomic, retain, getter=refresh_token, setter=setRefresh_token:) NSString * refresh_token;
 @property (nonatomic, getter=expire_time, setter=setExpire_time:) int64_t expire_time;
 #endif
 
-- (id) initWithId: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time;
+- (id) initWithUid: (int64_t) uid name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
+- (int64_t) uid;
+- (void) setUid: (int64_t) uid;
+- (BOOL) uidIsSet;
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;
@@ -238,327 +98,46 @@ typedef int64_t timestamp;
 
 @end
 
-@interface UserInfoBasic : NSObject <NSCoding> {
-  int64_t __id;
-  NSString * __nickname;
-  NSString * __avatar;
-  NSString * __motto;
-  NSString * __org;
-  NSString * __job;
-
-  BOOL __id_isset;
-  BOOL __nickname_isset;
-  BOOL __avatar_isset;
-  BOOL __motto_isset;
-  BOOL __org_isset;
-  BOOL __job_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, retain, getter=nickname, setter=setNickname:) NSString * nickname;
-@property (nonatomic, retain, getter=avatar, setter=setAvatar:) NSString * avatar;
-@property (nonatomic, retain, getter=motto, setter=setMotto:) NSString * motto;
-@property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
-@property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
-#endif
-
-- (id) initWithId: (int64_t) id nickname: (NSString *) nickname avatar: (NSString *) avatar motto: (NSString *) motto org: (NSString *) org job: (NSString *) job;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
-
-- (NSString *) nickname;
-- (void) setNickname: (NSString *) nickname;
-- (BOOL) nicknameIsSet;
-
-- (NSString *) avatar;
-- (void) setAvatar: (NSString *) avatar;
-- (BOOL) avatarIsSet;
-
-- (NSString *) motto;
-- (void) setMotto: (NSString *) motto;
-- (BOOL) mottoIsSet;
-
-- (NSString *) org;
-- (void) setOrg: (NSString *) org;
-- (BOOL) orgIsSet;
-
-- (NSString *) job;
-- (void) setJob: (NSString *) job;
-- (BOOL) jobIsSet;
-
-@end
-
-@interface UserInfoDetail : NSObject <NSCoding> {
-  NSString * __firstname;
-  NSString * __lastname;
-  NSString * __gender;
-  timestamp __birthday;
-  NSString * __location;
-  NSString * __introduction;
-
-  BOOL __firstname_isset;
-  BOOL __lastname_isset;
-  BOOL __gender_isset;
-  BOOL __birthday_isset;
-  BOOL __location_isset;
-  BOOL __introduction_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=firstname, setter=setFirstname:) NSString * firstname;
-@property (nonatomic, retain, getter=lastname, setter=setLastname:) NSString * lastname;
-@property (nonatomic, retain, getter=gender, setter=setGender:) NSString * gender;
-@property (nonatomic, getter=birthday, setter=setBirthday:) timestamp birthday;
-@property (nonatomic, retain, getter=location, setter=setLocation:) NSString * location;
-@property (nonatomic, retain, getter=introduction, setter=setIntroduction:) NSString * introduction;
-#endif
-
-- (id) initWithFirstname: (NSString *) firstname lastname: (NSString *) lastname gender: (NSString *) gender birthday: (timestamp) birthday location: (NSString *) location introduction: (NSString *) introduction;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) firstname;
-- (void) setFirstname: (NSString *) firstname;
-- (BOOL) firstnameIsSet;
-
-- (NSString *) lastname;
-- (void) setLastname: (NSString *) lastname;
-- (BOOL) lastnameIsSet;
-
-- (NSString *) gender;
-- (void) setGender: (NSString *) gender;
-- (BOOL) genderIsSet;
-
-- (timestamp) birthday;
-- (void) setBirthday: (timestamp) birthday;
-- (BOOL) birthdayIsSet;
-
-- (NSString *) location;
-- (void) setLocation: (NSString *) location;
-- (BOOL) locationIsSet;
-
-- (NSString *) introduction;
-- (void) setIntroduction: (NSString *) introduction;
-- (BOOL) introductionIsSet;
-
-@end
-
 @interface UserInfo : NSObject <NSCoding> {
-  UserInfoBasic * __basic;
-  UserInfoDetail * __detail;
-
-  BOOL __basic_isset;
-  BOOL __detail_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=basic, setter=setBasic:) UserInfoBasic * basic;
-@property (nonatomic, retain, getter=detail, setter=setDetail:) UserInfoDetail * detail;
-#endif
-
-- (id) initWithBasic: (UserInfoBasic *) basic detail: (UserInfoDetail *) detail;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (UserInfoBasic *) basic;
-- (void) setBasic: (UserInfoBasic *) basic;
-- (BOOL) basicIsSet;
-
-- (UserInfoDetail *) detail;
-- (void) setDetail: (UserInfoDetail *) detail;
-- (BOOL) detailIsSet;
-
-@end
-
-@interface UserLink : NSObject <NSCoding> {
-  int64_t __id;
-  int __type;
-  NSString * __value;
-  NSString * __label;
-
-  BOOL __id_isset;
-  BOOL __type_isset;
-  BOOL __value_isset;
-  BOOL __label_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, getter=type, setter=setType:) int type;
-@property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
-@property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
-#endif
-
-- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value label: (NSString *) label;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
-
-- (int) type;
-- (void) setType: (int) type;
-- (BOOL) typeIsSet;
-
-- (NSString *) value;
-- (void) setValue: (NSString *) value;
-- (BOOL) valueIsSet;
-
-- (NSString *) label;
-- (void) setLabel: (NSString *) label;
-- (BOOL) labelIsSet;
-
-@end
-
-@interface UserContact : NSObject <NSCoding> {
-  int64_t __id;
-  int __type;
-  int64_t __subtype;
-  NSString * __value;
-  NSString * __label;
-
-  BOOL __id_isset;
-  BOOL __type_isset;
-  BOOL __subtype_isset;
-  BOOL __value_isset;
-  BOOL __label_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, getter=type, setter=setType:) int type;
-@property (nonatomic, getter=subtype, setter=setSubtype:) int64_t subtype;
-@property (nonatomic, retain, getter=value, setter=setValue:) NSString * value;
-@property (nonatomic, retain, getter=label, setter=setLabel:) NSString * label;
-#endif
-
-- (id) initWithId: (int64_t) id type: (int) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
-
-- (int) type;
-- (void) setType: (int) type;
-- (BOOL) typeIsSet;
-
-- (int64_t) subtype;
-- (void) setSubtype: (int64_t) subtype;
-- (BOOL) subtypeIsSet;
-
-- (NSString *) value;
-- (void) setValue: (NSString *) value;
-- (BOOL) valueIsSet;
-
-- (NSString *) label;
-- (void) setLabel: (NSString *) label;
-- (BOOL) labelIsSet;
-
-@end
-
-@interface UserResumeStudy : NSObject <NSCoding> {
-  timestamp __starttime;
-  timestamp __endtime;
-  NSString * __school;
-  NSString * __major;
-  int __type;
-  NSString * __comment;
-
-  BOOL __starttime_isset;
-  BOOL __endtime_isset;
-  BOOL __school_isset;
-  BOOL __major_isset;
-  BOOL __type_isset;
-  BOOL __comment_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=starttime, setter=setStarttime:) timestamp starttime;
-@property (nonatomic, getter=endtime, setter=setEndtime:) timestamp endtime;
-@property (nonatomic, retain, getter=school, setter=setSchool:) NSString * school;
-@property (nonatomic, retain, getter=major, setter=setMajor:) NSString * major;
-@property (nonatomic, getter=type, setter=setType:) int type;
-@property (nonatomic, retain, getter=comment, setter=setComment:) NSString * comment;
-#endif
-
-- (id) initWithStarttime: (timestamp) starttime endtime: (timestamp) endtime school: (NSString *) school major: (NSString *) major type: (int) type comment: (NSString *) comment;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (timestamp) starttime;
-- (void) setStarttime: (timestamp) starttime;
-- (BOOL) starttimeIsSet;
-
-- (timestamp) endtime;
-- (void) setEndtime: (timestamp) endtime;
-- (BOOL) endtimeIsSet;
-
-- (NSString *) school;
-- (void) setSchool: (NSString *) school;
-- (BOOL) schoolIsSet;
-
-- (NSString *) major;
-- (void) setMajor: (NSString *) major;
-- (BOOL) majorIsSet;
-
-- (int) type;
-- (void) setType: (int) type;
-- (BOOL) typeIsSet;
-
-- (NSString *) comment;
-- (void) setComment: (NSString *) comment;
-- (BOOL) commentIsSet;
-
-@end
-
-@interface UserResumeWork : NSObject <NSCoding> {
-  timestamp __starttime;
-  timestamp __endtime;
+  NSString * __name;
+  int __sex;
   NSString * __org;
   NSString * __job;
-  NSString * __comment;
+  NSString * __small_avator;
+  NSString * __big_avator;
+  NSString * __intro;
 
-  BOOL __starttime_isset;
-  BOOL __endtime_isset;
+  BOOL __name_isset;
+  BOOL __sex_isset;
   BOOL __org_isset;
   BOOL __job_isset;
-  BOOL __comment_isset;
+  BOOL __small_avator_isset;
+  BOOL __big_avator_isset;
+  BOOL __intro_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=starttime, setter=setStarttime:) timestamp starttime;
-@property (nonatomic, getter=endtime, setter=setEndtime:) timestamp endtime;
+@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, getter=sex, setter=setSex:) int sex;
 @property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
 @property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
-@property (nonatomic, retain, getter=comment, setter=setComment:) NSString * comment;
+@property (nonatomic, retain, getter=small_avator, setter=setSmall_avator:) NSString * small_avator;
+@property (nonatomic, retain, getter=big_avator, setter=setBig_avator:) NSString * big_avator;
+@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
 #endif
 
-- (id) initWithStarttime: (timestamp) starttime endtime: (timestamp) endtime org: (NSString *) org job: (NSString *) job comment: (NSString *) comment;
+- (id) initWithName: (NSString *) name sex: (int) sex org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (timestamp) starttime;
-- (void) setStarttime: (timestamp) starttime;
-- (BOOL) starttimeIsSet;
+- (NSString *) name;
+- (void) setName: (NSString *) name;
+- (BOOL) nameIsSet;
 
-- (timestamp) endtime;
-- (void) setEndtime: (timestamp) endtime;
-- (BOOL) endtimeIsSet;
+- (int) sex;
+- (void) setSex: (int) sex;
+- (BOOL) sexIsSet;
 
 - (NSString *) org;
 - (void) setOrg: (NSString *) org;
@@ -568,245 +147,34 @@ typedef int64_t timestamp;
 - (void) setJob: (NSString *) job;
 - (BOOL) jobIsSet;
 
-- (NSString *) comment;
-- (void) setComment: (NSString *) comment;
-- (BOOL) commentIsSet;
+- (NSString *) small_avator;
+- (void) setSmall_avator: (NSString *) small_avator;
+- (BOOL) small_avatorIsSet;
+
+- (NSString *) big_avator;
+- (void) setBig_avator: (NSString *) big_avator;
+- (BOOL) big_avatorIsSet;
+
+- (NSString *) intro;
+- (void) setIntro: (NSString *) intro;
+- (BOOL) introIsSet;
 
 @end
 
-@interface UserResume : NSObject <NSCoding> {
-  NSArray * __studyList;
-  NSArray * __workList;
-
-  BOOL __studyList_isset;
-  BOOL __workList_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=studyList, setter=setStudyList:) NSArray * studyList;
-@property (nonatomic, retain, getter=workList, setter=setWorkList:) NSArray * workList;
-#endif
-
-- (id) initWithStudyList: (NSArray *) studyList workList: (NSArray *) workList;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSArray *) studyList;
-- (void) setStudyList: (NSArray *) studyList;
-- (BOOL) studyListIsSet;
-
-- (NSArray *) workList;
-- (void) setWorkList: (NSArray *) workList;
-- (BOOL) workListIsSet;
-
-@end
-
-@interface User : NSObject <NSCoding> {
-  UserInfo * __info;
-  NSArray * __linkList;
-  NSArray * __contactList;
-  UserResume * __resume;
-  int __relationship;
-
-  BOOL __info_isset;
-  BOOL __linkList_isset;
-  BOOL __contactList_isset;
-  BOOL __resume_isset;
-  BOOL __relationship_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=info, setter=setInfo:) UserInfo * info;
-@property (nonatomic, retain, getter=linkList, setter=setLinkList:) NSArray * linkList;
-@property (nonatomic, retain, getter=contactList, setter=setContactList:) NSArray * contactList;
-@property (nonatomic, retain, getter=resume, setter=setResume:) UserResume * resume;
-@property (nonatomic, getter=relationship, setter=setRelationship:) int relationship;
-#endif
-
-- (id) initWithInfo: (UserInfo *) info linkList: (NSArray *) linkList contactList: (NSArray *) contactList resume: (UserResume *) resume relationship: (int) relationship;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (UserInfo *) info;
-- (void) setInfo: (UserInfo *) info;
-- (BOOL) infoIsSet;
-
-- (NSArray *) linkList;
-- (void) setLinkList: (NSArray *) linkList;
-- (BOOL) linkListIsSet;
-
-- (NSArray *) contactList;
-- (void) setContactList: (NSArray *) contactList;
-- (BOOL) contactListIsSet;
-
-- (UserResume *) resume;
-- (void) setResume: (UserResume *) resume;
-- (BOOL) resumeIsSet;
-
-- (int) relationship;
-- (void) setRelationship: (int) relationship;
-- (BOOL) relationshipIsSet;
-
-@end
-
-@interface StatusPost : NSObject <NSCoding> {
-  NSString * __content;
-  NSArray * __tagList;
-
-  BOOL __content_isset;
-  BOOL __tagList_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
-@property (nonatomic, retain, getter=tagList, setter=setTagList:) NSArray * tagList;
-#endif
-
-- (id) initWithContent: (NSString *) content tagList: (NSArray *) tagList;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) content;
-- (void) setContent: (NSString *) content;
-- (BOOL) contentIsSet;
-
-- (NSArray *) tagList;
-- (void) setTagList: (NSArray *) tagList;
-- (BOOL) tagListIsSet;
-
-@end
-
-@interface StatusComment : NSObject <NSCoding> {
-  int64_t __id;
-  int64_t __authorID;
-  NSString * __authorName;
-  timestamp __date;
-  NSString * __content;
-
-  BOOL __id_isset;
-  BOOL __authorID_isset;
-  BOOL __authorName_isset;
-  BOOL __date_isset;
-  BOOL __content_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, getter=authorID, setter=setAuthorID:) int64_t authorID;
-@property (nonatomic, retain, getter=authorName, setter=setAuthorName:) NSString * authorName;
-@property (nonatomic, getter=date, setter=setDate:) timestamp date;
-@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
-#endif
-
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
-
-- (int64_t) authorID;
-- (void) setAuthorID: (int64_t) authorID;
-- (BOOL) authorIDIsSet;
-
-- (NSString *) authorName;
-- (void) setAuthorName: (NSString *) authorName;
-- (BOOL) authorNameIsSet;
-
-- (timestamp) date;
-- (void) setDate: (timestamp) date;
-- (BOOL) dateIsSet;
-
-- (NSString *) content;
-- (void) setContent: (NSString *) content;
-- (BOOL) contentIsSet;
-
-@end
-
-@interface Status : NSObject <NSCoding> {
-  int64_t __id;
-  int64_t __authorID;
-  NSString * __authorName;
-  timestamp __date;
-  NSString * __content;
-  int64_t __commentCount;
-  NSArray * __commentList;
-
-  BOOL __id_isset;
-  BOOL __authorID_isset;
-  BOOL __authorName_isset;
-  BOOL __date_isset;
-  BOOL __content_isset;
-  BOOL __commentCount_isset;
-  BOOL __commentList_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
-@property (nonatomic, getter=authorID, setter=setAuthorID:) int64_t authorID;
-@property (nonatomic, retain, getter=authorName, setter=setAuthorName:) NSString * authorName;
-@property (nonatomic, getter=date, setter=setDate:) timestamp date;
-@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
-@property (nonatomic, getter=commentCount, setter=setCommentCount:) int64_t commentCount;
-@property (nonatomic, retain, getter=commentList, setter=setCommentList:) NSArray * commentList;
-#endif
-
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
-
-- (int64_t) authorID;
-- (void) setAuthorID: (int64_t) authorID;
-- (BOOL) authorIDIsSet;
-
-- (NSString *) authorName;
-- (void) setAuthorName: (NSString *) authorName;
-- (BOOL) authorNameIsSet;
-
-- (timestamp) date;
-- (void) setDate: (timestamp) date;
-- (BOOL) dateIsSet;
-
-- (NSString *) content;
-- (void) setContent: (NSString *) content;
-- (BOOL) contentIsSet;
-
-- (int64_t) commentCount;
-- (void) setCommentCount: (int64_t) commentCount;
-- (BOOL) commentCountIsSet;
-
-- (NSArray *) commentList;
-- (void) setCommentList: (NSArray *) commentList;
-- (BOOL) commentListIsSet;
-
-@end
-
-@interface Task : NSObject <NSCoding> {
-  int64_t __id;
+@interface TaskInfo : NSObject <NSCoding> {
+  int64_t __tid;
   NSString * __name;
   NSString * __intro;
-  int __cid;
   timestamp __begin_time;
   timestamp __end_time;
-  UserInfo * __owner;
+  int64_t __owner;
   NSArray * __user_apply_list;
   NSArray * __user_accept_list;
   NSArray * __user_reject_list;
 
-  BOOL __id_isset;
+  BOOL __tid_isset;
   BOOL __name_isset;
   BOOL __intro_isset;
-  BOOL __cid_isset;
   BOOL __begin_time_isset;
   BOOL __end_time_isset;
   BOOL __owner_isset;
@@ -816,26 +184,25 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
-@property (nonatomic, getter=cid, setter=setCid:) int cid;
 @property (nonatomic, getter=begin_time, setter=setBegin_time:) timestamp begin_time;
 @property (nonatomic, getter=end_time, setter=setEnd_time:) timestamp end_time;
-@property (nonatomic, retain, getter=owner, setter=setOwner:) UserInfo * owner;
+@property (nonatomic, getter=owner, setter=setOwner:) int64_t owner;
 @property (nonatomic, retain, getter=user_apply_list, setter=setUser_apply_list:) NSArray * user_apply_list;
 @property (nonatomic, retain, getter=user_accept_list, setter=setUser_accept_list:) NSArray * user_accept_list;
 @property (nonatomic, retain, getter=user_reject_list, setter=setUser_reject_list:) NSArray * user_reject_list;
 #endif
 
-- (id) initWithId: (int64_t) id name: (NSString *) name intro: (NSString *) intro cid: (int) cid begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (UserInfo *) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list;
+- (id) initWithTid: (int64_t) tid name: (NSString *) name intro: (NSString *) intro begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (int64_t) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
+- (int64_t) tid;
+- (void) setTid: (int64_t) tid;
+- (BOOL) tidIsSet;
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;
@@ -845,10 +212,6 @@ typedef int64_t timestamp;
 - (void) setIntro: (NSString *) intro;
 - (BOOL) introIsSet;
 
-- (int) cid;
-- (void) setCid: (int) cid;
-- (BOOL) cidIsSet;
-
 - (timestamp) begin_time;
 - (void) setBegin_time: (timestamp) begin_time;
 - (BOOL) begin_timeIsSet;
@@ -857,8 +220,8 @@ typedef int64_t timestamp;
 - (void) setEnd_time: (timestamp) end_time;
 - (BOOL) end_timeIsSet;
 
-- (UserInfo *) owner;
-- (void) setOwner: (UserInfo *) owner;
+- (int64_t) owner;
+- (void) setOwner: (int64_t) owner;
 - (BOOL) ownerIsSet;
 
 - (NSArray *) user_apply_list;
@@ -875,87 +238,38 @@ typedef int64_t timestamp;
 
 @end
 
-@interface TaskList : NSObject <NSCoding> {
-  int64_t __num;
-  NSArray * __data;
+@interface TaskSummary : NSObject <NSCoding> {
+  NSArray * __recommend;
+  NSArray * __nearby;
+  NSArray * __follow;
 
-  BOOL __num_isset;
-  BOOL __data_isset;
+  BOOL __recommend_isset;
+  BOOL __nearby_isset;
+  BOOL __follow_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=num, setter=setNum:) int64_t num;
-@property (nonatomic, retain, getter=data, setter=setData:) NSArray * data;
+@property (nonatomic, retain, getter=recommend, setter=setRecommend:) NSArray * recommend;
+@property (nonatomic, retain, getter=nearby, setter=setNearby:) NSArray * nearby;
+@property (nonatomic, retain, getter=follow, setter=setFollow:) NSArray * follow;
 #endif
 
-- (id) initWithNum: (int64_t) num data: (NSArray *) data;
+- (id) initWithRecommend: (NSArray *) recommend nearby: (NSArray *) nearby follow: (NSArray *) follow;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) num;
-- (void) setNum: (int64_t) num;
-- (BOOL) numIsSet;
+- (NSArray *) recommend;
+- (void) setRecommend: (NSArray *) recommend;
+- (BOOL) recommendIsSet;
 
-- (NSArray *) data;
-- (void) setData: (NSArray *) data;
-- (BOOL) dataIsSet;
+- (NSArray *) nearby;
+- (void) setNearby: (NSArray *) nearby;
+- (BOOL) nearbyIsSet;
 
-@end
-
-@interface Comment : NSObject <NSCoding> {
-  NSString * __text;
-  timestamp __time;
-
-  BOOL __text_isset;
-  BOOL __time_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=text, setter=setText:) NSString * text;
-@property (nonatomic, getter=time, setter=setTime:) timestamp time;
-#endif
-
-- (id) initWithText: (NSString *) text time: (timestamp) time;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) text;
-- (void) setText: (NSString *) text;
-- (BOOL) textIsSet;
-
-- (timestamp) time;
-- (void) setTime: (timestamp) time;
-- (BOOL) timeIsSet;
-
-@end
-
-@interface CommentList : NSObject <NSCoding> {
-  int64_t __num;
-  NSArray * __data;
-
-  BOOL __num_isset;
-  BOOL __data_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=num, setter=setNum:) int64_t num;
-@property (nonatomic, retain, getter=data, setter=setData:) NSArray * data;
-#endif
-
-- (id) initWithNum: (int64_t) num data: (NSArray *) data;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) num;
-- (void) setNum: (int64_t) num;
-- (BOOL) numIsSet;
-
-- (NSArray *) data;
-- (void) setData: (NSArray *) data;
-- (BOOL) dataIsSet;
+- (NSArray *) follow;
+- (void) setFollow: (NSArray *) follow;
+- (BOOL) followIsSet;
 
 @end
 

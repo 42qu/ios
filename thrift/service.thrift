@@ -3,16 +3,31 @@ include "type.thrift"
 
 service Sns {
     
-    ###### Auth ######
-    
     type.AuthResponse login_by_mail(
-        1:type.AuthRequestMail auth
-    ) throws (1: exception.Exception e),
+        1: required type.AuthRequest auth,
+        2: required string mail,
+        3: required string password
+    )
     
-    void logout(1:string access_token)
-    
-    ###### User ######
-    
+    void logout(
+        1: required string access_token
+    )
+
+    type.UserInfo user_profile(
+        1: required string access_token,
+        2: required i64    uid
+    )
+
+    type.TaskSummary task_summary(
+        1: required string access_token
+    )
+
+    type.TaskInfo task_info (
+        1: required i64 tid
+    )
+
+
+    /*
     type.UserInfo user_info_get(
         1:  string  access_token,
         2:  i64     id
@@ -82,5 +97,6 @@ service Sns {
     #    3: i64 limit
     #)
     
+*/
 }
 

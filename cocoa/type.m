@@ -15,19 +15,15 @@
 
 #import "type.h"
 
-@implementation AuthRequestMail
+@implementation AuthRequest
 
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret mail: (NSString *) mail password: (NSString *) password
+- (id) initWithClient_id: (NSString *) client_id client_serect: (NSString *) client_serect
 {
   self = [super init];
   __client_id = [client_id retain];
   __client_id_isset = YES;
-  __client_secret = [client_secret retain];
-  __client_secret_isset = YES;
-  __mail = [mail retain];
-  __mail_isset = YES;
-  __password = [password retain];
-  __password_isset = YES;
+  __client_serect = [client_serect retain];
+  __client_serect_isset = YES;
   return self;
 }
 
@@ -39,20 +35,10 @@
     __client_id = [[decoder decodeObjectForKey: @"client_id"] retain];
     __client_id_isset = YES;
   }
-  if ([decoder containsValueForKey: @"client_secret"])
+  if ([decoder containsValueForKey: @"client_serect"])
   {
-    __client_secret = [[decoder decodeObjectForKey: @"client_secret"] retain];
-    __client_secret_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"mail"])
-  {
-    __mail = [[decoder decodeObjectForKey: @"mail"] retain];
-    __mail_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"password"])
-  {
-    __password = [[decoder decodeObjectForKey: @"password"] retain];
-    __password_isset = YES;
+    __client_serect = [[decoder decodeObjectForKey: @"client_serect"] retain];
+    __client_serect_isset = YES;
   }
   return self;
 }
@@ -63,26 +49,16 @@
   {
     [encoder encodeObject: __client_id forKey: @"client_id"];
   }
-  if (__client_secret_isset)
+  if (__client_serect_isset)
   {
-    [encoder encodeObject: __client_secret forKey: @"client_secret"];
-  }
-  if (__mail_isset)
-  {
-    [encoder encodeObject: __mail forKey: @"mail"];
-  }
-  if (__password_isset)
-  {
-    [encoder encodeObject: __password forKey: @"password"];
+    [encoder encodeObject: __client_serect forKey: @"client_serect"];
   }
 }
 
 - (void) dealloc
 {
   [__client_id release];
-  [__client_secret release];
-  [__mail release];
-  [__password release];
+  [__client_serect release];
   [super dealloc];
 }
 
@@ -107,67 +83,25 @@
   __client_id_isset = NO;
 }
 
-- (NSString *) client_secret {
-  return [[__client_secret retain] autorelease];
+- (NSString *) client_serect {
+  return [[__client_serect retain] autorelease];
 }
 
-- (void) setClient_secret: (NSString *) client_secret {
-  [client_secret retain];
-  [__client_secret release];
-  __client_secret = client_secret;
-  __client_secret_isset = YES;
+- (void) setClient_serect: (NSString *) client_serect {
+  [client_serect retain];
+  [__client_serect release];
+  __client_serect = client_serect;
+  __client_serect_isset = YES;
 }
 
-- (BOOL) client_secretIsSet {
-  return __client_secret_isset;
+- (BOOL) client_serectIsSet {
+  return __client_serect_isset;
 }
 
-- (void) unsetClient_secret {
-  [__client_secret release];
-  __client_secret = nil;
-  __client_secret_isset = NO;
-}
-
-- (NSString *) mail {
-  return [[__mail retain] autorelease];
-}
-
-- (void) setMail: (NSString *) mail {
-  [mail retain];
-  [__mail release];
-  __mail = mail;
-  __mail_isset = YES;
-}
-
-- (BOOL) mailIsSet {
-  return __mail_isset;
-}
-
-- (void) unsetMail {
-  [__mail release];
-  __mail = nil;
-  __mail_isset = NO;
-}
-
-- (NSString *) password {
-  return [[__password retain] autorelease];
-}
-
-- (void) setPassword: (NSString *) password {
-  [password retain];
-  [__password release];
-  __password = password;
-  __password_isset = YES;
-}
-
-- (BOOL) passwordIsSet {
-  return __password_isset;
-}
-
-- (void) unsetPassword {
-  [__password release];
-  __password = nil;
-  __password_isset = NO;
+- (void) unsetClient_serect {
+  [__client_serect release];
+  __client_serect = nil;
+  __client_serect_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -196,23 +130,7 @@
       case 2:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setClient_secret: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setMail: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setPassword: fieldValue];
+          [self setClient_serect: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -227,7 +145,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"AuthRequestMail"];
+  [outProtocol writeStructBeginWithName: @"AuthRequest"];
   if (__client_id_isset) {
     if (__client_id != nil) {
       [outProtocol writeFieldBeginWithName: @"client_id" type: TType_STRING fieldID: 1];
@@ -235,24 +153,10 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__client_secret_isset) {
-    if (__client_secret != nil) {
-      [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __client_secret];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__mail_isset) {
-    if (__mail != nil) {
-      [outProtocol writeFieldBeginWithName: @"mail" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __mail];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__password_isset) {
-    if (__password != nil) {
-      [outProtocol writeFieldBeginWithName: @"password" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __password];
+  if (__client_serect_isset) {
+    if (__client_serect != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_serect" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __client_serect];
       [outProtocol writeFieldEnd];
     }
   }
@@ -261,319 +165,11 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequestMail("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequest("];
   [ms appendString: @"client_id:"];
   [ms appendFormat: @"\"%@\"", __client_id];
-  [ms appendString: @",client_secret:"];
-  [ms appendFormat: @"\"%@\"", __client_secret];
-  [ms appendString: @",mail:"];
-  [ms appendFormat: @"\"%@\"", __mail];
-  [ms appendString: @",password:"];
-  [ms appendFormat: @"\"%@\"", __password];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation AuthRequestPartner
-
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret partner: (int) partner access_token: (NSString *) access_token mail: (NSString *) mail
-{
-  self = [super init];
-  __client_id = [client_id retain];
-  __client_id_isset = YES;
-  __client_secret = [client_secret retain];
-  __client_secret_isset = YES;
-  __partner = partner;
-  __partner_isset = YES;
-  __access_token = [access_token retain];
-  __access_token_isset = YES;
-  __mail = [mail retain];
-  __mail_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"client_id"])
-  {
-    __client_id = [[decoder decodeObjectForKey: @"client_id"] retain];
-    __client_id_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"client_secret"])
-  {
-    __client_secret = [[decoder decodeObjectForKey: @"client_secret"] retain];
-    __client_secret_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"partner"])
-  {
-    __partner = [decoder decodeIntForKey: @"partner"];
-    __partner_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"access_token"])
-  {
-    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
-    __access_token_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"mail"])
-  {
-    __mail = [[decoder decodeObjectForKey: @"mail"] retain];
-    __mail_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__client_id_isset)
-  {
-    [encoder encodeObject: __client_id forKey: @"client_id"];
-  }
-  if (__client_secret_isset)
-  {
-    [encoder encodeObject: __client_secret forKey: @"client_secret"];
-  }
-  if (__partner_isset)
-  {
-    [encoder encodeInt: __partner forKey: @"partner"];
-  }
-  if (__access_token_isset)
-  {
-    [encoder encodeObject: __access_token forKey: @"access_token"];
-  }
-  if (__mail_isset)
-  {
-    [encoder encodeObject: __mail forKey: @"mail"];
-  }
-}
-
-- (void) dealloc
-{
-  [__client_id release];
-  [__client_secret release];
-  [__access_token release];
-  [__mail release];
-  [super dealloc];
-}
-
-- (NSString *) client_id {
-  return [[__client_id retain] autorelease];
-}
-
-- (void) setClient_id: (NSString *) client_id {
-  [client_id retain];
-  [__client_id release];
-  __client_id = client_id;
-  __client_id_isset = YES;
-}
-
-- (BOOL) client_idIsSet {
-  return __client_id_isset;
-}
-
-- (void) unsetClient_id {
-  [__client_id release];
-  __client_id = nil;
-  __client_id_isset = NO;
-}
-
-- (NSString *) client_secret {
-  return [[__client_secret retain] autorelease];
-}
-
-- (void) setClient_secret: (NSString *) client_secret {
-  [client_secret retain];
-  [__client_secret release];
-  __client_secret = client_secret;
-  __client_secret_isset = YES;
-}
-
-- (BOOL) client_secretIsSet {
-  return __client_secret_isset;
-}
-
-- (void) unsetClient_secret {
-  [__client_secret release];
-  __client_secret = nil;
-  __client_secret_isset = NO;
-}
-
-- (int) partner {
-  return __partner;
-}
-
-- (void) setPartner: (int) partner {
-  __partner = partner;
-  __partner_isset = YES;
-}
-
-- (BOOL) partnerIsSet {
-  return __partner_isset;
-}
-
-- (void) unsetPartner {
-  __partner_isset = NO;
-}
-
-- (NSString *) access_token {
-  return [[__access_token retain] autorelease];
-}
-
-- (void) setAccess_token: (NSString *) access_token {
-  [access_token retain];
-  [__access_token release];
-  __access_token = access_token;
-  __access_token_isset = YES;
-}
-
-- (BOOL) access_tokenIsSet {
-  return __access_token_isset;
-}
-
-- (void) unsetAccess_token {
-  [__access_token release];
-  __access_token = nil;
-  __access_token_isset = NO;
-}
-
-- (NSString *) mail {
-  return [[__mail retain] autorelease];
-}
-
-- (void) setMail: (NSString *) mail {
-  [mail retain];
-  [__mail release];
-  __mail = mail;
-  __mail_isset = YES;
-}
-
-- (BOOL) mailIsSet {
-  return __mail_isset;
-}
-
-- (void) unsetMail {
-  [__mail release];
-  __mail = nil;
-  __mail_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setClient_id: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setClient_secret: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setPartner: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAccess_token: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setMail: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"AuthRequestPartner"];
-  if (__client_id_isset) {
-    if (__client_id != nil) {
-      [outProtocol writeFieldBeginWithName: @"client_id" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __client_id];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__client_secret_isset) {
-    if (__client_secret != nil) {
-      [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __client_secret];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__partner_isset) {
-    [outProtocol writeFieldBeginWithName: @"partner" type: TType_I32 fieldID: 3];
-    [outProtocol writeI32: __partner];
-    [outProtocol writeFieldEnd];
-  }
-  if (__access_token_isset) {
-    if (__access_token != nil) {
-      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __access_token];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__mail_isset) {
-    if (__mail != nil) {
-      [outProtocol writeFieldBeginWithName: @"mail" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __mail];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequestPartner("];
-  [ms appendString: @"client_id:"];
-  [ms appendFormat: @"\"%@\"", __client_id];
-  [ms appendString: @",client_secret:"];
-  [ms appendFormat: @"\"%@\"", __client_secret];
-  [ms appendString: @",partner:"];
-  [ms appendFormat: @"%i", __partner];
-  [ms appendString: @",access_token:"];
-  [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",mail:"];
-  [ms appendFormat: @"\"%@\"", __mail];
+  [ms appendString: @",client_serect:"];
+  [ms appendFormat: @"\"%@\"", __client_serect];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -582,11 +178,11 @@
 
 @implementation AuthResponse
 
-- (id) initWithId: (int64_t) id name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time
+- (id) initWithUid: (int64_t) uid name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time
 {
   self = [super init];
-  __id = id;
-  __id_isset = YES;
+  __uid = uid;
+  __uid_isset = YES;
   __name = [name retain];
   __name_isset = YES;
   __access_token = [access_token retain];
@@ -601,10 +197,10 @@
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"id"])
+  if ([decoder containsValueForKey: @"uid"])
   {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
+    __uid = [decoder decodeInt64ForKey: @"uid"];
+    __uid_isset = YES;
   }
   if ([decoder containsValueForKey: @"name"])
   {
@@ -631,9 +227,9 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__id_isset)
+  if (__uid_isset)
   {
-    [encoder encodeInt64: __id forKey: @"id"];
+    [encoder encodeInt64: __uid forKey: @"uid"];
   }
   if (__name_isset)
   {
@@ -661,21 +257,21 @@
   [super dealloc];
 }
 
-- (int64_t) id {
-  return __id;
+- (int64_t) uid {
+  return __uid;
 }
 
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
+- (void) setUid: (int64_t) uid {
+  __uid = uid;
+  __uid_isset = YES;
 }
 
-- (BOOL) idIsSet {
-  return __id_isset;
+- (BOOL) uidIsSet {
+  return __uid_isset;
 }
 
-- (void) unsetId {
-  __id_isset = NO;
+- (void) unsetUid {
+  __uid_isset = NO;
 }
 
 - (NSString *) name {
@@ -776,7 +372,7 @@
       case 1:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
+          [self setUid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -824,9 +420,9 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"AuthResponse"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
+  if (__uid_isset) {
+    [outProtocol writeFieldBeginWithName: @"uid" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __uid];
     [outProtocol writeFieldEnd];
   }
   if (__name_isset) {
@@ -861,8 +457,8 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"AuthResponse("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @"uid:"];
+  [ms appendFormat: @"%qi", __uid];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",access_token:"];
@@ -877,48 +473,40 @@
 
 @end
 
-@implementation UserInfoBasic
+@implementation UserInfo
 
-- (id) initWithId: (int64_t) id nickname: (NSString *) nickname avatar: (NSString *) avatar motto: (NSString *) motto org: (NSString *) org job: (NSString *) job
+- (id) initWithName: (NSString *) name sex: (int) sex org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro
 {
   self = [super init];
-  __id = id;
-  __id_isset = YES;
-  __nickname = [nickname retain];
-  __nickname_isset = YES;
-  __avatar = [avatar retain];
-  __avatar_isset = YES;
-  __motto = [motto retain];
-  __motto_isset = YES;
+  __name = [name retain];
+  __name_isset = YES;
+  __sex = sex;
+  __sex_isset = YES;
   __org = [org retain];
   __org_isset = YES;
   __job = [job retain];
   __job_isset = YES;
+  __small_avator = [small_avator retain];
+  __small_avator_isset = YES;
+  __big_avator = [big_avator retain];
+  __big_avator_isset = YES;
+  __intro = [intro retain];
+  __intro_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"id"])
+  if ([decoder containsValueForKey: @"name"])
   {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
+    __name = [[decoder decodeObjectForKey: @"name"] retain];
+    __name_isset = YES;
   }
-  if ([decoder containsValueForKey: @"nickname"])
+  if ([decoder containsValueForKey: @"sex"])
   {
-    __nickname = [[decoder decodeObjectForKey: @"nickname"] retain];
-    __nickname_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"avatar"])
-  {
-    __avatar = [[decoder decodeObjectForKey: @"avatar"] retain];
-    __avatar_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"motto"])
-  {
-    __motto = [[decoder decodeObjectForKey: @"motto"] retain];
-    __motto_isset = YES;
+    __sex = [decoder decodeIntForKey: @"sex"];
+    __sex_isset = YES;
   }
   if ([decoder containsValueForKey: @"org"])
   {
@@ -930,26 +518,33 @@
     __job = [[decoder decodeObjectForKey: @"job"] retain];
     __job_isset = YES;
   }
+  if ([decoder containsValueForKey: @"small_avator"])
+  {
+    __small_avator = [[decoder decodeObjectForKey: @"small_avator"] retain];
+    __small_avator_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"big_avator"])
+  {
+    __big_avator = [[decoder decodeObjectForKey: @"big_avator"] retain];
+    __big_avator_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"intro"])
+  {
+    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
+    __intro_isset = YES;
+  }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__id_isset)
+  if (__name_isset)
   {
-    [encoder encodeInt64: __id forKey: @"id"];
+    [encoder encodeObject: __name forKey: @"name"];
   }
-  if (__nickname_isset)
+  if (__sex_isset)
   {
-    [encoder encodeObject: __nickname forKey: @"nickname"];
-  }
-  if (__avatar_isset)
-  {
-    [encoder encodeObject: __avatar forKey: @"avatar"];
-  }
-  if (__motto_isset)
-  {
-    [encoder encodeObject: __motto forKey: @"motto"];
+    [encoder encodeInt: __sex forKey: @"sex"];
   }
   if (__org_isset)
   {
@@ -959,96 +554,67 @@
   {
     [encoder encodeObject: __job forKey: @"job"];
   }
+  if (__small_avator_isset)
+  {
+    [encoder encodeObject: __small_avator forKey: @"small_avator"];
+  }
+  if (__big_avator_isset)
+  {
+    [encoder encodeObject: __big_avator forKey: @"big_avator"];
+  }
+  if (__intro_isset)
+  {
+    [encoder encodeObject: __intro forKey: @"intro"];
+  }
 }
 
 - (void) dealloc
 {
-  [__nickname release];
-  [__avatar release];
-  [__motto release];
+  [__name release];
   [__org release];
   [__job release];
+  [__small_avator release];
+  [__big_avator release];
+  [__intro release];
   [super dealloc];
 }
 
-- (int64_t) id {
-  return __id;
+- (NSString *) name {
+  return [[__name retain] autorelease];
 }
 
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
+- (void) setName: (NSString *) name {
+  [name retain];
+  [__name release];
+  __name = name;
+  __name_isset = YES;
 }
 
-- (BOOL) idIsSet {
-  return __id_isset;
+- (BOOL) nameIsSet {
+  return __name_isset;
 }
 
-- (void) unsetId {
-  __id_isset = NO;
+- (void) unsetName {
+  [__name release];
+  __name = nil;
+  __name_isset = NO;
 }
 
-- (NSString *) nickname {
-  return [[__nickname retain] autorelease];
+- (int) sex {
+  return __sex;
 }
 
-- (void) setNickname: (NSString *) nickname {
-  [nickname retain];
-  [__nickname release];
-  __nickname = nickname;
-  __nickname_isset = YES;
+- (void) setSex: (int) sex {
+  __sex = sex;
+  __sex_isset = YES;
 }
 
-- (BOOL) nicknameIsSet {
-  return __nickname_isset;
+- (BOOL) sexIsSet {
+  return __sex_isset;
 }
 
-- (void) unsetNickname {
-  [__nickname release];
-  __nickname = nil;
-  __nickname_isset = NO;
-}
-
-- (NSString *) avatar {
-  return [[__avatar retain] autorelease];
-}
-
-- (void) setAvatar: (NSString *) avatar {
-  [avatar retain];
-  [__avatar release];
-  __avatar = avatar;
-  __avatar_isset = YES;
-}
-
-- (BOOL) avatarIsSet {
-  return __avatar_isset;
-}
-
-- (void) unsetAvatar {
-  [__avatar release];
-  __avatar = nil;
-  __avatar_isset = NO;
-}
-
-- (NSString *) motto {
-  return [[__motto retain] autorelease];
-}
-
-- (void) setMotto: (NSString *) motto {
-  [motto retain];
-  [__motto release];
-  __motto = motto;
-  __motto_isset = YES;
-}
-
-- (BOOL) mottoIsSet {
-  return __motto_isset;
-}
-
-- (void) unsetMotto {
-  [__motto release];
-  __motto = nil;
-  __motto_isset = NO;
+- (void) unsetSex {
+  __sex_isset = NO;
 }
 
 - (NSString *) org {
@@ -1093,6 +659,69 @@
   __job_isset = NO;
 }
 
+- (NSString *) small_avator {
+  return [[__small_avator retain] autorelease];
+}
+
+- (void) setSmall_avator: (NSString *) small_avator {
+  [small_avator retain];
+  [__small_avator release];
+  __small_avator = small_avator;
+  __small_avator_isset = YES;
+}
+
+- (BOOL) small_avatorIsSet {
+  return __small_avator_isset;
+}
+
+- (void) unsetSmall_avator {
+  [__small_avator release];
+  __small_avator = nil;
+  __small_avator_isset = NO;
+}
+
+- (NSString *) big_avator {
+  return [[__big_avator retain] autorelease];
+}
+
+- (void) setBig_avator: (NSString *) big_avator {
+  [big_avator retain];
+  [__big_avator release];
+  __big_avator = big_avator;
+  __big_avator_isset = YES;
+}
+
+- (BOOL) big_avatorIsSet {
+  return __big_avator_isset;
+}
+
+- (void) unsetBig_avator {
+  [__big_avator release];
+  __big_avator = nil;
+  __big_avator_isset = NO;
+}
+
+- (NSString *) intro {
+  return [[__intro retain] autorelease];
+}
+
+- (void) setIntro: (NSString *) intro {
+  [intro retain];
+  [__intro release];
+  __intro = intro;
+  __intro_isset = YES;
+}
+
+- (BOOL) introIsSet {
+  return __intro_isset;
+}
+
+- (void) unsetIntro {
+  [__intro release];
+  __intro = nil;
+  __intro_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -1109,38 +738,22 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setName: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setNickname: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setSex: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAvatar: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setMotto: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
           [self setOrg: fieldValue];
@@ -1148,7 +761,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 6:
+      case 4:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
           [self setJob: fieldValue];
@@ -1156,348 +769,10 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserInfoBasic"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
-    [outProtocol writeFieldEnd];
-  }
-  if (__nickname_isset) {
-    if (__nickname != nil) {
-      [outProtocol writeFieldBeginWithName: @"nickname" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __nickname];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__avatar_isset) {
-    if (__avatar != nil) {
-      [outProtocol writeFieldBeginWithName: @"avatar" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __avatar];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__motto_isset) {
-    if (__motto != nil) {
-      [outProtocol writeFieldBeginWithName: @"motto" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __motto];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__org_isset) {
-    if (__org != nil) {
-      [outProtocol writeFieldBeginWithName: @"org" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __org];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__job_isset) {
-    if (__job != nil) {
-      [outProtocol writeFieldBeginWithName: @"job" type: TType_STRING fieldID: 6];
-      [outProtocol writeString: __job];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfoBasic("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",nickname:"];
-  [ms appendFormat: @"\"%@\"", __nickname];
-  [ms appendString: @",avatar:"];
-  [ms appendFormat: @"\"%@\"", __avatar];
-  [ms appendString: @",motto:"];
-  [ms appendFormat: @"\"%@\"", __motto];
-  [ms appendString: @",org:"];
-  [ms appendFormat: @"\"%@\"", __org];
-  [ms appendString: @",job:"];
-  [ms appendFormat: @"\"%@\"", __job];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserInfoDetail
-
-- (id) initWithFirstname: (NSString *) firstname lastname: (NSString *) lastname gender: (NSString *) gender birthday: (timestamp) birthday location: (NSString *) location introduction: (NSString *) introduction
-{
-  self = [super init];
-  __firstname = [firstname retain];
-  __firstname_isset = YES;
-  __lastname = [lastname retain];
-  __lastname_isset = YES;
-  __gender = [gender retain];
-  __gender_isset = YES;
-  __birthday = birthday;
-  __birthday_isset = YES;
-  __location = [location retain];
-  __location_isset = YES;
-  __introduction = [introduction retain];
-  __introduction_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"firstname"])
-  {
-    __firstname = [[decoder decodeObjectForKey: @"firstname"] retain];
-    __firstname_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"lastname"])
-  {
-    __lastname = [[decoder decodeObjectForKey: @"lastname"] retain];
-    __lastname_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"gender"])
-  {
-    __gender = [[decoder decodeObjectForKey: @"gender"] retain];
-    __gender_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"birthday"])
-  {
-    __birthday = [decoder decodeInt64ForKey: @"birthday"];
-    __birthday_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"location"])
-  {
-    __location = [[decoder decodeObjectForKey: @"location"] retain];
-    __location_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"introduction"])
-  {
-    __introduction = [[decoder decodeObjectForKey: @"introduction"] retain];
-    __introduction_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__firstname_isset)
-  {
-    [encoder encodeObject: __firstname forKey: @"firstname"];
-  }
-  if (__lastname_isset)
-  {
-    [encoder encodeObject: __lastname forKey: @"lastname"];
-  }
-  if (__gender_isset)
-  {
-    [encoder encodeObject: __gender forKey: @"gender"];
-  }
-  if (__birthday_isset)
-  {
-    [encoder encodeInt64: __birthday forKey: @"birthday"];
-  }
-  if (__location_isset)
-  {
-    [encoder encodeObject: __location forKey: @"location"];
-  }
-  if (__introduction_isset)
-  {
-    [encoder encodeObject: __introduction forKey: @"introduction"];
-  }
-}
-
-- (void) dealloc
-{
-  [__firstname release];
-  [__lastname release];
-  [__gender release];
-  [__location release];
-  [__introduction release];
-  [super dealloc];
-}
-
-- (NSString *) firstname {
-  return [[__firstname retain] autorelease];
-}
-
-- (void) setFirstname: (NSString *) firstname {
-  [firstname retain];
-  [__firstname release];
-  __firstname = firstname;
-  __firstname_isset = YES;
-}
-
-- (BOOL) firstnameIsSet {
-  return __firstname_isset;
-}
-
-- (void) unsetFirstname {
-  [__firstname release];
-  __firstname = nil;
-  __firstname_isset = NO;
-}
-
-- (NSString *) lastname {
-  return [[__lastname retain] autorelease];
-}
-
-- (void) setLastname: (NSString *) lastname {
-  [lastname retain];
-  [__lastname release];
-  __lastname = lastname;
-  __lastname_isset = YES;
-}
-
-- (BOOL) lastnameIsSet {
-  return __lastname_isset;
-}
-
-- (void) unsetLastname {
-  [__lastname release];
-  __lastname = nil;
-  __lastname_isset = NO;
-}
-
-- (NSString *) gender {
-  return [[__gender retain] autorelease];
-}
-
-- (void) setGender: (NSString *) gender {
-  [gender retain];
-  [__gender release];
-  __gender = gender;
-  __gender_isset = YES;
-}
-
-- (BOOL) genderIsSet {
-  return __gender_isset;
-}
-
-- (void) unsetGender {
-  [__gender release];
-  __gender = nil;
-  __gender_isset = NO;
-}
-
-- (int64_t) birthday {
-  return __birthday;
-}
-
-- (void) setBirthday: (int64_t) birthday {
-  __birthday = birthday;
-  __birthday_isset = YES;
-}
-
-- (BOOL) birthdayIsSet {
-  return __birthday_isset;
-}
-
-- (void) unsetBirthday {
-  __birthday_isset = NO;
-}
-
-- (NSString *) location {
-  return [[__location retain] autorelease];
-}
-
-- (void) setLocation: (NSString *) location {
-  [location retain];
-  [__location release];
-  __location = location;
-  __location_isset = YES;
-}
-
-- (BOOL) locationIsSet {
-  return __location_isset;
-}
-
-- (void) unsetLocation {
-  [__location release];
-  __location = nil;
-  __location_isset = NO;
-}
-
-- (NSString *) introduction {
-  return [[__introduction retain] autorelease];
-}
-
-- (void) setIntroduction: (NSString *) introduction {
-  [introduction retain];
-  [__introduction release];
-  __introduction = introduction;
-  __introduction_isset = YES;
-}
-
-- (BOOL) introductionIsSet {
-  return __introduction_isset;
-}
-
-- (void) unsetIntroduction {
-  [__introduction release];
-  __introduction = nil;
-  __introduction_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setFirstname: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setLastname: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setGender: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setBirthday: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
       case 5:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setLocation: fieldValue];
+          [self setSmall_avator: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1505,206 +780,15 @@
       case 6:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setIntroduction: fieldValue];
+          [self setBig_avator: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserInfoDetail"];
-  if (__firstname_isset) {
-    if (__firstname != nil) {
-      [outProtocol writeFieldBeginWithName: @"firstname" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __firstname];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__lastname_isset) {
-    if (__lastname != nil) {
-      [outProtocol writeFieldBeginWithName: @"lastname" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __lastname];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__gender_isset) {
-    if (__gender != nil) {
-      [outProtocol writeFieldBeginWithName: @"gender" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __gender];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__birthday_isset) {
-    [outProtocol writeFieldBeginWithName: @"birthday" type: TType_I64 fieldID: 4];
-    [outProtocol writeI64: __birthday];
-    [outProtocol writeFieldEnd];
-  }
-  if (__location_isset) {
-    if (__location != nil) {
-      [outProtocol writeFieldBeginWithName: @"location" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __location];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__introduction_isset) {
-    if (__introduction != nil) {
-      [outProtocol writeFieldBeginWithName: @"introduction" type: TType_STRING fieldID: 6];
-      [outProtocol writeString: __introduction];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfoDetail("];
-  [ms appendString: @"firstname:"];
-  [ms appendFormat: @"\"%@\"", __firstname];
-  [ms appendString: @",lastname:"];
-  [ms appendFormat: @"\"%@\"", __lastname];
-  [ms appendString: @",gender:"];
-  [ms appendFormat: @"\"%@\"", __gender];
-  [ms appendString: @",birthday:"];
-  [ms appendFormat: @"%qi", __birthday];
-  [ms appendString: @",location:"];
-  [ms appendFormat: @"\"%@\"", __location];
-  [ms appendString: @",introduction:"];
-  [ms appendFormat: @"\"%@\"", __introduction];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserInfo
-
-- (id) initWithBasic: (UserInfoBasic *) basic detail: (UserInfoDetail *) detail
-{
-  self = [super init];
-  __basic = [basic retain];
-  __basic_isset = YES;
-  __detail = [detail retain];
-  __detail_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"basic"])
-  {
-    __basic = [[decoder decodeObjectForKey: @"basic"] retain];
-    __basic_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"detail"])
-  {
-    __detail = [[decoder decodeObjectForKey: @"detail"] retain];
-    __detail_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__basic_isset)
-  {
-    [encoder encodeObject: __basic forKey: @"basic"];
-  }
-  if (__detail_isset)
-  {
-    [encoder encodeObject: __detail forKey: @"detail"];
-  }
-}
-
-- (void) dealloc
-{
-  [__basic release];
-  [__detail release];
-  [super dealloc];
-}
-
-- (UserInfoBasic *) basic {
-  return [[__basic retain] autorelease];
-}
-
-- (void) setBasic: (UserInfoBasic *) basic {
-  [basic retain];
-  [__basic release];
-  __basic = basic;
-  __basic_isset = YES;
-}
-
-- (BOOL) basicIsSet {
-  return __basic_isset;
-}
-
-- (void) unsetBasic {
-  [__basic release];
-  __basic = nil;
-  __basic_isset = NO;
-}
-
-- (UserInfoDetail *) detail {
-  return [[__detail retain] autorelease];
-}
-
-- (void) setDetail: (UserInfoDetail *) detail {
-  [detail retain];
-  [__detail release];
-  __detail = detail;
-  __detail_isset = YES;
-}
-
-- (BOOL) detailIsSet {
-  return __detail_isset;
-}
-
-- (void) unsetDetail {
-  [__detail release];
-  __detail = nil;
-  __detail_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          UserInfoBasic *fieldValue = [[UserInfoBasic alloc] init];
-          [fieldValue read: inProtocol];
-          [self setBasic: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          UserInfoDetail *fieldValue = [[UserInfoDetail alloc] init];
-          [fieldValue read: inProtocol];
-          [self setDetail: fieldValue];
-          [fieldValue release];
+      case 7:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setIntro: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1720,1165 +804,16 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"UserInfo"];
-  if (__basic_isset) {
-    if (__basic != nil) {
-      [outProtocol writeFieldBeginWithName: @"basic" type: TType_STRUCT fieldID: 1];
-      [__basic write: outProtocol];
+  if (__name_isset) {
+    if (__name != nil) {
+      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __name];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__detail_isset) {
-    if (__detail != nil) {
-      [outProtocol writeFieldBeginWithName: @"detail" type: TType_STRUCT fieldID: 2];
-      [__detail write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
-  [ms appendString: @"basic:"];
-  [ms appendFormat: @"%@", __basic];
-  [ms appendString: @",detail:"];
-  [ms appendFormat: @"%@", __detail];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserLink
-
-- (id) initWithId: (int64_t) id type: (int) type value: (NSString *) value label: (NSString *) label
-{
-  self = [super init];
-  __id = id;
-  __id_isset = YES;
-  __type = type;
-  __type_isset = YES;
-  __value = [value retain];
-  __value_isset = YES;
-  __label = [label retain];
-  __label_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"id"])
-  {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"type"])
-  {
-    __type = [decoder decodeIntForKey: @"type"];
-    __type_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"value"])
-  {
-    __value = [[decoder decodeObjectForKey: @"value"] retain];
-    __value_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"label"])
-  {
-    __label = [[decoder decodeObjectForKey: @"label"] retain];
-    __label_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__id_isset)
-  {
-    [encoder encodeInt64: __id forKey: @"id"];
-  }
-  if (__type_isset)
-  {
-    [encoder encodeInt: __type forKey: @"type"];
-  }
-  if (__value_isset)
-  {
-    [encoder encodeObject: __value forKey: @"value"];
-  }
-  if (__label_isset)
-  {
-    [encoder encodeObject: __label forKey: @"label"];
-  }
-}
-
-- (void) dealloc
-{
-  [__value release];
-  [__label release];
-  [super dealloc];
-}
-
-- (int64_t) id {
-  return __id;
-}
-
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
-}
-
-- (BOOL) idIsSet {
-  return __id_isset;
-}
-
-- (void) unsetId {
-  __id_isset = NO;
-}
-
-- (int) type {
-  return __type;
-}
-
-- (void) setType: (int) type {
-  __type = type;
-  __type_isset = YES;
-}
-
-- (BOOL) typeIsSet {
-  return __type_isset;
-}
-
-- (void) unsetType {
-  __type_isset = NO;
-}
-
-- (NSString *) value {
-  return [[__value retain] autorelease];
-}
-
-- (void) setValue: (NSString *) value {
-  [value retain];
-  [__value release];
-  __value = value;
-  __value_isset = YES;
-}
-
-- (BOOL) valueIsSet {
-  return __value_isset;
-}
-
-- (void) unsetValue {
-  [__value release];
-  __value = nil;
-  __value_isset = NO;
-}
-
-- (NSString *) label {
-  return [[__label retain] autorelease];
-}
-
-- (void) setLabel: (NSString *) label {
-  [label retain];
-  [__label release];
-  __label = label;
-  __label_isset = YES;
-}
-
-- (BOOL) labelIsSet {
-  return __label_isset;
-}
-
-- (void) unsetLabel {
-  [__label release];
-  __label = nil;
-  __label_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setType: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setValue: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setLabel: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserLink"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
-    [outProtocol writeFieldEnd];
-  }
-  if (__type_isset) {
-    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
-    [outProtocol writeI32: __type];
-    [outProtocol writeFieldEnd];
-  }
-  if (__value_isset) {
-    if (__value != nil) {
-      [outProtocol writeFieldBeginWithName: @"value" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __value];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__label_isset) {
-    if (__label != nil) {
-      [outProtocol writeFieldBeginWithName: @"label" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __label];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserLink("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",type:"];
-  [ms appendFormat: @"%i", __type];
-  [ms appendString: @",value:"];
-  [ms appendFormat: @"\"%@\"", __value];
-  [ms appendString: @",label:"];
-  [ms appendFormat: @"\"%@\"", __label];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserContact
-
-- (id) initWithId: (int64_t) id type: (int) type subtype: (int64_t) subtype value: (NSString *) value label: (NSString *) label
-{
-  self = [super init];
-  __id = id;
-  __id_isset = YES;
-  __type = type;
-  __type_isset = YES;
-  __subtype = subtype;
-  __subtype_isset = YES;
-  __value = [value retain];
-  __value_isset = YES;
-  __label = [label retain];
-  __label_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"id"])
-  {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"type"])
-  {
-    __type = [decoder decodeIntForKey: @"type"];
-    __type_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"subtype"])
-  {
-    __subtype = [decoder decodeInt64ForKey: @"subtype"];
-    __subtype_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"value"])
-  {
-    __value = [[decoder decodeObjectForKey: @"value"] retain];
-    __value_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"label"])
-  {
-    __label = [[decoder decodeObjectForKey: @"label"] retain];
-    __label_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__id_isset)
-  {
-    [encoder encodeInt64: __id forKey: @"id"];
-  }
-  if (__type_isset)
-  {
-    [encoder encodeInt: __type forKey: @"type"];
-  }
-  if (__subtype_isset)
-  {
-    [encoder encodeInt64: __subtype forKey: @"subtype"];
-  }
-  if (__value_isset)
-  {
-    [encoder encodeObject: __value forKey: @"value"];
-  }
-  if (__label_isset)
-  {
-    [encoder encodeObject: __label forKey: @"label"];
-  }
-}
-
-- (void) dealloc
-{
-  [__value release];
-  [__label release];
-  [super dealloc];
-}
-
-- (int64_t) id {
-  return __id;
-}
-
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
-}
-
-- (BOOL) idIsSet {
-  return __id_isset;
-}
-
-- (void) unsetId {
-  __id_isset = NO;
-}
-
-- (int) type {
-  return __type;
-}
-
-- (void) setType: (int) type {
-  __type = type;
-  __type_isset = YES;
-}
-
-- (BOOL) typeIsSet {
-  return __type_isset;
-}
-
-- (void) unsetType {
-  __type_isset = NO;
-}
-
-- (int64_t) subtype {
-  return __subtype;
-}
-
-- (void) setSubtype: (int64_t) subtype {
-  __subtype = subtype;
-  __subtype_isset = YES;
-}
-
-- (BOOL) subtypeIsSet {
-  return __subtype_isset;
-}
-
-- (void) unsetSubtype {
-  __subtype_isset = NO;
-}
-
-- (NSString *) value {
-  return [[__value retain] autorelease];
-}
-
-- (void) setValue: (NSString *) value {
-  [value retain];
-  [__value release];
-  __value = value;
-  __value_isset = YES;
-}
-
-- (BOOL) valueIsSet {
-  return __value_isset;
-}
-
-- (void) unsetValue {
-  [__value release];
-  __value = nil;
-  __value_isset = NO;
-}
-
-- (NSString *) label {
-  return [[__label retain] autorelease];
-}
-
-- (void) setLabel: (NSString *) label {
-  [label retain];
-  [__label release];
-  __label = label;
-  __label_isset = YES;
-}
-
-- (BOOL) labelIsSet {
-  return __label_isset;
-}
-
-- (void) unsetLabel {
-  [__label release];
-  __label = nil;
-  __label_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setType: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setSubtype: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setValue: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setLabel: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserContact"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
-    [outProtocol writeFieldEnd];
-  }
-  if (__type_isset) {
-    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
-    [outProtocol writeI32: __type];
-    [outProtocol writeFieldEnd];
-  }
-  if (__subtype_isset) {
-    [outProtocol writeFieldBeginWithName: @"subtype" type: TType_I64 fieldID: 3];
-    [outProtocol writeI64: __subtype];
-    [outProtocol writeFieldEnd];
-  }
-  if (__value_isset) {
-    if (__value != nil) {
-      [outProtocol writeFieldBeginWithName: @"value" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __value];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__label_isset) {
-    if (__label != nil) {
-      [outProtocol writeFieldBeginWithName: @"label" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __label];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserContact("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",type:"];
-  [ms appendFormat: @"%i", __type];
-  [ms appendString: @",subtype:"];
-  [ms appendFormat: @"%qi", __subtype];
-  [ms appendString: @",value:"];
-  [ms appendFormat: @"\"%@\"", __value];
-  [ms appendString: @",label:"];
-  [ms appendFormat: @"\"%@\"", __label];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserResumeStudy
-
-- (id) initWithStarttime: (timestamp) starttime endtime: (timestamp) endtime school: (NSString *) school major: (NSString *) major type: (int) type comment: (NSString *) comment
-{
-  self = [super init];
-  __starttime = starttime;
-  __starttime_isset = YES;
-  __endtime = endtime;
-  __endtime_isset = YES;
-  __school = [school retain];
-  __school_isset = YES;
-  __major = [major retain];
-  __major_isset = YES;
-  __type = type;
-  __type_isset = YES;
-  __comment = [comment retain];
-  __comment_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"starttime"])
-  {
-    __starttime = [decoder decodeInt64ForKey: @"starttime"];
-    __starttime_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"endtime"])
-  {
-    __endtime = [decoder decodeInt64ForKey: @"endtime"];
-    __endtime_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"school"])
-  {
-    __school = [[decoder decodeObjectForKey: @"school"] retain];
-    __school_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"major"])
-  {
-    __major = [[decoder decodeObjectForKey: @"major"] retain];
-    __major_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"type"])
-  {
-    __type = [decoder decodeIntForKey: @"type"];
-    __type_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"comment"])
-  {
-    __comment = [[decoder decodeObjectForKey: @"comment"] retain];
-    __comment_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__starttime_isset)
-  {
-    [encoder encodeInt64: __starttime forKey: @"starttime"];
-  }
-  if (__endtime_isset)
-  {
-    [encoder encodeInt64: __endtime forKey: @"endtime"];
-  }
-  if (__school_isset)
-  {
-    [encoder encodeObject: __school forKey: @"school"];
-  }
-  if (__major_isset)
-  {
-    [encoder encodeObject: __major forKey: @"major"];
-  }
-  if (__type_isset)
-  {
-    [encoder encodeInt: __type forKey: @"type"];
-  }
-  if (__comment_isset)
-  {
-    [encoder encodeObject: __comment forKey: @"comment"];
-  }
-}
-
-- (void) dealloc
-{
-  [__school release];
-  [__major release];
-  [__comment release];
-  [super dealloc];
-}
-
-- (int64_t) starttime {
-  return __starttime;
-}
-
-- (void) setStarttime: (int64_t) starttime {
-  __starttime = starttime;
-  __starttime_isset = YES;
-}
-
-- (BOOL) starttimeIsSet {
-  return __starttime_isset;
-}
-
-- (void) unsetStarttime {
-  __starttime_isset = NO;
-}
-
-- (int64_t) endtime {
-  return __endtime;
-}
-
-- (void) setEndtime: (int64_t) endtime {
-  __endtime = endtime;
-  __endtime_isset = YES;
-}
-
-- (BOOL) endtimeIsSet {
-  return __endtime_isset;
-}
-
-- (void) unsetEndtime {
-  __endtime_isset = NO;
-}
-
-- (NSString *) school {
-  return [[__school retain] autorelease];
-}
-
-- (void) setSchool: (NSString *) school {
-  [school retain];
-  [__school release];
-  __school = school;
-  __school_isset = YES;
-}
-
-- (BOOL) schoolIsSet {
-  return __school_isset;
-}
-
-- (void) unsetSchool {
-  [__school release];
-  __school = nil;
-  __school_isset = NO;
-}
-
-- (NSString *) major {
-  return [[__major retain] autorelease];
-}
-
-- (void) setMajor: (NSString *) major {
-  [major retain];
-  [__major release];
-  __major = major;
-  __major_isset = YES;
-}
-
-- (BOOL) majorIsSet {
-  return __major_isset;
-}
-
-- (void) unsetMajor {
-  [__major release];
-  __major = nil;
-  __major_isset = NO;
-}
-
-- (int) type {
-  return __type;
-}
-
-- (void) setType: (int) type {
-  __type = type;
-  __type_isset = YES;
-}
-
-- (BOOL) typeIsSet {
-  return __type_isset;
-}
-
-- (void) unsetType {
-  __type_isset = NO;
-}
-
-- (NSString *) comment {
-  return [[__comment retain] autorelease];
-}
-
-- (void) setComment: (NSString *) comment {
-  [comment retain];
-  [__comment release];
-  __comment = comment;
-  __comment_isset = YES;
-}
-
-- (BOOL) commentIsSet {
-  return __comment_isset;
-}
-
-- (void) unsetComment {
-  [__comment release];
-  __comment = nil;
-  __comment_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setStarttime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setEndtime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setSchool: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setMajor: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setType: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 6:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setComment: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserResumeStudy"];
-  if (__starttime_isset) {
-    [outProtocol writeFieldBeginWithName: @"starttime" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __starttime];
-    [outProtocol writeFieldEnd];
-  }
-  if (__endtime_isset) {
-    [outProtocol writeFieldBeginWithName: @"endtime" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __endtime];
-    [outProtocol writeFieldEnd];
-  }
-  if (__school_isset) {
-    if (__school != nil) {
-      [outProtocol writeFieldBeginWithName: @"school" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __school];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__major_isset) {
-    if (__major != nil) {
-      [outProtocol writeFieldBeginWithName: @"major" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __major];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__type_isset) {
-    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 5];
-    [outProtocol writeI32: __type];
-    [outProtocol writeFieldEnd];
-  }
-  if (__comment_isset) {
-    if (__comment != nil) {
-      [outProtocol writeFieldBeginWithName: @"comment" type: TType_STRING fieldID: 6];
-      [outProtocol writeString: __comment];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserResumeStudy("];
-  [ms appendString: @"starttime:"];
-  [ms appendFormat: @"%qi", __starttime];
-  [ms appendString: @",endtime:"];
-  [ms appendFormat: @"%qi", __endtime];
-  [ms appendString: @",school:"];
-  [ms appendFormat: @"\"%@\"", __school];
-  [ms appendString: @",major:"];
-  [ms appendFormat: @"\"%@\"", __major];
-  [ms appendString: @",type:"];
-  [ms appendFormat: @"%i", __type];
-  [ms appendString: @",comment:"];
-  [ms appendFormat: @"\"%@\"", __comment];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserResumeWork
-
-- (id) initWithStarttime: (timestamp) starttime endtime: (timestamp) endtime org: (NSString *) org job: (NSString *) job comment: (NSString *) comment
-{
-  self = [super init];
-  __starttime = starttime;
-  __starttime_isset = YES;
-  __endtime = endtime;
-  __endtime_isset = YES;
-  __org = [org retain];
-  __org_isset = YES;
-  __job = [job retain];
-  __job_isset = YES;
-  __comment = [comment retain];
-  __comment_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"starttime"])
-  {
-    __starttime = [decoder decodeInt64ForKey: @"starttime"];
-    __starttime_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"endtime"])
-  {
-    __endtime = [decoder decodeInt64ForKey: @"endtime"];
-    __endtime_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"org"])
-  {
-    __org = [[decoder decodeObjectForKey: @"org"] retain];
-    __org_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"job"])
-  {
-    __job = [[decoder decodeObjectForKey: @"job"] retain];
-    __job_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"comment"])
-  {
-    __comment = [[decoder decodeObjectForKey: @"comment"] retain];
-    __comment_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__starttime_isset)
-  {
-    [encoder encodeInt64: __starttime forKey: @"starttime"];
-  }
-  if (__endtime_isset)
-  {
-    [encoder encodeInt64: __endtime forKey: @"endtime"];
-  }
-  if (__org_isset)
-  {
-    [encoder encodeObject: __org forKey: @"org"];
-  }
-  if (__job_isset)
-  {
-    [encoder encodeObject: __job forKey: @"job"];
-  }
-  if (__comment_isset)
-  {
-    [encoder encodeObject: __comment forKey: @"comment"];
-  }
-}
-
-- (void) dealloc
-{
-  [__org release];
-  [__job release];
-  [__comment release];
-  [super dealloc];
-}
-
-- (int64_t) starttime {
-  return __starttime;
-}
-
-- (void) setStarttime: (int64_t) starttime {
-  __starttime = starttime;
-  __starttime_isset = YES;
-}
-
-- (BOOL) starttimeIsSet {
-  return __starttime_isset;
-}
-
-- (void) unsetStarttime {
-  __starttime_isset = NO;
-}
-
-- (int64_t) endtime {
-  return __endtime;
-}
-
-- (void) setEndtime: (int64_t) endtime {
-  __endtime = endtime;
-  __endtime_isset = YES;
-}
-
-- (BOOL) endtimeIsSet {
-  return __endtime_isset;
-}
-
-- (void) unsetEndtime {
-  __endtime_isset = NO;
-}
-
-- (NSString *) org {
-  return [[__org retain] autorelease];
-}
-
-- (void) setOrg: (NSString *) org {
-  [org retain];
-  [__org release];
-  __org = org;
-  __org_isset = YES;
-}
-
-- (BOOL) orgIsSet {
-  return __org_isset;
-}
-
-- (void) unsetOrg {
-  [__org release];
-  __org = nil;
-  __org_isset = NO;
-}
-
-- (NSString *) job {
-  return [[__job retain] autorelease];
-}
-
-- (void) setJob: (NSString *) job {
-  [job retain];
-  [__job release];
-  __job = job;
-  __job_isset = YES;
-}
-
-- (BOOL) jobIsSet {
-  return __job_isset;
-}
-
-- (void) unsetJob {
-  [__job release];
-  __job = nil;
-  __job_isset = NO;
-}
-
-- (NSString *) comment {
-  return [[__comment retain] autorelease];
-}
-
-- (void) setComment: (NSString *) comment {
-  [comment retain];
-  [__comment release];
-  __comment = comment;
-  __comment_isset = YES;
-}
-
-- (BOOL) commentIsSet {
-  return __comment_isset;
-}
-
-- (void) unsetComment {
-  [__comment release];
-  __comment = nil;
-  __comment_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setStarttime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setEndtime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setOrg: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setJob: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setComment: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserResumeWork"];
-  if (__starttime_isset) {
-    [outProtocol writeFieldBeginWithName: @"starttime" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __starttime];
-    [outProtocol writeFieldEnd];
-  }
-  if (__endtime_isset) {
-    [outProtocol writeFieldBeginWithName: @"endtime" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __endtime];
+  if (__sex_isset) {
+    [outProtocol writeFieldBeginWithName: @"sex" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __sex];
     [outProtocol writeFieldEnd];
   }
   if (__org_isset) {
@@ -2895,10 +830,24 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__comment_isset) {
-    if (__comment != nil) {
-      [outProtocol writeFieldBeginWithName: @"comment" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __comment];
+  if (__small_avator_isset) {
+    if (__small_avator != nil) {
+      [outProtocol writeFieldBeginWithName: @"small_avator" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __small_avator];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__big_avator_isset) {
+    if (__big_avator != nil) {
+      [outProtocol writeFieldBeginWithName: @"big_avator" type: TType_STRING fieldID: 6];
+      [outProtocol writeString: __big_avator];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__intro_isset) {
+    if (__intro != nil) {
+      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 7];
+      [outProtocol writeString: __intro];
       [outProtocol writeFieldEnd];
     }
   }
@@ -2907,1462 +856,43 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserResumeWork("];
-  [ms appendString: @"starttime:"];
-  [ms appendFormat: @"%qi", __starttime];
-  [ms appendString: @",endtime:"];
-  [ms appendFormat: @"%qi", __endtime];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
+  [ms appendString: @"name:"];
+  [ms appendFormat: @"\"%@\"", __name];
+  [ms appendString: @",sex:"];
+  [ms appendFormat: @"%i", __sex];
   [ms appendString: @",org:"];
   [ms appendFormat: @"\"%@\"", __org];
   [ms appendString: @",job:"];
   [ms appendFormat: @"\"%@\"", __job];
-  [ms appendString: @",comment:"];
-  [ms appendFormat: @"\"%@\"", __comment];
+  [ms appendString: @",small_avator:"];
+  [ms appendFormat: @"\"%@\"", __small_avator];
+  [ms appendString: @",big_avator:"];
+  [ms appendFormat: @"\"%@\"", __big_avator];
+  [ms appendString: @",intro:"];
+  [ms appendFormat: @"\"%@\"", __intro];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation UserResume
+@implementation TaskInfo
 
-- (id) initWithStudyList: (NSArray *) studyList workList: (NSArray *) workList
+- (id) initWithTid: (int64_t) tid name: (NSString *) name intro: (NSString *) intro begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (int64_t) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list
 {
   self = [super init];
-  __studyList = [studyList retain];
-  __studyList_isset = YES;
-  __workList = [workList retain];
-  __workList_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"studyList"])
-  {
-    __studyList = [[decoder decodeObjectForKey: @"studyList"] retain];
-    __studyList_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"workList"])
-  {
-    __workList = [[decoder decodeObjectForKey: @"workList"] retain];
-    __workList_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__studyList_isset)
-  {
-    [encoder encodeObject: __studyList forKey: @"studyList"];
-  }
-  if (__workList_isset)
-  {
-    [encoder encodeObject: __workList forKey: @"workList"];
-  }
-}
-
-- (void) dealloc
-{
-  [__studyList release];
-  [__workList release];
-  [super dealloc];
-}
-
-- (NSArray *) studyList {
-  return [[__studyList retain] autorelease];
-}
-
-- (void) setStudyList: (NSArray *) studyList {
-  [studyList retain];
-  [__studyList release];
-  __studyList = studyList;
-  __studyList_isset = YES;
-}
-
-- (BOOL) studyListIsSet {
-  return __studyList_isset;
-}
-
-- (void) unsetStudyList {
-  [__studyList release];
-  __studyList = nil;
-  __studyList_isset = NO;
-}
-
-- (NSArray *) workList {
-  return [[__workList retain] autorelease];
-}
-
-- (void) setWorkList: (NSArray *) workList {
-  [workList retain];
-  [__workList release];
-  __workList = workList;
-  __workList_isset = YES;
-}
-
-- (BOOL) workListIsSet {
-  return __workList_isset;
-}
-
-- (void) unsetWorkList {
-  [__workList release];
-  __workList = nil;
-  __workList_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_LIST) {
-          int _size0;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
-          int _i1;
-          for (_i1 = 0; _i1 < _size0; ++_i1)
-          {
-            UserResumeStudy *_elem2 = [[UserResumeStudy alloc] init];
-            [_elem2 read: inProtocol];
-            [fieldValue addObject: _elem2];
-            [_elem2 release];
-          }
-          [inProtocol readListEnd];
-          [self setStudyList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_LIST) {
-          int _size3;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size3];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size3];
-          int _i4;
-          for (_i4 = 0; _i4 < _size3; ++_i4)
-          {
-            UserResumeWork *_elem5 = [[UserResumeWork alloc] init];
-            [_elem5 read: inProtocol];
-            [fieldValue addObject: _elem5];
-            [_elem5 release];
-          }
-          [inProtocol readListEnd];
-          [self setWorkList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserResume"];
-  if (__studyList_isset) {
-    if (__studyList != nil) {
-      [outProtocol writeFieldBeginWithName: @"studyList" type: TType_LIST fieldID: 1];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__studyList count]];
-        int i7;
-        for (i7 = 0; i7 < [__studyList count]; i7++)
-        {
-          [[__studyList objectAtIndex: i7] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__workList_isset) {
-    if (__workList != nil) {
-      [outProtocol writeFieldBeginWithName: @"workList" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__workList count]];
-        int i9;
-        for (i9 = 0; i9 < [__workList count]; i9++)
-        {
-          [[__workList objectAtIndex: i9] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserResume("];
-  [ms appendString: @"studyList:"];
-  [ms appendFormat: @"%@", __studyList];
-  [ms appendString: @",workList:"];
-  [ms appendFormat: @"%@", __workList];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation User
-
-- (id) initWithInfo: (UserInfo *) info linkList: (NSArray *) linkList contactList: (NSArray *) contactList resume: (UserResume *) resume relationship: (int) relationship
-{
-  self = [super init];
-  __info = [info retain];
-  __info_isset = YES;
-  __linkList = [linkList retain];
-  __linkList_isset = YES;
-  __contactList = [contactList retain];
-  __contactList_isset = YES;
-  __resume = [resume retain];
-  __resume_isset = YES;
-  __relationship = relationship;
-  __relationship_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"info"])
-  {
-    __info = [[decoder decodeObjectForKey: @"info"] retain];
-    __info_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"linkList"])
-  {
-    __linkList = [[decoder decodeObjectForKey: @"linkList"] retain];
-    __linkList_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"contactList"])
-  {
-    __contactList = [[decoder decodeObjectForKey: @"contactList"] retain];
-    __contactList_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"resume"])
-  {
-    __resume = [[decoder decodeObjectForKey: @"resume"] retain];
-    __resume_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"relationship"])
-  {
-    __relationship = [decoder decodeIntForKey: @"relationship"];
-    __relationship_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__info_isset)
-  {
-    [encoder encodeObject: __info forKey: @"info"];
-  }
-  if (__linkList_isset)
-  {
-    [encoder encodeObject: __linkList forKey: @"linkList"];
-  }
-  if (__contactList_isset)
-  {
-    [encoder encodeObject: __contactList forKey: @"contactList"];
-  }
-  if (__resume_isset)
-  {
-    [encoder encodeObject: __resume forKey: @"resume"];
-  }
-  if (__relationship_isset)
-  {
-    [encoder encodeInt: __relationship forKey: @"relationship"];
-  }
-}
-
-- (void) dealloc
-{
-  [__info release];
-  [__linkList release];
-  [__contactList release];
-  [__resume release];
-  [super dealloc];
-}
-
-- (UserInfo *) info {
-  return [[__info retain] autorelease];
-}
-
-- (void) setInfo: (UserInfo *) info {
-  [info retain];
-  [__info release];
-  __info = info;
-  __info_isset = YES;
-}
-
-- (BOOL) infoIsSet {
-  return __info_isset;
-}
-
-- (void) unsetInfo {
-  [__info release];
-  __info = nil;
-  __info_isset = NO;
-}
-
-- (NSArray *) linkList {
-  return [[__linkList retain] autorelease];
-}
-
-- (void) setLinkList: (NSArray *) linkList {
-  [linkList retain];
-  [__linkList release];
-  __linkList = linkList;
-  __linkList_isset = YES;
-}
-
-- (BOOL) linkListIsSet {
-  return __linkList_isset;
-}
-
-- (void) unsetLinkList {
-  [__linkList release];
-  __linkList = nil;
-  __linkList_isset = NO;
-}
-
-- (NSArray *) contactList {
-  return [[__contactList retain] autorelease];
-}
-
-- (void) setContactList: (NSArray *) contactList {
-  [contactList retain];
-  [__contactList release];
-  __contactList = contactList;
-  __contactList_isset = YES;
-}
-
-- (BOOL) contactListIsSet {
-  return __contactList_isset;
-}
-
-- (void) unsetContactList {
-  [__contactList release];
-  __contactList = nil;
-  __contactList_isset = NO;
-}
-
-- (UserResume *) resume {
-  return [[__resume retain] autorelease];
-}
-
-- (void) setResume: (UserResume *) resume {
-  [resume retain];
-  [__resume release];
-  __resume = resume;
-  __resume_isset = YES;
-}
-
-- (BOOL) resumeIsSet {
-  return __resume_isset;
-}
-
-- (void) unsetResume {
-  [__resume release];
-  __resume = nil;
-  __resume_isset = NO;
-}
-
-- (int) relationship {
-  return __relationship;
-}
-
-- (void) setRelationship: (int) relationship {
-  __relationship = relationship;
-  __relationship_isset = YES;
-}
-
-- (BOOL) relationshipIsSet {
-  return __relationship_isset;
-}
-
-- (void) unsetRelationship {
-  __relationship_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          UserInfo *fieldValue = [[UserInfo alloc] init];
-          [fieldValue read: inProtocol];
-          [self setInfo: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_LIST) {
-          int _size10;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size10];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size10];
-          int _i11;
-          for (_i11 = 0; _i11 < _size10; ++_i11)
-          {
-            UserLink *_elem12 = [[UserLink alloc] init];
-            [_elem12 read: inProtocol];
-            [fieldValue addObject: _elem12];
-            [_elem12 release];
-          }
-          [inProtocol readListEnd];
-          [self setLinkList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_LIST) {
-          int _size13;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size13];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size13];
-          int _i14;
-          for (_i14 = 0; _i14 < _size13; ++_i14)
-          {
-            UserContact *_elem15 = [[UserContact alloc] init];
-            [_elem15 read: inProtocol];
-            [fieldValue addObject: _elem15];
-            [_elem15 release];
-          }
-          [inProtocol readListEnd];
-          [self setContactList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRUCT) {
-          UserResume *fieldValue = [[UserResume alloc] init];
-          [fieldValue read: inProtocol];
-          [self setResume: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setRelationship: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"User"];
-  if (__info_isset) {
-    if (__info != nil) {
-      [outProtocol writeFieldBeginWithName: @"info" type: TType_STRUCT fieldID: 1];
-      [__info write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__linkList_isset) {
-    if (__linkList != nil) {
-      [outProtocol writeFieldBeginWithName: @"linkList" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__linkList count]];
-        int i17;
-        for (i17 = 0; i17 < [__linkList count]; i17++)
-        {
-          [[__linkList objectAtIndex: i17] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__contactList_isset) {
-    if (__contactList != nil) {
-      [outProtocol writeFieldBeginWithName: @"contactList" type: TType_LIST fieldID: 3];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__contactList count]];
-        int i19;
-        for (i19 = 0; i19 < [__contactList count]; i19++)
-        {
-          [[__contactList objectAtIndex: i19] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__resume_isset) {
-    if (__resume != nil) {
-      [outProtocol writeFieldBeginWithName: @"resume" type: TType_STRUCT fieldID: 4];
-      [__resume write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__relationship_isset) {
-    [outProtocol writeFieldBeginWithName: @"relationship" type: TType_I32 fieldID: 5];
-    [outProtocol writeI32: __relationship];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"User("];
-  [ms appendString: @"info:"];
-  [ms appendFormat: @"%@", __info];
-  [ms appendString: @",linkList:"];
-  [ms appendFormat: @"%@", __linkList];
-  [ms appendString: @",contactList:"];
-  [ms appendFormat: @"%@", __contactList];
-  [ms appendString: @",resume:"];
-  [ms appendFormat: @"%@", __resume];
-  [ms appendString: @",relationship:"];
-  [ms appendFormat: @"%i", __relationship];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation StatusPost
-
-- (id) initWithContent: (NSString *) content tagList: (NSArray *) tagList
-{
-  self = [super init];
-  __content = [content retain];
-  __content_isset = YES;
-  __tagList = [tagList retain];
-  __tagList_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"content"])
-  {
-    __content = [[decoder decodeObjectForKey: @"content"] retain];
-    __content_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"tagList"])
-  {
-    __tagList = [[decoder decodeObjectForKey: @"tagList"] retain];
-    __tagList_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__content_isset)
-  {
-    [encoder encodeObject: __content forKey: @"content"];
-  }
-  if (__tagList_isset)
-  {
-    [encoder encodeObject: __tagList forKey: @"tagList"];
-  }
-}
-
-- (void) dealloc
-{
-  [__content release];
-  [__tagList release];
-  [super dealloc];
-}
-
-- (NSString *) content {
-  return [[__content retain] autorelease];
-}
-
-- (void) setContent: (NSString *) content {
-  [content retain];
-  [__content release];
-  __content = content;
-  __content_isset = YES;
-}
-
-- (BOOL) contentIsSet {
-  return __content_isset;
-}
-
-- (void) unsetContent {
-  [__content release];
-  __content = nil;
-  __content_isset = NO;
-}
-
-- (NSArray *) tagList {
-  return [[__tagList retain] autorelease];
-}
-
-- (void) setTagList: (NSArray *) tagList {
-  [tagList retain];
-  [__tagList release];
-  __tagList = tagList;
-  __tagList_isset = YES;
-}
-
-- (BOOL) tagListIsSet {
-  return __tagList_isset;
-}
-
-- (void) unsetTagList {
-  [__tagList release];
-  __tagList = nil;
-  __tagList_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setContent: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_LIST) {
-          int _size20;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size20];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size20];
-          int _i21;
-          for (_i21 = 0; _i21 < _size20; ++_i21)
-          {
-            NSString * _elem22 = [inProtocol readString];
-            [fieldValue addObject: _elem22];
-          }
-          [inProtocol readListEnd];
-          [self setTagList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"StatusPost"];
-  if (__content_isset) {
-    if (__content != nil) {
-      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __content];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__tagList_isset) {
-    if (__tagList != nil) {
-      [outProtocol writeFieldBeginWithName: @"tagList" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRING size: [__tagList count]];
-        int i24;
-        for (i24 = 0; i24 < [__tagList count]; i24++)
-        {
-          [outProtocol writeString: [__tagList objectAtIndex: i24]];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"StatusPost("];
-  [ms appendString: @"content:"];
-  [ms appendFormat: @"\"%@\"", __content];
-  [ms appendString: @",tagList:"];
-  [ms appendFormat: @"%@", __tagList];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation StatusComment
-
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content
-{
-  self = [super init];
-  __id = id;
-  __id_isset = YES;
-  __authorID = authorID;
-  __authorID_isset = YES;
-  __authorName = [authorName retain];
-  __authorName_isset = YES;
-  __date = date;
-  __date_isset = YES;
-  __content = [content retain];
-  __content_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"id"])
-  {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"authorID"])
-  {
-    __authorID = [decoder decodeInt64ForKey: @"authorID"];
-    __authorID_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"authorName"])
-  {
-    __authorName = [[decoder decodeObjectForKey: @"authorName"] retain];
-    __authorName_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"date"])
-  {
-    __date = [decoder decodeInt64ForKey: @"date"];
-    __date_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"content"])
-  {
-    __content = [[decoder decodeObjectForKey: @"content"] retain];
-    __content_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__id_isset)
-  {
-    [encoder encodeInt64: __id forKey: @"id"];
-  }
-  if (__authorID_isset)
-  {
-    [encoder encodeInt64: __authorID forKey: @"authorID"];
-  }
-  if (__authorName_isset)
-  {
-    [encoder encodeObject: __authorName forKey: @"authorName"];
-  }
-  if (__date_isset)
-  {
-    [encoder encodeInt64: __date forKey: @"date"];
-  }
-  if (__content_isset)
-  {
-    [encoder encodeObject: __content forKey: @"content"];
-  }
-}
-
-- (void) dealloc
-{
-  [__authorName release];
-  [__content release];
-  [super dealloc];
-}
-
-- (int64_t) id {
-  return __id;
-}
-
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
-}
-
-- (BOOL) idIsSet {
-  return __id_isset;
-}
-
-- (void) unsetId {
-  __id_isset = NO;
-}
-
-- (int64_t) authorID {
-  return __authorID;
-}
-
-- (void) setAuthorID: (int64_t) authorID {
-  __authorID = authorID;
-  __authorID_isset = YES;
-}
-
-- (BOOL) authorIDIsSet {
-  return __authorID_isset;
-}
-
-- (void) unsetAuthorID {
-  __authorID_isset = NO;
-}
-
-- (NSString *) authorName {
-  return [[__authorName retain] autorelease];
-}
-
-- (void) setAuthorName: (NSString *) authorName {
-  [authorName retain];
-  [__authorName release];
-  __authorName = authorName;
-  __authorName_isset = YES;
-}
-
-- (BOOL) authorNameIsSet {
-  return __authorName_isset;
-}
-
-- (void) unsetAuthorName {
-  [__authorName release];
-  __authorName = nil;
-  __authorName_isset = NO;
-}
-
-- (int64_t) date {
-  return __date;
-}
-
-- (void) setDate: (int64_t) date {
-  __date = date;
-  __date_isset = YES;
-}
-
-- (BOOL) dateIsSet {
-  return __date_isset;
-}
-
-- (void) unsetDate {
-  __date_isset = NO;
-}
-
-- (NSString *) content {
-  return [[__content retain] autorelease];
-}
-
-- (void) setContent: (NSString *) content {
-  [content retain];
-  [__content release];
-  __content = content;
-  __content_isset = YES;
-}
-
-- (BOOL) contentIsSet {
-  return __content_isset;
-}
-
-- (void) unsetContent {
-  [__content release];
-  __content = nil;
-  __content_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setAuthorID: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAuthorName: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setDate: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setContent: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"StatusComment"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
-    [outProtocol writeFieldEnd];
-  }
-  if (__authorID_isset) {
-    [outProtocol writeFieldBeginWithName: @"authorID" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __authorID];
-    [outProtocol writeFieldEnd];
-  }
-  if (__authorName_isset) {
-    if (__authorName != nil) {
-      [outProtocol writeFieldBeginWithName: @"authorName" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __authorName];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__date_isset) {
-    [outProtocol writeFieldBeginWithName: @"date" type: TType_I64 fieldID: 4];
-    [outProtocol writeI64: __date];
-    [outProtocol writeFieldEnd];
-  }
-  if (__content_isset) {
-    if (__content != nil) {
-      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __content];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"StatusComment("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",authorID:"];
-  [ms appendFormat: @"%qi", __authorID];
-  [ms appendString: @",authorName:"];
-  [ms appendFormat: @"\"%@\"", __authorName];
-  [ms appendString: @",date:"];
-  [ms appendFormat: @"%qi", __date];
-  [ms appendString: @",content:"];
-  [ms appendFormat: @"\"%@\"", __content];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation Status
-
-- (id) initWithId: (int64_t) id authorID: (int64_t) authorID authorName: (NSString *) authorName date: (timestamp) date content: (NSString *) content commentCount: (int64_t) commentCount commentList: (NSArray *) commentList
-{
-  self = [super init];
-  __id = id;
-  __id_isset = YES;
-  __authorID = authorID;
-  __authorID_isset = YES;
-  __authorName = [authorName retain];
-  __authorName_isset = YES;
-  __date = date;
-  __date_isset = YES;
-  __content = [content retain];
-  __content_isset = YES;
-  __commentCount = commentCount;
-  __commentCount_isset = YES;
-  __commentList = [commentList retain];
-  __commentList_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"id"])
-  {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"authorID"])
-  {
-    __authorID = [decoder decodeInt64ForKey: @"authorID"];
-    __authorID_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"authorName"])
-  {
-    __authorName = [[decoder decodeObjectForKey: @"authorName"] retain];
-    __authorName_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"date"])
-  {
-    __date = [decoder decodeInt64ForKey: @"date"];
-    __date_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"content"])
-  {
-    __content = [[decoder decodeObjectForKey: @"content"] retain];
-    __content_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"commentCount"])
-  {
-    __commentCount = [decoder decodeInt64ForKey: @"commentCount"];
-    __commentCount_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"commentList"])
-  {
-    __commentList = [[decoder decodeObjectForKey: @"commentList"] retain];
-    __commentList_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__id_isset)
-  {
-    [encoder encodeInt64: __id forKey: @"id"];
-  }
-  if (__authorID_isset)
-  {
-    [encoder encodeInt64: __authorID forKey: @"authorID"];
-  }
-  if (__authorName_isset)
-  {
-    [encoder encodeObject: __authorName forKey: @"authorName"];
-  }
-  if (__date_isset)
-  {
-    [encoder encodeInt64: __date forKey: @"date"];
-  }
-  if (__content_isset)
-  {
-    [encoder encodeObject: __content forKey: @"content"];
-  }
-  if (__commentCount_isset)
-  {
-    [encoder encodeInt64: __commentCount forKey: @"commentCount"];
-  }
-  if (__commentList_isset)
-  {
-    [encoder encodeObject: __commentList forKey: @"commentList"];
-  }
-}
-
-- (void) dealloc
-{
-  [__authorName release];
-  [__content release];
-  [__commentList release];
-  [super dealloc];
-}
-
-- (int64_t) id {
-  return __id;
-}
-
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
-}
-
-- (BOOL) idIsSet {
-  return __id_isset;
-}
-
-- (void) unsetId {
-  __id_isset = NO;
-}
-
-- (int64_t) authorID {
-  return __authorID;
-}
-
-- (void) setAuthorID: (int64_t) authorID {
-  __authorID = authorID;
-  __authorID_isset = YES;
-}
-
-- (BOOL) authorIDIsSet {
-  return __authorID_isset;
-}
-
-- (void) unsetAuthorID {
-  __authorID_isset = NO;
-}
-
-- (NSString *) authorName {
-  return [[__authorName retain] autorelease];
-}
-
-- (void) setAuthorName: (NSString *) authorName {
-  [authorName retain];
-  [__authorName release];
-  __authorName = authorName;
-  __authorName_isset = YES;
-}
-
-- (BOOL) authorNameIsSet {
-  return __authorName_isset;
-}
-
-- (void) unsetAuthorName {
-  [__authorName release];
-  __authorName = nil;
-  __authorName_isset = NO;
-}
-
-- (int64_t) date {
-  return __date;
-}
-
-- (void) setDate: (int64_t) date {
-  __date = date;
-  __date_isset = YES;
-}
-
-- (BOOL) dateIsSet {
-  return __date_isset;
-}
-
-- (void) unsetDate {
-  __date_isset = NO;
-}
-
-- (NSString *) content {
-  return [[__content retain] autorelease];
-}
-
-- (void) setContent: (NSString *) content {
-  [content retain];
-  [__content release];
-  __content = content;
-  __content_isset = YES;
-}
-
-- (BOOL) contentIsSet {
-  return __content_isset;
-}
-
-- (void) unsetContent {
-  [__content release];
-  __content = nil;
-  __content_isset = NO;
-}
-
-- (int64_t) commentCount {
-  return __commentCount;
-}
-
-- (void) setCommentCount: (int64_t) commentCount {
-  __commentCount = commentCount;
-  __commentCount_isset = YES;
-}
-
-- (BOOL) commentCountIsSet {
-  return __commentCount_isset;
-}
-
-- (void) unsetCommentCount {
-  __commentCount_isset = NO;
-}
-
-- (NSArray *) commentList {
-  return [[__commentList retain] autorelease];
-}
-
-- (void) setCommentList: (NSArray *) commentList {
-  [commentList retain];
-  [__commentList release];
-  __commentList = commentList;
-  __commentList_isset = YES;
-}
-
-- (BOOL) commentListIsSet {
-  return __commentList_isset;
-}
-
-- (void) unsetCommentList {
-  [__commentList release];
-  __commentList = nil;
-  __commentList_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setAuthorID: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAuthorName: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setDate: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setContent: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 6:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setCommentCount: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 7:
-        if (fieldType == TType_LIST) {
-          int _size25;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size25];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size25];
-          int _i26;
-          for (_i26 = 0; _i26 < _size25; ++_i26)
-          {
-            StatusComment *_elem27 = [[StatusComment alloc] init];
-            [_elem27 read: inProtocol];
-            [fieldValue addObject: _elem27];
-            [_elem27 release];
-          }
-          [inProtocol readListEnd];
-          [self setCommentList: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Status"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
-    [outProtocol writeFieldEnd];
-  }
-  if (__authorID_isset) {
-    [outProtocol writeFieldBeginWithName: @"authorID" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __authorID];
-    [outProtocol writeFieldEnd];
-  }
-  if (__authorName_isset) {
-    if (__authorName != nil) {
-      [outProtocol writeFieldBeginWithName: @"authorName" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __authorName];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__date_isset) {
-    [outProtocol writeFieldBeginWithName: @"date" type: TType_I64 fieldID: 4];
-    [outProtocol writeI64: __date];
-    [outProtocol writeFieldEnd];
-  }
-  if (__content_isset) {
-    if (__content != nil) {
-      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __content];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__commentCount_isset) {
-    [outProtocol writeFieldBeginWithName: @"commentCount" type: TType_I64 fieldID: 6];
-    [outProtocol writeI64: __commentCount];
-    [outProtocol writeFieldEnd];
-  }
-  if (__commentList_isset) {
-    if (__commentList != nil) {
-      [outProtocol writeFieldBeginWithName: @"commentList" type: TType_LIST fieldID: 7];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__commentList count]];
-        int i29;
-        for (i29 = 0; i29 < [__commentList count]; i29++)
-        {
-          [[__commentList objectAtIndex: i29] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Status("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
-  [ms appendString: @",authorID:"];
-  [ms appendFormat: @"%qi", __authorID];
-  [ms appendString: @",authorName:"];
-  [ms appendFormat: @"\"%@\"", __authorName];
-  [ms appendString: @",date:"];
-  [ms appendFormat: @"%qi", __date];
-  [ms appendString: @",content:"];
-  [ms appendFormat: @"\"%@\"", __content];
-  [ms appendString: @",commentCount:"];
-  [ms appendFormat: @"%qi", __commentCount];
-  [ms appendString: @",commentList:"];
-  [ms appendFormat: @"%@", __commentList];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation Task
-
-- (id) initWithId: (int64_t) id name: (NSString *) name intro: (NSString *) intro cid: (int) cid begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (UserInfo *) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list
-{
-  self = [super init];
-  __id = id;
-  __id_isset = YES;
+  __tid = tid;
+  __tid_isset = YES;
   __name = [name retain];
   __name_isset = YES;
   __intro = [intro retain];
   __intro_isset = YES;
-  __cid = cid;
-  __cid_isset = YES;
   __begin_time = begin_time;
   __begin_time_isset = YES;
   __end_time = end_time;
   __end_time_isset = YES;
-  __owner = [owner retain];
+  __owner = owner;
   __owner_isset = YES;
   __user_apply_list = [user_apply_list retain];
   __user_apply_list_isset = YES;
@@ -4376,10 +906,10 @@
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"id"])
+  if ([decoder containsValueForKey: @"tid"])
   {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
+    __tid = [decoder decodeInt64ForKey: @"tid"];
+    __tid_isset = YES;
   }
   if ([decoder containsValueForKey: @"name"])
   {
@@ -4390,11 +920,6 @@
   {
     __intro = [[decoder decodeObjectForKey: @"intro"] retain];
     __intro_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"cid"])
-  {
-    __cid = [decoder decodeIntForKey: @"cid"];
-    __cid_isset = YES;
   }
   if ([decoder containsValueForKey: @"begin_time"])
   {
@@ -4408,7 +933,7 @@
   }
   if ([decoder containsValueForKey: @"owner"])
   {
-    __owner = [[decoder decodeObjectForKey: @"owner"] retain];
+    __owner = [decoder decodeInt64ForKey: @"owner"];
     __owner_isset = YES;
   }
   if ([decoder containsValueForKey: @"user_apply_list"])
@@ -4431,9 +956,9 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__id_isset)
+  if (__tid_isset)
   {
-    [encoder encodeInt64: __id forKey: @"id"];
+    [encoder encodeInt64: __tid forKey: @"tid"];
   }
   if (__name_isset)
   {
@@ -4442,10 +967,6 @@
   if (__intro_isset)
   {
     [encoder encodeObject: __intro forKey: @"intro"];
-  }
-  if (__cid_isset)
-  {
-    [encoder encodeInt: __cid forKey: @"cid"];
   }
   if (__begin_time_isset)
   {
@@ -4457,7 +978,7 @@
   }
   if (__owner_isset)
   {
-    [encoder encodeObject: __owner forKey: @"owner"];
+    [encoder encodeInt64: __owner forKey: @"owner"];
   }
   if (__user_apply_list_isset)
   {
@@ -4477,28 +998,27 @@
 {
   [__name release];
   [__intro release];
-  [__owner release];
   [__user_apply_list release];
   [__user_accept_list release];
   [__user_reject_list release];
   [super dealloc];
 }
 
-- (int64_t) id {
-  return __id;
+- (int64_t) tid {
+  return __tid;
 }
 
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
+- (void) setTid: (int64_t) tid {
+  __tid = tid;
+  __tid_isset = YES;
 }
 
-- (BOOL) idIsSet {
-  return __id_isset;
+- (BOOL) tidIsSet {
+  return __tid_isset;
 }
 
-- (void) unsetId {
-  __id_isset = NO;
+- (void) unsetTid {
+  __tid_isset = NO;
 }
 
 - (NSString *) name {
@@ -4543,23 +1063,6 @@
   __intro_isset = NO;
 }
 
-- (int) cid {
-  return __cid;
-}
-
-- (void) setCid: (int) cid {
-  __cid = cid;
-  __cid_isset = YES;
-}
-
-- (BOOL) cidIsSet {
-  return __cid_isset;
-}
-
-- (void) unsetCid {
-  __cid_isset = NO;
-}
-
 - (int64_t) begin_time {
   return __begin_time;
 }
@@ -4594,13 +1097,11 @@
   __end_time_isset = NO;
 }
 
-- (UserInfo *) owner {
-  return [[__owner retain] autorelease];
+- (int64_t) owner {
+  return __owner;
 }
 
-- (void) setOwner: (UserInfo *) owner {
-  [owner retain];
-  [__owner release];
+- (void) setOwner: (int64_t) owner {
   __owner = owner;
   __owner_isset = YES;
 }
@@ -4610,8 +1111,6 @@
 }
 
 - (void) unsetOwner {
-  [__owner release];
-  __owner = nil;
   __owner_isset = NO;
 }
 
@@ -4696,7 +1195,7 @@
       case 1:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
+          [self setTid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -4718,14 +1217,6 @@
         }
         break;
       case 4:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setCid: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setBegin_time: fieldValue];
@@ -4733,7 +1224,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 6:
+      case 5:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setEnd_time: fieldValue];
@@ -4741,28 +1232,24 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 7:
-        if (fieldType == TType_STRUCT) {
-          UserInfo *fieldValue = [[UserInfo alloc] init];
-          [fieldValue read: inProtocol];
+      case 6:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
           [self setOwner: fieldValue];
-          [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 8:
+      case 7:
         if (fieldType == TType_LIST) {
-          int _size30;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size30];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size30];
-          int _i31;
-          for (_i31 = 0; _i31 < _size30; ++_i31)
+          int _size0;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
+          int _i1;
+          for (_i1 = 0; _i1 < _size0; ++_i1)
           {
-            UserInfo *_elem32 = [[UserInfo alloc] init];
-            [_elem32 read: inProtocol];
-            [fieldValue addObject: _elem32];
-            [_elem32 release];
+            int64_t _elem2 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem2]];
           }
           [inProtocol readListEnd];
           [self setUser_apply_list: fieldValue];
@@ -4771,18 +1258,16 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 11:
+      case 8:
         if (fieldType == TType_LIST) {
-          int _size33;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size33];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size33];
-          int _i34;
-          for (_i34 = 0; _i34 < _size33; ++_i34)
+          int _size3;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size3];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size3];
+          int _i4;
+          for (_i4 = 0; _i4 < _size3; ++_i4)
           {
-            UserInfo *_elem35 = [[UserInfo alloc] init];
-            [_elem35 read: inProtocol];
-            [fieldValue addObject: _elem35];
-            [_elem35 release];
+            int64_t _elem5 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem5]];
           }
           [inProtocol readListEnd];
           [self setUser_accept_list: fieldValue];
@@ -4791,18 +1276,16 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 12:
+      case 9:
         if (fieldType == TType_LIST) {
-          int _size36;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size36];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size36];
-          int _i37;
-          for (_i37 = 0; _i37 < _size36; ++_i37)
+          int _size6;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size6];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size6];
+          int _i7;
+          for (_i7 = 0; _i7 < _size6; ++_i7)
           {
-            UserInfo *_elem38 = [[UserInfo alloc] init];
-            [_elem38 read: inProtocol];
-            [fieldValue addObject: _elem38];
-            [_elem38 release];
+            int64_t _elem8 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem8]];
           }
           [inProtocol readListEnd];
           [self setUser_reject_list: fieldValue];
@@ -4821,10 +1304,10 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Task"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
+  [outProtocol writeStructBeginWithName: @"TaskInfo"];
+  if (__tid_isset) {
+    [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __tid];
     [outProtocol writeFieldEnd];
   }
   if (__name_isset) {
@@ -4841,37 +1324,30 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__cid_isset) {
-    [outProtocol writeFieldBeginWithName: @"cid" type: TType_I32 fieldID: 4];
-    [outProtocol writeI32: __cid];
-    [outProtocol writeFieldEnd];
-  }
   if (__begin_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 5];
+    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 4];
     [outProtocol writeI64: __begin_time];
     [outProtocol writeFieldEnd];
   }
   if (__end_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"end_time" type: TType_I64 fieldID: 6];
+    [outProtocol writeFieldBeginWithName: @"end_time" type: TType_I64 fieldID: 5];
     [outProtocol writeI64: __end_time];
     [outProtocol writeFieldEnd];
   }
   if (__owner_isset) {
-    if (__owner != nil) {
-      [outProtocol writeFieldBeginWithName: @"owner" type: TType_STRUCT fieldID: 7];
-      [__owner write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
+    [outProtocol writeFieldBeginWithName: @"owner" type: TType_I64 fieldID: 6];
+    [outProtocol writeI64: __owner];
+    [outProtocol writeFieldEnd];
   }
   if (__user_apply_list_isset) {
     if (__user_apply_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_apply_list" type: TType_LIST fieldID: 8];
+      [outProtocol writeFieldBeginWithName: @"user_apply_list" type: TType_LIST fieldID: 7];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_apply_list count]];
-        int i40;
-        for (i40 = 0; i40 < [__user_apply_list count]; i40++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_apply_list count]];
+        int i10;
+        for (i10 = 0; i10 < [__user_apply_list count]; i10++)
         {
-          [[__user_apply_list objectAtIndex: i40] write: outProtocol];
+          [outProtocol writeI64: [[__user_apply_list objectAtIndex: i10] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -4880,13 +1356,13 @@
   }
   if (__user_accept_list_isset) {
     if (__user_accept_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_accept_list" type: TType_LIST fieldID: 11];
+      [outProtocol writeFieldBeginWithName: @"user_accept_list" type: TType_LIST fieldID: 8];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_accept_list count]];
-        int i42;
-        for (i42 = 0; i42 < [__user_accept_list count]; i42++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_accept_list count]];
+        int i12;
+        for (i12 = 0; i12 < [__user_accept_list count]; i12++)
         {
-          [[__user_accept_list objectAtIndex: i42] write: outProtocol];
+          [outProtocol writeI64: [[__user_accept_list objectAtIndex: i12] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -4895,13 +1371,13 @@
   }
   if (__user_reject_list_isset) {
     if (__user_reject_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_reject_list" type: TType_LIST fieldID: 12];
+      [outProtocol writeFieldBeginWithName: @"user_reject_list" type: TType_LIST fieldID: 9];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__user_reject_list count]];
-        int i44;
-        for (i44 = 0; i44 < [__user_reject_list count]; i44++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_reject_list count]];
+        int i14;
+        for (i14 = 0; i14 < [__user_reject_list count]; i14++)
         {
-          [[__user_reject_list objectAtIndex: i44] write: outProtocol];
+          [outProtocol writeI64: [[__user_reject_list objectAtIndex: i14] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -4913,21 +1389,19 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Task("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
+  NSMutableString * ms = [NSMutableString stringWithString: @"TaskInfo("];
+  [ms appendString: @"tid:"];
+  [ms appendFormat: @"%qi", __tid];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",intro:"];
   [ms appendFormat: @"\"%@\"", __intro];
-  [ms appendString: @",cid:"];
-  [ms appendFormat: @"%i", __cid];
   [ms appendString: @",begin_time:"];
   [ms appendFormat: @"%qi", __begin_time];
   [ms appendString: @",end_time:"];
   [ms appendFormat: @"%qi", __end_time];
   [ms appendString: @",owner:"];
-  [ms appendFormat: @"%@", __owner];
+  [ms appendFormat: @"%qi", __owner];
   [ms appendString: @",user_apply_list:"];
   [ms appendFormat: @"%@", __user_apply_list];
   [ms appendString: @",user_accept_list:"];
@@ -4940,88 +1414,126 @@
 
 @end
 
-@implementation TaskList
+@implementation TaskSummary
 
-- (id) initWithNum: (int64_t) num data: (NSArray *) data
+- (id) initWithRecommend: (NSArray *) recommend nearby: (NSArray *) nearby follow: (NSArray *) follow
 {
   self = [super init];
-  __num = num;
-  __num_isset = YES;
-  __data = [data retain];
-  __data_isset = YES;
+  __recommend = [recommend retain];
+  __recommend_isset = YES;
+  __nearby = [nearby retain];
+  __nearby_isset = YES;
+  __follow = [follow retain];
+  __follow_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"num"])
+  if ([decoder containsValueForKey: @"recommend"])
   {
-    __num = [decoder decodeInt64ForKey: @"num"];
-    __num_isset = YES;
+    __recommend = [[decoder decodeObjectForKey: @"recommend"] retain];
+    __recommend_isset = YES;
   }
-  if ([decoder containsValueForKey: @"data"])
+  if ([decoder containsValueForKey: @"nearby"])
   {
-    __data = [[decoder decodeObjectForKey: @"data"] retain];
-    __data_isset = YES;
+    __nearby = [[decoder decodeObjectForKey: @"nearby"] retain];
+    __nearby_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"follow"])
+  {
+    __follow = [[decoder decodeObjectForKey: @"follow"] retain];
+    __follow_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__num_isset)
+  if (__recommend_isset)
   {
-    [encoder encodeInt64: __num forKey: @"num"];
+    [encoder encodeObject: __recommend forKey: @"recommend"];
   }
-  if (__data_isset)
+  if (__nearby_isset)
   {
-    [encoder encodeObject: __data forKey: @"data"];
+    [encoder encodeObject: __nearby forKey: @"nearby"];
+  }
+  if (__follow_isset)
+  {
+    [encoder encodeObject: __follow forKey: @"follow"];
   }
 }
 
 - (void) dealloc
 {
-  [__data release];
+  [__recommend release];
+  [__nearby release];
+  [__follow release];
   [super dealloc];
 }
 
-- (int64_t) num {
-  return __num;
+- (NSArray *) recommend {
+  return [[__recommend retain] autorelease];
 }
 
-- (void) setNum: (int64_t) num {
-  __num = num;
-  __num_isset = YES;
+- (void) setRecommend: (NSArray *) recommend {
+  [recommend retain];
+  [__recommend release];
+  __recommend = recommend;
+  __recommend_isset = YES;
 }
 
-- (BOOL) numIsSet {
-  return __num_isset;
+- (BOOL) recommendIsSet {
+  return __recommend_isset;
 }
 
-- (void) unsetNum {
-  __num_isset = NO;
+- (void) unsetRecommend {
+  [__recommend release];
+  __recommend = nil;
+  __recommend_isset = NO;
 }
 
-- (NSArray *) data {
-  return [[__data retain] autorelease];
+- (NSArray *) nearby {
+  return [[__nearby retain] autorelease];
 }
 
-- (void) setData: (NSArray *) data {
-  [data retain];
-  [__data release];
-  __data = data;
-  __data_isset = YES;
+- (void) setNearby: (NSArray *) nearby {
+  [nearby retain];
+  [__nearby release];
+  __nearby = nearby;
+  __nearby_isset = YES;
 }
 
-- (BOOL) dataIsSet {
-  return __data_isset;
+- (BOOL) nearbyIsSet {
+  return __nearby_isset;
 }
 
-- (void) unsetData {
-  [__data release];
-  __data = nil;
-  __data_isset = NO;
+- (void) unsetNearby {
+  [__nearby release];
+  __nearby = nil;
+  __nearby_isset = NO;
+}
+
+- (NSArray *) follow {
+  return [[__follow retain] autorelease];
+}
+
+- (void) setFollow: (NSArray *) follow {
+  [follow retain];
+  [__follow release];
+  __follow = follow;
+  __follow_isset = YES;
+}
+
+- (BOOL) followIsSet {
+  return __follow_isset;
+}
+
+- (void) unsetFollow {
+  [__follow release];
+  __follow = nil;
+  __follow_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -5040,356 +1552,54 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setNum: fieldValue];
+        if (fieldType == TType_LIST) {
+          int _size15;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size15];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size15];
+          int _i16;
+          for (_i16 = 0; _i16 < _size15; ++_i16)
+          {
+            int64_t _elem17 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem17]];
+          }
+          [inProtocol readListEnd];
+          [self setRecommend: fieldValue];
+          [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
         if (fieldType == TType_LIST) {
-          int _size45;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size45];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size45];
-          int _i46;
-          for (_i46 = 0; _i46 < _size45; ++_i46)
+          int _size18;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size18];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size18];
+          int _i19;
+          for (_i19 = 0; _i19 < _size18; ++_i19)
           {
-            Task *_elem47 = [[Task alloc] init];
-            [_elem47 read: inProtocol];
-            [fieldValue addObject: _elem47];
-            [_elem47 release];
+            int64_t _elem20 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem20]];
           }
           [inProtocol readListEnd];
-          [self setData: fieldValue];
+          [self setNearby: fieldValue];
           [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"TaskList"];
-  if (__num_isset) {
-    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __num];
-    [outProtocol writeFieldEnd];
-  }
-  if (__data_isset) {
-    if (__data != nil) {
-      [outProtocol writeFieldBeginWithName: @"data" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__data count]];
-        int i49;
-        for (i49 = 0; i49 < [__data count]; i49++)
-        {
-          [[__data objectAtIndex: i49] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"TaskList("];
-  [ms appendString: @"num:"];
-  [ms appendFormat: @"%qi", __num];
-  [ms appendString: @",data:"];
-  [ms appendFormat: @"%@", __data];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation Comment
-
-- (id) initWithText: (NSString *) text time: (timestamp) time
-{
-  self = [super init];
-  __text = [text retain];
-  __text_isset = YES;
-  __time = time;
-  __time_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"text"])
-  {
-    __text = [[decoder decodeObjectForKey: @"text"] retain];
-    __text_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"time"])
-  {
-    __time = [decoder decodeInt64ForKey: @"time"];
-    __time_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__text_isset)
-  {
-    [encoder encodeObject: __text forKey: @"text"];
-  }
-  if (__time_isset)
-  {
-    [encoder encodeInt64: __time forKey: @"time"];
-  }
-}
-
-- (void) dealloc
-{
-  [__text release];
-  [super dealloc];
-}
-
-- (NSString *) text {
-  return [[__text retain] autorelease];
-}
-
-- (void) setText: (NSString *) text {
-  [text retain];
-  [__text release];
-  __text = text;
-  __text_isset = YES;
-}
-
-- (BOOL) textIsSet {
-  return __text_isset;
-}
-
-- (void) unsetText {
-  [__text release];
-  __text = nil;
-  __text_isset = NO;
-}
-
-- (int64_t) time {
-  return __time;
-}
-
-- (void) setTime: (int64_t) time {
-  __time = time;
-  __time_isset = YES;
-}
-
-- (BOOL) timeIsSet {
-  return __time_isset;
-}
-
-- (void) unsetTime {
-  __time_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setText: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 3:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setTime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"Comment"];
-  if (__text_isset) {
-    if (__text != nil) {
-      [outProtocol writeFieldBeginWithName: @"text" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __text];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__time_isset) {
-    [outProtocol writeFieldBeginWithName: @"time" type: TType_I64 fieldID: 3];
-    [outProtocol writeI64: __time];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"Comment("];
-  [ms appendString: @"text:"];
-  [ms appendFormat: @"\"%@\"", __text];
-  [ms appendString: @",time:"];
-  [ms appendFormat: @"%qi", __time];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation CommentList
-
-- (id) initWithNum: (int64_t) num data: (NSArray *) data
-{
-  self = [super init];
-  __num = num;
-  __num_isset = YES;
-  __data = [data retain];
-  __data_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"num"])
-  {
-    __num = [decoder decodeInt64ForKey: @"num"];
-    __num_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"data"])
-  {
-    __data = [[decoder decodeObjectForKey: @"data"] retain];
-    __data_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__num_isset)
-  {
-    [encoder encodeInt64: __num forKey: @"num"];
-  }
-  if (__data_isset)
-  {
-    [encoder encodeObject: __data forKey: @"data"];
-  }
-}
-
-- (void) dealloc
-{
-  [__data release];
-  [super dealloc];
-}
-
-- (int64_t) num {
-  return __num;
-}
-
-- (void) setNum: (int64_t) num {
-  __num = num;
-  __num_isset = YES;
-}
-
-- (BOOL) numIsSet {
-  return __num_isset;
-}
-
-- (void) unsetNum {
-  __num_isset = NO;
-}
-
-- (NSArray *) data {
-  return [[__data retain] autorelease];
-}
-
-- (void) setData: (NSArray *) data {
-  [data retain];
-  [__data release];
-  __data = data;
-  __data_isset = YES;
-}
-
-- (BOOL) dataIsSet {
-  return __data_isset;
-}
-
-- (void) unsetData {
-  [__data release];
-  __data = nil;
-  __data_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setNum: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
         if (fieldType == TType_LIST) {
-          int _size50;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size50];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size50];
-          int _i51;
-          for (_i51 = 0; _i51 < _size50; ++_i51)
+          int _size21;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size21];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size21];
+          int _i22;
+          for (_i22 = 0; _i22 < _size21; ++_i22)
           {
-            Comment *_elem52 = [[Comment alloc] init];
-            [_elem52 read: inProtocol];
-            [fieldValue addObject: _elem52];
-            [_elem52 release];
+            int64_t _elem23 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem23]];
           }
           [inProtocol readListEnd];
-          [self setData: fieldValue];
+          [self setFollow: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -5405,21 +1615,46 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"CommentList"];
-  if (__num_isset) {
-    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __num];
-    [outProtocol writeFieldEnd];
-  }
-  if (__data_isset) {
-    if (__data != nil) {
-      [outProtocol writeFieldBeginWithName: @"data" type: TType_LIST fieldID: 2];
+  [outProtocol writeStructBeginWithName: @"TaskSummary"];
+  if (__recommend_isset) {
+    if (__recommend != nil) {
+      [outProtocol writeFieldBeginWithName: @"recommend" type: TType_LIST fieldID: 1];
       {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__data count]];
-        int i54;
-        for (i54 = 0; i54 < [__data count]; i54++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__recommend count]];
+        int i25;
+        for (i25 = 0; i25 < [__recommend count]; i25++)
         {
-          [[__data objectAtIndex: i54] write: outProtocol];
+          [outProtocol writeI64: [[__recommend objectAtIndex: i25] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__nearby_isset) {
+    if (__nearby != nil) {
+      [outProtocol writeFieldBeginWithName: @"nearby" type: TType_LIST fieldID: 2];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__nearby count]];
+        int i27;
+        for (i27 = 0; i27 < [__nearby count]; i27++)
+        {
+          [outProtocol writeI64: [[__nearby objectAtIndex: i27] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__follow_isset) {
+    if (__follow != nil) {
+      [outProtocol writeFieldBeginWithName: @"follow" type: TType_LIST fieldID: 3];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__follow count]];
+        int i29;
+        for (i29 = 0; i29 < [__follow count]; i29++)
+        {
+          [outProtocol writeI64: [[__follow objectAtIndex: i29] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -5431,11 +1666,13 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"CommentList("];
-  [ms appendString: @"num:"];
-  [ms appendFormat: @"%qi", __num];
-  [ms appendString: @",data:"];
-  [ms appendFormat: @"%@", __data];
+  NSMutableString * ms = [NSMutableString stringWithString: @"TaskSummary("];
+  [ms appendString: @"recommend:"];
+  [ms appendFormat: @"%@", __recommend];
+  [ms appendString: @",nearby:"];
+  [ms appendFormat: @"%@", __nearby];
+  [ms appendString: @",follow:"];
+  [ms appendFormat: @"%@", __follow];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
