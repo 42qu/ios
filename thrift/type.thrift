@@ -87,8 +87,6 @@ struct AuthResponse {
   5:  optional  i64                 expire_time
 }
 
-
-
 struct AuthRequestMail {
   1:  required  string  client_id,
   2:  required  string  client_secret,
@@ -96,6 +94,9 @@ struct AuthRequestMail {
   4:  required  string  password
 }
 
+# ############# User Begin ############# #
+
+#
 struct UserInfo {
     1:  required    i64         id,
     2:  required    string      nickname,
