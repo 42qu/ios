@@ -14,22 +14,6 @@ struct AuthResponse {
     5:  optional  i64                 expire_time
 }
 
-enum Gender {
-    MALE,
-    FEMALE,
-    UNKNOW
-}
-
-struct UserInfo {
-    1: required string name,
-    2: required Gender gender,
-    3: required string org,
-    4: required string job,
-    5: required string small_avator,
-    6: required string big_avator,
-    7: required string intro
-}
-
 enum TaskStat {
     NONE,    # 未响应
     ACCEPT,  # 接受
