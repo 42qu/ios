@@ -115,20 +115,28 @@ struct AuthRequestMail {
 
 # ############# User Begin ############# #
 
+##
+enum UserBasicGender {
+    Unknown = 0,
+    Male,
+    Female,
+    Other
+}
+
 #
-struct UserInfo {
-    1:  required    i64         id,
-    2:  required    string      nickname,
-    3:  required    string      avatar, # Image URL
-    4:  required    string      motto
-    5:  required    string      org, # Company / School
-    6:  required    string      job, # Job / Major
-    7:  optional    string      firstname,
-    8:  optional    string      lastname,
-    9:  optional    string      gender,
-    10: optional    timestamp   birthday,
-    11: optional    string      location,
-    12: optional    string      introduction # Self introduction
+struct UserBasic {
+    1:  required    i64             id,
+    2:  required    string          nickname,
+    3:  required    string          avatar, # Image URL
+    4:  required    string          motto
+    5:  required    string          org, # Company / School
+    6:  required    string          job, # Job / Major
+    7:  optional    string          firstname,
+    8:  optional    string          lastname,
+    9:  optional    UserBasicGender gender,
+    10: optional    timestamp       birthday,
+    11: optional    string          location,
+    12: optional    string          introduction # Self introduction
 }
 
 ###
@@ -242,12 +250,11 @@ enum UserRelationship {
 }
 
 #
-struct User {
-    1:  required    UserInfo            info,
-    2:  required    list<UserLink>      linkList,
-    3:  optional    list<UserContact>   contactList,
-    4:  required    UserResume          resume,
-    5:  required    UserRelationship    relationship
+struct UserExt {
+    1:  required    list<UserLink>      linkList,
+    2:  optional    list<UserContact>   contactList,
+    3:  required    UserResume          resume,
+    4:  required    UserRelationship    relationship
 }
 
 # ############# User End ############# #
