@@ -19,6 +19,20 @@ enum enmSex {
   enmSex_UNKNOW = 2
 };
 
+enum enmTaskStat {
+  enmTaskStat_NONE = 0,
+  enmTaskStat_ACCEPT = 1,
+  enmTaskStat_REJECT = 2
+};
+
+enum enmTasklistType {
+  enmTasklistType_ALL = 0,
+  enmTasklistType_RECOMMEND = 1,
+  enmTasklistType_NEARBY = 2,
+  enmTasklistType_FOLLOW = 3,
+  enmTasklistType_FAVOURITES = 4
+};
+
 typedef int64_t timestamp;
 
 @interface AuthRequest : NSObject <NSCoding> {
@@ -161,41 +175,44 @@ typedef int64_t timestamp;
 
 @end
 
-@interface TaskInfo : NSObject <NSCoding> {
+@interface TaskInfo_min : NSObject <NSCoding> {
   int64_t __tid;
   NSString * __name;
-  NSString * __intro;
-  timestamp __begin_time;
-  timestamp __end_time;
   int64_t __owner;
-  NSArray * __user_apply_list;
-  NSArray * __user_accept_list;
-  NSArray * __user_reject_list;
+  NSString * __intro;
+  int64_t __plan_num;
+  int64_t __begin_time;
+  int64_t __end_time;
+  int64_t __apply_num;
+  int64_t __invite_num;
+  int64_t __accept_num;
 
   BOOL __tid_isset;
   BOOL __name_isset;
+  BOOL __owner_isset;
   BOOL __intro_isset;
+  BOOL __plan_num_isset;
   BOOL __begin_time_isset;
   BOOL __end_time_isset;
-  BOOL __owner_isset;
-  BOOL __user_apply_list_isset;
-  BOOL __user_accept_list_isset;
-  BOOL __user_reject_list_isset;
+  BOOL __apply_num_isset;
+  BOOL __invite_num_isset;
+  BOOL __accept_num_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
-@property (nonatomic, getter=begin_time, setter=setBegin_time:) timestamp begin_time;
-@property (nonatomic, getter=end_time, setter=setEnd_time:) timestamp end_time;
 @property (nonatomic, getter=owner, setter=setOwner:) int64_t owner;
-@property (nonatomic, retain, getter=user_apply_list, setter=setUser_apply_list:) NSArray * user_apply_list;
-@property (nonatomic, retain, getter=user_accept_list, setter=setUser_accept_list:) NSArray * user_accept_list;
-@property (nonatomic, retain, getter=user_reject_list, setter=setUser_reject_list:) NSArray * user_reject_list;
+@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
+@property (nonatomic, getter=plan_num, setter=setPlan_num:) int64_t plan_num;
+@property (nonatomic, getter=begin_time, setter=setBegin_time:) int64_t begin_time;
+@property (nonatomic, getter=end_time, setter=setEnd_time:) int64_t end_time;
+@property (nonatomic, getter=apply_num, setter=setApply_num:) int64_t apply_num;
+@property (nonatomic, getter=invite_num, setter=setInvite_num:) int64_t invite_num;
+@property (nonatomic, getter=accept_num, setter=setAccept_num:) int64_t accept_num;
 #endif
 
-- (id) initWithTid: (int64_t) tid name: (NSString *) name intro: (NSString *) intro begin_time: (timestamp) begin_time end_time: (timestamp) end_time owner: (int64_t) owner user_apply_list: (NSArray *) user_apply_list user_accept_list: (NSArray *) user_accept_list user_reject_list: (NSArray *) user_reject_list;
+- (id) initWithTid: (int64_t) tid name: (NSString *) name owner: (int64_t) owner intro: (NSString *) intro plan_num: (int64_t) plan_num begin_time: (int64_t) begin_time end_time: (int64_t) end_time apply_num: (int64_t) apply_num invite_num: (int64_t) invite_num accept_num: (int64_t) accept_num;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -208,9 +225,104 @@ typedef int64_t timestamp;
 - (void) setName: (NSString *) name;
 - (BOOL) nameIsSet;
 
+- (int64_t) owner;
+- (void) setOwner: (int64_t) owner;
+- (BOOL) ownerIsSet;
+
 - (NSString *) intro;
 - (void) setIntro: (NSString *) intro;
 - (BOOL) introIsSet;
+
+- (int64_t) plan_num;
+- (void) setPlan_num: (int64_t) plan_num;
+- (BOOL) plan_numIsSet;
+
+- (int64_t) begin_time;
+- (void) setBegin_time: (int64_t) begin_time;
+- (BOOL) begin_timeIsSet;
+
+- (int64_t) end_time;
+- (void) setEnd_time: (int64_t) end_time;
+- (BOOL) end_timeIsSet;
+
+- (int64_t) apply_num;
+- (void) setApply_num: (int64_t) apply_num;
+- (BOOL) apply_numIsSet;
+
+- (int64_t) invite_num;
+- (void) setInvite_num: (int64_t) invite_num;
+- (BOOL) invite_numIsSet;
+
+- (int64_t) accept_num;
+- (void) setAccept_num: (int64_t) accept_num;
+- (BOOL) accept_numIsSet;
+
+@end
+
+@interface TaskInfo : NSObject <NSCoding> {
+  int64_t __tid;
+  NSString * __name;
+  int64_t __owner;
+  NSString * __intro;
+  int64_t __plan_num;
+  timestamp __begin_time;
+  timestamp __end_time;
+  NSArray * __user_apply_list;
+  NSArray * __user_invite_list;
+  NSArray * __user_invite_stat;
+  NSArray * __user_accept_list;
+
+  BOOL __tid_isset;
+  BOOL __name_isset;
+  BOOL __owner_isset;
+  BOOL __intro_isset;
+  BOOL __plan_num_isset;
+  BOOL __begin_time_isset;
+  BOOL __end_time_isset;
+  BOOL __user_apply_list_isset;
+  BOOL __user_invite_list_isset;
+  BOOL __user_invite_stat_isset;
+  BOOL __user_accept_list_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
+@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, getter=owner, setter=setOwner:) int64_t owner;
+@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
+@property (nonatomic, getter=plan_num, setter=setPlan_num:) int64_t plan_num;
+@property (nonatomic, getter=begin_time, setter=setBegin_time:) timestamp begin_time;
+@property (nonatomic, getter=end_time, setter=setEnd_time:) timestamp end_time;
+@property (nonatomic, retain, getter=user_apply_list, setter=setUser_apply_list:) NSArray * user_apply_list;
+@property (nonatomic, retain, getter=user_invite_list, setter=setUser_invite_list:) NSArray * user_invite_list;
+@property (nonatomic, retain, getter=user_invite_stat, setter=setUser_invite_stat:) NSArray * user_invite_stat;
+@property (nonatomic, retain, getter=user_accept_list, setter=setUser_accept_list:) NSArray * user_accept_list;
+#endif
+
+- (id) initWithTid: (int64_t) tid name: (NSString *) name owner: (int64_t) owner intro: (NSString *) intro plan_num: (int64_t) plan_num begin_time: (timestamp) begin_time end_time: (timestamp) end_time user_apply_list: (NSArray *) user_apply_list user_invite_list: (NSArray *) user_invite_list user_invite_stat: (NSArray *) user_invite_stat user_accept_list: (NSArray *) user_accept_list;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (int64_t) tid;
+- (void) setTid: (int64_t) tid;
+- (BOOL) tidIsSet;
+
+- (NSString *) name;
+- (void) setName: (NSString *) name;
+- (BOOL) nameIsSet;
+
+- (int64_t) owner;
+- (void) setOwner: (int64_t) owner;
+- (BOOL) ownerIsSet;
+
+- (NSString *) intro;
+- (void) setIntro: (NSString *) intro;
+- (BOOL) introIsSet;
+
+- (int64_t) plan_num;
+- (void) setPlan_num: (int64_t) plan_num;
+- (BOOL) plan_numIsSet;
 
 - (timestamp) begin_time;
 - (void) setBegin_time: (timestamp) begin_time;
@@ -220,56 +332,21 @@ typedef int64_t timestamp;
 - (void) setEnd_time: (timestamp) end_time;
 - (BOOL) end_timeIsSet;
 
-- (int64_t) owner;
-- (void) setOwner: (int64_t) owner;
-- (BOOL) ownerIsSet;
-
 - (NSArray *) user_apply_list;
 - (void) setUser_apply_list: (NSArray *) user_apply_list;
 - (BOOL) user_apply_listIsSet;
 
+- (NSArray *) user_invite_list;
+- (void) setUser_invite_list: (NSArray *) user_invite_list;
+- (BOOL) user_invite_listIsSet;
+
+- (NSArray *) user_invite_stat;
+- (void) setUser_invite_stat: (NSArray *) user_invite_stat;
+- (BOOL) user_invite_statIsSet;
+
 - (NSArray *) user_accept_list;
 - (void) setUser_accept_list: (NSArray *) user_accept_list;
 - (BOOL) user_accept_listIsSet;
-
-- (NSArray *) user_reject_list;
-- (void) setUser_reject_list: (NSArray *) user_reject_list;
-- (BOOL) user_reject_listIsSet;
-
-@end
-
-@interface TaskSummary : NSObject <NSCoding> {
-  NSArray * __recommend;
-  NSArray * __nearby;
-  NSArray * __follow;
-
-  BOOL __recommend_isset;
-  BOOL __nearby_isset;
-  BOOL __follow_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=recommend, setter=setRecommend:) NSArray * recommend;
-@property (nonatomic, retain, getter=nearby, setter=setNearby:) NSArray * nearby;
-@property (nonatomic, retain, getter=follow, setter=setFollow:) NSArray * follow;
-#endif
-
-- (id) initWithRecommend: (NSArray *) recommend nearby: (NSArray *) nearby follow: (NSArray *) follow;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSArray *) recommend;
-- (void) setRecommend: (NSArray *) recommend;
-- (BOOL) recommendIsSet;
-
-- (NSArray *) nearby;
-- (void) setNearby: (NSArray *) nearby;
-- (BOOL) nearbyIsSet;
-
-- (NSArray *) follow;
-- (void) setFollow: (NSArray *) follow;
-- (BOOL) followIsSet;
 
 @end
 

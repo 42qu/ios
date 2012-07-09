@@ -18,9 +18,14 @@
 @protocol Sns <NSObject>
 - (AuthResponse *) login_by_mail: (AuthRequest *) auth : (NSString *) mail : (NSString *) password;  // throws TException
 - (void) logout: (NSString *) access_token;  // throws TException
-- (UserInfo *) user_profile: (NSString *) access_token : (int64_t) uid;  // throws TException
-- (TaskSummary *) task_summary: (NSString *) access_token;  // throws TException
-- (TaskInfo *) task_info: (int64_t) tid;  // throws TException
+- (UserInfo *) user_info_get: (NSString *) access_token : (int64_t) uid;  // throws TException
+- (NSArray *) task_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num;  // throws TException
+- (TaskInfo *) task_get: (int64_t) access_token : (int64_t) tid;  // throws TException
+- (TaskInfo *) task_set: (int64_t) access_token : (int64_t) tid;  // throws TException
+- (int64_t) task_new: (NSString *) access_token : (TaskInfo *) task;  // throws TException
+- (BOOL) task_apply: (NSString *) access_token : (int64_t) tid;  // throws TException
+- (BOOL) task_reject: (NSString *) access_token : (int64_t) user_id;  // throws TException
+- (BOOL) task_accept: (NSString *) access_token : (int64_t) user_id;  // throws TException
 @end
 
 @interface SnsClient : NSObject <Sns> {
