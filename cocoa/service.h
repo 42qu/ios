@@ -20,7 +20,7 @@
 - (void) logout: (NSString *) access_token;  // throws TException
 - (UserInfo *) user_info_get: (NSString *) access_token : (int64_t) uid;  // throws TException
 - (NSArray *) task_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num;  // throws TException
-- (TaskInfo *) task_get: (int64_t) access_token : (int64_t) tid;  // throws TException
+- (TaskInfo *) task_get: (int64_t) access_token : (int64_t) tid : (BOOL) ext_only;  // throws TException
 - (TaskInfo *) task_set: (int64_t) access_token : (int64_t) tid;  // throws TException
 - (int64_t) task_new: (NSString *) access_token : (TaskInfo *) task;  // throws TException
 - (BOOL) task_apply: (NSString *) access_token : (int64_t) tid;  // throws TException

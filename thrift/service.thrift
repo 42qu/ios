@@ -19,16 +19,17 @@ service Sns {
     )
 
     # 约定: last_id 为0，相当于为最后一条信息的id
-    list<type.TaskInfo_min> task_list(
+    list<type.TaskBasic> task_list(
         1: required string access_token,
-        2: required type.enmTasklistType type,
+        2: required type.TasklistType type,
         3: required i64 last_id,
         4: required i64 num
     )
 
     type.TaskInfo task_get (
-        1: required i64 access_token,
-        2: required i64 tid
+        1: required i64  access_token,
+        2: required i64  tid,
+        3: required bool ext_only = true
     )
 
     type.TaskInfo task_set (

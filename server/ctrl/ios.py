@@ -8,15 +8,13 @@ import logging
 class Handler(object):
     def login_by_mail(self,auth):
         print('登入')
-        return u.login_by_email(auth.mail,auth.password,auth.client_id,
-                auth.client_secret)
 
-    def login_by_oauth(self, client_id, client_secret):
-        pass
+    #def login_by_oauth(self, client_id, client_secret):
+    #    pass
 
-    def login_by_oauth2(self, auth):
-        if u.oauth_secret_verify(auth.client_id, auth.client_secret):
-            pass
+    #def login_by_oauth2(self, auth):
+    #    if u.oauth_secret_verify(auth.client_id, auth.client_secret):
+    #        pass
 
     def logout(self, acess_token):
         pass
@@ -44,3 +42,4 @@ class Handler(object):
 
 if __name__ == '__main__':
     pass
+

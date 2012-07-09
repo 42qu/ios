@@ -13,24 +13,24 @@
 #import <TProcessor.h>
 
 
-enum enmSex {
-  enmSex_MALE = 0,
-  enmSex_FEMALE = 1,
-  enmSex_UNKNOW = 2
+enum Gender {
+  Gender_MALE = 0,
+  Gender_FEMALE = 1,
+  Gender_UNKNOW = 2
 };
 
-enum enmTaskStat {
-  enmTaskStat_NONE = 0,
-  enmTaskStat_ACCEPT = 1,
-  enmTaskStat_REJECT = 2
+enum TaskStat {
+  TaskStat_NONE = 0,
+  TaskStat_ACCEPT = 1,
+  TaskStat_REJECT = 2
 };
 
-enum enmTasklistType {
-  enmTasklistType_ALL = 0,
-  enmTasklistType_RECOMMEND = 1,
-  enmTasklistType_NEARBY = 2,
-  enmTasklistType_FOLLOW = 3,
-  enmTasklistType_FAVOURITES = 4
+enum TasklistType {
+  TasklistType_ALL = 0,
+  TasklistType_RECOMMEND = 1,
+  TasklistType_NEARBY = 2,
+  TasklistType_FOLLOW = 3,
+  TasklistType_FAVOURITES = 4
 };
 
 typedef int64_t timestamp;
@@ -114,7 +114,7 @@ typedef int64_t timestamp;
 
 @interface UserInfo : NSObject <NSCoding> {
   NSString * __name;
-  int __sex;
+  int __gender;
   NSString * __org;
   NSString * __job;
   NSString * __small_avator;
@@ -122,7 +122,7 @@ typedef int64_t timestamp;
   NSString * __intro;
 
   BOOL __name_isset;
-  BOOL __sex_isset;
+  BOOL __gender_isset;
   BOOL __org_isset;
   BOOL __job_isset;
   BOOL __small_avator_isset;
@@ -132,7 +132,7 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, getter=sex, setter=setSex:) int sex;
+@property (nonatomic, getter=gender, setter=setGender:) int gender;
 @property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
 @property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
 @property (nonatomic, retain, getter=small_avator, setter=setSmall_avator:) NSString * small_avator;
@@ -140,7 +140,7 @@ typedef int64_t timestamp;
 @property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
 #endif
 
-- (id) initWithName: (NSString *) name sex: (int) sex org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro;
+- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -149,9 +149,9 @@ typedef int64_t timestamp;
 - (void) setName: (NSString *) name;
 - (BOOL) nameIsSet;
 
-- (int) sex;
-- (void) setSex: (int) sex;
-- (BOOL) sexIsSet;
+- (int) gender;
+- (void) setGender: (int) gender;
+- (BOOL) genderIsSet;
 
 - (NSString *) org;
 - (void) setOrg: (NSString *) org;
@@ -175,7 +175,7 @@ typedef int64_t timestamp;
 
 @end
 
-@interface TaskInfo_min : NSObject <NSCoding> {
+@interface TaskBasic : NSObject <NSCoding> {
   int64_t __tid;
   NSString * __name;
   int64_t __owner;
@@ -259,26 +259,12 @@ typedef int64_t timestamp;
 
 @end
 
-@interface TaskInfo : NSObject <NSCoding> {
-  int64_t __tid;
-  NSString * __name;
-  int64_t __owner;
-  NSString * __intro;
-  int64_t __plan_num;
-  timestamp __begin_time;
-  timestamp __end_time;
+@interface TaskExt : NSObject <NSCoding> {
   NSArray * __user_apply_list;
   NSArray * __user_invite_list;
   NSArray * __user_invite_stat;
   NSArray * __user_accept_list;
 
-  BOOL __tid_isset;
-  BOOL __name_isset;
-  BOOL __owner_isset;
-  BOOL __intro_isset;
-  BOOL __plan_num_isset;
-  BOOL __begin_time_isset;
-  BOOL __end_time_isset;
   BOOL __user_apply_list_isset;
   BOOL __user_invite_list_isset;
   BOOL __user_invite_stat_isset;
@@ -286,51 +272,16 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, getter=owner, setter=setOwner:) int64_t owner;
-@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
-@property (nonatomic, getter=plan_num, setter=setPlan_num:) int64_t plan_num;
-@property (nonatomic, getter=begin_time, setter=setBegin_time:) timestamp begin_time;
-@property (nonatomic, getter=end_time, setter=setEnd_time:) timestamp end_time;
 @property (nonatomic, retain, getter=user_apply_list, setter=setUser_apply_list:) NSArray * user_apply_list;
 @property (nonatomic, retain, getter=user_invite_list, setter=setUser_invite_list:) NSArray * user_invite_list;
 @property (nonatomic, retain, getter=user_invite_stat, setter=setUser_invite_stat:) NSArray * user_invite_stat;
 @property (nonatomic, retain, getter=user_accept_list, setter=setUser_accept_list:) NSArray * user_accept_list;
 #endif
 
-- (id) initWithTid: (int64_t) tid name: (NSString *) name owner: (int64_t) owner intro: (NSString *) intro plan_num: (int64_t) plan_num begin_time: (timestamp) begin_time end_time: (timestamp) end_time user_apply_list: (NSArray *) user_apply_list user_invite_list: (NSArray *) user_invite_list user_invite_stat: (NSArray *) user_invite_stat user_accept_list: (NSArray *) user_accept_list;
+- (id) initWithUser_apply_list: (NSArray *) user_apply_list user_invite_list: (NSArray *) user_invite_list user_invite_stat: (NSArray *) user_invite_stat user_accept_list: (NSArray *) user_accept_list;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
-
-- (int64_t) tid;
-- (void) setTid: (int64_t) tid;
-- (BOOL) tidIsSet;
-
-- (NSString *) name;
-- (void) setName: (NSString *) name;
-- (BOOL) nameIsSet;
-
-- (int64_t) owner;
-- (void) setOwner: (int64_t) owner;
-- (BOOL) ownerIsSet;
-
-- (NSString *) intro;
-- (void) setIntro: (NSString *) intro;
-- (BOOL) introIsSet;
-
-- (int64_t) plan_num;
-- (void) setPlan_num: (int64_t) plan_num;
-- (BOOL) plan_numIsSet;
-
-- (timestamp) begin_time;
-- (void) setBegin_time: (timestamp) begin_time;
-- (BOOL) begin_timeIsSet;
-
-- (timestamp) end_time;
-- (void) setEnd_time: (timestamp) end_time;
-- (BOOL) end_timeIsSet;
 
 - (NSArray *) user_apply_list;
 - (void) setUser_apply_list: (NSArray *) user_apply_list;
@@ -347,6 +298,34 @@ typedef int64_t timestamp;
 - (NSArray *) user_accept_list;
 - (void) setUser_accept_list: (NSArray *) user_accept_list;
 - (BOOL) user_accept_listIsSet;
+
+@end
+
+@interface TaskInfo : NSObject <NSCoding> {
+  TaskBasic * __basic;
+  TaskExt * __ext;
+
+  BOOL __basic_isset;
+  BOOL __ext_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=basic, setter=setBasic:) TaskBasic * basic;
+@property (nonatomic, retain, getter=ext, setter=setExt:) TaskExt * ext;
+#endif
+
+- (id) initWithBasic: (TaskBasic *) basic ext: (TaskExt *) ext;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (TaskBasic *) basic;
+- (void) setBasic: (TaskBasic *) basic;
+- (BOOL) basicIsSet;
+
+- (TaskExt *) ext;
+- (void) setExt: (TaskExt *) ext;
+- (BOOL) extIsSet;
 
 @end
 

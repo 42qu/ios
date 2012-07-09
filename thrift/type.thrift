@@ -14,7 +14,7 @@ struct AuthResponse {
     5:  optional  i64                 expire_time
 }
 
-enum enmSex {
+enum Gender {
     MALE,
     FEMALE,
     UNKNOW
@@ -22,7 +22,7 @@ enum enmSex {
 
 struct UserInfo {
     1: required string name,
-    2: required enmSex sex,
+    2: required Gender gender,
     3: required string org,
     4: required string job,
     5: required string small_avator,
@@ -30,13 +30,13 @@ struct UserInfo {
     7: required string intro
 }
 
-enum enmTaskStat {
+enum TaskStat {
     NONE,    # 未响应
     ACCEPT,  # 接受
     REJECT   # 拒绝
 }
 
-enum enmTasklistType {
+enum TasklistType {
     ALL=0,        # 全部
     RECOMMEND=1,  # 推荐
     NEARBY=2,     # 附近
@@ -44,7 +44,7 @@ enum enmTasklistType {
     FAVOURITES=4  # 收藏
 }
 
-struct TaskInfo_min {
+struct TaskBasic {
     1: required i64     tid,
     2: required string  name,
     3: required i64     owner,
@@ -57,20 +57,17 @@ struct TaskInfo_min {
     10:required i64     accept_num,
 }
 
-struct TaskInfo {
-    1: required i64               tid,
-    2: required string            name,
-    3: required i64               owner,
-    4: required string            intro,
-    5: required i64               plan_num
-    6: required timestamp         begin_time,
-    7: required timestamp         end_time,
-    8: required list<i64>         user_apply_list,
-    9: required list<i64>         user_invite_list,
-    10:required list<enmTaskStat> user_invite_stat,
-    11:required list<i64>         user_accept_list
+struct TaskExt {
+    1: required list<i64>         user_apply_list,
+    2: required list<i64>         user_invite_list,
+    3: required list<TaskStat>    user_invite_stat,
+    4: required list<i64>         user_accept_list
 }
 
+struct TaskInfo {
+    1: optional TaskBasic basic,
+    2: required TaskExt   ext
+}
 
 /*enum AuthLoginPartner {
     AUTH_PARTNER_DOUBAN = 1,

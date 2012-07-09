@@ -52,11 +52,12 @@ class Iface:
     """
     pass
 
-  def task_get(self, access_token, tid):
+  def task_get(self, access_token, tid, ext_only):
     """
     Parameters:
      - access_token
      - tid
+     - ext_only
     """
     pass
 
@@ -238,20 +239,22 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "task_list failed: unknown result");
 
-  def task_get(self, access_token, tid):
+  def task_get(self, access_token, tid, ext_only):
     """
     Parameters:
      - access_token
      - tid
+     - ext_only
     """
-    self.send_task_get(access_token, tid)
+    self.send_task_get(access_token, tid, ext_only)
     return self.recv_task_get()
 
-  def send_task_get(self, access_token, tid):
+  def send_task_get(self, access_token, tid, ext_only):
     self._oprot.writeMessageBegin('task_get', TMessageType.CALL, self._seqid)
     args = task_get_args()
     args.access_token = access_token
     args.tid = tid
+    args.ext_only = ext_only
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -510,7 +513,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_get_result()
-    result.success = self._handler.task_get(args.access_token, args.tid)
+    result.success = self._handler.task_get(args.access_token, args.tid, args.ext_only)
     oprot.writeMessageBegin("task_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1076,7 +1079,7 @@ class task_list_result:
   """
 
   thrift_spec = (
-    (0, TType.LIST, 'success', (TType.STRUCT,(type.ttypes.TaskInfo_min, type.ttypes.TaskInfo_min.thrift_spec)), None, ), # 0
+    (0, TType.LIST, 'success', (TType.STRUCT,(type.ttypes.TaskBasic, type.ttypes.TaskBasic.thrift_spec)), None, ), # 0
   )
 
   def __init__(self, success=None,):
@@ -1096,7 +1099,7 @@ class task_list_result:
           self.success = []
           (_etype3, _size0) = iprot.readListBegin()
           for _i4 in xrange(_size0):
-            _elem5 = type.ttypes.TaskInfo_min()
+            _elem5 = type.ttypes.TaskBasic()
             _elem5.read(iprot)
             self.success.append(_elem5)
           iprot.readListEnd()
@@ -1142,17 +1145,20 @@ class task_get_args:
   Attributes:
    - access_token
    - tid
+   - ext_only
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.I64, 'access_token', None, None, ), # 1
     (2, TType.I64, 'tid', None, None, ), # 2
+    (3, TType.BOOL, 'ext_only', None, True, ), # 3
   )
 
-  def __init__(self, access_token=None, tid=None,):
+  def __init__(self, access_token=None, tid=None, ext_only=thrift_spec[3][4],):
     self.access_token = access_token
     self.tid = tid
+    self.ext_only = ext_only
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1173,6 +1179,11 @@ class task_get_args:
           self.tid = iprot.readI64();
         else:
           iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.BOOL:
+          self.ext_only = iprot.readBool();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1191,6 +1202,10 @@ class task_get_args:
       oprot.writeFieldBegin('tid', TType.I64, 2)
       oprot.writeI64(self.tid)
       oprot.writeFieldEnd()
+    if self.ext_only is not None:
+      oprot.writeFieldBegin('ext_only', TType.BOOL, 3)
+      oprot.writeBool(self.ext_only)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -1199,6 +1214,8 @@ class task_get_args:
       raise TProtocol.TProtocolException(message='Required field access_token is unset!')
     if self.tid is None:
       raise TProtocol.TProtocolException(message='Required field tid is unset!')
+    if self.ext_only is None:
+      raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
 
 
