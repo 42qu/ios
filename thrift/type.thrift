@@ -6,7 +6,9 @@ typedef i64 timestamp
 
 struct AuthRequest {
     1:  required    string  id,
-    2:  required    string  serect
+    2:  required    string  serect,
+    3:  required    string  mail,
+    4:  required    string  password # encrypted
 }
 
 struct AuthResponse {
@@ -68,9 +70,7 @@ struct TaskListRequest {
 
 struct TaskListResponse {
     1:  required    i64             lastid, # the new one
-    2:  required    i64             length
-    3:  required    TaskListType    type
-    4:  required    list<TaskBasic> taskList
+    2:  required    list<TaskBasic> taskList
 }
 
 # User
