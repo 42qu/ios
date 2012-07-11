@@ -3,8 +3,8 @@ include "type.thrift"
 
 service Sns {
     
-    # login & logout
-
+    # Auth
+    
     type.AuthResponse login_by_mail(
         1: required type.AuthRequest auth,
         2: required string mail,
@@ -14,17 +14,17 @@ service Sns {
     void logout(
         1: required string access_token
     )
-
+    
     # User
-
+    
     type.UserInfo user_info_get(
         1: required string  access_token,
-        2: required i64     uid
+        2: required i64     uid,
         3: required bool    ext_only = true
     )
-
+    
     # Task
-
+    
     /* 约定: last_id 为0，相当于为最后一条信息的id */
     list<type.TaskBasic> task_list(
         1: required string access_token,
@@ -32,18 +32,18 @@ service Sns {
         3: required i64 last_id,
         4: required i64 num
     )
-
+    
     type.TaskInfo task_get (
         1: required i64  access_token,
         2: required i64  tid,
         3: required bool ext_only = true
     )
-
+    
     #type.TaskInfo task_set (
     #    1: required i64 access_token,
     #    2: required i64 tid
     #)
-
+    
     i64 task_new( # Return task id
         1: string access_token,
         2: type.TaskInfo task 
@@ -63,8 +63,8 @@ service Sns {
         1: string access_token,
         2: i64 user_id
     )
-
-
+    
+    
     /*
     type.UserInfo user_info_get(
         1:  string  access_token,
