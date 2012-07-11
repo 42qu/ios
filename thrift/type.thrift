@@ -33,7 +33,7 @@ struct TaskBasic {
     11: required    i64             accepted
 }
 
-enum TaskExtStatus {
+enum TaskStatus {
     None = 0,    
     Applied,    # Applied but no response
     Accepted,
@@ -41,7 +41,7 @@ enum TaskExtStatus {
 }
 
 struct TaskExt {
-    1:  required    list<TaskExtStatus> status,
+    1:  required    list<TaskStatus>    status,
     2:  required    list<i64>           appliedList,
     3:  required    list<i64>           invitedList,
     4:  required    list<i64>           acceptedList
@@ -75,7 +75,7 @@ struct TaskListResponse {
 
 # User
 
-enum UserBasicGender {
+enum UserGender {
     Unknown = 0,
     Male,
     Female,
@@ -84,7 +84,7 @@ enum UserBasicGender {
 
 struct UserBasic {
     1:  required    string          name,
-    2:  required    UserBasicGender gender,
+    2:  required    UserGender      gender,
     3:  required    string          org,
     4:  required    string          job,
     5:  required    string          avator # URL
