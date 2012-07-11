@@ -473,410 +473,6 @@
 
 @end
 
-@implementation UserInfo
-
-- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro
-{
-  self = [super init];
-  __name = [name retain];
-  __name_isset = YES;
-  __gender = gender;
-  __gender_isset = YES;
-  __org = [org retain];
-  __org_isset = YES;
-  __job = [job retain];
-  __job_isset = YES;
-  __small_avator = [small_avator retain];
-  __small_avator_isset = YES;
-  __big_avator = [big_avator retain];
-  __big_avator_isset = YES;
-  __intro = [intro retain];
-  __intro_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"name"])
-  {
-    __name = [[decoder decodeObjectForKey: @"name"] retain];
-    __name_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"gender"])
-  {
-    __gender = [decoder decodeIntForKey: @"gender"];
-    __gender_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"org"])
-  {
-    __org = [[decoder decodeObjectForKey: @"org"] retain];
-    __org_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"job"])
-  {
-    __job = [[decoder decodeObjectForKey: @"job"] retain];
-    __job_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"small_avator"])
-  {
-    __small_avator = [[decoder decodeObjectForKey: @"small_avator"] retain];
-    __small_avator_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"big_avator"])
-  {
-    __big_avator = [[decoder decodeObjectForKey: @"big_avator"] retain];
-    __big_avator_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"intro"])
-  {
-    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
-    __intro_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__name_isset)
-  {
-    [encoder encodeObject: __name forKey: @"name"];
-  }
-  if (__gender_isset)
-  {
-    [encoder encodeInt: __gender forKey: @"gender"];
-  }
-  if (__org_isset)
-  {
-    [encoder encodeObject: __org forKey: @"org"];
-  }
-  if (__job_isset)
-  {
-    [encoder encodeObject: __job forKey: @"job"];
-  }
-  if (__small_avator_isset)
-  {
-    [encoder encodeObject: __small_avator forKey: @"small_avator"];
-  }
-  if (__big_avator_isset)
-  {
-    [encoder encodeObject: __big_avator forKey: @"big_avator"];
-  }
-  if (__intro_isset)
-  {
-    [encoder encodeObject: __intro forKey: @"intro"];
-  }
-}
-
-- (void) dealloc
-{
-  [__name release];
-  [__org release];
-  [__job release];
-  [__small_avator release];
-  [__big_avator release];
-  [__intro release];
-  [super dealloc];
-}
-
-- (NSString *) name {
-  return [[__name retain] autorelease];
-}
-
-- (void) setName: (NSString *) name {
-  [name retain];
-  [__name release];
-  __name = name;
-  __name_isset = YES;
-}
-
-- (BOOL) nameIsSet {
-  return __name_isset;
-}
-
-- (void) unsetName {
-  [__name release];
-  __name = nil;
-  __name_isset = NO;
-}
-
-- (int) gender {
-  return __gender;
-}
-
-- (void) setGender: (int) gender {
-  __gender = gender;
-  __gender_isset = YES;
-}
-
-- (BOOL) genderIsSet {
-  return __gender_isset;
-}
-
-- (void) unsetGender {
-  __gender_isset = NO;
-}
-
-- (NSString *) org {
-  return [[__org retain] autorelease];
-}
-
-- (void) setOrg: (NSString *) org {
-  [org retain];
-  [__org release];
-  __org = org;
-  __org_isset = YES;
-}
-
-- (BOOL) orgIsSet {
-  return __org_isset;
-}
-
-- (void) unsetOrg {
-  [__org release];
-  __org = nil;
-  __org_isset = NO;
-}
-
-- (NSString *) job {
-  return [[__job retain] autorelease];
-}
-
-- (void) setJob: (NSString *) job {
-  [job retain];
-  [__job release];
-  __job = job;
-  __job_isset = YES;
-}
-
-- (BOOL) jobIsSet {
-  return __job_isset;
-}
-
-- (void) unsetJob {
-  [__job release];
-  __job = nil;
-  __job_isset = NO;
-}
-
-- (NSString *) small_avator {
-  return [[__small_avator retain] autorelease];
-}
-
-- (void) setSmall_avator: (NSString *) small_avator {
-  [small_avator retain];
-  [__small_avator release];
-  __small_avator = small_avator;
-  __small_avator_isset = YES;
-}
-
-- (BOOL) small_avatorIsSet {
-  return __small_avator_isset;
-}
-
-- (void) unsetSmall_avator {
-  [__small_avator release];
-  __small_avator = nil;
-  __small_avator_isset = NO;
-}
-
-- (NSString *) big_avator {
-  return [[__big_avator retain] autorelease];
-}
-
-- (void) setBig_avator: (NSString *) big_avator {
-  [big_avator retain];
-  [__big_avator release];
-  __big_avator = big_avator;
-  __big_avator_isset = YES;
-}
-
-- (BOOL) big_avatorIsSet {
-  return __big_avator_isset;
-}
-
-- (void) unsetBig_avator {
-  [__big_avator release];
-  __big_avator = nil;
-  __big_avator_isset = NO;
-}
-
-- (NSString *) intro {
-  return [[__intro retain] autorelease];
-}
-
-- (void) setIntro: (NSString *) intro {
-  [intro retain];
-  [__intro release];
-  __intro = intro;
-  __intro_isset = YES;
-}
-
-- (BOOL) introIsSet {
-  return __intro_isset;
-}
-
-- (void) unsetIntro {
-  [__intro release];
-  __intro = nil;
-  __intro_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setName: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setGender: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setOrg: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setJob: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setSmall_avator: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 6:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setBig_avator: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 7:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setIntro: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserInfo"];
-  if (__name_isset) {
-    if (__name != nil) {
-      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __name];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__gender_isset) {
-    [outProtocol writeFieldBeginWithName: @"gender" type: TType_I32 fieldID: 2];
-    [outProtocol writeI32: __gender];
-    [outProtocol writeFieldEnd];
-  }
-  if (__org_isset) {
-    if (__org != nil) {
-      [outProtocol writeFieldBeginWithName: @"org" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __org];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__job_isset) {
-    if (__job != nil) {
-      [outProtocol writeFieldBeginWithName: @"job" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __job];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__small_avator_isset) {
-    if (__small_avator != nil) {
-      [outProtocol writeFieldBeginWithName: @"small_avator" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __small_avator];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__big_avator_isset) {
-    if (__big_avator != nil) {
-      [outProtocol writeFieldBeginWithName: @"big_avator" type: TType_STRING fieldID: 6];
-      [outProtocol writeString: __big_avator];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__intro_isset) {
-    if (__intro != nil) {
-      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 7];
-      [outProtocol writeString: __intro];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
-  [ms appendString: @"name:"];
-  [ms appendFormat: @"\"%@\"", __name];
-  [ms appendString: @",gender:"];
-  [ms appendFormat: @"%i", __gender];
-  [ms appendString: @",org:"];
-  [ms appendFormat: @"\"%@\"", __org];
-  [ms appendString: @",job:"];
-  [ms appendFormat: @"\"%@\"", __job];
-  [ms appendString: @",small_avator:"];
-  [ms appendFormat: @"\"%@\"", __small_avator];
-  [ms appendString: @",big_avator:"];
-  [ms appendFormat: @"\"%@\"", __big_avator];
-  [ms appendString: @",intro:"];
-  [ms appendFormat: @"\"%@\"", __intro];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
 @implementation TaskBasic
 
 - (id) initWithTid: (int64_t) tid name: (NSString *) name owner: (int64_t) owner intro: (NSString *) intro plan_num: (int64_t) plan_num begin_time: (int64_t) begin_time end_time: (int64_t) end_time apply_num: (int64_t) apply_num invite_num: (int64_t) invite_num accept_num: (int64_t) accept_num
@@ -1872,6 +1468,722 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskInfo("];
   [ms appendString: @"basic:"];
   [ms appendFormat: @"%@", __basic];
+  [ms appendString: @",ext:"];
+  [ms appendFormat: @"%@", __ext];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation UserBasic
+
+- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
+{
+  self = [super init];
+  __name = [name retain];
+  __name_isset = YES;
+  __gender = gender;
+  __gender_isset = YES;
+  __org = [org retain];
+  __org_isset = YES;
+  __job = [job retain];
+  __job_isset = YES;
+  __avator = [avator retain];
+  __avator_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"name"])
+  {
+    __name = [[decoder decodeObjectForKey: @"name"] retain];
+    __name_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"gender"])
+  {
+    __gender = [decoder decodeIntForKey: @"gender"];
+    __gender_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"org"])
+  {
+    __org = [[decoder decodeObjectForKey: @"org"] retain];
+    __org_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"job"])
+  {
+    __job = [[decoder decodeObjectForKey: @"job"] retain];
+    __job_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"avator"])
+  {
+    __avator = [[decoder decodeObjectForKey: @"avator"] retain];
+    __avator_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__name_isset)
+  {
+    [encoder encodeObject: __name forKey: @"name"];
+  }
+  if (__gender_isset)
+  {
+    [encoder encodeInt: __gender forKey: @"gender"];
+  }
+  if (__org_isset)
+  {
+    [encoder encodeObject: __org forKey: @"org"];
+  }
+  if (__job_isset)
+  {
+    [encoder encodeObject: __job forKey: @"job"];
+  }
+  if (__avator_isset)
+  {
+    [encoder encodeObject: __avator forKey: @"avator"];
+  }
+}
+
+- (void) dealloc
+{
+  [__name release];
+  [__org release];
+  [__job release];
+  [__avator release];
+  [super dealloc];
+}
+
+- (NSString *) name {
+  return [[__name retain] autorelease];
+}
+
+- (void) setName: (NSString *) name {
+  [name retain];
+  [__name release];
+  __name = name;
+  __name_isset = YES;
+}
+
+- (BOOL) nameIsSet {
+  return __name_isset;
+}
+
+- (void) unsetName {
+  [__name release];
+  __name = nil;
+  __name_isset = NO;
+}
+
+- (int) gender {
+  return __gender;
+}
+
+- (void) setGender: (int) gender {
+  __gender = gender;
+  __gender_isset = YES;
+}
+
+- (BOOL) genderIsSet {
+  return __gender_isset;
+}
+
+- (void) unsetGender {
+  __gender_isset = NO;
+}
+
+- (NSString *) org {
+  return [[__org retain] autorelease];
+}
+
+- (void) setOrg: (NSString *) org {
+  [org retain];
+  [__org release];
+  __org = org;
+  __org_isset = YES;
+}
+
+- (BOOL) orgIsSet {
+  return __org_isset;
+}
+
+- (void) unsetOrg {
+  [__org release];
+  __org = nil;
+  __org_isset = NO;
+}
+
+- (NSString *) job {
+  return [[__job retain] autorelease];
+}
+
+- (void) setJob: (NSString *) job {
+  [job retain];
+  [__job release];
+  __job = job;
+  __job_isset = YES;
+}
+
+- (BOOL) jobIsSet {
+  return __job_isset;
+}
+
+- (void) unsetJob {
+  [__job release];
+  __job = nil;
+  __job_isset = NO;
+}
+
+- (NSString *) avator {
+  return [[__avator retain] autorelease];
+}
+
+- (void) setAvator: (NSString *) avator {
+  [avator retain];
+  [__avator release];
+  __avator = avator;
+  __avator_isset = YES;
+}
+
+- (BOOL) avatorIsSet {
+  return __avator_isset;
+}
+
+- (void) unsetAvator {
+  [__avator release];
+  __avator = nil;
+  __avator_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setName: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setGender: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setOrg: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setJob: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAvator: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"UserBasic"];
+  if (__name_isset) {
+    if (__name != nil) {
+      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __name];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__gender_isset) {
+    [outProtocol writeFieldBeginWithName: @"gender" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __gender];
+    [outProtocol writeFieldEnd];
+  }
+  if (__org_isset) {
+    if (__org != nil) {
+      [outProtocol writeFieldBeginWithName: @"org" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __org];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__job_isset) {
+    if (__job != nil) {
+      [outProtocol writeFieldBeginWithName: @"job" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __job];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__avator_isset) {
+    if (__avator != nil) {
+      [outProtocol writeFieldBeginWithName: @"avator" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __avator];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserBasic("];
+  [ms appendString: @"name:"];
+  [ms appendFormat: @"\"%@\"", __name];
+  [ms appendString: @",gender:"];
+  [ms appendFormat: @"%i", __gender];
+  [ms appendString: @",org:"];
+  [ms appendFormat: @"\"%@\"", __org];
+  [ms appendString: @",job:"];
+  [ms appendFormat: @"\"%@\"", __job];
+  [ms appendString: @",avator:"];
+  [ms appendFormat: @"\"%@\"", __avator];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation UserExt
+
+- (id) initWithIntro: (NSString *) intro following: (NSArray *) following befollowed: (NSArray *) befollowed
+{
+  self = [super init];
+  __intro = [intro retain];
+  __intro_isset = YES;
+  __following = [following retain];
+  __following_isset = YES;
+  __befollowed = [befollowed retain];
+  __befollowed_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"intro"])
+  {
+    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
+    __intro_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"following"])
+  {
+    __following = [[decoder decodeObjectForKey: @"following"] retain];
+    __following_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"befollowed"])
+  {
+    __befollowed = [[decoder decodeObjectForKey: @"befollowed"] retain];
+    __befollowed_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__intro_isset)
+  {
+    [encoder encodeObject: __intro forKey: @"intro"];
+  }
+  if (__following_isset)
+  {
+    [encoder encodeObject: __following forKey: @"following"];
+  }
+  if (__befollowed_isset)
+  {
+    [encoder encodeObject: __befollowed forKey: @"befollowed"];
+  }
+}
+
+- (void) dealloc
+{
+  [__intro release];
+  [__following release];
+  [__befollowed release];
+  [super dealloc];
+}
+
+- (NSString *) intro {
+  return [[__intro retain] autorelease];
+}
+
+- (void) setIntro: (NSString *) intro {
+  [intro retain];
+  [__intro release];
+  __intro = intro;
+  __intro_isset = YES;
+}
+
+- (BOOL) introIsSet {
+  return __intro_isset;
+}
+
+- (void) unsetIntro {
+  [__intro release];
+  __intro = nil;
+  __intro_isset = NO;
+}
+
+- (NSArray *) following {
+  return [[__following retain] autorelease];
+}
+
+- (void) setFollowing: (NSArray *) following {
+  [following retain];
+  [__following release];
+  __following = following;
+  __following_isset = YES;
+}
+
+- (BOOL) followingIsSet {
+  return __following_isset;
+}
+
+- (void) unsetFollowing {
+  [__following release];
+  __following = nil;
+  __following_isset = NO;
+}
+
+- (NSArray *) befollowed {
+  return [[__befollowed retain] autorelease];
+}
+
+- (void) setBefollowed: (NSArray *) befollowed {
+  [befollowed retain];
+  [__befollowed release];
+  __befollowed = befollowed;
+  __befollowed_isset = YES;
+}
+
+- (BOOL) befollowedIsSet {
+  return __befollowed_isset;
+}
+
+- (void) unsetBefollowed {
+  [__befollowed release];
+  __befollowed = nil;
+  __befollowed_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setIntro: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_LIST) {
+          int _size20;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size20];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size20];
+          int _i21;
+          for (_i21 = 0; _i21 < _size20; ++_i21)
+          {
+            int64_t _elem22 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem22]];
+          }
+          [inProtocol readListEnd];
+          [self setFollowing: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_LIST) {
+          int _size23;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size23];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size23];
+          int _i24;
+          for (_i24 = 0; _i24 < _size23; ++_i24)
+          {
+            int64_t _elem25 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem25]];
+          }
+          [inProtocol readListEnd];
+          [self setBefollowed: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"UserExt"];
+  if (__intro_isset) {
+    if (__intro != nil) {
+      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __intro];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__following_isset) {
+    if (__following != nil) {
+      [outProtocol writeFieldBeginWithName: @"following" type: TType_LIST fieldID: 2];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__following count]];
+        int i27;
+        for (i27 = 0; i27 < [__following count]; i27++)
+        {
+          [outProtocol writeI64: [[__following objectAtIndex: i27] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__befollowed_isset) {
+    if (__befollowed != nil) {
+      [outProtocol writeFieldBeginWithName: @"befollowed" type: TType_LIST fieldID: 3];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__befollowed count]];
+        int i29;
+        for (i29 = 0; i29 < [__befollowed count]; i29++)
+        {
+          [outProtocol writeI64: [[__befollowed objectAtIndex: i29] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserExt("];
+  [ms appendString: @"intro:"];
+  [ms appendFormat: @"\"%@\"", __intro];
+  [ms appendString: @",following:"];
+  [ms appendFormat: @"%@", __following];
+  [ms appendString: @",befollowed:"];
+  [ms appendFormat: @"%@", __befollowed];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation UserInfo
+
+- (id) initWithBaisc: (UserBasic *) baisc ext: (UserExt *) ext
+{
+  self = [super init];
+  __baisc = [baisc retain];
+  __baisc_isset = YES;
+  __ext = [ext retain];
+  __ext_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"baisc"])
+  {
+    __baisc = [[decoder decodeObjectForKey: @"baisc"] retain];
+    __baisc_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"ext"])
+  {
+    __ext = [[decoder decodeObjectForKey: @"ext"] retain];
+    __ext_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__baisc_isset)
+  {
+    [encoder encodeObject: __baisc forKey: @"baisc"];
+  }
+  if (__ext_isset)
+  {
+    [encoder encodeObject: __ext forKey: @"ext"];
+  }
+}
+
+- (void) dealloc
+{
+  [__baisc release];
+  [__ext release];
+  [super dealloc];
+}
+
+- (UserBasic *) baisc {
+  return [[__baisc retain] autorelease];
+}
+
+- (void) setBaisc: (UserBasic *) baisc {
+  [baisc retain];
+  [__baisc release];
+  __baisc = baisc;
+  __baisc_isset = YES;
+}
+
+- (BOOL) baiscIsSet {
+  return __baisc_isset;
+}
+
+- (void) unsetBaisc {
+  [__baisc release];
+  __baisc = nil;
+  __baisc_isset = NO;
+}
+
+- (UserExt *) ext {
+  return [[__ext retain] autorelease];
+}
+
+- (void) setExt: (UserExt *) ext {
+  [ext retain];
+  [__ext release];
+  __ext = ext;
+  __ext_isset = YES;
+}
+
+- (BOOL) extIsSet {
+  return __ext_isset;
+}
+
+- (void) unsetExt {
+  [__ext release];
+  __ext = nil;
+  __ext_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserBasic *fieldValue = [[UserBasic alloc] init];
+          [fieldValue read: inProtocol];
+          [self setBaisc: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          UserExt *fieldValue = [[UserExt alloc] init];
+          [fieldValue read: inProtocol];
+          [self setExt: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"UserInfo"];
+  if (__baisc_isset) {
+    if (__baisc != nil) {
+      [outProtocol writeFieldBeginWithName: @"baisc" type: TType_STRUCT fieldID: 1];
+      [__baisc write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__ext_isset) {
+    if (__ext != nil) {
+      [outProtocol writeFieldBeginWithName: @"ext" type: TType_STRUCT fieldID: 2];
+      [__ext write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
+  [ms appendString: @"baisc:"];
+  [ms appendFormat: @"%@", __baisc];
   [ms appendString: @",ext:"];
   [ms appendFormat: @"%@", __ext];
   [ms appendString: @")"];

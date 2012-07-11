@@ -1,6 +1,8 @@
 
 typedef i64 timestamp
 
+# login
+
 struct AuthRequest {
     1: required string client_id,
     2: required string client_serect
@@ -13,6 +15,8 @@ struct AuthResponse {
     4:  optional  string              refresh_token,
     5:  optional  i64                 expire_time
 }
+
+# Task
 
 enum TaskStat {
     NONE,    # 未响应
@@ -53,6 +57,35 @@ struct TaskInfo {
     2: required TaskExt   ext
 }
 
+# User
+
+enum UserGender {
+    Unknown = 0,
+    Male,
+    Female
+}
+
+struct UserBasic {
+    1: required string      name,
+    2: required UserGender gender,
+    3: required string      org,
+    4: required string      job,
+    5: required string      avator,
+}
+
+struct UserExt {
+    1: required string      intro,
+    2: required list<i64>   following,
+    3: required list<i64>   befollowed
+}
+
+struct UserInfo {
+    1: optional UserBasic   baisc,
+    2: required UserExt     ext
+}
+
+# end
+
 /*enum AuthLoginPartner {
     AUTH_PARTNER_DOUBAN = 1,
     AUTH_PARTNER_SINA = 2,
@@ -82,14 +115,6 @@ enum AuthResponseStatus {
   AUTH_FAIL_PASSWORD_WRONG
 }
 
-struct AuthResponse {
-  1:  required  i64                 id,
-  2:  optional  string              name,
-  3:  required  string              access_token,
-  4:  optional  string              refresh_token,
-  5:  optional  i64                 expire_time
-}
-
 struct AuthRequestMail {
   1:  required  string  client_id,
   2:  required  string  client_secret,
@@ -103,8 +128,7 @@ struct AuthRequestMail {
 enum UserBasicGender {
     Unknown = 0,
     Male,
-    Female,
-    Other
+    Female
 }
 
 #

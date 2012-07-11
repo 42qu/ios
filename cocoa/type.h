@@ -13,12 +13,6 @@
 #import <TProcessor.h>
 
 
-enum Gender {
-  Gender_MALE = 0,
-  Gender_FEMALE = 1,
-  Gender_UNKNOW = 2
-};
-
 enum TaskStat {
   TaskStat_NONE = 0,
   TaskStat_ACCEPT = 1,
@@ -31,6 +25,12 @@ enum TasklistType {
   TasklistType_NEARBY = 2,
   TasklistType_FOLLOW = 3,
   TasklistType_FAVOURITES = 4
+};
+
+enum UserGender {
+  UserGender_Unknown = 0,
+  UserGender_Male = 1,
+  UserGender_Female = 2
 };
 
 typedef int64_t timestamp;
@@ -109,69 +109,6 @@ typedef int64_t timestamp;
 - (int64_t) expire_time;
 - (void) setExpire_time: (int64_t) expire_time;
 - (BOOL) expire_timeIsSet;
-
-@end
-
-@interface UserInfo : NSObject <NSCoding> {
-  NSString * __name;
-  int __gender;
-  NSString * __org;
-  NSString * __job;
-  NSString * __small_avator;
-  NSString * __big_avator;
-  NSString * __intro;
-
-  BOOL __name_isset;
-  BOOL __gender_isset;
-  BOOL __org_isset;
-  BOOL __job_isset;
-  BOOL __small_avator_isset;
-  BOOL __big_avator_isset;
-  BOOL __intro_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, getter=gender, setter=setGender:) int gender;
-@property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
-@property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
-@property (nonatomic, retain, getter=small_avator, setter=setSmall_avator:) NSString * small_avator;
-@property (nonatomic, retain, getter=big_avator, setter=setBig_avator:) NSString * big_avator;
-@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
-#endif
-
-- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job small_avator: (NSString *) small_avator big_avator: (NSString *) big_avator intro: (NSString *) intro;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) name;
-- (void) setName: (NSString *) name;
-- (BOOL) nameIsSet;
-
-- (int) gender;
-- (void) setGender: (int) gender;
-- (BOOL) genderIsSet;
-
-- (NSString *) org;
-- (void) setOrg: (NSString *) org;
-- (BOOL) orgIsSet;
-
-- (NSString *) job;
-- (void) setJob: (NSString *) job;
-- (BOOL) jobIsSet;
-
-- (NSString *) small_avator;
-- (void) setSmall_avator: (NSString *) small_avator;
-- (BOOL) small_avatorIsSet;
-
-- (NSString *) big_avator;
-- (void) setBig_avator: (NSString *) big_avator;
-- (BOOL) big_avatorIsSet;
-
-- (NSString *) intro;
-- (void) setIntro: (NSString *) intro;
-- (BOOL) introIsSet;
 
 @end
 
@@ -325,6 +262,118 @@ typedef int64_t timestamp;
 
 - (TaskExt *) ext;
 - (void) setExt: (TaskExt *) ext;
+- (BOOL) extIsSet;
+
+@end
+
+@interface UserBasic : NSObject <NSCoding> {
+  NSString * __name;
+  int __gender;
+  NSString * __org;
+  NSString * __job;
+  NSString * __avator;
+
+  BOOL __name_isset;
+  BOOL __gender_isset;
+  BOOL __org_isset;
+  BOOL __job_isset;
+  BOOL __avator_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, getter=gender, setter=setGender:) int gender;
+@property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
+@property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
+@property (nonatomic, retain, getter=avator, setter=setAvator:) NSString * avator;
+#endif
+
+- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) name;
+- (void) setName: (NSString *) name;
+- (BOOL) nameIsSet;
+
+- (int) gender;
+- (void) setGender: (int) gender;
+- (BOOL) genderIsSet;
+
+- (NSString *) org;
+- (void) setOrg: (NSString *) org;
+- (BOOL) orgIsSet;
+
+- (NSString *) job;
+- (void) setJob: (NSString *) job;
+- (BOOL) jobIsSet;
+
+- (NSString *) avator;
+- (void) setAvator: (NSString *) avator;
+- (BOOL) avatorIsSet;
+
+@end
+
+@interface UserExt : NSObject <NSCoding> {
+  NSString * __intro;
+  NSArray * __following;
+  NSArray * __befollowed;
+
+  BOOL __intro_isset;
+  BOOL __following_isset;
+  BOOL __befollowed_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
+@property (nonatomic, retain, getter=following, setter=setFollowing:) NSArray * following;
+@property (nonatomic, retain, getter=befollowed, setter=setBefollowed:) NSArray * befollowed;
+#endif
+
+- (id) initWithIntro: (NSString *) intro following: (NSArray *) following befollowed: (NSArray *) befollowed;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) intro;
+- (void) setIntro: (NSString *) intro;
+- (BOOL) introIsSet;
+
+- (NSArray *) following;
+- (void) setFollowing: (NSArray *) following;
+- (BOOL) followingIsSet;
+
+- (NSArray *) befollowed;
+- (void) setBefollowed: (NSArray *) befollowed;
+- (BOOL) befollowedIsSet;
+
+@end
+
+@interface UserInfo : NSObject <NSCoding> {
+  UserBasic * __baisc;
+  UserExt * __ext;
+
+  BOOL __baisc_isset;
+  BOOL __ext_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=baisc, setter=setBaisc:) UserBasic * baisc;
+@property (nonatomic, retain, getter=ext, setter=setExt:) UserExt * ext;
+#endif
+
+- (id) initWithBaisc: (UserBasic *) baisc ext: (UserExt *) ext;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (UserBasic *) baisc;
+- (void) setBaisc: (UserBasic *) baisc;
+- (BOOL) baiscIsSet;
+
+- (UserExt *) ext;
+- (void) setExt: (UserExt *) ext;
 - (BOOL) extIsSet;
 
 @end
