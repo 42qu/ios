@@ -178,19 +178,225 @@
 
 @implementation AuthResponse
 
-- (id) initWithUid: (int64_t) uid name: (NSString *) name access_token: (NSString *) access_token refresh_token: (NSString *) refresh_token expire_time: (int64_t) expire_time
+- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in refresh_token: (NSString *) refresh_token
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __expire_in = expire_in;
+  __expire_in_isset = YES;
+  __refresh_token = [refresh_token retain];
+  __refresh_token_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"expire_in"])
+  {
+    __expire_in = [decoder decodeInt64ForKey: @"expire_in"];
+    __expire_in_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"refresh_token"])
+  {
+    __refresh_token = [[decoder decodeObjectForKey: @"refresh_token"] retain];
+    __refresh_token_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__expire_in_isset)
+  {
+    [encoder encodeInt64: __expire_in forKey: @"expire_in"];
+  }
+  if (__refresh_token_isset)
+  {
+    [encoder encodeObject: __refresh_token forKey: @"refresh_token"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [__refresh_token release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (int64_t) expire_in {
+  return __expire_in;
+}
+
+- (void) setExpire_in: (int64_t) expire_in {
+  __expire_in = expire_in;
+  __expire_in_isset = YES;
+}
+
+- (BOOL) expire_inIsSet {
+  return __expire_in_isset;
+}
+
+- (void) unsetExpire_in {
+  __expire_in_isset = NO;
+}
+
+- (NSString *) refresh_token {
+  return [[__refresh_token retain] autorelease];
+}
+
+- (void) setRefresh_token: (NSString *) refresh_token {
+  [refresh_token retain];
+  [__refresh_token release];
+  __refresh_token = refresh_token;
+  __refresh_token_isset = YES;
+}
+
+- (BOOL) refresh_tokenIsSet {
+  return __refresh_token_isset;
+}
+
+- (void) unsetRefresh_token {
+  [__refresh_token release];
+  __refresh_token = nil;
+  __refresh_token_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setExpire_in: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setRefresh_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"AuthResponse"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__expire_in_isset) {
+    [outProtocol writeFieldBeginWithName: @"expire_in" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __expire_in];
+    [outProtocol writeFieldEnd];
+  }
+  if (__refresh_token_isset) {
+    if (__refresh_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __refresh_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthResponse("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",expire_in:"];
+  [ms appendFormat: @"%qi", __expire_in];
+  [ms appendString: @",refresh_token:"];
+  [ms appendFormat: @"\"%@\"", __refresh_token];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation UserBasic
+
+- (id) initWithUid: (int64_t) uid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
 {
   self = [super init];
   __uid = uid;
   __uid_isset = YES;
   __name = [name retain];
   __name_isset = YES;
-  __access_token = [access_token retain];
-  __access_token_isset = YES;
-  __refresh_token = [refresh_token retain];
-  __refresh_token_isset = YES;
-  __expire_time = expire_time;
-  __expire_time_isset = YES;
+  __gender = gender;
+  __gender_isset = YES;
+  __org = [org retain];
+  __org_isset = YES;
+  __job = [job retain];
+  __job_isset = YES;
+  __avator = [avator retain];
+  __avator_isset = YES;
   return self;
 }
 
@@ -207,20 +413,25 @@
     __name = [[decoder decodeObjectForKey: @"name"] retain];
     __name_isset = YES;
   }
-  if ([decoder containsValueForKey: @"access_token"])
+  if ([decoder containsValueForKey: @"gender"])
   {
-    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
-    __access_token_isset = YES;
+    __gender = [decoder decodeIntForKey: @"gender"];
+    __gender_isset = YES;
   }
-  if ([decoder containsValueForKey: @"refresh_token"])
+  if ([decoder containsValueForKey: @"org"])
   {
-    __refresh_token = [[decoder decodeObjectForKey: @"refresh_token"] retain];
-    __refresh_token_isset = YES;
+    __org = [[decoder decodeObjectForKey: @"org"] retain];
+    __org_isset = YES;
   }
-  if ([decoder containsValueForKey: @"expire_time"])
+  if ([decoder containsValueForKey: @"job"])
   {
-    __expire_time = [decoder decodeInt64ForKey: @"expire_time"];
-    __expire_time_isset = YES;
+    __job = [[decoder decodeObjectForKey: @"job"] retain];
+    __job_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"avator"])
+  {
+    __avator = [[decoder decodeObjectForKey: @"avator"] retain];
+    __avator_isset = YES;
   }
   return self;
 }
@@ -235,25 +446,30 @@
   {
     [encoder encodeObject: __name forKey: @"name"];
   }
-  if (__access_token_isset)
+  if (__gender_isset)
   {
-    [encoder encodeObject: __access_token forKey: @"access_token"];
+    [encoder encodeInt: __gender forKey: @"gender"];
   }
-  if (__refresh_token_isset)
+  if (__org_isset)
   {
-    [encoder encodeObject: __refresh_token forKey: @"refresh_token"];
+    [encoder encodeObject: __org forKey: @"org"];
   }
-  if (__expire_time_isset)
+  if (__job_isset)
   {
-    [encoder encodeInt64: __expire_time forKey: @"expire_time"];
+    [encoder encodeObject: __job forKey: @"job"];
+  }
+  if (__avator_isset)
+  {
+    [encoder encodeObject: __avator forKey: @"avator"];
   }
 }
 
 - (void) dealloc
 {
   [__name release];
-  [__access_token release];
-  [__refresh_token release];
+  [__org release];
+  [__job release];
+  [__avator release];
   [super dealloc];
 }
 
@@ -295,63 +511,84 @@
   __name_isset = NO;
 }
 
-- (NSString *) access_token {
-  return [[__access_token retain] autorelease];
+- (int) gender {
+  return __gender;
 }
 
-- (void) setAccess_token: (NSString *) access_token {
-  [access_token retain];
-  [__access_token release];
-  __access_token = access_token;
-  __access_token_isset = YES;
+- (void) setGender: (int) gender {
+  __gender = gender;
+  __gender_isset = YES;
 }
 
-- (BOOL) access_tokenIsSet {
-  return __access_token_isset;
+- (BOOL) genderIsSet {
+  return __gender_isset;
 }
 
-- (void) unsetAccess_token {
-  [__access_token release];
-  __access_token = nil;
-  __access_token_isset = NO;
+- (void) unsetGender {
+  __gender_isset = NO;
 }
 
-- (NSString *) refresh_token {
-  return [[__refresh_token retain] autorelease];
+- (NSString *) org {
+  return [[__org retain] autorelease];
 }
 
-- (void) setRefresh_token: (NSString *) refresh_token {
-  [refresh_token retain];
-  [__refresh_token release];
-  __refresh_token = refresh_token;
-  __refresh_token_isset = YES;
+- (void) setOrg: (NSString *) org {
+  [org retain];
+  [__org release];
+  __org = org;
+  __org_isset = YES;
 }
 
-- (BOOL) refresh_tokenIsSet {
-  return __refresh_token_isset;
+- (BOOL) orgIsSet {
+  return __org_isset;
 }
 
-- (void) unsetRefresh_token {
-  [__refresh_token release];
-  __refresh_token = nil;
-  __refresh_token_isset = NO;
+- (void) unsetOrg {
+  [__org release];
+  __org = nil;
+  __org_isset = NO;
 }
 
-- (int64_t) expire_time {
-  return __expire_time;
+- (NSString *) job {
+  return [[__job retain] autorelease];
 }
 
-- (void) setExpire_time: (int64_t) expire_time {
-  __expire_time = expire_time;
-  __expire_time_isset = YES;
+- (void) setJob: (NSString *) job {
+  [job retain];
+  [__job release];
+  __job = job;
+  __job_isset = YES;
 }
 
-- (BOOL) expire_timeIsSet {
-  return __expire_time_isset;
+- (BOOL) jobIsSet {
+  return __job_isset;
 }
 
-- (void) unsetExpire_time {
-  __expire_time_isset = NO;
+- (void) unsetJob {
+  [__job release];
+  __job = nil;
+  __job_isset = NO;
+}
+
+- (NSString *) avator {
+  return [[__avator retain] autorelease];
+}
+
+- (void) setAvator: (NSString *) avator {
+  [avator retain];
+  [__avator release];
+  __avator = avator;
+  __avator_isset = YES;
+}
+
+- (BOOL) avatorIsSet {
+  return __avator_isset;
+}
+
+- (void) unsetAvator {
+  [__avator release];
+  __avator = nil;
+  __avator_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -386,9 +623,9 @@
         }
         break;
       case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAccess_token: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setGender: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -396,15 +633,23 @@
       case 4:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setRefresh_token: fieldValue];
+          [self setOrg: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 5:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setExpire_time: fieldValue];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setJob: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAvator: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -419,7 +664,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"AuthResponse"];
+  [outProtocol writeStructBeginWithName: @"UserBasic"];
   if (__uid_isset) {
     [outProtocol writeFieldBeginWithName: @"uid" type: TType_I64 fieldID: 1];
     [outProtocol writeI64: __uid];
@@ -432,235 +677,113 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__access_token_isset) {
-    if (__access_token != nil) {
-      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __access_token];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__refresh_token_isset) {
-    if (__refresh_token != nil) {
-      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __refresh_token];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__expire_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"expire_time" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __expire_time];
+  if (__gender_isset) {
+    [outProtocol writeFieldBeginWithName: @"gender" type: TType_I32 fieldID: 3];
+    [outProtocol writeI32: __gender];
     [outProtocol writeFieldEnd];
+  }
+  if (__org_isset) {
+    if (__org != nil) {
+      [outProtocol writeFieldBeginWithName: @"org" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __org];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__job_isset) {
+    if (__job != nil) {
+      [outProtocol writeFieldBeginWithName: @"job" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __job];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__avator_isset) {
+    if (__avator != nil) {
+      [outProtocol writeFieldBeginWithName: @"avator" type: TType_STRING fieldID: 6];
+      [outProtocol writeString: __avator];
+      [outProtocol writeFieldEnd];
+    }
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"AuthResponse("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserBasic("];
   [ms appendString: @"uid:"];
   [ms appendFormat: @"%qi", __uid];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
-  [ms appendString: @",access_token:"];
-  [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",refresh_token:"];
-  [ms appendFormat: @"\"%@\"", __refresh_token];
-  [ms appendString: @",expire_time:"];
-  [ms appendFormat: @"%qi", __expire_time];
+  [ms appendString: @",gender:"];
+  [ms appendFormat: @"%i", __gender];
+  [ms appendString: @",org:"];
+  [ms appendFormat: @"\"%@\"", __org];
+  [ms appendString: @",job:"];
+  [ms appendFormat: @"\"%@\"", __job];
+  [ms appendString: @",avator:"];
+  [ms appendFormat: @"\"%@\"", __avator];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation TaskBasic
+@implementation UserExt
 
-- (id) initWithTid: (int64_t) tid name: (NSString *) name owner: (int64_t) owner intro: (NSString *) intro plan_num: (int64_t) plan_num begin_time: (int64_t) begin_time end_time: (int64_t) end_time apply_num: (int64_t) apply_num invite_num: (int64_t) invite_num accept_num: (int64_t) accept_num
+- (id) initWithIntro: (NSString *) intro following_list: (NSArray *) following_list followed_list: (NSArray *) followed_list
 {
   self = [super init];
-  __tid = tid;
-  __tid_isset = YES;
-  __name = [name retain];
-  __name_isset = YES;
-  __owner = owner;
-  __owner_isset = YES;
   __intro = [intro retain];
   __intro_isset = YES;
-  __plan_num = plan_num;
-  __plan_num_isset = YES;
-  __begin_time = begin_time;
-  __begin_time_isset = YES;
-  __end_time = end_time;
-  __end_time_isset = YES;
-  __apply_num = apply_num;
-  __apply_num_isset = YES;
-  __invite_num = invite_num;
-  __invite_num_isset = YES;
-  __accept_num = accept_num;
-  __accept_num_isset = YES;
+  __following_list = [following_list retain];
+  __following_list_isset = YES;
+  __followed_list = [followed_list retain];
+  __followed_list_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"tid"])
-  {
-    __tid = [decoder decodeInt64ForKey: @"tid"];
-    __tid_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"name"])
-  {
-    __name = [[decoder decodeObjectForKey: @"name"] retain];
-    __name_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"owner"])
-  {
-    __owner = [decoder decodeInt64ForKey: @"owner"];
-    __owner_isset = YES;
-  }
   if ([decoder containsValueForKey: @"intro"])
   {
     __intro = [[decoder decodeObjectForKey: @"intro"] retain];
     __intro_isset = YES;
   }
-  if ([decoder containsValueForKey: @"plan_num"])
+  if ([decoder containsValueForKey: @"following_list"])
   {
-    __plan_num = [decoder decodeInt64ForKey: @"plan_num"];
-    __plan_num_isset = YES;
+    __following_list = [[decoder decodeObjectForKey: @"following_list"] retain];
+    __following_list_isset = YES;
   }
-  if ([decoder containsValueForKey: @"begin_time"])
+  if ([decoder containsValueForKey: @"followed_list"])
   {
-    __begin_time = [decoder decodeInt64ForKey: @"begin_time"];
-    __begin_time_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"end_time"])
-  {
-    __end_time = [decoder decodeInt64ForKey: @"end_time"];
-    __end_time_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"apply_num"])
-  {
-    __apply_num = [decoder decodeInt64ForKey: @"apply_num"];
-    __apply_num_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"invite_num"])
-  {
-    __invite_num = [decoder decodeInt64ForKey: @"invite_num"];
-    __invite_num_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"accept_num"])
-  {
-    __accept_num = [decoder decodeInt64ForKey: @"accept_num"];
-    __accept_num_isset = YES;
+    __followed_list = [[decoder decodeObjectForKey: @"followed_list"] retain];
+    __followed_list_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__tid_isset)
-  {
-    [encoder encodeInt64: __tid forKey: @"tid"];
-  }
-  if (__name_isset)
-  {
-    [encoder encodeObject: __name forKey: @"name"];
-  }
-  if (__owner_isset)
-  {
-    [encoder encodeInt64: __owner forKey: @"owner"];
-  }
   if (__intro_isset)
   {
     [encoder encodeObject: __intro forKey: @"intro"];
   }
-  if (__plan_num_isset)
+  if (__following_list_isset)
   {
-    [encoder encodeInt64: __plan_num forKey: @"plan_num"];
+    [encoder encodeObject: __following_list forKey: @"following_list"];
   }
-  if (__begin_time_isset)
+  if (__followed_list_isset)
   {
-    [encoder encodeInt64: __begin_time forKey: @"begin_time"];
-  }
-  if (__end_time_isset)
-  {
-    [encoder encodeInt64: __end_time forKey: @"end_time"];
-  }
-  if (__apply_num_isset)
-  {
-    [encoder encodeInt64: __apply_num forKey: @"apply_num"];
-  }
-  if (__invite_num_isset)
-  {
-    [encoder encodeInt64: __invite_num forKey: @"invite_num"];
-  }
-  if (__accept_num_isset)
-  {
-    [encoder encodeInt64: __accept_num forKey: @"accept_num"];
+    [encoder encodeObject: __followed_list forKey: @"followed_list"];
   }
 }
 
 - (void) dealloc
 {
-  [__name release];
   [__intro release];
+  [__following_list release];
+  [__followed_list release];
   [super dealloc];
-}
-
-- (int64_t) tid {
-  return __tid;
-}
-
-- (void) setTid: (int64_t) tid {
-  __tid = tid;
-  __tid_isset = YES;
-}
-
-- (BOOL) tidIsSet {
-  return __tid_isset;
-}
-
-- (void) unsetTid {
-  __tid_isset = NO;
-}
-
-- (NSString *) name {
-  return [[__name retain] autorelease];
-}
-
-- (void) setName: (NSString *) name {
-  [name retain];
-  [__name release];
-  __name = name;
-  __name_isset = YES;
-}
-
-- (BOOL) nameIsSet {
-  return __name_isset;
-}
-
-- (void) unsetName {
-  [__name release];
-  __name = nil;
-  __name_isset = NO;
-}
-
-- (int64_t) owner {
-  return __owner;
-}
-
-- (void) setOwner: (int64_t) owner {
-  __owner = owner;
-  __owner_isset = YES;
-}
-
-- (BOOL) ownerIsSet {
-  return __owner_isset;
-}
-
-- (void) unsetOwner {
-  __owner_isset = NO;
 }
 
 - (NSString *) intro {
@@ -684,21 +807,944 @@
   __intro_isset = NO;
 }
 
-- (int64_t) plan_num {
-  return __plan_num;
+- (NSArray *) following_list {
+  return [[__following_list retain] autorelease];
 }
 
-- (void) setPlan_num: (int64_t) plan_num {
-  __plan_num = plan_num;
-  __plan_num_isset = YES;
+- (void) setFollowing_list: (NSArray *) following_list {
+  [following_list retain];
+  [__following_list release];
+  __following_list = following_list;
+  __following_list_isset = YES;
 }
 
-- (BOOL) plan_numIsSet {
-  return __plan_num_isset;
+- (BOOL) following_listIsSet {
+  return __following_list_isset;
 }
 
-- (void) unsetPlan_num {
-  __plan_num_isset = NO;
+- (void) unsetFollowing_list {
+  [__following_list release];
+  __following_list = nil;
+  __following_list_isset = NO;
+}
+
+- (NSArray *) followed_list {
+  return [[__followed_list retain] autorelease];
+}
+
+- (void) setFollowed_list: (NSArray *) followed_list {
+  [followed_list retain];
+  [__followed_list release];
+  __followed_list = followed_list;
+  __followed_list_isset = YES;
+}
+
+- (BOOL) followed_listIsSet {
+  return __followed_list_isset;
+}
+
+- (void) unsetFollowed_list {
+  [__followed_list release];
+  __followed_list = nil;
+  __followed_list_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setIntro: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_LIST) {
+          int _size0;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
+          int _i1;
+          for (_i1 = 0; _i1 < _size0; ++_i1)
+          {
+            int64_t _elem2 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem2]];
+          }
+          [inProtocol readListEnd];
+          [self setFollowing_list: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_LIST) {
+          int _size3;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size3];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size3];
+          int _i4;
+          for (_i4 = 0; _i4 < _size3; ++_i4)
+          {
+            int64_t _elem5 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem5]];
+          }
+          [inProtocol readListEnd];
+          [self setFollowed_list: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"UserExt"];
+  if (__intro_isset) {
+    if (__intro != nil) {
+      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __intro];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__following_list_isset) {
+    if (__following_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"following_list" type: TType_LIST fieldID: 2];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__following_list count]];
+        int i7;
+        for (i7 = 0; i7 < [__following_list count]; i7++)
+        {
+          [outProtocol writeI64: [[__following_list objectAtIndex: i7] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__followed_list_isset) {
+    if (__followed_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"followed_list" type: TType_LIST fieldID: 3];
+      {
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__followed_list count]];
+        int i9;
+        for (i9 = 0; i9 < [__followed_list count]; i9++)
+        {
+          [outProtocol writeI64: [[__followed_list objectAtIndex: i9] longLongValue]];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserExt("];
+  [ms appendString: @"intro:"];
+  [ms appendFormat: @"\"%@\"", __intro];
+  [ms appendString: @",following_list:"];
+  [ms appendFormat: @"%@", __following_list];
+  [ms appendString: @",followed_list:"];
+  [ms appendFormat: @"%@", __followed_list];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation User
+
+- (id) initWithBasic: (UserBasic *) basic ext: (UserExt *) ext
+{
+  self = [super init];
+  __basic = [basic retain];
+  __basic_isset = YES;
+  __ext = [ext retain];
+  __ext_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"basic"])
+  {
+    __basic = [[decoder decodeObjectForKey: @"basic"] retain];
+    __basic_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"ext"])
+  {
+    __ext = [[decoder decodeObjectForKey: @"ext"] retain];
+    __ext_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__basic_isset)
+  {
+    [encoder encodeObject: __basic forKey: @"basic"];
+  }
+  if (__ext_isset)
+  {
+    [encoder encodeObject: __ext forKey: @"ext"];
+  }
+}
+
+- (void) dealloc
+{
+  [__basic release];
+  [__ext release];
+  [super dealloc];
+}
+
+- (UserBasic *) basic {
+  return [[__basic retain] autorelease];
+}
+
+- (void) setBasic: (UserBasic *) basic {
+  [basic retain];
+  [__basic release];
+  __basic = basic;
+  __basic_isset = YES;
+}
+
+- (BOOL) basicIsSet {
+  return __basic_isset;
+}
+
+- (void) unsetBasic {
+  [__basic release];
+  __basic = nil;
+  __basic_isset = NO;
+}
+
+- (UserExt *) ext {
+  return [[__ext retain] autorelease];
+}
+
+- (void) setExt: (UserExt *) ext {
+  [ext retain];
+  [__ext release];
+  __ext = ext;
+  __ext_isset = YES;
+}
+
+- (BOOL) extIsSet {
+  return __ext_isset;
+}
+
+- (void) unsetExt {
+  [__ext release];
+  __ext = nil;
+  __ext_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          UserBasic *fieldValue = [[UserBasic alloc] init];
+          [fieldValue read: inProtocol];
+          [self setBasic: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          UserExt *fieldValue = [[UserExt alloc] init];
+          [fieldValue read: inProtocol];
+          [self setExt: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"User"];
+  if (__basic_isset) {
+    if (__basic != nil) {
+      [outProtocol writeFieldBeginWithName: @"basic" type: TType_STRUCT fieldID: 1];
+      [__basic write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__ext_isset) {
+    if (__ext != nil) {
+      [outProtocol writeFieldBeginWithName: @"ext" type: TType_STRUCT fieldID: 2];
+      [__ext write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"User("];
+  [ms appendString: @"basic:"];
+  [ms appendFormat: @"%@", __basic];
+  [ms appendString: @",ext:"];
+  [ms appendFormat: @"%@", __ext];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation TaskFilter
+
+- (id) initWithCity: (int64_t) city pos: (NSString *) pos distance: (int64_t) distance sponsor_gender: (int) sponsor_gender difficulty: (int64_t) difficulty reward: (BOOL) reward reward_price: (int64_t) reward_price
+{
+  self = [super init];
+  __city = city;
+  __city_isset = YES;
+  __pos = [pos retain];
+  __pos_isset = YES;
+  __distance = distance;
+  __distance_isset = YES;
+  __sponsor_gender = sponsor_gender;
+  __sponsor_gender_isset = YES;
+  __difficulty = difficulty;
+  __difficulty_isset = YES;
+  __reward = reward;
+  __reward_isset = YES;
+  __reward_price = reward_price;
+  __reward_price_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"city"])
+  {
+    __city = [decoder decodeInt64ForKey: @"city"];
+    __city_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"pos"])
+  {
+    __pos = [[decoder decodeObjectForKey: @"pos"] retain];
+    __pos_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"distance"])
+  {
+    __distance = [decoder decodeInt64ForKey: @"distance"];
+    __distance_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"sponsor_gender"])
+  {
+    __sponsor_gender = [decoder decodeIntForKey: @"sponsor_gender"];
+    __sponsor_gender_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"difficulty"])
+  {
+    __difficulty = [decoder decodeInt64ForKey: @"difficulty"];
+    __difficulty_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"reward"])
+  {
+    __reward = [decoder decodeBoolForKey: @"reward"];
+    __reward_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"reward_price"])
+  {
+    __reward_price = [decoder decodeInt64ForKey: @"reward_price"];
+    __reward_price_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__city_isset)
+  {
+    [encoder encodeInt64: __city forKey: @"city"];
+  }
+  if (__pos_isset)
+  {
+    [encoder encodeObject: __pos forKey: @"pos"];
+  }
+  if (__distance_isset)
+  {
+    [encoder encodeInt64: __distance forKey: @"distance"];
+  }
+  if (__sponsor_gender_isset)
+  {
+    [encoder encodeInt: __sponsor_gender forKey: @"sponsor_gender"];
+  }
+  if (__difficulty_isset)
+  {
+    [encoder encodeInt64: __difficulty forKey: @"difficulty"];
+  }
+  if (__reward_isset)
+  {
+    [encoder encodeBool: __reward forKey: @"reward"];
+  }
+  if (__reward_price_isset)
+  {
+    [encoder encodeInt64: __reward_price forKey: @"reward_price"];
+  }
+}
+
+- (void) dealloc
+{
+  [__pos release];
+  [super dealloc];
+}
+
+- (int64_t) city {
+  return __city;
+}
+
+- (void) setCity: (int64_t) city {
+  __city = city;
+  __city_isset = YES;
+}
+
+- (BOOL) cityIsSet {
+  return __city_isset;
+}
+
+- (void) unsetCity {
+  __city_isset = NO;
+}
+
+- (NSString *) pos {
+  return [[__pos retain] autorelease];
+}
+
+- (void) setPos: (NSString *) pos {
+  [pos retain];
+  [__pos release];
+  __pos = pos;
+  __pos_isset = YES;
+}
+
+- (BOOL) posIsSet {
+  return __pos_isset;
+}
+
+- (void) unsetPos {
+  [__pos release];
+  __pos = nil;
+  __pos_isset = NO;
+}
+
+- (int64_t) distance {
+  return __distance;
+}
+
+- (void) setDistance: (int64_t) distance {
+  __distance = distance;
+  __distance_isset = YES;
+}
+
+- (BOOL) distanceIsSet {
+  return __distance_isset;
+}
+
+- (void) unsetDistance {
+  __distance_isset = NO;
+}
+
+- (int) sponsor_gender {
+  return __sponsor_gender;
+}
+
+- (void) setSponsor_gender: (int) sponsor_gender {
+  __sponsor_gender = sponsor_gender;
+  __sponsor_gender_isset = YES;
+}
+
+- (BOOL) sponsor_genderIsSet {
+  return __sponsor_gender_isset;
+}
+
+- (void) unsetSponsor_gender {
+  __sponsor_gender_isset = NO;
+}
+
+- (int64_t) difficulty {
+  return __difficulty;
+}
+
+- (void) setDifficulty: (int64_t) difficulty {
+  __difficulty = difficulty;
+  __difficulty_isset = YES;
+}
+
+- (BOOL) difficultyIsSet {
+  return __difficulty_isset;
+}
+
+- (void) unsetDifficulty {
+  __difficulty_isset = NO;
+}
+
+- (BOOL) reward {
+  return __reward;
+}
+
+- (void) setReward: (BOOL) reward {
+  __reward = reward;
+  __reward_isset = YES;
+}
+
+- (BOOL) rewardIsSet {
+  return __reward_isset;
+}
+
+- (void) unsetReward {
+  __reward_isset = NO;
+}
+
+- (int64_t) reward_price {
+  return __reward_price;
+}
+
+- (void) setReward_price: (int64_t) reward_price {
+  __reward_price = reward_price;
+  __reward_price_isset = YES;
+}
+
+- (BOOL) reward_priceIsSet {
+  return __reward_price_isset;
+}
+
+- (void) unsetReward_price {
+  __reward_price_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setCity: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setPos: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDistance: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setSponsor_gender: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDifficulty: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setReward: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 7:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setReward_price: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"TaskFilter"];
+  if (__city_isset) {
+    [outProtocol writeFieldBeginWithName: @"city" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __city];
+    [outProtocol writeFieldEnd];
+  }
+  if (__pos_isset) {
+    if (__pos != nil) {
+      [outProtocol writeFieldBeginWithName: @"pos" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __pos];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__distance_isset) {
+    [outProtocol writeFieldBeginWithName: @"distance" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __distance];
+    [outProtocol writeFieldEnd];
+  }
+  if (__sponsor_gender_isset) {
+    [outProtocol writeFieldBeginWithName: @"sponsor_gender" type: TType_I32 fieldID: 4];
+    [outProtocol writeI32: __sponsor_gender];
+    [outProtocol writeFieldEnd];
+  }
+  if (__difficulty_isset) {
+    [outProtocol writeFieldBeginWithName: @"difficulty" type: TType_I64 fieldID: 5];
+    [outProtocol writeI64: __difficulty];
+    [outProtocol writeFieldEnd];
+  }
+  if (__reward_isset) {
+    [outProtocol writeFieldBeginWithName: @"reward" type: TType_BOOL fieldID: 6];
+    [outProtocol writeBool: __reward];
+    [outProtocol writeFieldEnd];
+  }
+  if (__reward_price_isset) {
+    [outProtocol writeFieldBeginWithName: @"reward_price" type: TType_I64 fieldID: 7];
+    [outProtocol writeI64: __reward_price];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"TaskFilter("];
+  [ms appendString: @"city:"];
+  [ms appendFormat: @"%qi", __city];
+  [ms appendString: @",pos:"];
+  [ms appendFormat: @"\"%@\"", __pos];
+  [ms appendString: @",distance:"];
+  [ms appendFormat: @"%qi", __distance];
+  [ms appendString: @",sponsor_gender:"];
+  [ms appendFormat: @"%i", __sponsor_gender];
+  [ms appendString: @",difficulty:"];
+  [ms appendFormat: @"%qi", __difficulty];
+  [ms appendString: @",reward:"];
+  [ms appendFormat: @"%i", __reward];
+  [ms appendString: @",reward_price:"];
+  [ms appendFormat: @"%qi", __reward_price];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation TaskBasic
+
+- (id) initWithTid: (int64_t) tid title: (NSString *) title sponsor: (int64_t) sponsor intro: (NSString *) intro status: (int) status begin_time: (timestamp) begin_time end_time: (timestamp) end_time planed: (int64_t) planed applied: (int64_t) applied invited: (int64_t) invited accepted: (int64_t) accepted
+{
+  self = [super init];
+  __tid = tid;
+  __tid_isset = YES;
+  __title = [title retain];
+  __title_isset = YES;
+  __sponsor = sponsor;
+  __sponsor_isset = YES;
+  __intro = [intro retain];
+  __intro_isset = YES;
+  __status = status;
+  __status_isset = YES;
+  __begin_time = begin_time;
+  __begin_time_isset = YES;
+  __end_time = end_time;
+  __end_time_isset = YES;
+  __planed = planed;
+  __planed_isset = YES;
+  __applied = applied;
+  __applied_isset = YES;
+  __invited = invited;
+  __invited_isset = YES;
+  __accepted = accepted;
+  __accepted_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"tid"])
+  {
+    __tid = [decoder decodeInt64ForKey: @"tid"];
+    __tid_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"title"])
+  {
+    __title = [[decoder decodeObjectForKey: @"title"] retain];
+    __title_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"sponsor"])
+  {
+    __sponsor = [decoder decodeInt64ForKey: @"sponsor"];
+    __sponsor_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"intro"])
+  {
+    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
+    __intro_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"status"])
+  {
+    __status = [decoder decodeIntForKey: @"status"];
+    __status_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"begin_time"])
+  {
+    __begin_time = [decoder decodeInt64ForKey: @"begin_time"];
+    __begin_time_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"end_time"])
+  {
+    __end_time = [decoder decodeInt64ForKey: @"end_time"];
+    __end_time_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"planed"])
+  {
+    __planed = [decoder decodeInt64ForKey: @"planed"];
+    __planed_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"applied"])
+  {
+    __applied = [decoder decodeInt64ForKey: @"applied"];
+    __applied_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"invited"])
+  {
+    __invited = [decoder decodeInt64ForKey: @"invited"];
+    __invited_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"accepted"])
+  {
+    __accepted = [decoder decodeInt64ForKey: @"accepted"];
+    __accepted_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__tid_isset)
+  {
+    [encoder encodeInt64: __tid forKey: @"tid"];
+  }
+  if (__title_isset)
+  {
+    [encoder encodeObject: __title forKey: @"title"];
+  }
+  if (__sponsor_isset)
+  {
+    [encoder encodeInt64: __sponsor forKey: @"sponsor"];
+  }
+  if (__intro_isset)
+  {
+    [encoder encodeObject: __intro forKey: @"intro"];
+  }
+  if (__status_isset)
+  {
+    [encoder encodeInt: __status forKey: @"status"];
+  }
+  if (__begin_time_isset)
+  {
+    [encoder encodeInt64: __begin_time forKey: @"begin_time"];
+  }
+  if (__end_time_isset)
+  {
+    [encoder encodeInt64: __end_time forKey: @"end_time"];
+  }
+  if (__planed_isset)
+  {
+    [encoder encodeInt64: __planed forKey: @"planed"];
+  }
+  if (__applied_isset)
+  {
+    [encoder encodeInt64: __applied forKey: @"applied"];
+  }
+  if (__invited_isset)
+  {
+    [encoder encodeInt64: __invited forKey: @"invited"];
+  }
+  if (__accepted_isset)
+  {
+    [encoder encodeInt64: __accepted forKey: @"accepted"];
+  }
+}
+
+- (void) dealloc
+{
+  [__title release];
+  [__intro release];
+  [super dealloc];
+}
+
+- (int64_t) tid {
+  return __tid;
+}
+
+- (void) setTid: (int64_t) tid {
+  __tid = tid;
+  __tid_isset = YES;
+}
+
+- (BOOL) tidIsSet {
+  return __tid_isset;
+}
+
+- (void) unsetTid {
+  __tid_isset = NO;
+}
+
+- (NSString *) title {
+  return [[__title retain] autorelease];
+}
+
+- (void) setTitle: (NSString *) title {
+  [title retain];
+  [__title release];
+  __title = title;
+  __title_isset = YES;
+}
+
+- (BOOL) titleIsSet {
+  return __title_isset;
+}
+
+- (void) unsetTitle {
+  [__title release];
+  __title = nil;
+  __title_isset = NO;
+}
+
+- (int64_t) sponsor {
+  return __sponsor;
+}
+
+- (void) setSponsor: (int64_t) sponsor {
+  __sponsor = sponsor;
+  __sponsor_isset = YES;
+}
+
+- (BOOL) sponsorIsSet {
+  return __sponsor_isset;
+}
+
+- (void) unsetSponsor {
+  __sponsor_isset = NO;
+}
+
+- (NSString *) intro {
+  return [[__intro retain] autorelease];
+}
+
+- (void) setIntro: (NSString *) intro {
+  [intro retain];
+  [__intro release];
+  __intro = intro;
+  __intro_isset = YES;
+}
+
+- (BOOL) introIsSet {
+  return __intro_isset;
+}
+
+- (void) unsetIntro {
+  [__intro release];
+  __intro = nil;
+  __intro_isset = NO;
+}
+
+- (int) status {
+  return __status;
+}
+
+- (void) setStatus: (int) status {
+  __status = status;
+  __status_isset = YES;
+}
+
+- (BOOL) statusIsSet {
+  return __status_isset;
+}
+
+- (void) unsetStatus {
+  __status_isset = NO;
 }
 
 - (int64_t) begin_time {
@@ -735,55 +1781,72 @@
   __end_time_isset = NO;
 }
 
-- (int64_t) apply_num {
-  return __apply_num;
+- (int64_t) planed {
+  return __planed;
 }
 
-- (void) setApply_num: (int64_t) apply_num {
-  __apply_num = apply_num;
-  __apply_num_isset = YES;
+- (void) setPlaned: (int64_t) planed {
+  __planed = planed;
+  __planed_isset = YES;
 }
 
-- (BOOL) apply_numIsSet {
-  return __apply_num_isset;
+- (BOOL) planedIsSet {
+  return __planed_isset;
 }
 
-- (void) unsetApply_num {
-  __apply_num_isset = NO;
+- (void) unsetPlaned {
+  __planed_isset = NO;
 }
 
-- (int64_t) invite_num {
-  return __invite_num;
+- (int64_t) applied {
+  return __applied;
 }
 
-- (void) setInvite_num: (int64_t) invite_num {
-  __invite_num = invite_num;
-  __invite_num_isset = YES;
+- (void) setApplied: (int64_t) applied {
+  __applied = applied;
+  __applied_isset = YES;
 }
 
-- (BOOL) invite_numIsSet {
-  return __invite_num_isset;
+- (BOOL) appliedIsSet {
+  return __applied_isset;
 }
 
-- (void) unsetInvite_num {
-  __invite_num_isset = NO;
+- (void) unsetApplied {
+  __applied_isset = NO;
 }
 
-- (int64_t) accept_num {
-  return __accept_num;
+- (int64_t) invited {
+  return __invited;
 }
 
-- (void) setAccept_num: (int64_t) accept_num {
-  __accept_num = accept_num;
-  __accept_num_isset = YES;
+- (void) setInvited: (int64_t) invited {
+  __invited = invited;
+  __invited_isset = YES;
 }
 
-- (BOOL) accept_numIsSet {
-  return __accept_num_isset;
+- (BOOL) invitedIsSet {
+  return __invited_isset;
 }
 
-- (void) unsetAccept_num {
-  __accept_num_isset = NO;
+- (void) unsetInvited {
+  __invited_isset = NO;
+}
+
+- (int64_t) accepted {
+  return __accepted;
+}
+
+- (void) setAccepted: (int64_t) accepted {
+  __accepted = accepted;
+  __accepted_isset = YES;
+}
+
+- (BOOL) acceptedIsSet {
+  return __accepted_isset;
+}
+
+- (void) unsetAccepted {
+  __accepted_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -812,7 +1875,7 @@
       case 2:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setName: fieldValue];
+          [self setTitle: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -820,7 +1883,7 @@
       case 3:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setOwner: fieldValue];
+          [self setSponsor: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -834,9 +1897,9 @@
         }
         break;
       case 5:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setPlan_num: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setStatus: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -860,7 +1923,7 @@
       case 8:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setApply_num: fieldValue];
+          [self setPlaned: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -868,7 +1931,7 @@
       case 9:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setInvite_num: fieldValue];
+          [self setApplied: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -876,7 +1939,15 @@
       case 10:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setAccept_num: fieldValue];
+          [self setInvited: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 11:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setAccepted: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -897,16 +1968,16 @@
     [outProtocol writeI64: __tid];
     [outProtocol writeFieldEnd];
   }
-  if (__name_isset) {
-    if (__name != nil) {
-      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __name];
+  if (__title_isset) {
+    if (__title != nil) {
+      [outProtocol writeFieldBeginWithName: @"title" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __title];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__owner_isset) {
-    [outProtocol writeFieldBeginWithName: @"owner" type: TType_I64 fieldID: 3];
-    [outProtocol writeI64: __owner];
+  if (__sponsor_isset) {
+    [outProtocol writeFieldBeginWithName: @"sponsor" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __sponsor];
     [outProtocol writeFieldEnd];
   }
   if (__intro_isset) {
@@ -916,9 +1987,9 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__plan_num_isset) {
-    [outProtocol writeFieldBeginWithName: @"plan_num" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __plan_num];
+  if (__status_isset) {
+    [outProtocol writeFieldBeginWithName: @"status" type: TType_I32 fieldID: 5];
+    [outProtocol writeI32: __status];
     [outProtocol writeFieldEnd];
   }
   if (__begin_time_isset) {
@@ -931,19 +2002,24 @@
     [outProtocol writeI64: __end_time];
     [outProtocol writeFieldEnd];
   }
-  if (__apply_num_isset) {
-    [outProtocol writeFieldBeginWithName: @"apply_num" type: TType_I64 fieldID: 8];
-    [outProtocol writeI64: __apply_num];
+  if (__planed_isset) {
+    [outProtocol writeFieldBeginWithName: @"planed" type: TType_I64 fieldID: 8];
+    [outProtocol writeI64: __planed];
     [outProtocol writeFieldEnd];
   }
-  if (__invite_num_isset) {
-    [outProtocol writeFieldBeginWithName: @"invite_num" type: TType_I64 fieldID: 9];
-    [outProtocol writeI64: __invite_num];
+  if (__applied_isset) {
+    [outProtocol writeFieldBeginWithName: @"applied" type: TType_I64 fieldID: 9];
+    [outProtocol writeI64: __applied];
     [outProtocol writeFieldEnd];
   }
-  if (__accept_num_isset) {
-    [outProtocol writeFieldBeginWithName: @"accept_num" type: TType_I64 fieldID: 10];
-    [outProtocol writeI64: __accept_num];
+  if (__invited_isset) {
+    [outProtocol writeFieldBeginWithName: @"invited" type: TType_I64 fieldID: 10];
+    [outProtocol writeI64: __invited];
+    [outProtocol writeFieldEnd];
+  }
+  if (__accepted_isset) {
+    [outProtocol writeFieldBeginWithName: @"accepted" type: TType_I64 fieldID: 11];
+    [outProtocol writeI64: __accepted];
     [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
@@ -954,24 +2030,26 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskBasic("];
   [ms appendString: @"tid:"];
   [ms appendFormat: @"%qi", __tid];
-  [ms appendString: @",name:"];
-  [ms appendFormat: @"\"%@\"", __name];
-  [ms appendString: @",owner:"];
-  [ms appendFormat: @"%qi", __owner];
+  [ms appendString: @",title:"];
+  [ms appendFormat: @"\"%@\"", __title];
+  [ms appendString: @",sponsor:"];
+  [ms appendFormat: @"%qi", __sponsor];
   [ms appendString: @",intro:"];
   [ms appendFormat: @"\"%@\"", __intro];
-  [ms appendString: @",plan_num:"];
-  [ms appendFormat: @"%qi", __plan_num];
+  [ms appendString: @",status:"];
+  [ms appendFormat: @"%i", __status];
   [ms appendString: @",begin_time:"];
   [ms appendFormat: @"%qi", __begin_time];
   [ms appendString: @",end_time:"];
   [ms appendFormat: @"%qi", __end_time];
-  [ms appendString: @",apply_num:"];
-  [ms appendFormat: @"%qi", __apply_num];
-  [ms appendString: @",invite_num:"];
-  [ms appendFormat: @"%qi", __invite_num];
-  [ms appendString: @",accept_num:"];
-  [ms appendFormat: @"%qi", __accept_num];
+  [ms appendString: @",planed:"];
+  [ms appendFormat: @"%qi", __planed];
+  [ms appendString: @",applied:"];
+  [ms appendFormat: @"%qi", __applied];
+  [ms appendString: @",invited:"];
+  [ms appendFormat: @"%qi", __invited];
+  [ms appendString: @",accepted:"];
+  [ms appendFormat: @"%qi", __accepted];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -980,157 +2058,157 @@
 
 @implementation TaskExt
 
-- (id) initWithUser_apply_list: (NSArray *) user_apply_list user_invite_list: (NSArray *) user_invite_list user_invite_stat: (NSArray *) user_invite_stat user_accept_list: (NSArray *) user_accept_list
+- (id) initWithStatus: (NSArray *) status applied_list: (NSArray *) applied_list invited_list: (NSArray *) invited_list accepted_list: (NSArray *) accepted_list
 {
   self = [super init];
-  __user_apply_list = [user_apply_list retain];
-  __user_apply_list_isset = YES;
-  __user_invite_list = [user_invite_list retain];
-  __user_invite_list_isset = YES;
-  __user_invite_stat = [user_invite_stat retain];
-  __user_invite_stat_isset = YES;
-  __user_accept_list = [user_accept_list retain];
-  __user_accept_list_isset = YES;
+  __status = [status retain];
+  __status_isset = YES;
+  __applied_list = [applied_list retain];
+  __applied_list_isset = YES;
+  __invited_list = [invited_list retain];
+  __invited_list_isset = YES;
+  __accepted_list = [accepted_list retain];
+  __accepted_list_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"user_apply_list"])
+  if ([decoder containsValueForKey: @"status"])
   {
-    __user_apply_list = [[decoder decodeObjectForKey: @"user_apply_list"] retain];
-    __user_apply_list_isset = YES;
+    __status = [[decoder decodeObjectForKey: @"status"] retain];
+    __status_isset = YES;
   }
-  if ([decoder containsValueForKey: @"user_invite_list"])
+  if ([decoder containsValueForKey: @"applied_list"])
   {
-    __user_invite_list = [[decoder decodeObjectForKey: @"user_invite_list"] retain];
-    __user_invite_list_isset = YES;
+    __applied_list = [[decoder decodeObjectForKey: @"applied_list"] retain];
+    __applied_list_isset = YES;
   }
-  if ([decoder containsValueForKey: @"user_invite_stat"])
+  if ([decoder containsValueForKey: @"invited_list"])
   {
-    __user_invite_stat = [[decoder decodeObjectForKey: @"user_invite_stat"] retain];
-    __user_invite_stat_isset = YES;
+    __invited_list = [[decoder decodeObjectForKey: @"invited_list"] retain];
+    __invited_list_isset = YES;
   }
-  if ([decoder containsValueForKey: @"user_accept_list"])
+  if ([decoder containsValueForKey: @"accepted_list"])
   {
-    __user_accept_list = [[decoder decodeObjectForKey: @"user_accept_list"] retain];
-    __user_accept_list_isset = YES;
+    __accepted_list = [[decoder decodeObjectForKey: @"accepted_list"] retain];
+    __accepted_list_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__user_apply_list_isset)
+  if (__status_isset)
   {
-    [encoder encodeObject: __user_apply_list forKey: @"user_apply_list"];
+    [encoder encodeObject: __status forKey: @"status"];
   }
-  if (__user_invite_list_isset)
+  if (__applied_list_isset)
   {
-    [encoder encodeObject: __user_invite_list forKey: @"user_invite_list"];
+    [encoder encodeObject: __applied_list forKey: @"applied_list"];
   }
-  if (__user_invite_stat_isset)
+  if (__invited_list_isset)
   {
-    [encoder encodeObject: __user_invite_stat forKey: @"user_invite_stat"];
+    [encoder encodeObject: __invited_list forKey: @"invited_list"];
   }
-  if (__user_accept_list_isset)
+  if (__accepted_list_isset)
   {
-    [encoder encodeObject: __user_accept_list forKey: @"user_accept_list"];
+    [encoder encodeObject: __accepted_list forKey: @"accepted_list"];
   }
 }
 
 - (void) dealloc
 {
-  [__user_apply_list release];
-  [__user_invite_list release];
-  [__user_invite_stat release];
-  [__user_accept_list release];
+  [__status release];
+  [__applied_list release];
+  [__invited_list release];
+  [__accepted_list release];
   [super dealloc];
 }
 
-- (NSArray *) user_apply_list {
-  return [[__user_apply_list retain] autorelease];
+- (NSArray *) status {
+  return [[__status retain] autorelease];
 }
 
-- (void) setUser_apply_list: (NSArray *) user_apply_list {
-  [user_apply_list retain];
-  [__user_apply_list release];
-  __user_apply_list = user_apply_list;
-  __user_apply_list_isset = YES;
+- (void) setStatus: (NSArray *) status {
+  [status retain];
+  [__status release];
+  __status = status;
+  __status_isset = YES;
 }
 
-- (BOOL) user_apply_listIsSet {
-  return __user_apply_list_isset;
+- (BOOL) statusIsSet {
+  return __status_isset;
 }
 
-- (void) unsetUser_apply_list {
-  [__user_apply_list release];
-  __user_apply_list = nil;
-  __user_apply_list_isset = NO;
+- (void) unsetStatus {
+  [__status release];
+  __status = nil;
+  __status_isset = NO;
 }
 
-- (NSArray *) user_invite_list {
-  return [[__user_invite_list retain] autorelease];
+- (NSArray *) applied_list {
+  return [[__applied_list retain] autorelease];
 }
 
-- (void) setUser_invite_list: (NSArray *) user_invite_list {
-  [user_invite_list retain];
-  [__user_invite_list release];
-  __user_invite_list = user_invite_list;
-  __user_invite_list_isset = YES;
+- (void) setApplied_list: (NSArray *) applied_list {
+  [applied_list retain];
+  [__applied_list release];
+  __applied_list = applied_list;
+  __applied_list_isset = YES;
 }
 
-- (BOOL) user_invite_listIsSet {
-  return __user_invite_list_isset;
+- (BOOL) applied_listIsSet {
+  return __applied_list_isset;
 }
 
-- (void) unsetUser_invite_list {
-  [__user_invite_list release];
-  __user_invite_list = nil;
-  __user_invite_list_isset = NO;
+- (void) unsetApplied_list {
+  [__applied_list release];
+  __applied_list = nil;
+  __applied_list_isset = NO;
 }
 
-- (NSArray *) user_invite_stat {
-  return [[__user_invite_stat retain] autorelease];
+- (NSArray *) invited_list {
+  return [[__invited_list retain] autorelease];
 }
 
-- (void) setUser_invite_stat: (NSArray *) user_invite_stat {
-  [user_invite_stat retain];
-  [__user_invite_stat release];
-  __user_invite_stat = user_invite_stat;
-  __user_invite_stat_isset = YES;
+- (void) setInvited_list: (NSArray *) invited_list {
+  [invited_list retain];
+  [__invited_list release];
+  __invited_list = invited_list;
+  __invited_list_isset = YES;
 }
 
-- (BOOL) user_invite_statIsSet {
-  return __user_invite_stat_isset;
+- (BOOL) invited_listIsSet {
+  return __invited_list_isset;
 }
 
-- (void) unsetUser_invite_stat {
-  [__user_invite_stat release];
-  __user_invite_stat = nil;
-  __user_invite_stat_isset = NO;
+- (void) unsetInvited_list {
+  [__invited_list release];
+  __invited_list = nil;
+  __invited_list_isset = NO;
 }
 
-- (NSArray *) user_accept_list {
-  return [[__user_accept_list retain] autorelease];
+- (NSArray *) accepted_list {
+  return [[__accepted_list retain] autorelease];
 }
 
-- (void) setUser_accept_list: (NSArray *) user_accept_list {
-  [user_accept_list retain];
-  [__user_accept_list release];
-  __user_accept_list = user_accept_list;
-  __user_accept_list_isset = YES;
+- (void) setAccepted_list: (NSArray *) accepted_list {
+  [accepted_list retain];
+  [__accepted_list release];
+  __accepted_list = accepted_list;
+  __accepted_list_isset = YES;
 }
 
-- (BOOL) user_accept_listIsSet {
-  return __user_accept_list_isset;
+- (BOOL) accepted_listIsSet {
+  return __accepted_list_isset;
 }
 
-- (void) unsetUser_accept_list {
-  [__user_accept_list release];
-  __user_accept_list = nil;
-  __user_accept_list_isset = NO;
+- (void) unsetAccepted_list {
+  [__accepted_list release];
+  __accepted_list = nil;
+  __accepted_list_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -1150,17 +2228,17 @@
     {
       case 1:
         if (fieldType == TType_LIST) {
-          int _size0;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
-          int _i1;
-          for (_i1 = 0; _i1 < _size0; ++_i1)
+          int _size10;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size10];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size10];
+          int _i11;
+          for (_i11 = 0; _i11 < _size10; ++_i11)
           {
-            int64_t _elem2 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem2]];
+            int _elem12 = [inProtocol readI32];
+            [fieldValue addObject: [NSNumber numberWithInt: _elem12]];
           }
           [inProtocol readListEnd];
-          [self setUser_apply_list: fieldValue];
+          [self setStatus: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -1168,17 +2246,17 @@
         break;
       case 2:
         if (fieldType == TType_LIST) {
-          int _size3;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size3];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size3];
-          int _i4;
-          for (_i4 = 0; _i4 < _size3; ++_i4)
+          int _size13;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size13];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size13];
+          int _i14;
+          for (_i14 = 0; _i14 < _size13; ++_i14)
           {
-            int64_t _elem5 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem5]];
+            int64_t _elem15 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem15]];
           }
           [inProtocol readListEnd];
-          [self setUser_invite_list: fieldValue];
+          [self setApplied_list: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -1186,17 +2264,17 @@
         break;
       case 3:
         if (fieldType == TType_LIST) {
-          int _size6;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size6];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size6];
-          int _i7;
-          for (_i7 = 0; _i7 < _size6; ++_i7)
+          int _size16;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size16];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size16];
+          int _i17;
+          for (_i17 = 0; _i17 < _size16; ++_i17)
           {
-            int _elem8 = [inProtocol readI32];
-            [fieldValue addObject: [NSNumber numberWithInt: _elem8]];
+            int64_t _elem18 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem18]];
           }
           [inProtocol readListEnd];
-          [self setUser_invite_stat: fieldValue];
+          [self setInvited_list: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -1204,17 +2282,17 @@
         break;
       case 4:
         if (fieldType == TType_LIST) {
-          int _size9;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size9];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size9];
-          int _i10;
-          for (_i10 = 0; _i10 < _size9; ++_i10)
+          int _size19;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size19];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size19];
+          int _i20;
+          for (_i20 = 0; _i20 < _size19; ++_i20)
           {
-            int64_t _elem11 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem11]];
+            int64_t _elem21 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem21]];
           }
           [inProtocol readListEnd];
-          [self setUser_accept_list: fieldValue];
+          [self setAccepted_list: fieldValue];
           [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -1231,60 +2309,60 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"TaskExt"];
-  if (__user_apply_list_isset) {
-    if (__user_apply_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_apply_list" type: TType_LIST fieldID: 1];
+  if (__status_isset) {
+    if (__status != nil) {
+      [outProtocol writeFieldBeginWithName: @"status" type: TType_LIST fieldID: 1];
       {
-        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_apply_list count]];
-        int i13;
-        for (i13 = 0; i13 < [__user_apply_list count]; i13++)
+        [outProtocol writeListBeginWithElementType: TType_I32 size: [__status count]];
+        int i23;
+        for (i23 = 0; i23 < [__status count]; i23++)
         {
-          [outProtocol writeI64: [[__user_apply_list objectAtIndex: i13] longLongValue]];
+          [outProtocol writeI32: [[__status objectAtIndex: i23] intValue]];
         }
         [outProtocol writeListEnd];
       }
       [outProtocol writeFieldEnd];
     }
   }
-  if (__user_invite_list_isset) {
-    if (__user_invite_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_invite_list" type: TType_LIST fieldID: 2];
+  if (__applied_list_isset) {
+    if (__applied_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"applied_list" type: TType_LIST fieldID: 2];
       {
-        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_invite_list count]];
-        int i15;
-        for (i15 = 0; i15 < [__user_invite_list count]; i15++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__applied_list count]];
+        int i25;
+        for (i25 = 0; i25 < [__applied_list count]; i25++)
         {
-          [outProtocol writeI64: [[__user_invite_list objectAtIndex: i15] longLongValue]];
+          [outProtocol writeI64: [[__applied_list objectAtIndex: i25] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
       [outProtocol writeFieldEnd];
     }
   }
-  if (__user_invite_stat_isset) {
-    if (__user_invite_stat != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_invite_stat" type: TType_LIST fieldID: 3];
+  if (__invited_list_isset) {
+    if (__invited_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"invited_list" type: TType_LIST fieldID: 3];
       {
-        [outProtocol writeListBeginWithElementType: TType_I32 size: [__user_invite_stat count]];
-        int i17;
-        for (i17 = 0; i17 < [__user_invite_stat count]; i17++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__invited_list count]];
+        int i27;
+        for (i27 = 0; i27 < [__invited_list count]; i27++)
         {
-          [outProtocol writeI32: [[__user_invite_stat objectAtIndex: i17] intValue]];
+          [outProtocol writeI64: [[__invited_list objectAtIndex: i27] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
       [outProtocol writeFieldEnd];
     }
   }
-  if (__user_accept_list_isset) {
-    if (__user_accept_list != nil) {
-      [outProtocol writeFieldBeginWithName: @"user_accept_list" type: TType_LIST fieldID: 4];
+  if (__accepted_list_isset) {
+    if (__accepted_list != nil) {
+      [outProtocol writeFieldBeginWithName: @"accepted_list" type: TType_LIST fieldID: 4];
       {
-        [outProtocol writeListBeginWithElementType: TType_I64 size: [__user_accept_list count]];
-        int i19;
-        for (i19 = 0; i19 < [__user_accept_list count]; i19++)
+        [outProtocol writeListBeginWithElementType: TType_I64 size: [__accepted_list count]];
+        int i29;
+        for (i29 = 0; i29 < [__accepted_list count]; i29++)
         {
-          [outProtocol writeI64: [[__user_accept_list objectAtIndex: i19] longLongValue]];
+          [outProtocol writeI64: [[__accepted_list objectAtIndex: i29] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -1297,21 +2375,21 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskExt("];
-  [ms appendString: @"user_apply_list:"];
-  [ms appendFormat: @"%@", __user_apply_list];
-  [ms appendString: @",user_invite_list:"];
-  [ms appendFormat: @"%@", __user_invite_list];
-  [ms appendString: @",user_invite_stat:"];
-  [ms appendFormat: @"%@", __user_invite_stat];
-  [ms appendString: @",user_accept_list:"];
-  [ms appendFormat: @"%@", __user_accept_list];
+  [ms appendString: @"status:"];
+  [ms appendFormat: @"%@", __status];
+  [ms appendString: @",applied_list:"];
+  [ms appendFormat: @"%@", __applied_list];
+  [ms appendString: @",invited_list:"];
+  [ms appendFormat: @"%@", __invited_list];
+  [ms appendString: @",accepted_list:"];
+  [ms appendFormat: @"%@", __accepted_list];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation TaskInfo
+@implementation Task
 
 - (id) initWithBasic: (TaskBasic *) basic ext: (TaskExt *) ext
 {
@@ -1445,7 +2523,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"TaskInfo"];
+  [outProtocol writeStructBeginWithName: @"Task"];
   if (__basic_isset) {
     if (__basic != nil) {
       [outProtocol writeFieldBeginWithName: @"basic" type: TType_STRUCT fieldID: 1];
@@ -1465,7 +2543,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"TaskInfo("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Task("];
   [ms appendString: @"basic:"];
   [ms appendFormat: @"%@", __basic];
   [ms appendString: @",ext:"];
@@ -1476,187 +2554,622 @@
 
 @end
 
-@implementation UserBasic
+@implementation TaskListRequest
 
-- (id) initWithName: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
+- (id) initWithLasttid: (int64_t) lasttid length: (int64_t) length type: (int) type
 {
   self = [super init];
-  __name = [name retain];
-  __name_isset = YES;
-  __gender = gender;
-  __gender_isset = YES;
-  __org = [org retain];
-  __org_isset = YES;
-  __job = [job retain];
-  __job_isset = YES;
-  __avator = [avator retain];
-  __avator_isset = YES;
+  __lasttid = lasttid;
+  __lasttid_isset = YES;
+  __length = length;
+  __length_isset = YES;
+  __type = type;
+  __type_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"name"])
+  if ([decoder containsValueForKey: @"lasttid"])
   {
-    __name = [[decoder decodeObjectForKey: @"name"] retain];
-    __name_isset = YES;
+    __lasttid = [decoder decodeInt64ForKey: @"lasttid"];
+    __lasttid_isset = YES;
   }
-  if ([decoder containsValueForKey: @"gender"])
+  if ([decoder containsValueForKey: @"length"])
   {
-    __gender = [decoder decodeIntForKey: @"gender"];
-    __gender_isset = YES;
+    __length = [decoder decodeInt64ForKey: @"length"];
+    __length_isset = YES;
   }
-  if ([decoder containsValueForKey: @"org"])
+  if ([decoder containsValueForKey: @"type"])
   {
-    __org = [[decoder decodeObjectForKey: @"org"] retain];
-    __org_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"job"])
-  {
-    __job = [[decoder decodeObjectForKey: @"job"] retain];
-    __job_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"avator"])
-  {
-    __avator = [[decoder decodeObjectForKey: @"avator"] retain];
-    __avator_isset = YES;
+    __type = [decoder decodeIntForKey: @"type"];
+    __type_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__name_isset)
+  if (__lasttid_isset)
   {
-    [encoder encodeObject: __name forKey: @"name"];
+    [encoder encodeInt64: __lasttid forKey: @"lasttid"];
   }
-  if (__gender_isset)
+  if (__length_isset)
   {
-    [encoder encodeInt: __gender forKey: @"gender"];
+    [encoder encodeInt64: __length forKey: @"length"];
   }
-  if (__org_isset)
+  if (__type_isset)
   {
-    [encoder encodeObject: __org forKey: @"org"];
-  }
-  if (__job_isset)
-  {
-    [encoder encodeObject: __job forKey: @"job"];
-  }
-  if (__avator_isset)
-  {
-    [encoder encodeObject: __avator forKey: @"avator"];
+    [encoder encodeInt: __type forKey: @"type"];
   }
 }
 
 - (void) dealloc
 {
-  [__name release];
-  [__org release];
-  [__job release];
-  [__avator release];
   [super dealloc];
 }
 
-- (NSString *) name {
-  return [[__name retain] autorelease];
+- (int64_t) lasttid {
+  return __lasttid;
 }
 
-- (void) setName: (NSString *) name {
-  [name retain];
-  [__name release];
-  __name = name;
-  __name_isset = YES;
+- (void) setLasttid: (int64_t) lasttid {
+  __lasttid = lasttid;
+  __lasttid_isset = YES;
 }
 
-- (BOOL) nameIsSet {
-  return __name_isset;
+- (BOOL) lasttidIsSet {
+  return __lasttid_isset;
 }
 
-- (void) unsetName {
-  [__name release];
-  __name = nil;
-  __name_isset = NO;
+- (void) unsetLasttid {
+  __lasttid_isset = NO;
 }
 
-- (int) gender {
-  return __gender;
+- (int64_t) length {
+  return __length;
 }
 
-- (void) setGender: (int) gender {
-  __gender = gender;
-  __gender_isset = YES;
+- (void) setLength: (int64_t) length {
+  __length = length;
+  __length_isset = YES;
 }
 
-- (BOOL) genderIsSet {
-  return __gender_isset;
+- (BOOL) lengthIsSet {
+  return __length_isset;
 }
 
-- (void) unsetGender {
-  __gender_isset = NO;
+- (void) unsetLength {
+  __length_isset = NO;
 }
 
-- (NSString *) org {
-  return [[__org retain] autorelease];
+- (int) type {
+  return __type;
 }
 
-- (void) setOrg: (NSString *) org {
-  [org retain];
-  [__org release];
-  __org = org;
-  __org_isset = YES;
+- (void) setType: (int) type {
+  __type = type;
+  __type_isset = YES;
 }
 
-- (BOOL) orgIsSet {
-  return __org_isset;
+- (BOOL) typeIsSet {
+  return __type_isset;
 }
 
-- (void) unsetOrg {
-  [__org release];
-  __org = nil;
-  __org_isset = NO;
+- (void) unsetType {
+  __type_isset = NO;
 }
 
-- (NSString *) job {
-  return [[__job retain] autorelease];
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setLasttid: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setLength: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setType: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
 }
 
-- (void) setJob: (NSString *) job {
-  [job retain];
-  [__job release];
-  __job = job;
-  __job_isset = YES;
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"TaskListRequest"];
+  if (__lasttid_isset) {
+    [outProtocol writeFieldBeginWithName: @"lasttid" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __lasttid];
+    [outProtocol writeFieldEnd];
+  }
+  if (__length_isset) {
+    [outProtocol writeFieldBeginWithName: @"length" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __length];
+    [outProtocol writeFieldEnd];
+  }
+  if (__type_isset) {
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 3];
+    [outProtocol writeI32: __type];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
 }
 
-- (BOOL) jobIsSet {
-  return __job_isset;
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"TaskListRequest("];
+  [ms appendString: @"lasttid:"];
+  [ms appendFormat: @"%qi", __lasttid];
+  [ms appendString: @",length:"];
+  [ms appendFormat: @"%qi", __length];
+  [ms appendString: @",type:"];
+  [ms appendFormat: @"%i", __type];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
 }
 
-- (void) unsetJob {
-  [__job release];
-  __job = nil;
-  __job_isset = NO;
+@end
+
+@implementation Msg
+
+- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text unread: (BOOL) unread type: (int) type
+{
+  self = [super init];
+  __sender = sender;
+  __sender_isset = YES;
+  __time = time;
+  __time_isset = YES;
+  __text = [text retain];
+  __text_isset = YES;
+  __unread = unread;
+  __unread_isset = YES;
+  __type = type;
+  __type_isset = YES;
+  return self;
 }
 
-- (NSString *) avator {
-  return [[__avator retain] autorelease];
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"sender"])
+  {
+    __sender = [decoder decodeInt64ForKey: @"sender"];
+    __sender_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"time"])
+  {
+    __time = [decoder decodeInt64ForKey: @"time"];
+    __time_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"text"])
+  {
+    __text = [[decoder decodeObjectForKey: @"text"] retain];
+    __text_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"unread"])
+  {
+    __unread = [decoder decodeBoolForKey: @"unread"];
+    __unread_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"type"])
+  {
+    __type = [decoder decodeIntForKey: @"type"];
+    __type_isset = YES;
+  }
+  return self;
 }
 
-- (void) setAvator: (NSString *) avator {
-  [avator retain];
-  [__avator release];
-  __avator = avator;
-  __avator_isset = YES;
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__sender_isset)
+  {
+    [encoder encodeInt64: __sender forKey: @"sender"];
+  }
+  if (__time_isset)
+  {
+    [encoder encodeInt64: __time forKey: @"time"];
+  }
+  if (__text_isset)
+  {
+    [encoder encodeObject: __text forKey: @"text"];
+  }
+  if (__unread_isset)
+  {
+    [encoder encodeBool: __unread forKey: @"unread"];
+  }
+  if (__type_isset)
+  {
+    [encoder encodeInt: __type forKey: @"type"];
+  }
 }
 
-- (BOOL) avatorIsSet {
-  return __avator_isset;
+- (void) dealloc
+{
+  [__text release];
+  [super dealloc];
 }
 
-- (void) unsetAvator {
-  [__avator release];
-  __avator = nil;
-  __avator_isset = NO;
+- (int64_t) sender {
+  return __sender;
+}
+
+- (void) setSender: (int64_t) sender {
+  __sender = sender;
+  __sender_isset = YES;
+}
+
+- (BOOL) senderIsSet {
+  return __sender_isset;
+}
+
+- (void) unsetSender {
+  __sender_isset = NO;
+}
+
+- (int64_t) time {
+  return __time;
+}
+
+- (void) setTime: (int64_t) time {
+  __time = time;
+  __time_isset = YES;
+}
+
+- (BOOL) timeIsSet {
+  return __time_isset;
+}
+
+- (void) unsetTime {
+  __time_isset = NO;
+}
+
+- (NSString *) text {
+  return [[__text retain] autorelease];
+}
+
+- (void) setText: (NSString *) text {
+  [text retain];
+  [__text release];
+  __text = text;
+  __text_isset = YES;
+}
+
+- (BOOL) textIsSet {
+  return __text_isset;
+}
+
+- (void) unsetText {
+  [__text release];
+  __text = nil;
+  __text_isset = NO;
+}
+
+- (BOOL) unread {
+  return __unread;
+}
+
+- (void) setUnread: (BOOL) unread {
+  __unread = unread;
+  __unread_isset = YES;
+}
+
+- (BOOL) unreadIsSet {
+  return __unread_isset;
+}
+
+- (void) unsetUnread {
+  __unread_isset = NO;
+}
+
+- (int) type {
+  return __type;
+}
+
+- (void) setType: (int) type {
+  __type = type;
+  __type_isset = YES;
+}
+
+- (BOOL) typeIsSet {
+  return __type_isset;
+}
+
+- (void) unsetType {
+  __type_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setSender: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setTime: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setText: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setUnread: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setType: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Msg"];
+  if (__sender_isset) {
+    [outProtocol writeFieldBeginWithName: @"sender" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __sender];
+    [outProtocol writeFieldEnd];
+  }
+  if (__time_isset) {
+    [outProtocol writeFieldBeginWithName: @"time" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __time];
+    [outProtocol writeFieldEnd];
+  }
+  if (__text_isset) {
+    if (__text != nil) {
+      [outProtocol writeFieldBeginWithName: @"text" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __text];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__unread_isset) {
+    [outProtocol writeFieldBeginWithName: @"unread" type: TType_BOOL fieldID: 4];
+    [outProtocol writeBool: __unread];
+    [outProtocol writeFieldEnd];
+  }
+  if (__type_isset) {
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 5];
+    [outProtocol writeI32: __type];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Msg("];
+  [ms appendString: @"sender:"];
+  [ms appendFormat: @"%qi", __sender];
+  [ms appendString: @",time:"];
+  [ms appendFormat: @"%qi", __time];
+  [ms appendString: @",text:"];
+  [ms appendFormat: @"\"%@\"", __text];
+  [ms appendString: @",unread:"];
+  [ms appendFormat: @"%i", __unread];
+  [ms appendString: @",type:"];
+  [ms appendFormat: @"%i", __type];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@implementation FeedMsg
+
+- (id) initWithSender: (NSString *) sender time: (int64_t) time type: (int) type content: (NSString *) content
+{
+  self = [super init];
+  __sender = [sender retain];
+  __sender_isset = YES;
+  __time = time;
+  __time_isset = YES;
+  __type = type;
+  __type_isset = YES;
+  __content = [content retain];
+  __content_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"sender"])
+  {
+    __sender = [[decoder decodeObjectForKey: @"sender"] retain];
+    __sender_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"time"])
+  {
+    __time = [decoder decodeInt64ForKey: @"time"];
+    __time_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"type"])
+  {
+    __type = [decoder decodeIntForKey: @"type"];
+    __type_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"content"])
+  {
+    __content = [[decoder decodeObjectForKey: @"content"] retain];
+    __content_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__sender_isset)
+  {
+    [encoder encodeObject: __sender forKey: @"sender"];
+  }
+  if (__time_isset)
+  {
+    [encoder encodeInt64: __time forKey: @"time"];
+  }
+  if (__type_isset)
+  {
+    [encoder encodeInt: __type forKey: @"type"];
+  }
+  if (__content_isset)
+  {
+    [encoder encodeObject: __content forKey: @"content"];
+  }
+}
+
+- (void) dealloc
+{
+  [__sender release];
+  [__content release];
+  [super dealloc];
+}
+
+- (NSString *) sender {
+  return [[__sender retain] autorelease];
+}
+
+- (void) setSender: (NSString *) sender {
+  [sender retain];
+  [__sender release];
+  __sender = sender;
+  __sender_isset = YES;
+}
+
+- (BOOL) senderIsSet {
+  return __sender_isset;
+}
+
+- (void) unsetSender {
+  [__sender release];
+  __sender = nil;
+  __sender_isset = NO;
+}
+
+- (int64_t) time {
+  return __time;
+}
+
+- (void) setTime: (int64_t) time {
+  __time = time;
+  __time_isset = YES;
+}
+
+- (BOOL) timeIsSet {
+  return __time_isset;
+}
+
+- (void) unsetTime {
+  __time_isset = NO;
+}
+
+- (int) type {
+  return __type;
+}
+
+- (void) setType: (int) type {
+  __type = type;
+  __type_isset = YES;
+}
+
+- (BOOL) typeIsSet {
+  return __type_isset;
+}
+
+- (void) unsetType {
+  __type_isset = NO;
+}
+
+- (NSString *) content {
+  return [[__content retain] autorelease];
+}
+
+- (void) setContent: (NSString *) content {
+  [content retain];
+  [__content release];
+  __content = content;
+  __content_isset = YES;
+}
+
+- (BOOL) contentIsSet {
+  return __content_isset;
+}
+
+- (void) unsetContent {
+  [__content release];
+  __content = nil;
+  __content_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -1677,23 +3190,23 @@
       case 1:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setName: fieldValue];
+          [self setSender: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setGender: fieldValue];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setTime: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setOrg: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setType: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1701,15 +3214,7 @@
       case 4:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setJob: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAvator: fieldValue];
+          [self setContent: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1724,37 +3229,28 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserBasic"];
-  if (__name_isset) {
-    if (__name != nil) {
-      [outProtocol writeFieldBeginWithName: @"name" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __name];
+  [outProtocol writeStructBeginWithName: @"FeedMsg"];
+  if (__sender_isset) {
+    if (__sender != nil) {
+      [outProtocol writeFieldBeginWithName: @"sender" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __sender];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__gender_isset) {
-    [outProtocol writeFieldBeginWithName: @"gender" type: TType_I32 fieldID: 2];
-    [outProtocol writeI32: __gender];
+  if (__time_isset) {
+    [outProtocol writeFieldBeginWithName: @"time" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __time];
     [outProtocol writeFieldEnd];
   }
-  if (__org_isset) {
-    if (__org != nil) {
-      [outProtocol writeFieldBeginWithName: @"org" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __org];
-      [outProtocol writeFieldEnd];
-    }
+  if (__type_isset) {
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 3];
+    [outProtocol writeI32: __type];
+    [outProtocol writeFieldEnd];
   }
-  if (__job_isset) {
-    if (__job != nil) {
-      [outProtocol writeFieldBeginWithName: @"job" type: TType_STRING fieldID: 4];
-      [outProtocol writeString: __job];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__avator_isset) {
-    if (__avator != nil) {
-      [outProtocol writeFieldBeginWithName: @"avator" type: TType_STRING fieldID: 5];
-      [outProtocol writeString: __avator];
+  if (__content_isset) {
+    if (__content != nil) {
+      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __content];
       [outProtocol writeFieldEnd];
     }
   }
@@ -1763,143 +3259,126 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserBasic("];
-  [ms appendString: @"name:"];
-  [ms appendFormat: @"\"%@\"", __name];
-  [ms appendString: @",gender:"];
-  [ms appendFormat: @"%i", __gender];
-  [ms appendString: @",org:"];
-  [ms appendFormat: @"\"%@\"", __org];
-  [ms appendString: @",job:"];
-  [ms appendFormat: @"\"%@\"", __job];
-  [ms appendString: @",avator:"];
-  [ms appendFormat: @"\"%@\"", __avator];
+  NSMutableString * ms = [NSMutableString stringWithString: @"FeedMsg("];
+  [ms appendString: @"sender:"];
+  [ms appendFormat: @"\"%@\"", __sender];
+  [ms appendString: @",time:"];
+  [ms appendFormat: @"%qi", __time];
+  [ms appendString: @",type:"];
+  [ms appendFormat: @"%i", __type];
+  [ms appendString: @",content:"];
+  [ms appendFormat: @"\"%@\"", __content];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation UserExt
+@implementation Summary
 
-- (id) initWithIntro: (NSString *) intro following: (NSArray *) following befollowed: (NSArray *) befollowed
+- (id) initWithUnread_msg_num: (int64_t) unread_msg_num following_num: (int64_t) following_num followed_num: (int64_t) followed_num
 {
   self = [super init];
-  __intro = [intro retain];
-  __intro_isset = YES;
-  __following = [following retain];
-  __following_isset = YES;
-  __befollowed = [befollowed retain];
-  __befollowed_isset = YES;
+  __unread_msg_num = unread_msg_num;
+  __unread_msg_num_isset = YES;
+  __following_num = following_num;
+  __following_num_isset = YES;
+  __followed_num = followed_num;
+  __followed_num_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"intro"])
+  if ([decoder containsValueForKey: @"unread_msg_num"])
   {
-    __intro = [[decoder decodeObjectForKey: @"intro"] retain];
-    __intro_isset = YES;
+    __unread_msg_num = [decoder decodeInt64ForKey: @"unread_msg_num"];
+    __unread_msg_num_isset = YES;
   }
-  if ([decoder containsValueForKey: @"following"])
+  if ([decoder containsValueForKey: @"following_num"])
   {
-    __following = [[decoder decodeObjectForKey: @"following"] retain];
-    __following_isset = YES;
+    __following_num = [decoder decodeInt64ForKey: @"following_num"];
+    __following_num_isset = YES;
   }
-  if ([decoder containsValueForKey: @"befollowed"])
+  if ([decoder containsValueForKey: @"followed_num"])
   {
-    __befollowed = [[decoder decodeObjectForKey: @"befollowed"] retain];
-    __befollowed_isset = YES;
+    __followed_num = [decoder decodeInt64ForKey: @"followed_num"];
+    __followed_num_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__intro_isset)
+  if (__unread_msg_num_isset)
   {
-    [encoder encodeObject: __intro forKey: @"intro"];
+    [encoder encodeInt64: __unread_msg_num forKey: @"unread_msg_num"];
   }
-  if (__following_isset)
+  if (__following_num_isset)
   {
-    [encoder encodeObject: __following forKey: @"following"];
+    [encoder encodeInt64: __following_num forKey: @"following_num"];
   }
-  if (__befollowed_isset)
+  if (__followed_num_isset)
   {
-    [encoder encodeObject: __befollowed forKey: @"befollowed"];
+    [encoder encodeInt64: __followed_num forKey: @"followed_num"];
   }
 }
 
 - (void) dealloc
 {
-  [__intro release];
-  [__following release];
-  [__befollowed release];
   [super dealloc];
 }
 
-- (NSString *) intro {
-  return [[__intro retain] autorelease];
+- (int64_t) unread_msg_num {
+  return __unread_msg_num;
 }
 
-- (void) setIntro: (NSString *) intro {
-  [intro retain];
-  [__intro release];
-  __intro = intro;
-  __intro_isset = YES;
+- (void) setUnread_msg_num: (int64_t) unread_msg_num {
+  __unread_msg_num = unread_msg_num;
+  __unread_msg_num_isset = YES;
 }
 
-- (BOOL) introIsSet {
-  return __intro_isset;
+- (BOOL) unread_msg_numIsSet {
+  return __unread_msg_num_isset;
 }
 
-- (void) unsetIntro {
-  [__intro release];
-  __intro = nil;
-  __intro_isset = NO;
+- (void) unsetUnread_msg_num {
+  __unread_msg_num_isset = NO;
 }
 
-- (NSArray *) following {
-  return [[__following retain] autorelease];
+- (int64_t) following_num {
+  return __following_num;
 }
 
-- (void) setFollowing: (NSArray *) following {
-  [following retain];
-  [__following release];
-  __following = following;
-  __following_isset = YES;
+- (void) setFollowing_num: (int64_t) following_num {
+  __following_num = following_num;
+  __following_num_isset = YES;
 }
 
-- (BOOL) followingIsSet {
-  return __following_isset;
+- (BOOL) following_numIsSet {
+  return __following_num_isset;
 }
 
-- (void) unsetFollowing {
-  [__following release];
-  __following = nil;
-  __following_isset = NO;
+- (void) unsetFollowing_num {
+  __following_num_isset = NO;
 }
 
-- (NSArray *) befollowed {
-  return [[__befollowed retain] autorelease];
+- (int64_t) followed_num {
+  return __followed_num;
 }
 
-- (void) setBefollowed: (NSArray *) befollowed {
-  [befollowed retain];
-  [__befollowed release];
-  __befollowed = befollowed;
-  __befollowed_isset = YES;
+- (void) setFollowed_num: (int64_t) followed_num {
+  __followed_num = followed_num;
+  __followed_num_isset = YES;
 }
 
-- (BOOL) befollowedIsSet {
-  return __befollowed_isset;
+- (BOOL) followed_numIsSet {
+  return __followed_num_isset;
 }
 
-- (void) unsetBefollowed {
-  [__befollowed release];
-  __befollowed = nil;
-  __befollowed_isset = NO;
+- (void) unsetFollowed_num {
+  __followed_num_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -1918,45 +3397,25 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setIntro: fieldValue];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setUnread_msg_num: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
-        if (fieldType == TType_LIST) {
-          int _size20;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size20];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size20];
-          int _i21;
-          for (_i21 = 0; _i21 < _size20; ++_i21)
-          {
-            int64_t _elem22 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem22]];
-          }
-          [inProtocol readListEnd];
-          [self setFollowing: fieldValue];
-          [fieldValue release];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setFollowing_num: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 3:
-        if (fieldType == TType_LIST) {
-          int _size23;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size23];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size23];
-          int _i24;
-          for (_i24 = 0; _i24 < _size23; ++_i24)
-          {
-            int64_t _elem25 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem25]];
-          }
-          [inProtocol readListEnd];
-          [self setBefollowed: fieldValue];
-          [fieldValue release];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setFollowed_num: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1971,221 +3430,34 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserExt"];
-  if (__intro_isset) {
-    if (__intro != nil) {
-      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __intro];
-      [outProtocol writeFieldEnd];
-    }
+  [outProtocol writeStructBeginWithName: @"Summary"];
+  if (__unread_msg_num_isset) {
+    [outProtocol writeFieldBeginWithName: @"unread_msg_num" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __unread_msg_num];
+    [outProtocol writeFieldEnd];
   }
-  if (__following_isset) {
-    if (__following != nil) {
-      [outProtocol writeFieldBeginWithName: @"following" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_I64 size: [__following count]];
-        int i27;
-        for (i27 = 0; i27 < [__following count]; i27++)
-        {
-          [outProtocol writeI64: [[__following objectAtIndex: i27] longLongValue]];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
+  if (__following_num_isset) {
+    [outProtocol writeFieldBeginWithName: @"following_num" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __following_num];
+    [outProtocol writeFieldEnd];
   }
-  if (__befollowed_isset) {
-    if (__befollowed != nil) {
-      [outProtocol writeFieldBeginWithName: @"befollowed" type: TType_LIST fieldID: 3];
-      {
-        [outProtocol writeListBeginWithElementType: TType_I64 size: [__befollowed count]];
-        int i29;
-        for (i29 = 0; i29 < [__befollowed count]; i29++)
-        {
-          [outProtocol writeI64: [[__befollowed objectAtIndex: i29] longLongValue]];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
+  if (__followed_num_isset) {
+    [outProtocol writeFieldBeginWithName: @"followed_num" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __followed_num];
+    [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserExt("];
-  [ms appendString: @"intro:"];
-  [ms appendFormat: @"\"%@\"", __intro];
-  [ms appendString: @",following:"];
-  [ms appendFormat: @"%@", __following];
-  [ms appendString: @",befollowed:"];
-  [ms appendFormat: @"%@", __befollowed];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserInfo
-
-- (id) initWithBaisc: (UserBasic *) baisc ext: (UserExt *) ext
-{
-  self = [super init];
-  __baisc = [baisc retain];
-  __baisc_isset = YES;
-  __ext = [ext retain];
-  __ext_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"baisc"])
-  {
-    __baisc = [[decoder decodeObjectForKey: @"baisc"] retain];
-    __baisc_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"ext"])
-  {
-    __ext = [[decoder decodeObjectForKey: @"ext"] retain];
-    __ext_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__baisc_isset)
-  {
-    [encoder encodeObject: __baisc forKey: @"baisc"];
-  }
-  if (__ext_isset)
-  {
-    [encoder encodeObject: __ext forKey: @"ext"];
-  }
-}
-
-- (void) dealloc
-{
-  [__baisc release];
-  [__ext release];
-  [super dealloc];
-}
-
-- (UserBasic *) baisc {
-  return [[__baisc retain] autorelease];
-}
-
-- (void) setBaisc: (UserBasic *) baisc {
-  [baisc retain];
-  [__baisc release];
-  __baisc = baisc;
-  __baisc_isset = YES;
-}
-
-- (BOOL) baiscIsSet {
-  return __baisc_isset;
-}
-
-- (void) unsetBaisc {
-  [__baisc release];
-  __baisc = nil;
-  __baisc_isset = NO;
-}
-
-- (UserExt *) ext {
-  return [[__ext retain] autorelease];
-}
-
-- (void) setExt: (UserExt *) ext {
-  [ext retain];
-  [__ext release];
-  __ext = ext;
-  __ext_isset = YES;
-}
-
-- (BOOL) extIsSet {
-  return __ext_isset;
-}
-
-- (void) unsetExt {
-  [__ext release];
-  __ext = nil;
-  __ext_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          UserBasic *fieldValue = [[UserBasic alloc] init];
-          [fieldValue read: inProtocol];
-          [self setBaisc: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          UserExt *fieldValue = [[UserExt alloc] init];
-          [fieldValue read: inProtocol];
-          [self setExt: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserInfo"];
-  if (__baisc_isset) {
-    if (__baisc != nil) {
-      [outProtocol writeFieldBeginWithName: @"baisc" type: TType_STRUCT fieldID: 1];
-      [__baisc write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__ext_isset) {
-    if (__ext != nil) {
-      [outProtocol writeFieldBeginWithName: @"ext" type: TType_STRUCT fieldID: 2];
-      [__ext write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
-  [ms appendString: @"baisc:"];
-  [ms appendFormat: @"%@", __baisc];
-  [ms appendString: @",ext:"];
-  [ms appendFormat: @"%@", __ext];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Summary("];
+  [ms appendString: @"unread_msg_num:"];
+  [ms appendFormat: @"%qi", __unread_msg_num];
+  [ms appendString: @",following_num:"];
+  [ms appendFormat: @"%qi", __following_num];
+  [ms appendString: @",followed_num:"];
+  [ms appendFormat: @"%qi", __followed_num];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }

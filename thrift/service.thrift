@@ -17,126 +17,94 @@ service Sns {
     
     # User
     
-    type.UserInfo user_info_get(
+    /* 约定：uid为0，相当于查询自己 */
+    type.User user_get(
         1: required string  access_token,
         2: required i64     uid,
         3: required bool    ext_only = true
     )
-    
+
+    void user_set(
+        1: required  string    access_token,
+        2: required  type.User user
+    )
+     
+    list<type.UserBasic> user_list(
+        1: required string             access_token,
+        2: required type.UserListType  type,
+        3: required i64                last_id,
+        4: required i64                num
+    )
+
     # Task
     
     /* 约定: last_id 为0，相当于为最后一条信息的id */
     list<type.TaskBasic> task_list(
-        1: required string access_token,
-        2: required type.TasklistType type,
-        3: required i64 last_id,
-        4: required i64 num
+        1: required string             access_token,
+        2: required type.TaskListType  type,
+        3: required i64                last_id,
+        4: required i64                num
     )
     
-    type.TaskInfo task_get (
-        1: required i64  access_token,
-        2: required i64  tid,
-        3: required bool ext_only = true
+    type.Task task_get (
+        1: required i64                access_token,
+        2: required i64                tid,
+        3: required type.TaskFilter    filter,
+        4: required bool               ext_only = true,
     )
     
-    #type.TaskInfo task_set (
-    #    1: required i64 access_token,
-    #    2: required i64 tid
-    #)
+    void task_set (
+        1: required string       access_token,
+        2: required type.Task    task
+    )
     
     i64 task_new( # Return task id
-        1: string access_token,
-        2: type.TaskInfo task 
+        1: string     access_token,
+        2: type.Task  task 
     )
-    
-    bool task_apply()
 
     bool task_apply(
         1: string access_token,
-        2: i64 tid
+        2: i64    tid
     )
     
     bool task_reject(
         1: string access_token,
-        2: i64 user_id
+        2: i64    tid
     )
     
     bool task_accept(
         1: string access_token,
-        2: i64 user_id
+        2: i64    tid
     )
-    
-    
-    /*
-    type.UserInfo user_info_get(
-        1:  string  access_token,
-        2:  i64     id
-    ) throws (1: exception.Exception e),
-    
-    type.User user_get(
-        1:  string  access_token,
-        2:  i64     id
-    ) throws (1: exception.Exception e),
-    
-    void user_set(
-        1:  string  access_token,
-        2:  User    user
-    ) throws (1: exception.Exception e),
-    
-    ###### Task ######
-    
-    type.TaskList task_list_get(
-        1: string access_token
-        2: i64 start,
-        3: i64 limit
+
+    # Message
+
+    list<type.Msg> msg_list(
+        1: required string             access_token,
+        2: required type.MsgType       type,
+        3: required i64                last_id,
+        4: required i64                num
     )
-    
-    type.Task task_info_get(
-        1: string access_token,
-        2: i64 id
+
+    void msg_send(
+        1:  required string   access_token,
+        2:  required type.Msg msg
     )
-    
-    # 创建任务
-    i64 task_new( # Return task id
-        1: string access_token,
-        2: type.Task task 
+
+    # Feed
+
+    list<type.FeedMsg> feed (
+        1: required string             access_token,
+        2: required i64                last_id,
+        3: required i64                num
     )
-    
-    # 申请任务
-    void task_apply(
-        1: string access_token,
-        2: i64 task_id
+
+    # Summary
+
+    type.Summary summary(
+        1: required string access_token
     )
-    
-    # 拒绝任务
-    void task_reject(
-        1: string access_token,
-        2: i64 user_id
-    )
-    
-    # 接收任务
-    void task_accept(
-        1: string access_token,
-        2: i64 user_id
-    )
-    
-    type.CommentList comment_get(
-        1: string access_token,
-        2: i64 id
-    )
-    
-    void comment_make(
-        1: string access_token,
-        2: i64    id,
-        3: string text
-    )
-    
-    #type.PersonList person_page(
-    #    1: string access_token,
-    #    2: i64 start,
-    #    3: i64 limit
-    #)
-    
-*/
+
 }
 

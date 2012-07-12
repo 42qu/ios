@@ -15,6 +15,43 @@ struct AuthResponse {
     3:  optional    string  refresh_token
 }
 
+# User
+
+enum UserGender {
+    Unknown = 0,
+    Male,
+    Female
+}
+
+enum UserListType {
+    All = 0,
+    Recommend,
+    Nearby,
+    Following,
+    Followed,
+    Friends
+}
+
+struct UserBasic {
+    1:  required    i64             uid,
+    2:  required    string          name,
+    3:  required    UserGender      gender,
+    4:  required    string          org,
+    5:  required    string          job,
+    6:  required    string          avator # URL
+}
+
+struct UserExt {
+    1:  required    string      intro,
+    2:  required    list<i64>   following_list,
+    3:  required    list<i64>   followed_list
+}
+
+struct User {
+    1:  optional    UserBasic   basic,
+    2:  required    UserExt     ext
+}
+
 # Task
 
 enum TaskStatus {
@@ -22,6 +59,16 @@ enum TaskStatus {
     Applied,    # Applied but no response
     Accepted,
     Rejected
+}
+
+struct TaskFilter {
+    1:  optional    i64             city,
+    2:  optional    string          pos,
+    3:  optional    i64             distance,
+    4:  optional    UserGender      sponsor_gender,
+    5:  optional    i64             difficulty,
+    6:  optional    bool            reward,
+    7:  optional    i64             reward_price
 }
 
 struct TaskBasic {
@@ -64,31 +111,47 @@ struct TaskListRequest {
     3:  required    TaskListType    type
 }
 
-# User
+# Message
 
-enum UserGender {
-    Unknown = 0,
-    Male,
-    Female
+enum MsgType {
+    None = 0,
+    System = 1,
+    Friends = 2,
+    Stranger = 4,
+    Unread   = 8
 }
 
-struct UserBasic {
-    1:  required    string          name,
-    2:  required    UserGender      gender,
-    3:  required    string          org,
-    4:  required    string          job,
-    5:  required    string          avator # URL
+struct Msg {
+    1:  required    i64         sender,
+    2:  required    i64         time,
+    3:  required    string      text,
+    4:  required    bool        unread,
+    5:  optional    MsgType     type = MsgType.None
 }
 
-struct UserExt {
-    1:  required    string      intro,
-    2:  required    list<i64>   following_list,
-    3:  required    list<i64>   followed_list
+# Feed
+
+enum FeedType {
+    None,
+    Text,
+    Article,
+    Pic,
+    Activity
 }
 
-struct User {
-    1:  optional    UserBasic   basic,
-    2:  required    UserExt     ext
+struct FeedMsg {
+    1:  required   string     sender,
+    2:  required   i64        time,
+    3:  required   FeedType   type,
+    4:  required   string     content
+}
+
+# Summary
+
+struct Summary {
+    1:  required  i64          unread_msg_num,
+    2:  required  i64          following_num,
+    3:  required  i64          followed_num
 }
 
 # end

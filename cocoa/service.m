@@ -598,7 +598,7 @@
 
 @end
 
-@interface user_info_get_args : NSObject <NSCoding> {
+@interface user_get_args : NSObject <NSCoding> {
   NSString * __access_token;
   int64_t __uid;
   BOOL __ext_only;
@@ -633,7 +633,7 @@
 
 @end
 
-@implementation user_info_get_args
+@implementation user_get_args
 
 - (id) initWithAccess_token: (NSString *) access_token uid: (int64_t) uid ext_only: (BOOL) ext_only
 {
@@ -794,7 +794,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"user_info_get_args"];
+  [outProtocol writeStructBeginWithName: @"user_get_args"];
   if (__access_token_isset) {
     if (__access_token != nil) {
       [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
@@ -817,7 +817,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"user_info_get_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"user_get_args("];
   [ms appendString: @"access_token:"];
   [ms appendFormat: @"\"%@\"", __access_token];
   [ms appendString: @",uid:"];
@@ -830,30 +830,30 @@
 
 @end
 
-@interface User_info_get_result : NSObject <NSCoding> {
-  UserInfo * __success;
+@interface User_get_result : NSObject <NSCoding> {
+  User * __success;
 
   BOOL __success_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) UserInfo * success;
+@property (nonatomic, retain, getter=success, setter=setSuccess:) User * success;
 #endif
 
-- (id) initWithSuccess: (UserInfo *) success;
+- (id) initWithSuccess: (User *) success;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (UserInfo *) success;
-- (void) setSuccess: (UserInfo *) success;
+- (User *) success;
+- (void) setSuccess: (User *) success;
 - (BOOL) successIsSet;
 
 @end
 
-@implementation User_info_get_result
+@implementation User_get_result
 
-- (id) initWithSuccess: (UserInfo *) success
+- (id) initWithSuccess: (User *) success
 {
   self = [super init];
   __success = [success retain];
@@ -886,11 +886,11 @@
   [super dealloc];
 }
 
-- (UserInfo *) success {
+- (User *) success {
   return [[__success retain] autorelease];
 }
 
-- (void) setSuccess: (UserInfo *) success {
+- (void) setSuccess: (User *) success {
   [success retain];
   [__success release];
   __success = success;
@@ -924,7 +924,7 @@
     {
       case 0:
         if (fieldType == TType_STRUCT) {
-          UserInfo *fieldValue = [[UserInfo alloc] init];
+          User *fieldValue = [[User alloc] init];
           [fieldValue read: inProtocol];
           [self setSuccess: fieldValue];
           [fieldValue release];
@@ -942,7 +942,7 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"User_info_get_result"];
+  [outProtocol writeStructBeginWithName: @"User_get_result"];
 
   if (__success_isset) {
     if (__success != nil) {
@@ -956,7 +956,693 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"User_info_get_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"User_get_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface user_set_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  User * __user;
+
+  BOOL __access_token_isset;
+  BOOL __user_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, retain, getter=user, setter=setUser:) User * user;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token user: (User *) user;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (User *) user;
+- (void) setUser: (User *) user;
+- (BOOL) userIsSet;
+
+@end
+
+@implementation user_set_args
+
+- (id) initWithAccess_token: (NSString *) access_token user: (User *) user
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __user = [user retain];
+  __user_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"user"])
+  {
+    __user = [[decoder decodeObjectForKey: @"user"] retain];
+    __user_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__user_isset)
+  {
+    [encoder encodeObject: __user forKey: @"user"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [__user release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (User *) user {
+  return [[__user retain] autorelease];
+}
+
+- (void) setUser: (User *) user {
+  [user retain];
+  [__user release];
+  __user = user;
+  __user_isset = YES;
+}
+
+- (BOOL) userIsSet {
+  return __user_isset;
+}
+
+- (void) unsetUser {
+  [__user release];
+  __user = nil;
+  __user_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          User *fieldValue = [[User alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUser: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"user_set_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__user_isset) {
+    if (__user != nil) {
+      [outProtocol writeFieldBeginWithName: @"user" type: TType_STRUCT fieldID: 2];
+      [__user write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"user_set_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",user:"];
+  [ms appendFormat: @"%@", __user];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface User_set_result : NSObject <NSCoding> {
+}
+
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+@end
+
+@implementation User_set_result
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"User_set_result"];
+
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"User_set_result("];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface user_list_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  int __type;
+  int64_t __last_id;
+  int64_t __num;
+
+  BOOL __access_token_isset;
+  BOOL __type_isset;
+  BOOL __last_id_isset;
+  BOOL __num_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, getter=type, setter=setType:) int type;
+@property (nonatomic, getter=last_id, setter=setLast_id:) int64_t last_id;
+@property (nonatomic, getter=num, setter=setNum:) int64_t num;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (int) type;
+- (void) setType: (int) type;
+- (BOOL) typeIsSet;
+
+- (int64_t) last_id;
+- (void) setLast_id: (int64_t) last_id;
+- (BOOL) last_idIsSet;
+
+- (int64_t) num;
+- (void) setNum: (int64_t) num;
+- (BOOL) numIsSet;
+
+@end
+
+@implementation user_list_args
+
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __type = type;
+  __type_isset = YES;
+  __last_id = last_id;
+  __last_id_isset = YES;
+  __num = num;
+  __num_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"type"])
+  {
+    __type = [decoder decodeIntForKey: @"type"];
+    __type_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"last_id"])
+  {
+    __last_id = [decoder decodeInt64ForKey: @"last_id"];
+    __last_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"num"])
+  {
+    __num = [decoder decodeInt64ForKey: @"num"];
+    __num_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__type_isset)
+  {
+    [encoder encodeInt: __type forKey: @"type"];
+  }
+  if (__last_id_isset)
+  {
+    [encoder encodeInt64: __last_id forKey: @"last_id"];
+  }
+  if (__num_isset)
+  {
+    [encoder encodeInt64: __num forKey: @"num"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (int) type {
+  return __type;
+}
+
+- (void) setType: (int) type {
+  __type = type;
+  __type_isset = YES;
+}
+
+- (BOOL) typeIsSet {
+  return __type_isset;
+}
+
+- (void) unsetType {
+  __type_isset = NO;
+}
+
+- (int64_t) last_id {
+  return __last_id;
+}
+
+- (void) setLast_id: (int64_t) last_id {
+  __last_id = last_id;
+  __last_id_isset = YES;
+}
+
+- (BOOL) last_idIsSet {
+  return __last_id_isset;
+}
+
+- (void) unsetLast_id {
+  __last_id_isset = NO;
+}
+
+- (int64_t) num {
+  return __num;
+}
+
+- (void) setNum: (int64_t) num {
+  __num = num;
+  __num_isset = YES;
+}
+
+- (BOOL) numIsSet {
+  return __num_isset;
+}
+
+- (void) unsetNum {
+  __num_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setType: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setLast_id: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setNum: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"user_list_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__type_isset) {
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __type];
+    [outProtocol writeFieldEnd];
+  }
+  if (__last_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __last_id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__num_isset) {
+    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
+    [outProtocol writeI64: __num];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"user_list_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",type:"];
+  [ms appendFormat: @"%i", __type];
+  [ms appendString: @",last_id:"];
+  [ms appendFormat: @"%qi", __last_id];
+  [ms appendString: @",num:"];
+  [ms appendFormat: @"%qi", __num];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface User_list_result : NSObject <NSCoding> {
+  NSArray * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) NSArray * success;
+#endif
+
+- (id) initWithSuccess: (NSArray *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSArray *) success;
+- (void) setSuccess: (NSArray *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation User_list_result
+
+- (id) initWithSuccess: (NSArray *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (NSArray *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (NSArray *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_LIST) {
+          int _size0;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
+          int _i1;
+          for (_i1 = 0; _i1 < _size0; ++_i1)
+          {
+            UserBasic *_elem2 = [[UserBasic alloc] init];
+            [_elem2 read: inProtocol];
+            [fieldValue addObject: _elem2];
+            [_elem2 release];
+          }
+          [inProtocol readListEnd];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"User_list_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
+        int i4;
+        for (i4 = 0; i4 < [__success count]; i4++)
+        {
+          [[__success objectAtIndex: i4] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"User_list_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @")"];
@@ -1341,16 +2027,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size0;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
-          int _i1;
-          for (_i1 = 0; _i1 < _size0; ++_i1)
+          int _size5;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size5];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size5];
+          int _i6;
+          for (_i6 = 0; _i6 < _size5; ++_i6)
           {
-            TaskBasic *_elem2 = [[TaskBasic alloc] init];
-            [_elem2 read: inProtocol];
-            [fieldValue addObject: _elem2];
-            [_elem2 release];
+            TaskBasic *_elem7 = [[TaskBasic alloc] init];
+            [_elem7 read: inProtocol];
+            [fieldValue addObject: _elem7];
+            [_elem7 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -1376,10 +2062,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i4;
-        for (i4 = 0; i4 < [__success count]; i4++)
+        int i9;
+        for (i9 = 0; i9 < [__success count]; i9++)
         {
-          [[__success objectAtIndex: i4] write: outProtocol];
+          [[__success objectAtIndex: i9] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -1403,20 +2089,23 @@
 @interface task_get_args : NSObject <NSCoding> {
   int64_t __access_token;
   int64_t __tid;
+  TaskFilter * __filter;
   BOOL __ext_only;
 
   BOOL __access_token_isset;
   BOOL __tid_isset;
+  BOOL __filter_isset;
   BOOL __ext_only_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=access_token, setter=setAccess_token:) int64_t access_token;
 @property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
+@property (nonatomic, retain, getter=filter, setter=setFilter:) TaskFilter * filter;
 @property (nonatomic, getter=ext_only, setter=setExt_only:) BOOL ext_only;
 #endif
 
-- (id) initWithAccess_token: (int64_t) access_token tid: (int64_t) tid ext_only: (BOOL) ext_only;
+- (id) initWithAccess_token: (int64_t) access_token tid: (int64_t) tid filter: (TaskFilter *) filter ext_only: (BOOL) ext_only;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1429,6 +2118,10 @@
 - (void) setTid: (int64_t) tid;
 - (BOOL) tidIsSet;
 
+- (TaskFilter *) filter;
+- (void) setFilter: (TaskFilter *) filter;
+- (BOOL) filterIsSet;
+
 - (BOOL) ext_only;
 - (void) setExt_only: (BOOL) ext_only;
 - (BOOL) ext_onlyIsSet;
@@ -1437,13 +2130,15 @@
 
 @implementation task_get_args
 
-- (id) initWithAccess_token: (int64_t) access_token tid: (int64_t) tid ext_only: (BOOL) ext_only
+- (id) initWithAccess_token: (int64_t) access_token tid: (int64_t) tid filter: (TaskFilter *) filter ext_only: (BOOL) ext_only
 {
   self = [super init];
   __access_token = access_token;
   __access_token_isset = YES;
   __tid = tid;
   __tid_isset = YES;
+  __filter = [filter retain];
+  __filter_isset = YES;
   __ext_only = ext_only;
   __ext_only_isset = YES;
   return self;
@@ -1461,6 +2156,11 @@
   {
     __tid = [decoder decodeInt64ForKey: @"tid"];
     __tid_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"filter"])
+  {
+    __filter = [[decoder decodeObjectForKey: @"filter"] retain];
+    __filter_isset = YES;
   }
   if ([decoder containsValueForKey: @"ext_only"])
   {
@@ -1480,6 +2180,10 @@
   {
     [encoder encodeInt64: __tid forKey: @"tid"];
   }
+  if (__filter_isset)
+  {
+    [encoder encodeObject: __filter forKey: @"filter"];
+  }
   if (__ext_only_isset)
   {
     [encoder encodeBool: __ext_only forKey: @"ext_only"];
@@ -1488,6 +2192,7 @@
 
 - (void) dealloc
 {
+  [__filter release];
   [super dealloc];
 }
 
@@ -1523,6 +2228,27 @@
 
 - (void) unsetTid {
   __tid_isset = NO;
+}
+
+- (TaskFilter *) filter {
+  return [[__filter retain] autorelease];
+}
+
+- (void) setFilter: (TaskFilter *) filter {
+  [filter retain];
+  [__filter release];
+  __filter = filter;
+  __filter_isset = YES;
+}
+
+- (BOOL) filterIsSet {
+  return __filter_isset;
+}
+
+- (void) unsetFilter {
+  [__filter release];
+  __filter = nil;
+  __filter_isset = NO;
 }
 
 - (BOOL) ext_only {
@@ -1574,6 +2300,16 @@
         }
         break;
       case 3:
+        if (fieldType == TType_STRUCT) {
+          TaskFilter *fieldValue = [[TaskFilter alloc] init];
+          [fieldValue read: inProtocol];
+          [self setFilter: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
         if (fieldType == TType_BOOL) {
           BOOL fieldValue = [inProtocol readBool];
           [self setExt_only: fieldValue];
@@ -1602,8 +2338,15 @@
     [outProtocol writeI64: __tid];
     [outProtocol writeFieldEnd];
   }
+  if (__filter_isset) {
+    if (__filter != nil) {
+      [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 3];
+      [__filter write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
   if (__ext_only_isset) {
-    [outProtocol writeFieldBeginWithName: @"ext_only" type: TType_BOOL fieldID: 3];
+    [outProtocol writeFieldBeginWithName: @"ext_only" type: TType_BOOL fieldID: 4];
     [outProtocol writeBool: __ext_only];
     [outProtocol writeFieldEnd];
   }
@@ -1617,6 +2360,8 @@
   [ms appendFormat: @"%qi", __access_token];
   [ms appendString: @",tid:"];
   [ms appendFormat: @"%qi", __tid];
+  [ms appendString: @",filter:"];
+  [ms appendFormat: @"%@", __filter];
   [ms appendString: @",ext_only:"];
   [ms appendFormat: @"%i", __ext_only];
   [ms appendString: @")"];
@@ -1626,29 +2371,29 @@
 @end
 
 @interface Task_get_result : NSObject <NSCoding> {
-  TaskInfo * __success;
+  Task * __success;
 
   BOOL __success_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) TaskInfo * success;
+@property (nonatomic, retain, getter=success, setter=setSuccess:) Task * success;
 #endif
 
-- (id) initWithSuccess: (TaskInfo *) success;
+- (id) initWithSuccess: (Task *) success;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (TaskInfo *) success;
-- (void) setSuccess: (TaskInfo *) success;
+- (Task *) success;
+- (void) setSuccess: (Task *) success;
 - (BOOL) successIsSet;
 
 @end
 
 @implementation Task_get_result
 
-- (id) initWithSuccess: (TaskInfo *) success
+- (id) initWithSuccess: (Task *) success
 {
   self = [super init];
   __success = [success retain];
@@ -1681,11 +2426,11 @@
   [super dealloc];
 }
 
-- (TaskInfo *) success {
+- (Task *) success {
   return [[__success retain] autorelease];
 }
 
-- (void) setSuccess: (TaskInfo *) success {
+- (void) setSuccess: (Task *) success {
   [success retain];
   [__success release];
   __success = success;
@@ -1719,7 +2464,7 @@
     {
       case 0:
         if (fieldType == TType_STRUCT) {
-          TaskInfo *fieldValue = [[TaskInfo alloc] init];
+          Task *fieldValue = [[Task alloc] init];
           [fieldValue read: inProtocol];
           [self setSuccess: fieldValue];
           [fieldValue release];
@@ -1760,9 +2505,9 @@
 
 @end
 
-@interface task_new_args : NSObject <NSCoding> {
+@interface task_set_args : NSObject <NSCoding> {
   NSString * __access_token;
-  TaskInfo * __task;
+  Task * __task;
 
   BOOL __access_token_isset;
   BOOL __task_isset;
@@ -1770,10 +2515,10 @@
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, retain, getter=task, setter=setTask:) TaskInfo * task;
+@property (nonatomic, retain, getter=task, setter=setTask:) Task * task;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token task: (TaskInfo *) task;
+- (id) initWithAccess_token: (NSString *) access_token task: (Task *) task;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1782,15 +2527,15 @@
 - (void) setAccess_token: (NSString *) access_token;
 - (BOOL) access_tokenIsSet;
 
-- (TaskInfo *) task;
-- (void) setTask: (TaskInfo *) task;
+- (Task *) task;
+- (void) setTask: (Task *) task;
 - (BOOL) taskIsSet;
 
 @end
 
-@implementation task_new_args
+@implementation task_set_args
 
-- (id) initWithAccess_token: (NSString *) access_token task: (TaskInfo *) task
+- (id) initWithAccess_token: (NSString *) access_token task: (Task *) task
 {
   self = [super init];
   __access_token = [access_token retain];
@@ -1856,11 +2601,11 @@
   __access_token_isset = NO;
 }
 
-- (TaskInfo *) task {
+- (Task *) task {
   return [[__task retain] autorelease];
 }
 
-- (void) setTask: (TaskInfo *) task {
+- (void) setTask: (Task *) task {
   [task retain];
   [__task release];
   __task = task;
@@ -1902,7 +2647,258 @@
         break;
       case 2:
         if (fieldType == TType_STRUCT) {
-          TaskInfo *fieldValue = [[TaskInfo alloc] init];
+          Task *fieldValue = [[Task alloc] init];
+          [fieldValue read: inProtocol];
+          [self setTask: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"task_set_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__task_isset) {
+    if (__task != nil) {
+      [outProtocol writeFieldBeginWithName: @"task" type: TType_STRUCT fieldID: 2];
+      [__task write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"task_set_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",task:"];
+  [ms appendFormat: @"%@", __task];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Task_set_result : NSObject <NSCoding> {
+}
+
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+@end
+
+@implementation Task_set_result
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Task_set_result"];
+
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Task_set_result("];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface task_new_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  Task * __task;
+
+  BOOL __access_token_isset;
+  BOOL __task_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, retain, getter=task, setter=setTask:) Task * task;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token task: (Task *) task;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (Task *) task;
+- (void) setTask: (Task *) task;
+- (BOOL) taskIsSet;
+
+@end
+
+@implementation task_new_args
+
+- (id) initWithAccess_token: (NSString *) access_token task: (Task *) task
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __task = [task retain];
+  __task_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"task"])
+  {
+    __task = [[decoder decodeObjectForKey: @"task"] retain];
+    __task_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__task_isset)
+  {
+    [encoder encodeObject: __task forKey: @"task"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [__task release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (Task *) task {
+  return [[__task retain] autorelease];
+}
+
+- (void) setTask: (Task *) task {
+  [task retain];
+  [__task release];
+  __task = task;
+  __task_isset = YES;
+}
+
+- (BOOL) taskIsSet {
+  return __task_isset;
+}
+
+- (void) unsetTask {
+  [__task release];
+  __task = nil;
+  __task_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          Task *fieldValue = [[Task alloc] init];
           [fieldValue read: inProtocol];
           [self setTask: fieldValue];
           [fieldValue release];
@@ -2387,18 +3383,18 @@
 
 @interface task_reject_args : NSObject <NSCoding> {
   NSString * __access_token;
-  int64_t __user_id;
+  int64_t __tid;
 
   BOOL __access_token_isset;
-  BOOL __user_id_isset;
+  BOOL __tid_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, getter=user_id, setter=setUser_id:) int64_t user_id;
+@property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token user_id: (int64_t) user_id;
+- (id) initWithAccess_token: (NSString *) access_token tid: (int64_t) tid;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -2407,21 +3403,21 @@
 - (void) setAccess_token: (NSString *) access_token;
 - (BOOL) access_tokenIsSet;
 
-- (int64_t) user_id;
-- (void) setUser_id: (int64_t) user_id;
-- (BOOL) user_idIsSet;
+- (int64_t) tid;
+- (void) setTid: (int64_t) tid;
+- (BOOL) tidIsSet;
 
 @end
 
 @implementation task_reject_args
 
-- (id) initWithAccess_token: (NSString *) access_token user_id: (int64_t) user_id
+- (id) initWithAccess_token: (NSString *) access_token tid: (int64_t) tid
 {
   self = [super init];
   __access_token = [access_token retain];
   __access_token_isset = YES;
-  __user_id = user_id;
-  __user_id_isset = YES;
+  __tid = tid;
+  __tid_isset = YES;
   return self;
 }
 
@@ -2433,10 +3429,10 @@
     __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
     __access_token_isset = YES;
   }
-  if ([decoder containsValueForKey: @"user_id"])
+  if ([decoder containsValueForKey: @"tid"])
   {
-    __user_id = [decoder decodeInt64ForKey: @"user_id"];
-    __user_id_isset = YES;
+    __tid = [decoder decodeInt64ForKey: @"tid"];
+    __tid_isset = YES;
   }
   return self;
 }
@@ -2447,9 +3443,9 @@
   {
     [encoder encodeObject: __access_token forKey: @"access_token"];
   }
-  if (__user_id_isset)
+  if (__tid_isset)
   {
-    [encoder encodeInt64: __user_id forKey: @"user_id"];
+    [encoder encodeInt64: __tid forKey: @"tid"];
   }
 }
 
@@ -2480,21 +3476,21 @@
   __access_token_isset = NO;
 }
 
-- (int64_t) user_id {
-  return __user_id;
+- (int64_t) tid {
+  return __tid;
 }
 
-- (void) setUser_id: (int64_t) user_id {
-  __user_id = user_id;
-  __user_id_isset = YES;
+- (void) setTid: (int64_t) tid {
+  __tid = tid;
+  __tid_isset = YES;
 }
 
-- (BOOL) user_idIsSet {
-  return __user_id_isset;
+- (BOOL) tidIsSet {
+  return __tid_isset;
 }
 
-- (void) unsetUser_id {
-  __user_id_isset = NO;
+- (void) unsetTid {
+  __tid_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -2523,7 +3519,7 @@
       case 2:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setUser_id: fieldValue];
+          [self setTid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -2546,9 +3542,9 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__user_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"user_id" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __user_id];
+  if (__tid_isset) {
+    [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __tid];
     [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
@@ -2559,8 +3555,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"task_reject_args("];
   [ms appendString: @"access_token:"];
   [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",user_id:"];
-  [ms appendFormat: @"%qi", __user_id];
+  [ms appendString: @",tid:"];
+  [ms appendFormat: @"%qi", __tid];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -2695,18 +3691,18 @@
 
 @interface task_accept_args : NSObject <NSCoding> {
   NSString * __access_token;
-  int64_t __user_id;
+  int64_t __tid;
 
   BOOL __access_token_isset;
-  BOOL __user_id_isset;
+  BOOL __tid_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, getter=user_id, setter=setUser_id:) int64_t user_id;
+@property (nonatomic, getter=tid, setter=setTid:) int64_t tid;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token user_id: (int64_t) user_id;
+- (id) initWithAccess_token: (NSString *) access_token tid: (int64_t) tid;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -2715,21 +3711,21 @@
 - (void) setAccess_token: (NSString *) access_token;
 - (BOOL) access_tokenIsSet;
 
-- (int64_t) user_id;
-- (void) setUser_id: (int64_t) user_id;
-- (BOOL) user_idIsSet;
+- (int64_t) tid;
+- (void) setTid: (int64_t) tid;
+- (BOOL) tidIsSet;
 
 @end
 
 @implementation task_accept_args
 
-- (id) initWithAccess_token: (NSString *) access_token user_id: (int64_t) user_id
+- (id) initWithAccess_token: (NSString *) access_token tid: (int64_t) tid
 {
   self = [super init];
   __access_token = [access_token retain];
   __access_token_isset = YES;
-  __user_id = user_id;
-  __user_id_isset = YES;
+  __tid = tid;
+  __tid_isset = YES;
   return self;
 }
 
@@ -2741,10 +3737,10 @@
     __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
     __access_token_isset = YES;
   }
-  if ([decoder containsValueForKey: @"user_id"])
+  if ([decoder containsValueForKey: @"tid"])
   {
-    __user_id = [decoder decodeInt64ForKey: @"user_id"];
-    __user_id_isset = YES;
+    __tid = [decoder decodeInt64ForKey: @"tid"];
+    __tid_isset = YES;
   }
   return self;
 }
@@ -2755,9 +3751,9 @@
   {
     [encoder encodeObject: __access_token forKey: @"access_token"];
   }
-  if (__user_id_isset)
+  if (__tid_isset)
   {
-    [encoder encodeInt64: __user_id forKey: @"user_id"];
+    [encoder encodeInt64: __tid forKey: @"tid"];
   }
 }
 
@@ -2788,21 +3784,21 @@
   __access_token_isset = NO;
 }
 
-- (int64_t) user_id {
-  return __user_id;
+- (int64_t) tid {
+  return __tid;
 }
 
-- (void) setUser_id: (int64_t) user_id {
-  __user_id = user_id;
-  __user_id_isset = YES;
+- (void) setTid: (int64_t) tid {
+  __tid = tid;
+  __tid_isset = YES;
 }
 
-- (BOOL) user_idIsSet {
-  return __user_id_isset;
+- (BOOL) tidIsSet {
+  return __tid_isset;
 }
 
-- (void) unsetUser_id {
-  __user_id_isset = NO;
+- (void) unsetTid {
+  __tid_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -2831,7 +3827,7 @@
       case 2:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setUser_id: fieldValue];
+          [self setTid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -2854,9 +3850,9 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__user_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"user_id" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __user_id];
+  if (__tid_isset) {
+    [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __tid];
     [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
@@ -2867,8 +3863,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"task_accept_args("];
   [ms appendString: @"access_token:"];
   [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",user_id:"];
-  [ms appendFormat: @"%qi", __user_id];
+  [ms appendString: @",tid:"];
+  [ms appendFormat: @"%qi", __tid];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -3001,6 +3997,1344 @@
 
 @end
 
+@interface msg_list_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  int __type;
+  int64_t __last_id;
+  int64_t __num;
+
+  BOOL __access_token_isset;
+  BOOL __type_isset;
+  BOOL __last_id_isset;
+  BOOL __num_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, getter=type, setter=setType:) int type;
+@property (nonatomic, getter=last_id, setter=setLast_id:) int64_t last_id;
+@property (nonatomic, getter=num, setter=setNum:) int64_t num;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (int) type;
+- (void) setType: (int) type;
+- (BOOL) typeIsSet;
+
+- (int64_t) last_id;
+- (void) setLast_id: (int64_t) last_id;
+- (BOOL) last_idIsSet;
+
+- (int64_t) num;
+- (void) setNum: (int64_t) num;
+- (BOOL) numIsSet;
+
+@end
+
+@implementation msg_list_args
+
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __type = type;
+  __type_isset = YES;
+  __last_id = last_id;
+  __last_id_isset = YES;
+  __num = num;
+  __num_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"type"])
+  {
+    __type = [decoder decodeIntForKey: @"type"];
+    __type_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"last_id"])
+  {
+    __last_id = [decoder decodeInt64ForKey: @"last_id"];
+    __last_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"num"])
+  {
+    __num = [decoder decodeInt64ForKey: @"num"];
+    __num_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__type_isset)
+  {
+    [encoder encodeInt: __type forKey: @"type"];
+  }
+  if (__last_id_isset)
+  {
+    [encoder encodeInt64: __last_id forKey: @"last_id"];
+  }
+  if (__num_isset)
+  {
+    [encoder encodeInt64: __num forKey: @"num"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (int) type {
+  return __type;
+}
+
+- (void) setType: (int) type {
+  __type = type;
+  __type_isset = YES;
+}
+
+- (BOOL) typeIsSet {
+  return __type_isset;
+}
+
+- (void) unsetType {
+  __type_isset = NO;
+}
+
+- (int64_t) last_id {
+  return __last_id;
+}
+
+- (void) setLast_id: (int64_t) last_id {
+  __last_id = last_id;
+  __last_id_isset = YES;
+}
+
+- (BOOL) last_idIsSet {
+  return __last_id_isset;
+}
+
+- (void) unsetLast_id {
+  __last_id_isset = NO;
+}
+
+- (int64_t) num {
+  return __num;
+}
+
+- (void) setNum: (int64_t) num {
+  __num = num;
+  __num_isset = YES;
+}
+
+- (BOOL) numIsSet {
+  return __num_isset;
+}
+
+- (void) unsetNum {
+  __num_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setType: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setLast_id: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setNum: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"msg_list_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__type_isset) {
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __type];
+    [outProtocol writeFieldEnd];
+  }
+  if (__last_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __last_id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__num_isset) {
+    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
+    [outProtocol writeI64: __num];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"msg_list_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",type:"];
+  [ms appendFormat: @"%i", __type];
+  [ms appendString: @",last_id:"];
+  [ms appendFormat: @"%qi", __last_id];
+  [ms appendString: @",num:"];
+  [ms appendFormat: @"%qi", __num];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Msg_list_result : NSObject <NSCoding> {
+  NSArray * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) NSArray * success;
+#endif
+
+- (id) initWithSuccess: (NSArray *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSArray *) success;
+- (void) setSuccess: (NSArray *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation Msg_list_result
+
+- (id) initWithSuccess: (NSArray *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (NSArray *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (NSArray *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_LIST) {
+          int _size10;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size10];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size10];
+          int _i11;
+          for (_i11 = 0; _i11 < _size10; ++_i11)
+          {
+            Msg *_elem12 = [[Msg alloc] init];
+            [_elem12 read: inProtocol];
+            [fieldValue addObject: _elem12];
+            [_elem12 release];
+          }
+          [inProtocol readListEnd];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Msg_list_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
+        int i14;
+        for (i14 = 0; i14 < [__success count]; i14++)
+        {
+          [[__success objectAtIndex: i14] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Msg_list_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface msg_send_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  Msg * __msg;
+
+  BOOL __access_token_isset;
+  BOOL __msg_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, retain, getter=msg, setter=setMsg:) Msg * msg;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token msg: (Msg *) msg;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (Msg *) msg;
+- (void) setMsg: (Msg *) msg;
+- (BOOL) msgIsSet;
+
+@end
+
+@implementation msg_send_args
+
+- (id) initWithAccess_token: (NSString *) access_token msg: (Msg *) msg
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __msg = [msg retain];
+  __msg_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"msg"])
+  {
+    __msg = [[decoder decodeObjectForKey: @"msg"] retain];
+    __msg_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__msg_isset)
+  {
+    [encoder encodeObject: __msg forKey: @"msg"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [__msg release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (Msg *) msg {
+  return [[__msg retain] autorelease];
+}
+
+- (void) setMsg: (Msg *) msg {
+  [msg retain];
+  [__msg release];
+  __msg = msg;
+  __msg_isset = YES;
+}
+
+- (BOOL) msgIsSet {
+  return __msg_isset;
+}
+
+- (void) unsetMsg {
+  [__msg release];
+  __msg = nil;
+  __msg_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          Msg *fieldValue = [[Msg alloc] init];
+          [fieldValue read: inProtocol];
+          [self setMsg: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"msg_send_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__msg_isset) {
+    if (__msg != nil) {
+      [outProtocol writeFieldBeginWithName: @"msg" type: TType_STRUCT fieldID: 2];
+      [__msg write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"msg_send_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",msg:"];
+  [ms appendFormat: @"%@", __msg];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Msg_send_result : NSObject <NSCoding> {
+}
+
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+@end
+
+@implementation Msg_send_result
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Msg_send_result"];
+
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Msg_send_result("];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface feed_args : NSObject <NSCoding> {
+  NSString * __access_token;
+  int64_t __last_id;
+  int64_t __num;
+
+  BOOL __access_token_isset;
+  BOOL __last_id_isset;
+  BOOL __num_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+@property (nonatomic, getter=last_id, setter=setLast_id:) int64_t last_id;
+@property (nonatomic, getter=num, setter=setNum:) int64_t num;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token last_id: (int64_t) last_id num: (int64_t) num;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+- (int64_t) last_id;
+- (void) setLast_id: (int64_t) last_id;
+- (BOOL) last_idIsSet;
+
+- (int64_t) num;
+- (void) setNum: (int64_t) num;
+- (BOOL) numIsSet;
+
+@end
+
+@implementation feed_args
+
+- (id) initWithAccess_token: (NSString *) access_token last_id: (int64_t) last_id num: (int64_t) num
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  __last_id = last_id;
+  __last_id_isset = YES;
+  __num = num;
+  __num_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"last_id"])
+  {
+    __last_id = [decoder decodeInt64ForKey: @"last_id"];
+    __last_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"num"])
+  {
+    __num = [decoder decodeInt64ForKey: @"num"];
+    __num_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+  if (__last_id_isset)
+  {
+    [encoder encodeInt64: __last_id forKey: @"last_id"];
+  }
+  if (__num_isset)
+  {
+    [encoder encodeInt64: __num forKey: @"num"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (int64_t) last_id {
+  return __last_id;
+}
+
+- (void) setLast_id: (int64_t) last_id {
+  __last_id = last_id;
+  __last_id_isset = YES;
+}
+
+- (BOOL) last_idIsSet {
+  return __last_id_isset;
+}
+
+- (void) unsetLast_id {
+  __last_id_isset = NO;
+}
+
+- (int64_t) num {
+  return __num;
+}
+
+- (void) setNum: (int64_t) num {
+  __num = num;
+  __num_isset = YES;
+}
+
+- (BOOL) numIsSet {
+  return __num_isset;
+}
+
+- (void) unsetNum {
+  __num_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setLast_id: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setNum: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"feed_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__last_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __last_id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__num_isset) {
+    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __num];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"feed_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @",last_id:"];
+  [ms appendFormat: @"%qi", __last_id];
+  [ms appendString: @",num:"];
+  [ms appendFormat: @"%qi", __num];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Feed_result : NSObject <NSCoding> {
+  NSArray * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) NSArray * success;
+#endif
+
+- (id) initWithSuccess: (NSArray *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSArray *) success;
+- (void) setSuccess: (NSArray *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation Feed_result
+
+- (id) initWithSuccess: (NSArray *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (NSArray *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (NSArray *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_LIST) {
+          int _size15;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size15];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size15];
+          int _i16;
+          for (_i16 = 0; _i16 < _size15; ++_i16)
+          {
+            FeedMsg *_elem17 = [[FeedMsg alloc] init];
+            [_elem17 read: inProtocol];
+            [fieldValue addObject: _elem17];
+            [_elem17 release];
+          }
+          [inProtocol readListEnd];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Feed_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
+        int i19;
+        for (i19 = 0; i19 < [__success count]; i19++)
+        {
+          [[__success objectAtIndex: i19] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Feed_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface summary_args : NSObject <NSCoding> {
+  NSString * __access_token;
+
+  BOOL __access_token_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
+#endif
+
+- (id) initWithAccess_token: (NSString *) access_token;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) access_token;
+- (void) setAccess_token: (NSString *) access_token;
+- (BOOL) access_tokenIsSet;
+
+@end
+
+@implementation summary_args
+
+- (id) initWithAccess_token: (NSString *) access_token
+{
+  self = [super init];
+  __access_token = [access_token retain];
+  __access_token_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"access_token"])
+  {
+    __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
+    __access_token_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__access_token_isset)
+  {
+    [encoder encodeObject: __access_token forKey: @"access_token"];
+  }
+}
+
+- (void) dealloc
+{
+  [__access_token release];
+  [super dealloc];
+}
+
+- (NSString *) access_token {
+  return [[__access_token retain] autorelease];
+}
+
+- (void) setAccess_token: (NSString *) access_token {
+  [access_token retain];
+  [__access_token release];
+  __access_token = access_token;
+  __access_token_isset = YES;
+}
+
+- (BOOL) access_tokenIsSet {
+  return __access_token_isset;
+}
+
+- (void) unsetAccess_token {
+  [__access_token release];
+  __access_token = nil;
+  __access_token_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAccess_token: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"summary_args"];
+  if (__access_token_isset) {
+    if (__access_token != nil) {
+      [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __access_token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"summary_args("];
+  [ms appendString: @"access_token:"];
+  [ms appendFormat: @"\"%@\"", __access_token];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface Summary_result : NSObject <NSCoding> {
+  Summary * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) Summary * success;
+#endif
+
+- (id) initWithSuccess: (Summary *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (Summary *) success;
+- (void) setSuccess: (Summary *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation Summary_result
+
+- (id) initWithSuccess: (Summary *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (Summary *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (Summary *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          Summary *fieldValue = [[Summary alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"Summary_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Summary_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @implementation SnsClient
 - (id) initWithProtocol: (id <TProtocol>) protocol
 {
@@ -3108,10 +5442,10 @@
   [self recv_logout];
 }
 
-- (void) send_user_info_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
+- (void) send_user_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
 {
-  [outProtocol writeMessageBeginWithName: @"user_info_get" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"user_info_get_args"];
+  [outProtocol writeMessageBeginWithName: @"user_get" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"user_get_args"];
   if (access_token != nil)  {
     [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
     [outProtocol writeString: access_token];
@@ -3129,7 +5463,7 @@
   [[outProtocol transport] flush];
 }
 
-- (UserInfo *) recv_user_info_get
+- (User *) recv_user_get
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -3138,20 +5472,110 @@
     [inProtocol readMessageEnd];
     @throw x;
   }
-  User_info_get_result * result = [[[User_info_get_result alloc] init] autorelease];
+  User_get_result * result = [[[User_get_result alloc] init] autorelease];
   [result read: inProtocol];
   [inProtocol readMessageEnd];
   if ([result successIsSet]) {
     return [result success];
   }
   @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"user_info_get failed: unknown result"];
+                                           reason: @"user_get failed: unknown result"];
 }
 
-- (UserInfo *) user_info_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
+- (User *) user_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
 {
-  [self send_user_info_get: access_token : uid : ext_only];
-  return [self recv_user_info_get];
+  [self send_user_get: access_token : uid : ext_only];
+  return [self recv_user_get];
+}
+
+- (void) send_user_set: (NSString *) access_token : (User *) user
+{
+  [outProtocol writeMessageBeginWithName: @"user_set" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"user_set_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  if (user != nil)  {
+    [outProtocol writeFieldBeginWithName: @"user" type: TType_STRUCT fieldID: 2];
+    [user write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (void) recv_user_set
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  User_set_result * result = [[[User_set_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  return;
+}
+
+- (void) user_set: (NSString *) access_token : (User *) user
+{
+  [self send_user_set: access_token : user];
+  [self recv_user_set];
+}
+
+- (void) send_user_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num
+{
+  [outProtocol writeMessageBeginWithName: @"user_list" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"user_list_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
+  [outProtocol writeI32: type];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
+  [outProtocol writeI64: last_id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
+  [outProtocol writeI64: num];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (NSArray *) recv_user_list
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  User_list_result * result = [[[User_list_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"user_list failed: unknown result"];
+}
+
+- (NSArray *) user_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num
+{
+  [self send_user_list: access_token : type : last_id : num];
+  return [self recv_user_list];
 }
 
 - (void) send_task_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num
@@ -3203,7 +5627,7 @@
   return [self recv_task_list];
 }
 
-- (void) send_task_get: (int64_t) access_token : (int64_t) tid : (BOOL) ext_only
+- (void) send_task_get: (int64_t) access_token : (int64_t) tid : (TaskFilter *) filter : (BOOL) ext_only
 {
   [outProtocol writeMessageBeginWithName: @"task_get" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"task_get_args"];
@@ -3213,7 +5637,12 @@
   [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 2];
   [outProtocol writeI64: tid];
   [outProtocol writeFieldEnd];
-  [outProtocol writeFieldBeginWithName: @"ext_only" type: TType_BOOL fieldID: 3];
+  if (filter != nil)  {
+    [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 3];
+    [filter write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"ext_only" type: TType_BOOL fieldID: 4];
   [outProtocol writeBool: ext_only];
   [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
@@ -3222,7 +5651,7 @@
   [[outProtocol transport] flush];
 }
 
-- (TaskInfo *) recv_task_get
+- (Task *) recv_task_get
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -3241,13 +5670,54 @@
                                            reason: @"task_get failed: unknown result"];
 }
 
-- (TaskInfo *) task_get: (int64_t) access_token : (int64_t) tid : (BOOL) ext_only
+- (Task *) task_get: (int64_t) access_token : (int64_t) tid : (TaskFilter *) filter : (BOOL) ext_only
 {
-  [self send_task_get: access_token : tid : ext_only];
+  [self send_task_get: access_token : tid : filter : ext_only];
   return [self recv_task_get];
 }
 
-- (void) send_task_new: (NSString *) access_token : (TaskInfo *) task
+- (void) send_task_set: (NSString *) access_token : (Task *) task
+{
+  [outProtocol writeMessageBeginWithName: @"task_set" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"task_set_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  if (task != nil)  {
+    [outProtocol writeFieldBeginWithName: @"task" type: TType_STRUCT fieldID: 2];
+    [task write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (void) recv_task_set
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Task_set_result * result = [[[Task_set_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  return;
+}
+
+- (void) task_set: (NSString *) access_token : (Task *) task
+{
+  [self send_task_set: access_token : task];
+  [self recv_task_set];
+}
+
+- (void) send_task_new: (NSString *) access_token : (Task *) task
 {
   [outProtocol writeMessageBeginWithName: @"task_new" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"task_new_args"];
@@ -3286,7 +5756,7 @@
                                            reason: @"task_new failed: unknown result"];
 }
 
-- (int64_t) task_new: (NSString *) access_token : (TaskInfo *) task
+- (int64_t) task_new: (NSString *) access_token : (Task *) task
 {
   [self send_task_new: access_token : task];
   return [self recv_task_new];
@@ -3335,7 +5805,7 @@
   return [self recv_task_apply];
 }
 
-- (void) send_task_reject: (NSString *) access_token : (int64_t) user_id
+- (void) send_task_reject: (NSString *) access_token : (int64_t) tid
 {
   [outProtocol writeMessageBeginWithName: @"task_reject" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"task_reject_args"];
@@ -3344,8 +5814,8 @@
     [outProtocol writeString: access_token];
     [outProtocol writeFieldEnd];
   }
-  [outProtocol writeFieldBeginWithName: @"user_id" type: TType_I64 fieldID: 2];
-  [outProtocol writeI64: user_id];
+  [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: tid];
   [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -3372,13 +5842,13 @@
                                            reason: @"task_reject failed: unknown result"];
 }
 
-- (BOOL) task_reject: (NSString *) access_token : (int64_t) user_id
+- (BOOL) task_reject: (NSString *) access_token : (int64_t) tid
 {
-  [self send_task_reject: access_token : user_id];
+  [self send_task_reject: access_token : tid];
   return [self recv_task_reject];
 }
 
-- (void) send_task_accept: (NSString *) access_token : (int64_t) user_id
+- (void) send_task_accept: (NSString *) access_token : (int64_t) tid
 {
   [outProtocol writeMessageBeginWithName: @"task_accept" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"task_accept_args"];
@@ -3387,8 +5857,8 @@
     [outProtocol writeString: access_token];
     [outProtocol writeFieldEnd];
   }
-  [outProtocol writeFieldBeginWithName: @"user_id" type: TType_I64 fieldID: 2];
-  [outProtocol writeI64: user_id];
+  [outProtocol writeFieldBeginWithName: @"tid" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: tid];
   [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -3415,10 +5885,186 @@
                                            reason: @"task_accept failed: unknown result"];
 }
 
-- (BOOL) task_accept: (NSString *) access_token : (int64_t) user_id
+- (BOOL) task_accept: (NSString *) access_token : (int64_t) tid
 {
-  [self send_task_accept: access_token : user_id];
+  [self send_task_accept: access_token : tid];
   return [self recv_task_accept];
+}
+
+- (void) send_msg_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num
+{
+  [outProtocol writeMessageBeginWithName: @"msg_list" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"msg_list_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
+  [outProtocol writeI32: type];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
+  [outProtocol writeI64: last_id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
+  [outProtocol writeI64: num];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (NSArray *) recv_msg_list
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Msg_list_result * result = [[[Msg_list_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"msg_list failed: unknown result"];
+}
+
+- (NSArray *) msg_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num
+{
+  [self send_msg_list: access_token : type : last_id : num];
+  return [self recv_msg_list];
+}
+
+- (void) send_msg_send: (NSString *) access_token : (Msg *) msg
+{
+  [outProtocol writeMessageBeginWithName: @"msg_send" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"msg_send_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  if (msg != nil)  {
+    [outProtocol writeFieldBeginWithName: @"msg" type: TType_STRUCT fieldID: 2];
+    [msg write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (void) recv_msg_send
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Msg_send_result * result = [[[Msg_send_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  return;
+}
+
+- (void) msg_send: (NSString *) access_token : (Msg *) msg
+{
+  [self send_msg_send: access_token : msg];
+  [self recv_msg_send];
+}
+
+- (void) send_feed: (NSString *) access_token : (int64_t) last_id : (int64_t) num
+{
+  [outProtocol writeMessageBeginWithName: @"feed" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"feed_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: last_id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 3];
+  [outProtocol writeI64: num];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (NSArray *) recv_feed
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Feed_result * result = [[[Feed_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"feed failed: unknown result"];
+}
+
+- (NSArray *) feed: (NSString *) access_token : (int64_t) last_id : (int64_t) num
+{
+  [self send_feed: access_token : last_id : num];
+  return [self recv_feed];
+}
+
+- (void) send_summary: (NSString *) access_token
+{
+  [outProtocol writeMessageBeginWithName: @"summary" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"summary_args"];
+  if (access_token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"access_token" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: access_token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (Summary *) recv_summary
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  Summary_result * result = [[[Summary_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"summary failed: unknown result"];
+}
+
+- (Summary *) summary: (NSString *) access_token
+{
+  [self send_summary: access_token];
+  return [self recv_summary];
 }
 
 @end
@@ -3450,12 +6096,28 @@
     [mMethodMap setValue: invocation forKey: @"logout"];
   }
   {
-    SEL s = @selector(process_user_info_get_withSequenceID:inProtocol:outProtocol:);
+    SEL s = @selector(process_user_get_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
     [invocation setSelector: s];
     [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"user_info_get"];
+    [mMethodMap setValue: invocation forKey: @"user_get"];
+  }
+  {
+    SEL s = @selector(process_user_set_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"user_set"];
+  }
+  {
+    SEL s = @selector(process_user_list_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"user_list"];
   }
   {
     SEL s = @selector(process_task_list_withSequenceID:inProtocol:outProtocol:);
@@ -3472,6 +6134,14 @@
     [invocation setSelector: s];
     [invocation retainArguments];
     [mMethodMap setValue: invocation forKey: @"task_get"];
+  }
+  {
+    SEL s = @selector(process_task_set_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"task_set"];
   }
   {
     SEL s = @selector(process_task_new_withSequenceID:inProtocol:outProtocol:);
@@ -3504,6 +6174,38 @@
     [invocation setSelector: s];
     [invocation retainArguments];
     [mMethodMap setValue: invocation forKey: @"task_accept"];
+  }
+  {
+    SEL s = @selector(process_msg_list_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"msg_list"];
+  }
+  {
+    SEL s = @selector(process_msg_send_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"msg_send"];
+  }
+  {
+    SEL s = @selector(process_feed_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"feed"];
+  }
+  {
+    SEL s = @selector(process_summary_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"summary"];
   }
   return self;
 }
@@ -3580,14 +6282,48 @@
   [args release];
 }
 
-- (void) process_user_info_get_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+- (void) process_user_get_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
 {
-  user_info_get_args * args = [[user_info_get_args alloc] init];
+  user_get_args * args = [[user_get_args alloc] init];
   [args read: inProtocol];
   [inProtocol readMessageEnd];
-  User_info_get_result * result = [[User_info_get_result alloc] init];
-  [result setSuccess: [mService user_info_get: [args access_token]: [args uid]: [args ext_only]]];
-  [outProtocol writeMessageBeginWithName: @"user_info_get"
+  User_get_result * result = [[User_get_result alloc] init];
+  [result setSuccess: [mService user_get: [args access_token]: [args uid]: [args ext_only]]];
+  [outProtocol writeMessageBeginWithName: @"user_get"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_user_set_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  user_set_args * args = [[user_set_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  User_set_result * result = [[User_set_result alloc] init];
+  [mService user_set: [args access_token]: [args user]];
+  [outProtocol writeMessageBeginWithName: @"user_set"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_user_list_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  user_list_args * args = [[user_list_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  User_list_result * result = [[User_list_result alloc] init];
+  [result setSuccess: [mService user_list: [args access_token]: [args type]: [args last_id]: [args num]]];
+  [outProtocol writeMessageBeginWithName: @"user_list"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
@@ -3620,8 +6356,25 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   Task_get_result * result = [[Task_get_result alloc] init];
-  [result setSuccess: [mService task_get: [args access_token]: [args tid]: [args ext_only]]];
+  [result setSuccess: [mService task_get: [args access_token]: [args tid]: [args filter]: [args ext_only]]];
   [outProtocol writeMessageBeginWithName: @"task_get"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_task_set_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  task_set_args * args = [[task_set_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Task_set_result * result = [[Task_set_result alloc] init];
+  [mService task_set: [args access_token]: [args task]];
+  [outProtocol writeMessageBeginWithName: @"task_set"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
@@ -3671,7 +6424,7 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   Task_reject_result * result = [[Task_reject_result alloc] init];
-  [result setSuccess: [mService task_reject: [args access_token]: [args user_id]]];
+  [result setSuccess: [mService task_reject: [args access_token]: [args tid]]];
   [outProtocol writeMessageBeginWithName: @"task_reject"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
@@ -3688,8 +6441,76 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   Task_accept_result * result = [[Task_accept_result alloc] init];
-  [result setSuccess: [mService task_accept: [args access_token]: [args user_id]]];
+  [result setSuccess: [mService task_accept: [args access_token]: [args tid]]];
   [outProtocol writeMessageBeginWithName: @"task_accept"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_msg_list_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  msg_list_args * args = [[msg_list_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Msg_list_result * result = [[Msg_list_result alloc] init];
+  [result setSuccess: [mService msg_list: [args access_token]: [args type]: [args last_id]: [args num]]];
+  [outProtocol writeMessageBeginWithName: @"msg_list"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_msg_send_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  msg_send_args * args = [[msg_send_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Msg_send_result * result = [[Msg_send_result alloc] init];
+  [mService msg_send: [args access_token]: [args msg]];
+  [outProtocol writeMessageBeginWithName: @"msg_send"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_feed_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  feed_args * args = [[feed_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Feed_result * result = [[Feed_result alloc] init];
+  [result setSuccess: [mService feed: [args access_token]: [args last_id]: [args num]]];
+  [outProtocol writeMessageBeginWithName: @"feed"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_summary_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  summary_args * args = [[summary_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  Summary_result * result = [[Summary_result alloc] init];
+  [result setSuccess: [mService summary: [args access_token]]];
+  [outProtocol writeMessageBeginWithName: @"summary"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
