@@ -5,35 +5,17 @@ typedef i64 timestamp
 # Auth
 
 struct AuthRequest {
-    1:  required    string  id,
-    2:  required    string  serect,
-    3:  required    string  mail,
-    4:  required    string  password # encrypted
+    1:  required    string  client_id,
+    2:  required    string  client_serect
 }
 
 struct AuthResponse {
-    1:  required    i64     uid,
-    2:  required    string  name,
-    3:  required    string  access,
-    4:  optional    string  refresh,
-    5:  optional    i64     expire
+    1:  required    string  access_token,
+    2:  required    i64     expire_in,
+    3:  optional    string  refresh_token
 }
 
 # Task
-
-struct TaskBasic {
-    1:  required    i64             tid,
-    2:  required    string          title,
-    3:  required    i64             sponsor,
-    4:  required    string          intro,
-    5:  required    TaskBasicStatus status,
-    6:  required    timestamp       begin,
-    7:  required    timestamp       end,
-    8:  required    i64             planed, # 计划人数
-    9:  required    i64             applied,
-    10: required    i64             invited,
-    11: required    i64             accepted
-}
 
 enum TaskStatus {
     None = 0,    
@@ -42,11 +24,25 @@ enum TaskStatus {
     Rejected
 }
 
+struct TaskBasic {
+    1:  required    i64             tid,
+    2:  required    string          title,
+    3:  required    i64             sponsor,
+    4:  required    string          intro,
+    5:  required    TaskStatus      status,
+    6:  required    timestamp       begin_time,
+    7:  required    timestamp       end_time,
+    8:  required    i64             planed, # 计划人数
+    9:  required    i64             applied,
+    10: required    i64             invited,
+    11: required    i64             accepted
+}
+
 struct TaskExt {
     1:  required    list<TaskStatus>    status,
-    2:  required    list<i64>           appliedList,
-    3:  required    list<i64>           invitedList,
-    4:  required    list<i64>           acceptedList
+    2:  required    list<i64>           applied_list,
+    3:  required    list<i64>           invited_list,
+    4:  required    list<i64>           accepted_list
 }
 
 struct Task {
@@ -58,8 +54,8 @@ enum TaskListType {
     All = 0,
     Recommend,
     Nearby,
-    Follow,
-    Starred
+    Following,
+    Staring
 }
 
 struct TaskListRequest {
@@ -68,18 +64,12 @@ struct TaskListRequest {
     3:  required    TaskListType    type
 }
 
-struct TaskListResponse {
-    1:  required    i64             lastid, # the new one
-    2:  required    list<TaskBasic> taskList
-}
-
 # User
 
 enum UserGender {
     Unknown = 0,
     Male,
-    Female,
-    Other
+    Female
 }
 
 struct UserBasic {
@@ -92,8 +82,8 @@ struct UserBasic {
 
 struct UserExt {
     1:  required    string      intro,
-    2:  required    list<i64>   followingList,
-    3:  required    list<i64>   followedList
+    2:  required    list<i64>   following_list,
+    3:  required    list<i64>   followed_list
 }
 
 struct User {
@@ -102,3 +92,4 @@ struct User {
 }
 
 # end
+

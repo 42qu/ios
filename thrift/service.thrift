@@ -49,6 +49,8 @@ service Sns {
         2: type.TaskInfo task 
     )
     
+    bool task_apply()
+
     bool task_apply(
         1: string access_token,
         2: i64 tid
