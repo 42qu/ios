@@ -114,7 +114,7 @@ struct TaskListRequest {
 # Message
 
 enum MsgType {
-    None = 0,
+    All = 0,
     System = 1,
     Friends = 2,
     Stranger = 4,
@@ -125,14 +125,13 @@ struct Msg {
     1:  required    i64         sender,
     2:  required    i64         time,
     3:  required    string      text,
-    4:  required    bool        unread,
-    5:  optional    MsgType     type = MsgType.None
+    4:  optional    MsgType     type
 }
 
 # Feed
 
 enum FeedType {
-    None,
+    All,
     Text,
     Article,
     Pic,

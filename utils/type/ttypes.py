@@ -103,14 +103,14 @@ class TaskListType:
   }
 
 class MsgType:
-  None = 0
+  All = 0
   System = 1
   Friends = 2
   Stranger = 4
   Unread = 8
 
   _VALUES_TO_NAMES = {
-    0: "None",
+    0: "All",
     1: "System",
     2: "Friends",
     4: "Stranger",
@@ -118,7 +118,7 @@ class MsgType:
   }
 
   _NAMES_TO_VALUES = {
-    "None": 0,
+    "All": 0,
     "System": 1,
     "Friends": 2,
     "Stranger": 4,
@@ -126,14 +126,14 @@ class MsgType:
   }
 
 class FeedType:
-  None = 0
+  All = 0
   Text = 1
   Article = 2
   Pic = 3
   Activity = 4
 
   _VALUES_TO_NAMES = {
-    0: "None",
+    0: "All",
     1: "Text",
     2: "Article",
     3: "Pic",
@@ -141,7 +141,7 @@ class FeedType:
   }
 
   _NAMES_TO_VALUES = {
-    "None": 0,
+    "All": 0,
     "Text": 1,
     "Article": 2,
     "Pic": 3,
@@ -1269,7 +1269,6 @@ class Msg:
    - sender
    - time
    - text
-   - unread
    - type
   """
 
@@ -1278,15 +1277,13 @@ class Msg:
     (1, TType.I64, 'sender', None, None, ), # 1
     (2, TType.I64, 'time', None, None, ), # 2
     (3, TType.STRING, 'text', None, None, ), # 3
-    (4, TType.BOOL, 'unread', None, None, ), # 4
-    (5, TType.I32, 'type', None,     0, ), # 5
+    (4, TType.I32, 'type', None, None, ), # 4
   )
 
-  def __init__(self, sender=None, time=None, text=None, unread=None, type=thrift_spec[5][4],):
+  def __init__(self, sender=None, time=None, text=None, type=None,):
     self.sender = sender
     self.time = time
     self.text = text
-    self.unread = unread
     self.type = type
 
   def read(self, iprot):
@@ -1314,11 +1311,6 @@ class Msg:
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.BOOL:
-          self.unread = iprot.readBool();
-        else:
-          iprot.skip(ftype)
-      elif fid == 5:
         if ftype == TType.I32:
           self.type = iprot.readI32();
         else:
@@ -1345,12 +1337,8 @@ class Msg:
       oprot.writeFieldBegin('text', TType.STRING, 3)
       oprot.writeString(self.text)
       oprot.writeFieldEnd()
-    if self.unread is not None:
-      oprot.writeFieldBegin('unread', TType.BOOL, 4)
-      oprot.writeBool(self.unread)
-      oprot.writeFieldEnd()
     if self.type is not None:
-      oprot.writeFieldBegin('type', TType.I32, 5)
+      oprot.writeFieldBegin('type', TType.I32, 4)
       oprot.writeI32(self.type)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1363,8 +1351,6 @@ class Msg:
       raise TProtocol.TProtocolException(message='Required field time is unset!')
     if self.text is None:
       raise TProtocol.TProtocolException(message='Required field text is unset!')
-    if self.unread is None:
-      raise TProtocol.TProtocolException(message='Required field unread is unset!')
     return
 
 

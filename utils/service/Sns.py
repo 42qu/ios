@@ -61,22 +61,22 @@ class Iface:
     """
     pass
 
-  def task_list(self, access_token, type, last_id, num):
+  def task_list(self, access_token, type, last_id, num, filter):
     """
     Parameters:
      - access_token
      - type
      - last_id
      - num
+     - filter
     """
     pass
 
-  def task_get(self, access_token, tid, filter, ext_only):
+  def task_get(self, access_token, tid, ext_only):
     """
     Parameters:
      - access_token
      - tid
-     - filter
      - ext_only
     """
     pass
@@ -131,10 +131,11 @@ class Iface:
     """
     pass
 
-  def msg_send(self, access_token, msg):
+  def msg_send(self, access_token, send_to, msg):
     """
     Parameters:
      - access_token
+     - send_to
      - msg
     """
     pass
@@ -325,24 +326,26 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "user_list failed: unknown result");
 
-  def task_list(self, access_token, type, last_id, num):
+  def task_list(self, access_token, type, last_id, num, filter):
     """
     Parameters:
      - access_token
      - type
      - last_id
      - num
+     - filter
     """
-    self.send_task_list(access_token, type, last_id, num)
+    self.send_task_list(access_token, type, last_id, num, filter)
     return self.recv_task_list()
 
-  def send_task_list(self, access_token, type, last_id, num):
+  def send_task_list(self, access_token, type, last_id, num, filter):
     self._oprot.writeMessageBegin('task_list', TMessageType.CALL, self._seqid)
     args = task_list_args()
     args.access_token = access_token
     args.type = type
     args.last_id = last_id
     args.num = num
+    args.filter = filter
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -361,23 +364,21 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "task_list failed: unknown result");
 
-  def task_get(self, access_token, tid, filter, ext_only):
+  def task_get(self, access_token, tid, ext_only):
     """
     Parameters:
      - access_token
      - tid
-     - filter
      - ext_only
     """
-    self.send_task_get(access_token, tid, filter, ext_only)
+    self.send_task_get(access_token, tid, ext_only)
     return self.recv_task_get()
 
-  def send_task_get(self, access_token, tid, filter, ext_only):
+  def send_task_get(self, access_token, tid, ext_only):
     self._oprot.writeMessageBegin('task_get', TMessageType.CALL, self._seqid)
     args = task_get_args()
     args.access_token = access_token
     args.tid = tid
-    args.filter = filter
     args.ext_only = ext_only
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
@@ -591,19 +592,21 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "msg_list failed: unknown result");
 
-  def msg_send(self, access_token, msg):
+  def msg_send(self, access_token, send_to, msg):
     """
     Parameters:
      - access_token
+     - send_to
      - msg
     """
-    self.send_msg_send(access_token, msg)
+    self.send_msg_send(access_token, send_to, msg)
     self.recv_msg_send()
 
-  def send_msg_send(self, access_token, msg):
+  def send_msg_send(self, access_token, send_to, msg):
     self._oprot.writeMessageBegin('msg_send', TMessageType.CALL, self._seqid)
     args = msg_send_args()
     args.access_token = access_token
+    args.send_to = send_to
     args.msg = msg
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
@@ -782,7 +785,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_list_result()
-    result.success = self._handler.task_list(args.access_token, args.type, args.last_id, args.num)
+    result.success = self._handler.task_list(args.access_token, args.type, args.last_id, args.num, args.filter)
     oprot.writeMessageBegin("task_list", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -793,7 +796,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_get_result()
-    result.success = self._handler.task_get(args.access_token, args.tid, args.filter, args.ext_only)
+    result.success = self._handler.task_get(args.access_token, args.tid, args.ext_only)
     oprot.writeMessageBegin("task_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -870,7 +873,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = msg_send_result()
-    self._handler.msg_send(args.access_token, args.msg)
+    self._handler.msg_send(args.access_token, args.send_to, args.msg)
     oprot.writeMessageBegin("msg_send", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1604,6 +1607,7 @@ class task_list_args:
    - type
    - last_id
    - num
+   - filter
   """
 
   thrift_spec = (
@@ -1612,13 +1616,15 @@ class task_list_args:
     (2, TType.I32, 'type', None, None, ), # 2
     (3, TType.I64, 'last_id', None, None, ), # 3
     (4, TType.I64, 'num', None, None, ), # 4
+    (5, TType.STRUCT, 'filter', (type.ttypes.TaskFilter, type.ttypes.TaskFilter.thrift_spec), None, ), # 5
   )
 
-  def __init__(self, access_token=None, type=None, last_id=None, num=None,):
+  def __init__(self, access_token=None, type=None, last_id=None, num=None, filter=None,):
     self.access_token = access_token
     self.type = type
     self.last_id = last_id
     self.num = num
+    self.filter = filter
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1649,6 +1655,12 @@ class task_list_args:
           self.num = iprot.readI64();
         else:
           iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRUCT:
+          self.filter = type.ttypes.TaskFilter()
+          self.filter.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1675,6 +1687,10 @@ class task_list_args:
       oprot.writeFieldBegin('num', TType.I64, 4)
       oprot.writeI64(self.num)
       oprot.writeFieldEnd()
+    if self.filter is not None:
+      oprot.writeFieldBegin('filter', TType.STRUCT, 5)
+      self.filter.write(oprot)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -1687,6 +1703,8 @@ class task_list_args:
       raise TProtocol.TProtocolException(message='Required field last_id is unset!')
     if self.num is None:
       raise TProtocol.TProtocolException(message='Required field num is unset!')
+    if self.filter is None:
+      raise TProtocol.TProtocolException(message='Required field filter is unset!')
     return
 
 
@@ -1774,7 +1792,6 @@ class task_get_args:
   Attributes:
    - access_token
    - tid
-   - filter
    - ext_only
   """
 
@@ -1782,14 +1799,12 @@ class task_get_args:
     None, # 0
     (1, TType.I64, 'access_token', None, None, ), # 1
     (2, TType.I64, 'tid', None, None, ), # 2
-    (3, TType.STRUCT, 'filter', (type.ttypes.TaskFilter, type.ttypes.TaskFilter.thrift_spec), None, ), # 3
-    (4, TType.BOOL, 'ext_only', None, True, ), # 4
+    (3, TType.BOOL, 'ext_only', None, True, ), # 3
   )
 
-  def __init__(self, access_token=None, tid=None, filter=None, ext_only=thrift_spec[4][4],):
+  def __init__(self, access_token=None, tid=None, ext_only=thrift_spec[3][4],):
     self.access_token = access_token
     self.tid = tid
-    self.filter = filter
     self.ext_only = ext_only
 
   def read(self, iprot):
@@ -1812,12 +1827,6 @@ class task_get_args:
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.filter = type.ttypes.TaskFilter()
-          self.filter.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
         if ftype == TType.BOOL:
           self.ext_only = iprot.readBool();
         else:
@@ -1840,12 +1849,8 @@ class task_get_args:
       oprot.writeFieldBegin('tid', TType.I64, 2)
       oprot.writeI64(self.tid)
       oprot.writeFieldEnd()
-    if self.filter is not None:
-      oprot.writeFieldBegin('filter', TType.STRUCT, 3)
-      self.filter.write(oprot)
-      oprot.writeFieldEnd()
     if self.ext_only is not None:
-      oprot.writeFieldBegin('ext_only', TType.BOOL, 4)
+      oprot.writeFieldBegin('ext_only', TType.BOOL, 3)
       oprot.writeBool(self.ext_only)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1856,8 +1861,6 @@ class task_get_args:
       raise TProtocol.TProtocolException(message='Required field access_token is unset!')
     if self.tid is None:
       raise TProtocol.TProtocolException(message='Required field tid is unset!')
-    if self.filter is None:
-      raise TProtocol.TProtocolException(message='Required field filter is unset!')
     if self.ext_only is None:
       raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
@@ -2754,17 +2757,20 @@ class msg_send_args:
   """
   Attributes:
    - access_token
+   - send_to
    - msg
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.STRUCT, 'msg', (type.ttypes.Msg, type.ttypes.Msg.thrift_spec), None, ), # 2
+    (2, TType.I64, 'send_to', None, None, ), # 2
+    (3, TType.STRUCT, 'msg', (type.ttypes.Msg, type.ttypes.Msg.thrift_spec), None, ), # 3
   )
 
-  def __init__(self, access_token=None, msg=None,):
+  def __init__(self, access_token=None, send_to=None, msg=None,):
     self.access_token = access_token
+    self.send_to = send_to
     self.msg = msg
 
   def read(self, iprot):
@@ -2782,6 +2788,11 @@ class msg_send_args:
         else:
           iprot.skip(ftype)
       elif fid == 2:
+        if ftype == TType.I64:
+          self.send_to = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
         if ftype == TType.STRUCT:
           self.msg = type.ttypes.Msg()
           self.msg.read(iprot)
@@ -2801,8 +2812,12 @@ class msg_send_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
+    if self.send_to is not None:
+      oprot.writeFieldBegin('send_to', TType.I64, 2)
+      oprot.writeI64(self.send_to)
+      oprot.writeFieldEnd()
     if self.msg is not None:
-      oprot.writeFieldBegin('msg', TType.STRUCT, 2)
+      oprot.writeFieldBegin('msg', TType.STRUCT, 3)
       self.msg.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -2811,6 +2826,8 @@ class msg_send_args:
   def validate(self):
     if self.access_token is None:
       raise TProtocol.TProtocolException(message='Required field access_token is unset!')
+    if self.send_to is None:
+      raise TProtocol.TProtocolException(message='Required field send_to is unset!')
     if self.msg is None:
       raise TProtocol.TProtocolException(message='Required field msg is unset!')
     return

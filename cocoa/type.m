@@ -2746,7 +2746,7 @@
 
 @implementation Msg
 
-- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text unread: (BOOL) unread type: (int) type
+- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text type: (int) type
 {
   self = [super init];
   __sender = sender;
@@ -2755,8 +2755,6 @@
   __time_isset = YES;
   __text = [text retain];
   __text_isset = YES;
-  __unread = unread;
-  __unread_isset = YES;
   __type = type;
   __type_isset = YES;
   return self;
@@ -2780,11 +2778,6 @@
     __text = [[decoder decodeObjectForKey: @"text"] retain];
     __text_isset = YES;
   }
-  if ([decoder containsValueForKey: @"unread"])
-  {
-    __unread = [decoder decodeBoolForKey: @"unread"];
-    __unread_isset = YES;
-  }
   if ([decoder containsValueForKey: @"type"])
   {
     __type = [decoder decodeIntForKey: @"type"];
@@ -2806,10 +2799,6 @@
   if (__text_isset)
   {
     [encoder encodeObject: __text forKey: @"text"];
-  }
-  if (__unread_isset)
-  {
-    [encoder encodeBool: __unread forKey: @"unread"];
   }
   if (__type_isset)
   {
@@ -2878,23 +2867,6 @@
   __text_isset = NO;
 }
 
-- (BOOL) unread {
-  return __unread;
-}
-
-- (void) setUnread: (BOOL) unread {
-  __unread = unread;
-  __unread_isset = YES;
-}
-
-- (BOOL) unreadIsSet {
-  return __unread_isset;
-}
-
-- (void) unsetUnread {
-  __unread_isset = NO;
-}
-
 - (int) type {
   return __type;
 }
@@ -2952,14 +2924,6 @@
         }
         break;
       case 4:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setUnread: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
         if (fieldType == TType_I32) {
           int fieldValue = [inProtocol readI32];
           [self setType: fieldValue];
@@ -2995,13 +2959,8 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__unread_isset) {
-    [outProtocol writeFieldBeginWithName: @"unread" type: TType_BOOL fieldID: 4];
-    [outProtocol writeBool: __unread];
-    [outProtocol writeFieldEnd];
-  }
   if (__type_isset) {
-    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 5];
+    [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 4];
     [outProtocol writeI32: __type];
     [outProtocol writeFieldEnd];
   }
@@ -3017,8 +2976,6 @@
   [ms appendFormat: @"%qi", __time];
   [ms appendString: @",text:"];
   [ms appendFormat: @"\"%@\"", __text];
-  [ms appendString: @",unread:"];
-  [ms appendFormat: @"%i", __unread];
   [ms appendString: @",type:"];
   [ms appendFormat: @"%i", __type];
   [ms appendString: @")"];

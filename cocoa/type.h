@@ -44,7 +44,7 @@ enum TaskListType {
 };
 
 enum MsgType {
-  MsgType_None = 0,
+  MsgType_All = 0,
   MsgType_System = 1,
   MsgType_Friends = 2,
   MsgType_Stranger = 4,
@@ -52,7 +52,7 @@ enum MsgType {
 };
 
 enum FeedType {
-  FeedType_None = 0,
+  FeedType_All = 0,
   FeedType_Text = 1,
   FeedType_Article = 2,
   FeedType_Pic = 3,
@@ -506,13 +506,11 @@ typedef int64_t timestamp;
   int64_t __sender;
   int64_t __time;
   NSString * __text;
-  BOOL __unread;
   int __type;
 
   BOOL __sender_isset;
   BOOL __time_isset;
   BOOL __text_isset;
-  BOOL __unread_isset;
   BOOL __type_isset;
 }
 
@@ -520,11 +518,10 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=sender, setter=setSender:) int64_t sender;
 @property (nonatomic, getter=time, setter=setTime:) int64_t time;
 @property (nonatomic, retain, getter=text, setter=setText:) NSString * text;
-@property (nonatomic, getter=unread, setter=setUnread:) BOOL unread;
 @property (nonatomic, getter=type, setter=setType:) int type;
 #endif
 
-- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text unread: (BOOL) unread type: (int) type;
+- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text type: (int) type;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -540,10 +537,6 @@ typedef int64_t timestamp;
 - (NSString *) text;
 - (void) setText: (NSString *) text;
 - (BOOL) textIsSet;
-
-- (BOOL) unread;
-- (void) setUnread: (BOOL) unread;
-- (BOOL) unreadIsSet;
 
 - (int) type;
 - (void) setType: (int) type;

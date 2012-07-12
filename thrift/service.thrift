@@ -44,13 +44,13 @@ service Sns {
         2: required type.TaskListType  type,
         3: required i64                last_id,
         4: required i64                num
+        5: required type.TaskFilter    filter,
     )
     
     type.Task task_get (
         1: required i64                access_token,
         2: required i64                tid,
-        3: required type.TaskFilter    filter,
-        4: required bool               ext_only = true,
+        3: required bool               ext_only = true,
     )
     
     void task_set (
@@ -89,7 +89,8 @@ service Sns {
 
     void msg_send(
         1:  required string   access_token,
-        2:  required type.Msg msg
+        2:  required i64      send_to,
+        3:  required type.Msg msg
     )
 
     # Feed
