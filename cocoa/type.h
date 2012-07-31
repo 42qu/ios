@@ -62,7 +62,7 @@ enum FeedType {
 typedef int64_t timestamp;
 
 @interface AuthRequest : NSObject <NSCoding> {
-  NSString * __client_id;
+  int64_t __client_id;
   NSString * __client_secret;
 
   BOOL __client_id_isset;
@@ -70,17 +70,17 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
+@property (nonatomic, getter=client_id, setter=setClient_id:) int64_t client_id;
 @property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
 #endif
 
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret;
+- (id) initWithClient_id: (int64_t) client_id client_secret: (NSString *) client_secret;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (NSString *) client_id;
-- (void) setClient_id: (NSString *) client_id;
+- (int64_t) client_id;
+- (void) setClient_id: (int64_t) client_id;
 - (BOOL) client_idIsSet;
 
 - (NSString *) client_secret;

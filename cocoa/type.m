@@ -17,10 +17,10 @@
 
 @implementation AuthRequest
 
-- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret
+- (id) initWithClient_id: (int64_t) client_id client_secret: (NSString *) client_secret
 {
   self = [super init];
-  __client_id = [client_id retain];
+  __client_id = client_id;
   __client_id_isset = YES;
   __client_secret = [client_secret retain];
   __client_secret_isset = YES;
@@ -32,7 +32,7 @@
   self = [super init];
   if ([decoder containsValueForKey: @"client_id"])
   {
-    __client_id = [[decoder decodeObjectForKey: @"client_id"] retain];
+    __client_id = [decoder decodeInt64ForKey: @"client_id"];
     __client_id_isset = YES;
   }
   if ([decoder containsValueForKey: @"client_secret"])
@@ -47,7 +47,7 @@
 {
   if (__client_id_isset)
   {
-    [encoder encodeObject: __client_id forKey: @"client_id"];
+    [encoder encodeInt64: __client_id forKey: @"client_id"];
   }
   if (__client_secret_isset)
   {
@@ -57,18 +57,15 @@
 
 - (void) dealloc
 {
-  [__client_id release];
   [__client_secret release];
   [super dealloc];
 }
 
-- (NSString *) client_id {
-  return [[__client_id retain] autorelease];
+- (int64_t) client_id {
+  return __client_id;
 }
 
-- (void) setClient_id: (NSString *) client_id {
-  [client_id retain];
-  [__client_id release];
+- (void) setClient_id: (int64_t) client_id {
   __client_id = client_id;
   __client_id_isset = YES;
 }
@@ -78,8 +75,6 @@
 }
 
 - (void) unsetClient_id {
-  [__client_id release];
-  __client_id = nil;
   __client_id_isset = NO;
 }
 
@@ -120,8 +115,8 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
           [self setClient_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
@@ -147,11 +142,9 @@
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"AuthRequest"];
   if (__client_id_isset) {
-    if (__client_id != nil) {
-      [outProtocol writeFieldBeginWithName: @"client_id" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __client_id];
-      [outProtocol writeFieldEnd];
-    }
+    [outProtocol writeFieldBeginWithName: @"client_id" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __client_id];
+    [outProtocol writeFieldEnd];
   }
   if (__client_secret_isset) {
     if (__client_secret != nil) {
@@ -167,7 +160,7 @@
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequest("];
   [ms appendString: @"client_id:"];
-  [ms appendFormat: @"\"%@\"", __client_id];
+  [ms appendFormat: @"%qi", __client_id];
   [ms appendString: @",client_secret:"];
   [ms appendFormat: @"\"%@\"", __client_secret];
   [ms appendString: @")"];

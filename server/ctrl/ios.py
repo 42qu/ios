@@ -14,19 +14,23 @@ import logging
 
 class Handler(object):
     def login_by_mail(self, auth, mail, pw):
+        print 'login_by_mail'
         user_id = user_id_by_mail(mail)
         if user_id:
             if user_password_verify(user_id, pw):
                 code = code_new(auth.client_id, user_id)
                 if code:
                     ret = access_token_new(auth.client_id, auth.client_secret, code)
-                    return AuthResponse(ret)
+                    if ret:
+                        return AuthResponse(ret)
+                    else:
+                        print '获取 token 失败'
             else:
                 # 验证失败
-                pass
+                print '验证失败'
         else:
             # 用户不存在
-            pass
+            print '用户不存在'
 
 
     #def login_by_oauth(self, client_id, client_secret):

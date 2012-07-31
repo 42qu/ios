@@ -5,7 +5,7 @@ typedef i64 timestamp
 # Auth
 
 struct AuthRequest {
-    1:  required    string  client_id,
+    1:  required    i64     client_id,
     2:  required    string  client_secret
 }
 

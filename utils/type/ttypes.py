@@ -158,7 +158,7 @@ class AuthRequest:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'client_id', None, None, ), # 1
+    (1, TType.I64, 'client_id', None, None, ), # 1
     (2, TType.STRING, 'client_secret', None, None, ), # 2
   )
 
@@ -176,8 +176,8 @@ class AuthRequest:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.client_id = iprot.readString();
+        if ftype == TType.I64:
+          self.client_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -196,8 +196,8 @@ class AuthRequest:
       return
     oprot.writeStructBegin('AuthRequest')
     if self.client_id is not None:
-      oprot.writeFieldBegin('client_id', TType.STRING, 1)
-      oprot.writeString(self.client_id)
+      oprot.writeFieldBegin('client_id', TType.I64, 1)
+      oprot.writeI64(self.client_id)
       oprot.writeFieldEnd()
     if self.client_secret is not None:
       oprot.writeFieldBegin('client_secret', TType.STRING, 2)
