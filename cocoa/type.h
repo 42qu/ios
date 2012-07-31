@@ -63,18 +63,18 @@ typedef int64_t timestamp;
 
 @interface AuthRequest : NSObject <NSCoding> {
   NSString * __client_id;
-  NSString * __client_serect;
+  NSString * __client_secret;
 
   BOOL __client_id_isset;
-  BOOL __client_serect_isset;
+  BOOL __client_secret_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=client_id, setter=setClient_id:) NSString * client_id;
-@property (nonatomic, retain, getter=client_serect, setter=setClient_serect:) NSString * client_serect;
+@property (nonatomic, retain, getter=client_secret, setter=setClient_secret:) NSString * client_secret;
 #endif
 
-- (id) initWithClient_id: (NSString *) client_id client_serect: (NSString *) client_serect;
+- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -83,29 +83,29 @@ typedef int64_t timestamp;
 - (void) setClient_id: (NSString *) client_id;
 - (BOOL) client_idIsSet;
 
-- (NSString *) client_serect;
-- (void) setClient_serect: (NSString *) client_serect;
-- (BOOL) client_serectIsSet;
+- (NSString *) client_secret;
+- (void) setClient_secret: (NSString *) client_secret;
+- (BOOL) client_secretIsSet;
 
 @end
 
 @interface AuthResponse : NSObject <NSCoding> {
   NSString * __access_token;
   int64_t __expire_in;
-  NSString * __refresh_token;
+  int64_t __user_id;
 
   BOOL __access_token_isset;
   BOOL __expire_in_isset;
-  BOOL __refresh_token_isset;
+  BOOL __user_id_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
 @property (nonatomic, getter=expire_in, setter=setExpire_in:) int64_t expire_in;
-@property (nonatomic, retain, getter=refresh_token, setter=setRefresh_token:) NSString * refresh_token;
+@property (nonatomic, getter=user_id, setter=setUser_id:) int64_t user_id;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in refresh_token: (NSString *) refresh_token;
+- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in user_id: (int64_t) user_id;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -118,9 +118,9 @@ typedef int64_t timestamp;
 - (void) setExpire_in: (int64_t) expire_in;
 - (BOOL) expire_inIsSet;
 
-- (NSString *) refresh_token;
-- (void) setRefresh_token: (NSString *) refresh_token;
-- (BOOL) refresh_tokenIsSet;
+- (int64_t) user_id;
+- (void) setUser_id: (int64_t) user_id;
+- (BOOL) user_idIsSet;
 
 @end
 

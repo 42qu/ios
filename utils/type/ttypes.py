@@ -153,18 +153,18 @@ class AuthRequest:
   """
   Attributes:
    - client_id
-   - client_serect
+   - client_secret
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'client_id', None, None, ), # 1
-    (2, TType.STRING, 'client_serect', None, None, ), # 2
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
   )
 
-  def __init__(self, client_id=None, client_serect=None,):
+  def __init__(self, client_id=None, client_secret=None,):
     self.client_id = client_id
-    self.client_serect = client_serect
+    self.client_secret = client_secret
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -182,7 +182,7 @@ class AuthRequest:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRING:
-          self.client_serect = iprot.readString();
+          self.client_secret = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -199,9 +199,9 @@ class AuthRequest:
       oprot.writeFieldBegin('client_id', TType.STRING, 1)
       oprot.writeString(self.client_id)
       oprot.writeFieldEnd()
-    if self.client_serect is not None:
-      oprot.writeFieldBegin('client_serect', TType.STRING, 2)
-      oprot.writeString(self.client_serect)
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -209,8 +209,8 @@ class AuthRequest:
   def validate(self):
     if self.client_id is None:
       raise TProtocol.TProtocolException(message='Required field client_id is unset!')
-    if self.client_serect is None:
-      raise TProtocol.TProtocolException(message='Required field client_serect is unset!')
+    if self.client_secret is None:
+      raise TProtocol.TProtocolException(message='Required field client_secret is unset!')
     return
 
 
@@ -230,20 +230,20 @@ class AuthResponse:
   Attributes:
    - access_token
    - expire_in
-   - refresh_token
+   - user_id
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
     (2, TType.I64, 'expire_in', None, None, ), # 2
-    (3, TType.STRING, 'refresh_token', None, None, ), # 3
+    (3, TType.I64, 'user_id', None, None, ), # 3
   )
 
-  def __init__(self, access_token=None, expire_in=None, refresh_token=None,):
+  def __init__(self, access_token=None, expire_in=None, user_id=None,):
     self.access_token = access_token
     self.expire_in = expire_in
-    self.refresh_token = refresh_token
+    self.user_id = user_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -265,8 +265,8 @@ class AuthResponse:
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.STRING:
-          self.refresh_token = iprot.readString();
+        if ftype == TType.I64:
+          self.user_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -287,9 +287,9 @@ class AuthResponse:
       oprot.writeFieldBegin('expire_in', TType.I64, 2)
       oprot.writeI64(self.expire_in)
       oprot.writeFieldEnd()
-    if self.refresh_token is not None:
-      oprot.writeFieldBegin('refresh_token', TType.STRING, 3)
-      oprot.writeString(self.refresh_token)
+    if self.user_id is not None:
+      oprot.writeFieldBegin('user_id', TType.I64, 3)
+      oprot.writeI64(self.user_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -299,6 +299,8 @@ class AuthResponse:
       raise TProtocol.TProtocolException(message='Required field access_token is unset!')
     if self.expire_in is None:
       raise TProtocol.TProtocolException(message='Required field expire_in is unset!')
+    if self.user_id is None:
+      raise TProtocol.TProtocolException(message='Required field user_id is unset!')
     return
 
 

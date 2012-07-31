@@ -3,17 +3,31 @@ import _env
 from model.base.user_mail import user_id_by_mail
 from model.base.user_password import user_password_verify
 
+from model.app.oauth2 import code_new, access_token_new
+
+from utils.type.ttypes import AuthResponse
+
 #from utils.type.ttypes import 
 #from server.model.ios import t
 
 import logging
 
 class Handler(object):
-    def login_by_mail(self, mail, pw):
+    def login_by_mail(self, auth, mail, pw):
         user_id = user_id_by_mail(mail)
         if user_id:
             if user_password_verify(user_id, pw):
-                return user_id
+                code = code_new(auth.client_id, user_id)
+                if code:
+                    ret = access_token_new(auth.client_id, auth.client_secret, code)
+                    return AuthResponse(ret)
+            else:
+                # 验证失败
+                pass
+        else:
+            # 用户不存在
+            pass
+
 
     #def login_by_oauth(self, client_id, client_secret):
     #    pass
@@ -47,6 +61,11 @@ class Handler(object):
         pass
 
 if __name__ == '__main__':
+    from utils.type.ttypes import AuthRequest
+    r = AuthRequest()
+    r.client_id = 178
+    r.client_secret = '7mVpcYfpSwOowDzOGekYdA'
     h = Handler()
-    print h.login_by_mail('fy0@qq.com','')
+    ret = h.login_by_mail(r, 'fy0@qq.com','794613852')
+    print ret
 

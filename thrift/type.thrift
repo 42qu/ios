@@ -6,13 +6,13 @@ typedef i64 timestamp
 
 struct AuthRequest {
     1:  required    string  client_id,
-    2:  required    string  client_serect
+    2:  required    string  client_secret
 }
 
 struct AuthResponse {
     1:  required    string  access_token,
     2:  required    i64     expire_in,
-    3:  optional    string  refresh_token
+    3:  required    i64     user_id
 }
 
 # User

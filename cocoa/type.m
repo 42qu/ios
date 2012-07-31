@@ -17,13 +17,13 @@
 
 @implementation AuthRequest
 
-- (id) initWithClient_id: (NSString *) client_id client_serect: (NSString *) client_serect
+- (id) initWithClient_id: (NSString *) client_id client_secret: (NSString *) client_secret
 {
   self = [super init];
   __client_id = [client_id retain];
   __client_id_isset = YES;
-  __client_serect = [client_serect retain];
-  __client_serect_isset = YES;
+  __client_secret = [client_secret retain];
+  __client_secret_isset = YES;
   return self;
 }
 
@@ -35,10 +35,10 @@
     __client_id = [[decoder decodeObjectForKey: @"client_id"] retain];
     __client_id_isset = YES;
   }
-  if ([decoder containsValueForKey: @"client_serect"])
+  if ([decoder containsValueForKey: @"client_secret"])
   {
-    __client_serect = [[decoder decodeObjectForKey: @"client_serect"] retain];
-    __client_serect_isset = YES;
+    __client_secret = [[decoder decodeObjectForKey: @"client_secret"] retain];
+    __client_secret_isset = YES;
   }
   return self;
 }
@@ -49,16 +49,16 @@
   {
     [encoder encodeObject: __client_id forKey: @"client_id"];
   }
-  if (__client_serect_isset)
+  if (__client_secret_isset)
   {
-    [encoder encodeObject: __client_serect forKey: @"client_serect"];
+    [encoder encodeObject: __client_secret forKey: @"client_secret"];
   }
 }
 
 - (void) dealloc
 {
   [__client_id release];
-  [__client_serect release];
+  [__client_secret release];
   [super dealloc];
 }
 
@@ -83,25 +83,25 @@
   __client_id_isset = NO;
 }
 
-- (NSString *) client_serect {
-  return [[__client_serect retain] autorelease];
+- (NSString *) client_secret {
+  return [[__client_secret retain] autorelease];
 }
 
-- (void) setClient_serect: (NSString *) client_serect {
-  [client_serect retain];
-  [__client_serect release];
-  __client_serect = client_serect;
-  __client_serect_isset = YES;
+- (void) setClient_secret: (NSString *) client_secret {
+  [client_secret retain];
+  [__client_secret release];
+  __client_secret = client_secret;
+  __client_secret_isset = YES;
 }
 
-- (BOOL) client_serectIsSet {
-  return __client_serect_isset;
+- (BOOL) client_secretIsSet {
+  return __client_secret_isset;
 }
 
-- (void) unsetClient_serect {
-  [__client_serect release];
-  __client_serect = nil;
-  __client_serect_isset = NO;
+- (void) unsetClient_secret {
+  [__client_secret release];
+  __client_secret = nil;
+  __client_secret_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -130,7 +130,7 @@
       case 2:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setClient_serect: fieldValue];
+          [self setClient_secret: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -153,10 +153,10 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__client_serect_isset) {
-    if (__client_serect != nil) {
-      [outProtocol writeFieldBeginWithName: @"client_serect" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __client_serect];
+  if (__client_secret_isset) {
+    if (__client_secret != nil) {
+      [outProtocol writeFieldBeginWithName: @"client_secret" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __client_secret];
       [outProtocol writeFieldEnd];
     }
   }
@@ -168,8 +168,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"AuthRequest("];
   [ms appendString: @"client_id:"];
   [ms appendFormat: @"\"%@\"", __client_id];
-  [ms appendString: @",client_serect:"];
-  [ms appendFormat: @"\"%@\"", __client_serect];
+  [ms appendString: @",client_secret:"];
+  [ms appendFormat: @"\"%@\"", __client_secret];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -178,15 +178,15 @@
 
 @implementation AuthResponse
 
-- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in refresh_token: (NSString *) refresh_token
+- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in user_id: (int64_t) user_id
 {
   self = [super init];
   __access_token = [access_token retain];
   __access_token_isset = YES;
   __expire_in = expire_in;
   __expire_in_isset = YES;
-  __refresh_token = [refresh_token retain];
-  __refresh_token_isset = YES;
+  __user_id = user_id;
+  __user_id_isset = YES;
   return self;
 }
 
@@ -203,10 +203,10 @@
     __expire_in = [decoder decodeInt64ForKey: @"expire_in"];
     __expire_in_isset = YES;
   }
-  if ([decoder containsValueForKey: @"refresh_token"])
+  if ([decoder containsValueForKey: @"user_id"])
   {
-    __refresh_token = [[decoder decodeObjectForKey: @"refresh_token"] retain];
-    __refresh_token_isset = YES;
+    __user_id = [decoder decodeInt64ForKey: @"user_id"];
+    __user_id_isset = YES;
   }
   return self;
 }
@@ -221,16 +221,15 @@
   {
     [encoder encodeInt64: __expire_in forKey: @"expire_in"];
   }
-  if (__refresh_token_isset)
+  if (__user_id_isset)
   {
-    [encoder encodeObject: __refresh_token forKey: @"refresh_token"];
+    [encoder encodeInt64: __user_id forKey: @"user_id"];
   }
 }
 
 - (void) dealloc
 {
   [__access_token release];
-  [__refresh_token release];
   [super dealloc];
 }
 
@@ -272,25 +271,21 @@
   __expire_in_isset = NO;
 }
 
-- (NSString *) refresh_token {
-  return [[__refresh_token retain] autorelease];
+- (int64_t) user_id {
+  return __user_id;
 }
 
-- (void) setRefresh_token: (NSString *) refresh_token {
-  [refresh_token retain];
-  [__refresh_token release];
-  __refresh_token = refresh_token;
-  __refresh_token_isset = YES;
+- (void) setUser_id: (int64_t) user_id {
+  __user_id = user_id;
+  __user_id_isset = YES;
 }
 
-- (BOOL) refresh_tokenIsSet {
-  return __refresh_token_isset;
+- (BOOL) user_idIsSet {
+  return __user_id_isset;
 }
 
-- (void) unsetRefresh_token {
-  [__refresh_token release];
-  __refresh_token = nil;
-  __refresh_token_isset = NO;
+- (void) unsetUser_id {
+  __user_id_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -325,9 +320,9 @@
         }
         break;
       case 3:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setRefresh_token: fieldValue];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setUser_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -355,12 +350,10 @@
     [outProtocol writeI64: __expire_in];
     [outProtocol writeFieldEnd];
   }
-  if (__refresh_token_isset) {
-    if (__refresh_token != nil) {
-      [outProtocol writeFieldBeginWithName: @"refresh_token" type: TType_STRING fieldID: 3];
-      [outProtocol writeString: __refresh_token];
-      [outProtocol writeFieldEnd];
-    }
+  if (__user_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"user_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __user_id];
+    [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -372,8 +365,8 @@
   [ms appendFormat: @"\"%@\"", __access_token];
   [ms appendString: @",expire_in:"];
   [ms appendFormat: @"%qi", __expire_in];
-  [ms appendString: @",refresh_token:"];
-  [ms appendFormat: @"\"%@\"", __refresh_token];
+  [ms appendString: @",user_id:"];
+  [ms appendFormat: @"%qi", __user_id];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
