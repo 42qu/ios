@@ -22,7 +22,7 @@ class Handler(object):
                 if code:
                     ret = access_token_new(auth.client_id, auth.client_secret, code)
                     if ret:
-                        return AuthResponse(ret)
+                        return AuthResponse(**ret)
                     else:
                         print '获取 token 失败'
             else:
@@ -70,6 +70,6 @@ if __name__ == '__main__':
     r.client_id = 178
     r.client_secret = '7mVpcYfpSwOowDzOGekYdA'
     h = Handler()
-    ret = h.login_by_mail(r, 'fy0@qq.com','794613852')
+    #ret = h.login_by_mail(r, 'fy0@qq.com','')
     print ret
 
