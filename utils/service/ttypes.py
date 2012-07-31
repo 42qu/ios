@@ -7,7 +7,6 @@
 #
 
 from thrift.Thrift import TType, TMessageType, TException
-import exception.ttypes
 import type.ttypes
 
 

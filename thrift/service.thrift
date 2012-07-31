@@ -1,4 +1,3 @@
-include "exception.thrift"
 include "type.thrift"
 
 service Sns {

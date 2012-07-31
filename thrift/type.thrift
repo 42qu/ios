@@ -55,7 +55,7 @@ struct User {
 # Task
 
 enum TaskStatus {
-    None = 0,    
+    Removed = 0,    
     Applied,    # Applied but no response
     Accepted,
     Rejected

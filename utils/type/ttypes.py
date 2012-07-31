@@ -60,20 +60,20 @@ class UserListType:
   }
 
 class TaskStatus:
-  None = 0
+  Removed = 0
   Applied = 1
   Accepted = 2
   Rejected = 3
 
   _VALUES_TO_NAMES = {
-    0: "None",
+    0: "Removed",
     1: "Applied",
     2: "Accepted",
     3: "Rejected",
   }
 
   _NAMES_TO_VALUES = {
-    "None": 0,
+    "Removed": 0,
     "Applied": 1,
     "Accepted": 2,
     "Rejected": 3,

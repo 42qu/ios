@@ -12,7 +12,6 @@
 #import <TProtocolUtil.h>
 #import <TProcessor.h>
 
-#import "exception.h"
 #import "type.h"
 
 #import "service.h"

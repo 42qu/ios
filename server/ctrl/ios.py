@@ -1,8 +1,9 @@
 #coding:utf-8
 import _env
+from model.base.user_mail import user_id_by_mail
 #from utils.type.ttypes import 
 #from server.model.ios import t
-import server.model.user as u
+
 import logging
 
 class Handler(object):
