@@ -18,10 +18,9 @@ except:
 
 
 class Iface:
-  def login_by_mail(self, auth, mail, password):
+  def login_by_mail(self, mail, password):
     """
     Parameters:
-     - auth
      - mail
      - password
     """
@@ -164,20 +163,18 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login_by_mail(self, auth, mail, password):
+  def login_by_mail(self, mail, password):
     """
     Parameters:
-     - auth
      - mail
      - password
     """
-    self.send_login_by_mail(auth, mail, password)
+    self.send_login_by_mail(mail, password)
     return self.recv_login_by_mail()
 
-  def send_login_by_mail(self, auth, mail, password):
+  def send_login_by_mail(self, mail, password):
     self._oprot.writeMessageBegin('login_by_mail', TMessageType.CALL, self._seqid)
     args = login_by_mail_args()
-    args.auth = auth
     args.mail = mail
     args.password = password
     args.write(self._oprot)
@@ -730,7 +727,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_mail_result()
-    result.success = self._handler.login_by_mail(args.auth, args.mail, args.password)
+    result.success = self._handler.login_by_mail(args.mail, args.password)
     oprot.writeMessageBegin("login_by_mail", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -907,20 +904,17 @@ class Processor(Iface, TProcessor):
 class login_by_mail_args:
   """
   Attributes:
-   - auth
    - mail
    - password
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'auth', (type.ttypes.AuthRequest, type.ttypes.AuthRequest.thrift_spec), None, ), # 1
-    (2, TType.STRING, 'mail', None, None, ), # 2
-    (3, TType.STRING, 'password', None, None, ), # 3
+    (1, TType.STRING, 'mail', None, None, ), # 1
+    (2, TType.STRING, 'password', None, None, ), # 2
   )
 
-  def __init__(self, auth=None, mail=None, password=None,):
-    self.auth = auth
+  def __init__(self, mail=None, password=None,):
     self.mail = mail
     self.password = password
 
@@ -934,17 +928,11 @@ class login_by_mail_args:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRUCT:
-          self.auth = type.ttypes.AuthRequest()
-          self.auth.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
         if ftype == TType.STRING:
           self.mail = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 3:
+      elif fid == 2:
         if ftype == TType.STRING:
           self.password = iprot.readString();
         else:
@@ -959,24 +947,18 @@ class login_by_mail_args:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('login_by_mail_args')
-    if self.auth is not None:
-      oprot.writeFieldBegin('auth', TType.STRUCT, 1)
-      self.auth.write(oprot)
-      oprot.writeFieldEnd()
     if self.mail is not None:
-      oprot.writeFieldBegin('mail', TType.STRING, 2)
+      oprot.writeFieldBegin('mail', TType.STRING, 1)
       oprot.writeString(self.mail)
       oprot.writeFieldEnd()
     if self.password is not None:
-      oprot.writeFieldBegin('password', TType.STRING, 3)
+      oprot.writeFieldBegin('password', TType.STRING, 2)
       oprot.writeString(self.password)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.auth is None:
-      raise TProtocol.TProtocolException(message='Required field auth is unset!')
     if self.mail is None:
       raise TProtocol.TProtocolException(message='Required field mail is unset!')
     if self.password is None:
@@ -1002,7 +984,7 @@ class login_by_mail_result:
   """
 
   thrift_spec = (
-    (0, TType.STRUCT, 'success', (type.ttypes.AuthResponse, type.ttypes.AuthResponse.thrift_spec), None, ), # 0
+    (0, TType.I64, 'success', None, None, ), # 0
   )
 
   def __init__(self, success=None,):
@@ -1018,9 +1000,8 @@ class login_by_mail_result:
       if ftype == TType.STOP:
         break
       if fid == 0:
-        if ftype == TType.STRUCT:
-          self.success = type.ttypes.AuthResponse()
-          self.success.read(iprot)
+        if ftype == TType.I64:
+          self.success = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -1034,8 +1015,8 @@ class login_by_mail_result:
       return
     oprot.writeStructBegin('login_by_mail_result')
     if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRUCT, 0)
-      self.success.write(oprot)
+      oprot.writeFieldBegin('success', TType.I64, 0)
+      oprot.writeI64(self.success)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

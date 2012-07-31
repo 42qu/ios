@@ -4,10 +4,9 @@ service Sns {
     
     # Auth
     
-    type.AuthResponse login_by_mail(
-        1: required type.AuthRequest auth,
-        2: required string mail,
-        3: required string password
+    i64 login_by_mail(
+        1: required string mail,
+        2: required string password
     )
     
     void logout(

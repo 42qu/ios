@@ -14,7 +14,7 @@ def main():
     print 'server runing ...'
     handler = Handler()
     processor = Sns.Processor(handler)
-    transport = TSocket.TServerSocket(port=50042)
+    transport = TSocket.TServerSocket(port=70042)
     tfactory = TTransport.TBufferedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 

@@ -1,14 +1,19 @@
 #coding:utf-8
 import _env
 from model.base.user_mail import user_id_by_mail
+from model.base.user_password import user_password_verify
+
 #from utils.type.ttypes import 
 #from server.model.ios import t
 
 import logging
 
 class Handler(object):
-    def login_by_mail(self,auth):
-        print('登入')
+    def login_by_mail(self, mail, pw):
+        user_id = user_id_by_mail(mail)
+        if user_id:
+            if user_password_verify(user_id, pw):
+                return user_id
 
     #def login_by_oauth(self, client_id, client_secret):
     #    pass
@@ -42,5 +47,6 @@ class Handler(object):
         pass
 
 if __name__ == '__main__':
-    pass
+    h = Handler()
+    print h.login_by_mail('fy0@qq.com','')
 
