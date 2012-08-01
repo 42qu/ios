@@ -25,7 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Functions:'
   print '  i64 login_by_mail(AuthRequest auth, string mail, string password)'
   print '  void logout(string access_token)'
-  print '  User user_get(string access_token, i64 uid, bool ext_only)'
+  print '  User user_get(string access_token, i64 id, bool ext_only)'
   print '  void user_set(string access_token, User user)'
   print '   user_list(string access_token, UserListType type, i64 last_id, i64 num)'
   print '   task_list(string access_token, TaskListType type, i64 last_id, i64 num, TaskFilter filter)'

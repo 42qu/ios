@@ -34,11 +34,11 @@ class Iface:
     """
     pass
 
-  def user_get(self, access_token, uid, ext_only):
+  def user_get(self, access_token, id, ext_only):
     """
     Parameters:
      - access_token
-     - uid
+     - id
      - ext_only
     """
     pass
@@ -226,21 +226,21 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     return
 
-  def user_get(self, access_token, uid, ext_only):
+  def user_get(self, access_token, id, ext_only):
     """
     Parameters:
      - access_token
-     - uid
+     - id
      - ext_only
     """
-    self.send_user_get(access_token, uid, ext_only)
+    self.send_user_get(access_token, id, ext_only)
     return self.recv_user_get()
 
-  def send_user_get(self, access_token, uid, ext_only):
+  def send_user_get(self, access_token, id, ext_only):
     self._oprot.writeMessageBegin('user_get', TMessageType.CALL, self._seqid)
     args = user_get_args()
     args.access_token = access_token
-    args.uid = uid
+    args.id = id
     args.ext_only = ext_only
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
@@ -752,7 +752,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = user_get_result()
-    result.success = self._handler.user_get(args.access_token, args.uid, args.ext_only)
+    result.success = self._handler.user_get(args.access_token, args.id, args.ext_only)
     oprot.writeMessageBegin("user_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1162,20 +1162,20 @@ class user_get_args:
   """
   Attributes:
    - access_token
-   - uid
+   - id
    - ext_only
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'uid', None, None, ), # 2
+    (2, TType.I64, 'id', None, None, ), # 2
     (3, TType.BOOL, 'ext_only', None, True, ), # 3
   )
 
-  def __init__(self, access_token=None, uid=None, ext_only=thrift_spec[3][4],):
+  def __init__(self, access_token=None, id=None, ext_only=thrift_spec[3][4],):
     self.access_token = access_token
-    self.uid = uid
+    self.id = id
     self.ext_only = ext_only
 
   def read(self, iprot):
@@ -1194,7 +1194,7 @@ class user_get_args:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.uid = iprot.readI64();
+          self.id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 3:
@@ -1216,9 +1216,9 @@ class user_get_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.uid is not None:
-      oprot.writeFieldBegin('uid', TType.I64, 2)
-      oprot.writeI64(self.uid)
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.I64, 2)
+      oprot.writeI64(self.id)
       oprot.writeFieldEnd()
     if self.ext_only is not None:
       oprot.writeFieldBegin('ext_only', TType.BOOL, 3)
@@ -1230,8 +1230,8 @@ class user_get_args:
   def validate(self):
     if self.access_token is None:
       raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.uid is None:
-      raise TProtocol.TProtocolException(message='Required field uid is unset!')
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
     if self.ext_only is None:
       raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return

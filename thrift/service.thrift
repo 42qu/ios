@@ -15,11 +15,11 @@ service Sns {
     )
     
     # User
-    
-    /* 约定：uid为0，相当于查询自己 */
+
+    /* 约定：id为0，相当于查询自己 */
     type.User user_get(
         1: required string  access_token,
-        2: required i64     uid,
+        2: required i64     id,
         3: required bool    ext_only = true
     )
 

@@ -33,7 +33,7 @@ enum UserListType {
 }
 
 struct UserBasic {
-    1:  required    i64             uid,
+    1:  required    i64             id,
     2:  required    string          name,
     3:  required    UserGender      gender,
     4:  required    string          org,

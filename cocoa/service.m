@@ -590,21 +590,21 @@
 
 @interface user_get_args : NSObject <NSCoding> {
   NSString * __access_token;
-  int64_t __uid;
+  int64_t __id;
   BOOL __ext_only;
 
   BOOL __access_token_isset;
-  BOOL __uid_isset;
+  BOOL __id_isset;
   BOOL __ext_only_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, getter=uid, setter=setUid:) int64_t uid;
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, getter=ext_only, setter=setExt_only:) BOOL ext_only;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token uid: (int64_t) uid ext_only: (BOOL) ext_only;
+- (id) initWithAccess_token: (NSString *) access_token id: (int64_t) id ext_only: (BOOL) ext_only;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -613,9 +613,9 @@
 - (void) setAccess_token: (NSString *) access_token;
 - (BOOL) access_tokenIsSet;
 
-- (int64_t) uid;
-- (void) setUid: (int64_t) uid;
-- (BOOL) uidIsSet;
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
 
 - (BOOL) ext_only;
 - (void) setExt_only: (BOOL) ext_only;
@@ -625,13 +625,13 @@
 
 @implementation user_get_args
 
-- (id) initWithAccess_token: (NSString *) access_token uid: (int64_t) uid ext_only: (BOOL) ext_only
+- (id) initWithAccess_token: (NSString *) access_token id: (int64_t) id ext_only: (BOOL) ext_only
 {
   self = [super init];
   __access_token = [access_token retain];
   __access_token_isset = YES;
-  __uid = uid;
-  __uid_isset = YES;
+  __id = id;
+  __id_isset = YES;
   __ext_only = ext_only;
   __ext_only_isset = YES;
   return self;
@@ -645,10 +645,10 @@
     __access_token = [[decoder decodeObjectForKey: @"access_token"] retain];
     __access_token_isset = YES;
   }
-  if ([decoder containsValueForKey: @"uid"])
+  if ([decoder containsValueForKey: @"id"])
   {
-    __uid = [decoder decodeInt64ForKey: @"uid"];
-    __uid_isset = YES;
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
   }
   if ([decoder containsValueForKey: @"ext_only"])
   {
@@ -664,9 +664,9 @@
   {
     [encoder encodeObject: __access_token forKey: @"access_token"];
   }
-  if (__uid_isset)
+  if (__id_isset)
   {
-    [encoder encodeInt64: __uid forKey: @"uid"];
+    [encoder encodeInt64: __id forKey: @"id"];
   }
   if (__ext_only_isset)
   {
@@ -701,21 +701,21 @@
   __access_token_isset = NO;
 }
 
-- (int64_t) uid {
-  return __uid;
+- (int64_t) id {
+  return __id;
 }
 
-- (void) setUid: (int64_t) uid {
-  __uid = uid;
-  __uid_isset = YES;
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
 }
 
-- (BOOL) uidIsSet {
-  return __uid_isset;
+- (BOOL) idIsSet {
+  return __id_isset;
 }
 
-- (void) unsetUid {
-  __uid_isset = NO;
+- (void) unsetId {
+  __id_isset = NO;
 }
 
 - (BOOL) ext_only {
@@ -761,7 +761,7 @@
       case 2:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setUid: fieldValue];
+          [self setId: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -792,9 +792,9 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__uid_isset) {
-    [outProtocol writeFieldBeginWithName: @"uid" type: TType_I64 fieldID: 2];
-    [outProtocol writeI64: __uid];
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __id];
     [outProtocol writeFieldEnd];
   }
   if (__ext_only_isset) {
@@ -810,8 +810,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"user_get_args("];
   [ms appendString: @"access_token:"];
   [ms appendFormat: @"\"%@\"", __access_token];
-  [ms appendString: @",uid:"];
-  [ms appendFormat: @"%qi", __uid];
+  [ms appendString: @",id:"];
+  [ms appendFormat: @"%qi", __id];
   [ms appendString: @",ext_only:"];
   [ms appendFormat: @"%i", __ext_only];
   [ms appendString: @")"];
@@ -5482,7 +5482,7 @@
   [self recv_logout];
 }
 
-- (void) send_user_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
+- (void) send_user_get: (NSString *) access_token : (int64_t) id : (BOOL) ext_only
 {
   [outProtocol writeMessageBeginWithName: @"user_get" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"user_get_args"];
@@ -5491,8 +5491,8 @@
     [outProtocol writeString: access_token];
     [outProtocol writeFieldEnd];
   }
-  [outProtocol writeFieldBeginWithName: @"uid" type: TType_I64 fieldID: 2];
-  [outProtocol writeI64: uid];
+  [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 2];
+  [outProtocol writeI64: id];
   [outProtocol writeFieldEnd];
   [outProtocol writeFieldBeginWithName: @"ext_only" type: TType_BOOL fieldID: 3];
   [outProtocol writeBool: ext_only];
@@ -5522,9 +5522,9 @@
                                            reason: @"user_get failed: unknown result"];
 }
 
-- (User *) user_get: (NSString *) access_token : (int64_t) uid : (BOOL) ext_only
+- (User *) user_get: (NSString *) access_token : (int64_t) id : (BOOL) ext_only
 {
-  [self send_user_get: access_token : uid : ext_only];
+  [self send_user_get: access_token : id : ext_only];
   return [self recv_user_get];
 }
 
@@ -6331,7 +6331,7 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   User_get_result * result = [[User_get_result alloc] init];
-  [result setSuccess: [mService user_get: [args access_token]: [args uid]: [args ext_only]]];
+  [result setSuccess: [mService user_get: [args access_token]: [args id]: [args ext_only]]];
   [outProtocol writeMessageBeginWithName: @"user_get"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
