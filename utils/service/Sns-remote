@@ -29,12 +29,14 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  void user_set(string access_token, User user)'
   print '   user_list(string access_token, UserListType type, i64 last_id, i64 num)'
   print '   task_list(string access_token, TaskListType type, i64 last_id, i64 num, TaskFilter filter)'
-  print '  Task task_get(i64 access_token, i64 tid, bool ext_only)'
+  print '  Task task_get(i64 access_token, i64 id, bool ext_only)'
   print '  void task_set(string access_token, Task task)'
   print '  i64 task_new(string access_token, Task task)'
-  print '  bool task_apply(string access_token, i64 tid)'
-  print '  bool task_reject(string access_token, i64 tid)'
-  print '  bool task_accept(string access_token, i64 tid)'
+  print '  bool task_apply(string access_token, i64 id, string txt)'
+  print '  bool task_reject(string access_token, i64 id)'
+  print '  bool task_accept(string access_token, i64 id)'
+  print '  bool my_task_accept(string access_token, i64 task_id, i64 user_id)'
+  print '  bool my_task_reject(string access_token, i64 task_id, i64 user_id, string txt)'
   print '   msg_list(string access_token, MsgType type, i64 last_id, i64 num)'
   print '  void msg_send(string access_token, i64 send_to, Msg msg)'
   print '   feed(string access_token, i64 last_id, i64 num)'
@@ -145,10 +147,10 @@ elif cmd == 'task_new':
   pp.pprint(client.task_new(args[0],eval(args[1]),))
 
 elif cmd == 'task_apply':
-  if len(args) != 2:
-    print 'task_apply requires 2 args'
+  if len(args) != 3:
+    print 'task_apply requires 3 args'
     sys.exit(1)
-  pp.pprint(client.task_apply(args[0],eval(args[1]),))
+  pp.pprint(client.task_apply(args[0],eval(args[1]),args[2],))
 
 elif cmd == 'task_reject':
   if len(args) != 2:
@@ -161,6 +163,18 @@ elif cmd == 'task_accept':
     print 'task_accept requires 2 args'
     sys.exit(1)
   pp.pprint(client.task_accept(args[0],eval(args[1]),))
+
+elif cmd == 'my_task_accept':
+  if len(args) != 3:
+    print 'my_task_accept requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.my_task_accept(args[0],eval(args[1]),eval(args[2]),))
+
+elif cmd == 'my_task_reject':
+  if len(args) != 4:
+    print 'my_task_reject requires 4 args'
+    sys.exit(1)
+  pp.pprint(client.my_task_reject(args[0],eval(args[1]),eval(args[2]),args[3],))
 
 elif cmd == 'msg_list':
   if len(args) != 4:

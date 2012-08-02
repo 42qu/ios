@@ -48,7 +48,7 @@ service Sns {
     
     type.Task task_get (
         1: required i64                access_token,
-        2: required i64                tid,
+        2: required i64                id,
         3: required bool               ext_only = true,
     )
     
@@ -58,25 +58,39 @@ service Sns {
     )
     
     i64 task_new( # Return task id
-        1: string     access_token,
-        2: type.Task  task 
+        1: required string     access_token,
+        2: required type.Task  task 
     )
 
     bool task_apply(
-        1: string access_token,
-        2: i64    tid
+        1: required string access_token,
+        2: required i64    id,
+        3: required string txt
     )
     
     bool task_reject(
         1: string access_token,
-        2: i64    tid
+        2: i64    id
     )
     
     bool task_accept(
         1: string access_token,
-        2: i64    tid
+        2: i64    id
     )
-
+ 
+    bool my_task_accept(
+        1: required string access_token,
+        2: required i64    task_id,
+        3: required i64    user_id,
+    )
+    
+    bool my_task_reject(
+        1: required string access_token,
+        2: required i64    task_id,
+        3: required i64    user_id,
+        4: required string txt
+    )
+   
     # Message
 
     list<type.Msg> msg_list(

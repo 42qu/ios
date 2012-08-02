@@ -11,6 +11,7 @@ from utils.type.ttypes import Task, TaskBasic, TaskExt
 
 @verify
 def task_get(self, access_token, id, ext_only=True):
+    print 'task_get %s' % id
     p = po_task_get(id)
     t = p.task
 
@@ -44,6 +45,14 @@ def task_get(self, access_token, id, ext_only=True):
 
 @verify_get_user
 def task_apply(self, access_token, task_id, txt='', uid=None):
-    task_apply_new(task_id, uid, TASK_APPLY_STATE.APPLY)
+    print 'task_apply %s' % task_id
+    t = po_task_get(task_id).task
+    t.apply(uid, txt)
     return True
+
+@verify_get_user
+def my_task_accept(self, access_token, task_id, user_id,  uid=None):
+    po = po_task_get(task_id)
+    if po.can_admin(uid):
+        po.task.accept(user_id)
 

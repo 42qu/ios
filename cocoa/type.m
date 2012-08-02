@@ -171,7 +171,7 @@
 
 @implementation AuthResponse
 
-- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in user_id: (int64_t) user_id
+- (id) initWithAccess_token: (NSString *) access_token expire_in: (timestamp) expire_in user_id: (int64_t) user_id
 {
   self = [super init];
   __access_token = [access_token retain];

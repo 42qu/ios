@@ -92,7 +92,7 @@ typedef int64_t timestamp;
 
 @interface AuthResponse : NSObject <NSCoding> {
   NSString * __access_token;
-  int64_t __expire_in;
+  timestamp __expire_in;
   int64_t __user_id;
 
   BOOL __access_token_isset;
@@ -102,11 +102,11 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
-@property (nonatomic, getter=expire_in, setter=setExpire_in:) int64_t expire_in;
+@property (nonatomic, getter=expire_in, setter=setExpire_in:) timestamp expire_in;
 @property (nonatomic, getter=user_id, setter=setUser_id:) int64_t user_id;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token expire_in: (int64_t) expire_in user_id: (int64_t) user_id;
+- (id) initWithAccess_token: (NSString *) access_token expire_in: (timestamp) expire_in user_id: (int64_t) user_id;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -115,8 +115,8 @@ typedef int64_t timestamp;
 - (void) setAccess_token: (NSString *) access_token;
 - (BOOL) access_tokenIsSet;
 
-- (int64_t) expire_in;
-- (void) setExpire_in: (int64_t) expire_in;
+- (timestamp) expire_in;
+- (void) setExpire_in: (timestamp) expire_in;
 - (BOOL) expire_inIsSet;
 
 - (int64_t) user_id;
