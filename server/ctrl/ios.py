@@ -2,7 +2,7 @@
 import _env
 
 from ctrl.user import login_by_mail, user_get
-from ctrl.task import task_get, task_apply, my_task_accept
+from ctrl.task import task_get, task_apply, my_task_accept, my_task_reject, task_new
 
 import logging
 
@@ -16,6 +16,8 @@ class Handler(object):
     task_get = task_get
     task_apply = task_apply
     my_task_accept = my_task_accept
+    my_task_reject = my_task_reject
+    task_new = task_new
 
     def user_info_get(self, access_token, uid, ext_only=True):
         b = UserBasic()
@@ -42,6 +44,6 @@ if __name__ == '__main__':
     #print h.user_get('NYUrNthVRWe9moLBp5NhMQ', 168)
     #print h.task_get('NYUrNthVRWe9moLBp5NhMQ', 191, False)
     #print h.task_apply('NYUrNthVRWe9moLBp5NhMQ', 191, '123')
-    h.my_task_accept('NYUrNthVRWe9moLBp5NhMQ', 191, 123)
+    #h.my_task_accept('NYUrNthVRWe9moLBp5NhMQ', 191, 123)
     #print ret
 

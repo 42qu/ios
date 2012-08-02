@@ -76,15 +76,17 @@ struct TaskBasic {
     1:  required    i64             id,
     2:  required    string          name,
     3:  required    i64             sponsor,
-    4:  required    string          intro,
-    5:  required    TaskStatus      state,
-    6:  required    i64             area_id,
-    7:  required    timestamp       begin_time,
-    8:  required    string          reward,
-    9:  required    i64             reward_cent,
-    10: required    i64             apply_count,
-    11: required    i64             invite_count,
-    12: required    i64             accept_count
+    4:  required    i64             tag_id,
+    5:  required    string          intro,
+    6:  required    TaskStatus      state,
+    7:  required    i64             area_id,
+    8:  required    string          address,
+    9:  required    timestamp       begin_time,
+    10: required    string          reward,
+    11: required    i64             reward_cent,
+    12: required    i64             apply_count,
+    13: required    i64             invite_count,
+    14: required    i64             accept_count
 }
 
 struct TaskExt {

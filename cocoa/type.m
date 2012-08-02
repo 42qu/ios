@@ -1496,7 +1496,7 @@
 
 @implementation TaskBasic
 
-- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id begin_time: (timestamp) begin_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
+- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id address: (NSString *) address begin_time: (timestamp) begin_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
 {
   self = [super init];
   __id = id;
@@ -1505,12 +1505,16 @@
   __name_isset = YES;
   __sponsor = sponsor;
   __sponsor_isset = YES;
+  __tag_id = tag_id;
+  __tag_id_isset = YES;
   __intro = [intro retain];
   __intro_isset = YES;
   __state = state;
   __state_isset = YES;
   __area_id = area_id;
   __area_id_isset = YES;
+  __address = [address retain];
+  __address_isset = YES;
   __begin_time = begin_time;
   __begin_time_isset = YES;
   __reward = [reward retain];
@@ -1544,6 +1548,11 @@
     __sponsor = [decoder decodeInt64ForKey: @"sponsor"];
     __sponsor_isset = YES;
   }
+  if ([decoder containsValueForKey: @"tag_id"])
+  {
+    __tag_id = [decoder decodeInt64ForKey: @"tag_id"];
+    __tag_id_isset = YES;
+  }
   if ([decoder containsValueForKey: @"intro"])
   {
     __intro = [[decoder decodeObjectForKey: @"intro"] retain];
@@ -1558,6 +1567,11 @@
   {
     __area_id = [decoder decodeInt64ForKey: @"area_id"];
     __area_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"address"])
+  {
+    __address = [[decoder decodeObjectForKey: @"address"] retain];
+    __address_isset = YES;
   }
   if ([decoder containsValueForKey: @"begin_time"])
   {
@@ -1606,6 +1620,10 @@
   {
     [encoder encodeInt64: __sponsor forKey: @"sponsor"];
   }
+  if (__tag_id_isset)
+  {
+    [encoder encodeInt64: __tag_id forKey: @"tag_id"];
+  }
   if (__intro_isset)
   {
     [encoder encodeObject: __intro forKey: @"intro"];
@@ -1617,6 +1635,10 @@
   if (__area_id_isset)
   {
     [encoder encodeInt64: __area_id forKey: @"area_id"];
+  }
+  if (__address_isset)
+  {
+    [encoder encodeObject: __address forKey: @"address"];
   }
   if (__begin_time_isset)
   {
@@ -1648,6 +1670,7 @@
 {
   [__name release];
   [__intro release];
+  [__address release];
   [__reward release];
   [super dealloc];
 }
@@ -1707,6 +1730,23 @@
   __sponsor_isset = NO;
 }
 
+- (int64_t) tag_id {
+  return __tag_id;
+}
+
+- (void) setTag_id: (int64_t) tag_id {
+  __tag_id = tag_id;
+  __tag_id_isset = YES;
+}
+
+- (BOOL) tag_idIsSet {
+  return __tag_id_isset;
+}
+
+- (void) unsetTag_id {
+  __tag_id_isset = NO;
+}
+
 - (NSString *) intro {
   return [[__intro retain] autorelease];
 }
@@ -1760,6 +1800,27 @@
 
 - (void) unsetArea_id {
   __area_id_isset = NO;
+}
+
+- (NSString *) address {
+  return [[__address retain] autorelease];
+}
+
+- (void) setAddress: (NSString *) address {
+  [address retain];
+  [__address release];
+  __address = address;
+  __address_isset = YES;
+}
+
+- (BOOL) addressIsSet {
+  return __address_isset;
+}
+
+- (void) unsetAddress {
+  [__address release];
+  __address = nil;
+  __address_isset = NO;
 }
 
 - (int64_t) begin_time {
@@ -1908,6 +1969,14 @@
         }
         break;
       case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setTag_id: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
           [self setIntro: fieldValue];
@@ -1915,7 +1984,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 5:
+      case 6:
         if (fieldType == TType_I32) {
           int fieldValue = [inProtocol readI32];
           [self setState: fieldValue];
@@ -1923,7 +1992,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 6:
+      case 7:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setArea_id: fieldValue];
@@ -1931,18 +2000,10 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 7:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setBegin_time: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
       case 8:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setReward: fieldValue];
+          [self setAddress: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1950,15 +2011,15 @@
       case 9:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setReward_cent: fieldValue];
+          [self setBegin_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 10:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setApply_count: fieldValue];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setReward: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1966,12 +2027,28 @@
       case 11:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setInvite_count: fieldValue];
+          [self setReward_cent: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 12:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setApply_count: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 13:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setInvite_count: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 14:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setAccept_count: fieldValue];
@@ -2007,52 +2084,64 @@
     [outProtocol writeI64: __sponsor];
     [outProtocol writeFieldEnd];
   }
+  if (__tag_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"tag_id" type: TType_I64 fieldID: 4];
+    [outProtocol writeI64: __tag_id];
+    [outProtocol writeFieldEnd];
+  }
   if (__intro_isset) {
     if (__intro != nil) {
-      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 4];
+      [outProtocol writeFieldBeginWithName: @"intro" type: TType_STRING fieldID: 5];
       [outProtocol writeString: __intro];
       [outProtocol writeFieldEnd];
     }
   }
   if (__state_isset) {
-    [outProtocol writeFieldBeginWithName: @"state" type: TType_I32 fieldID: 5];
+    [outProtocol writeFieldBeginWithName: @"state" type: TType_I32 fieldID: 6];
     [outProtocol writeI32: __state];
     [outProtocol writeFieldEnd];
   }
   if (__area_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"area_id" type: TType_I64 fieldID: 6];
+    [outProtocol writeFieldBeginWithName: @"area_id" type: TType_I64 fieldID: 7];
     [outProtocol writeI64: __area_id];
     [outProtocol writeFieldEnd];
   }
+  if (__address_isset) {
+    if (__address != nil) {
+      [outProtocol writeFieldBeginWithName: @"address" type: TType_STRING fieldID: 8];
+      [outProtocol writeString: __address];
+      [outProtocol writeFieldEnd];
+    }
+  }
   if (__begin_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 7];
+    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 9];
     [outProtocol writeI64: __begin_time];
     [outProtocol writeFieldEnd];
   }
   if (__reward_isset) {
     if (__reward != nil) {
-      [outProtocol writeFieldBeginWithName: @"reward" type: TType_STRING fieldID: 8];
+      [outProtocol writeFieldBeginWithName: @"reward" type: TType_STRING fieldID: 10];
       [outProtocol writeString: __reward];
       [outProtocol writeFieldEnd];
     }
   }
   if (__reward_cent_isset) {
-    [outProtocol writeFieldBeginWithName: @"reward_cent" type: TType_I64 fieldID: 9];
+    [outProtocol writeFieldBeginWithName: @"reward_cent" type: TType_I64 fieldID: 11];
     [outProtocol writeI64: __reward_cent];
     [outProtocol writeFieldEnd];
   }
   if (__apply_count_isset) {
-    [outProtocol writeFieldBeginWithName: @"apply_count" type: TType_I64 fieldID: 10];
+    [outProtocol writeFieldBeginWithName: @"apply_count" type: TType_I64 fieldID: 12];
     [outProtocol writeI64: __apply_count];
     [outProtocol writeFieldEnd];
   }
   if (__invite_count_isset) {
-    [outProtocol writeFieldBeginWithName: @"invite_count" type: TType_I64 fieldID: 11];
+    [outProtocol writeFieldBeginWithName: @"invite_count" type: TType_I64 fieldID: 13];
     [outProtocol writeI64: __invite_count];
     [outProtocol writeFieldEnd];
   }
   if (__accept_count_isset) {
-    [outProtocol writeFieldBeginWithName: @"accept_count" type: TType_I64 fieldID: 12];
+    [outProtocol writeFieldBeginWithName: @"accept_count" type: TType_I64 fieldID: 14];
     [outProtocol writeI64: __accept_count];
     [outProtocol writeFieldEnd];
   }
@@ -2068,12 +2157,16 @@
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",sponsor:"];
   [ms appendFormat: @"%qi", __sponsor];
+  [ms appendString: @",tag_id:"];
+  [ms appendFormat: @"%qi", __tag_id];
   [ms appendString: @",intro:"];
   [ms appendFormat: @"\"%@\"", __intro];
   [ms appendString: @",state:"];
   [ms appendFormat: @"%i", __state];
   [ms appendString: @",area_id:"];
   [ms appendFormat: @"%qi", __area_id];
+  [ms appendString: @",address:"];
+  [ms appendFormat: @"\"%@\"", __address];
   [ms appendString: @",begin_time:"];
   [ms appendFormat: @"%qi", __begin_time];
   [ms appendString: @",reward:"];

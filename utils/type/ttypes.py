@@ -770,9 +770,11 @@ class TaskBasic:
    - id
    - name
    - sponsor
+   - tag_id
    - intro
    - state
    - area_id
+   - address
    - begin_time
    - reward
    - reward_cent
@@ -786,24 +788,28 @@ class TaskBasic:
     (1, TType.I64, 'id', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.I64, 'sponsor', None, None, ), # 3
-    (4, TType.STRING, 'intro', None, None, ), # 4
-    (5, TType.I32, 'state', None, None, ), # 5
-    (6, TType.I64, 'area_id', None, None, ), # 6
-    (7, TType.I64, 'begin_time', None, None, ), # 7
-    (8, TType.STRING, 'reward', None, None, ), # 8
-    (9, TType.I64, 'reward_cent', None, None, ), # 9
-    (10, TType.I64, 'apply_count', None, None, ), # 10
-    (11, TType.I64, 'invite_count', None, None, ), # 11
-    (12, TType.I64, 'accept_count', None, None, ), # 12
+    (4, TType.I64, 'tag_id', None, None, ), # 4
+    (5, TType.STRING, 'intro', None, None, ), # 5
+    (6, TType.I32, 'state', None, None, ), # 6
+    (7, TType.I64, 'area_id', None, None, ), # 7
+    (8, TType.STRING, 'address', None, None, ), # 8
+    (9, TType.I64, 'begin_time', None, None, ), # 9
+    (10, TType.STRING, 'reward', None, None, ), # 10
+    (11, TType.I64, 'reward_cent', None, None, ), # 11
+    (12, TType.I64, 'apply_count', None, None, ), # 12
+    (13, TType.I64, 'invite_count', None, None, ), # 13
+    (14, TType.I64, 'accept_count', None, None, ), # 14
   )
 
-  def __init__(self, id=None, name=None, sponsor=None, intro=None, state=None, area_id=None, begin_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
+  def __init__(self, id=None, name=None, sponsor=None, tag_id=None, intro=None, state=None, area_id=None, address=None, begin_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
     self.id = id
     self.name = name
     self.sponsor = sponsor
+    self.tag_id = tag_id
     self.intro = intro
     self.state = state
     self.area_id = area_id
+    self.address = address
     self.begin_time = begin_time
     self.reward = reward
     self.reward_cent = reward_cent
@@ -836,46 +842,56 @@ class TaskBasic:
         else:
           iprot.skip(ftype)
       elif fid == 4:
+        if ftype == TType.I64:
+          self.tag_id = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
         if ftype == TType.STRING:
           self.intro = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 5:
+      elif fid == 6:
         if ftype == TType.I32:
           self.state = iprot.readI32();
         else:
           iprot.skip(ftype)
-      elif fid == 6:
+      elif fid == 7:
         if ftype == TType.I64:
           self.area_id = iprot.readI64();
         else:
           iprot.skip(ftype)
-      elif fid == 7:
-        if ftype == TType.I64:
-          self.begin_time = iprot.readI64();
-        else:
-          iprot.skip(ftype)
       elif fid == 8:
         if ftype == TType.STRING:
-          self.reward = iprot.readString();
+          self.address = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 9:
         if ftype == TType.I64:
-          self.reward_cent = iprot.readI64();
+          self.begin_time = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 10:
-        if ftype == TType.I64:
-          self.apply_count = iprot.readI64();
+        if ftype == TType.STRING:
+          self.reward = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 11:
         if ftype == TType.I64:
-          self.invite_count = iprot.readI64();
+          self.reward_cent = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 12:
+        if ftype == TType.I64:
+          self.apply_count = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 13:
+        if ftype == TType.I64:
+          self.invite_count = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 14:
         if ftype == TType.I64:
           self.accept_count = iprot.readI64();
         else:
@@ -902,40 +918,48 @@ class TaskBasic:
       oprot.writeFieldBegin('sponsor', TType.I64, 3)
       oprot.writeI64(self.sponsor)
       oprot.writeFieldEnd()
+    if self.tag_id is not None:
+      oprot.writeFieldBegin('tag_id', TType.I64, 4)
+      oprot.writeI64(self.tag_id)
+      oprot.writeFieldEnd()
     if self.intro is not None:
-      oprot.writeFieldBegin('intro', TType.STRING, 4)
+      oprot.writeFieldBegin('intro', TType.STRING, 5)
       oprot.writeString(self.intro)
       oprot.writeFieldEnd()
     if self.state is not None:
-      oprot.writeFieldBegin('state', TType.I32, 5)
+      oprot.writeFieldBegin('state', TType.I32, 6)
       oprot.writeI32(self.state)
       oprot.writeFieldEnd()
     if self.area_id is not None:
-      oprot.writeFieldBegin('area_id', TType.I64, 6)
+      oprot.writeFieldBegin('area_id', TType.I64, 7)
       oprot.writeI64(self.area_id)
       oprot.writeFieldEnd()
+    if self.address is not None:
+      oprot.writeFieldBegin('address', TType.STRING, 8)
+      oprot.writeString(self.address)
+      oprot.writeFieldEnd()
     if self.begin_time is not None:
-      oprot.writeFieldBegin('begin_time', TType.I64, 7)
+      oprot.writeFieldBegin('begin_time', TType.I64, 9)
       oprot.writeI64(self.begin_time)
       oprot.writeFieldEnd()
     if self.reward is not None:
-      oprot.writeFieldBegin('reward', TType.STRING, 8)
+      oprot.writeFieldBegin('reward', TType.STRING, 10)
       oprot.writeString(self.reward)
       oprot.writeFieldEnd()
     if self.reward_cent is not None:
-      oprot.writeFieldBegin('reward_cent', TType.I64, 9)
+      oprot.writeFieldBegin('reward_cent', TType.I64, 11)
       oprot.writeI64(self.reward_cent)
       oprot.writeFieldEnd()
     if self.apply_count is not None:
-      oprot.writeFieldBegin('apply_count', TType.I64, 10)
+      oprot.writeFieldBegin('apply_count', TType.I64, 12)
       oprot.writeI64(self.apply_count)
       oprot.writeFieldEnd()
     if self.invite_count is not None:
-      oprot.writeFieldBegin('invite_count', TType.I64, 11)
+      oprot.writeFieldBegin('invite_count', TType.I64, 13)
       oprot.writeI64(self.invite_count)
       oprot.writeFieldEnd()
     if self.accept_count is not None:
-      oprot.writeFieldBegin('accept_count', TType.I64, 12)
+      oprot.writeFieldBegin('accept_count', TType.I64, 14)
       oprot.writeI64(self.accept_count)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -948,12 +972,16 @@ class TaskBasic:
       raise TProtocol.TProtocolException(message='Required field name is unset!')
     if self.sponsor is None:
       raise TProtocol.TProtocolException(message='Required field sponsor is unset!')
+    if self.tag_id is None:
+      raise TProtocol.TProtocolException(message='Required field tag_id is unset!')
     if self.intro is None:
       raise TProtocol.TProtocolException(message='Required field intro is unset!')
     if self.state is None:
       raise TProtocol.TProtocolException(message='Required field state is unset!')
     if self.area_id is None:
       raise TProtocol.TProtocolException(message='Required field area_id is unset!')
+    if self.address is None:
+      raise TProtocol.TProtocolException(message='Required field address is unset!')
     if self.begin_time is None:
       raise TProtocol.TProtocolException(message='Required field begin_time is unset!')
     if self.reward is None:
