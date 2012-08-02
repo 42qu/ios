@@ -125,14 +125,14 @@ typedef int64_t timestamp;
 @end
 
 @interface UserBasic : NSObject <NSCoding> {
-  int64_t __uid;
+  int64_t __id;
   NSString * __name;
   int __gender;
   NSString * __org;
   NSString * __job;
   NSString * __avator;
 
-  BOOL __uid_isset;
+  BOOL __id_isset;
   BOOL __name_isset;
   BOOL __gender_isset;
   BOOL __org_isset;
@@ -141,7 +141,7 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=uid, setter=setUid:) int64_t uid;
+@property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, getter=gender, setter=setGender:) int gender;
 @property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
@@ -149,14 +149,14 @@ typedef int64_t timestamp;
 @property (nonatomic, retain, getter=avator, setter=setAvator:) NSString * avator;
 #endif
 
-- (id) initWithUid: (int64_t) uid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
+- (id) initWithId: (int64_t) id name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) uid;
-- (void) setUid: (int64_t) uid;
-- (BOOL) uidIsSet;
+- (int64_t) id;
+- (void) setId: (int64_t) id;
+- (BOOL) idIsSet;
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;

@@ -368,11 +368,11 @@
 
 @implementation UserBasic
 
-- (id) initWithUid: (int64_t) uid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
+- (id) initWithId: (int64_t) id name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
 {
   self = [super init];
-  __uid = uid;
-  __uid_isset = YES;
+  __id = id;
+  __id_isset = YES;
   __name = [name retain];
   __name_isset = YES;
   __gender = gender;
@@ -389,10 +389,10 @@
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"uid"])
+  if ([decoder containsValueForKey: @"id"])
   {
-    __uid = [decoder decodeInt64ForKey: @"uid"];
-    __uid_isset = YES;
+    __id = [decoder decodeInt64ForKey: @"id"];
+    __id_isset = YES;
   }
   if ([decoder containsValueForKey: @"name"])
   {
@@ -424,9 +424,9 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__uid_isset)
+  if (__id_isset)
   {
-    [encoder encodeInt64: __uid forKey: @"uid"];
+    [encoder encodeInt64: __id forKey: @"id"];
   }
   if (__name_isset)
   {
@@ -459,21 +459,21 @@
   [super dealloc];
 }
 
-- (int64_t) uid {
-  return __uid;
+- (int64_t) id {
+  return __id;
 }
 
-- (void) setUid: (int64_t) uid {
-  __uid = uid;
-  __uid_isset = YES;
+- (void) setId: (int64_t) id {
+  __id = id;
+  __id_isset = YES;
 }
 
-- (BOOL) uidIsSet {
-  return __uid_isset;
+- (BOOL) idIsSet {
+  return __id_isset;
 }
 
-- (void) unsetUid {
-  __uid_isset = NO;
+- (void) unsetId {
+  __id_isset = NO;
 }
 
 - (NSString *) name {
@@ -595,7 +595,7 @@
       case 1:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setUid: fieldValue];
+          [self setId: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -651,9 +651,9 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"UserBasic"];
-  if (__uid_isset) {
-    [outProtocol writeFieldBeginWithName: @"uid" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __uid];
+  if (__id_isset) {
+    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __id];
     [outProtocol writeFieldEnd];
   }
   if (__name_isset) {
@@ -695,8 +695,8 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"UserBasic("];
-  [ms appendString: @"uid:"];
-  [ms appendFormat: @"%qi", __uid];
+  [ms appendString: @"id:"];
+  [ms appendFormat: @"%qi", __id];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",gender:"];

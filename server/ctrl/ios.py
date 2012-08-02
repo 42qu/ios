@@ -1,25 +1,9 @@
 #coding:utf-8
 import _env
 
-from decorator import decorator
-
-from model.app.oauth2 import user_id_by_access_token
-
-from utils.type.ttypes import User, UserGender, UserBasic, UserExt
-
 from ctrl.user import login_by_mail, user_get
 
 import logging
-
-def verify(func, *args, **argkw):
-    def new(self, token, *args,**argkw):
-        if len(args)<1:
-            return func()
-        if user_id_by_access_token(token):
-            return func(self, *args,**argkw)
-        else:
-            return Exception(ecode.PERMISSION_DENIED)
-    return new
 
 class Handler(object):
     login_by_mail = login_by_mail
@@ -27,7 +11,7 @@ class Handler(object):
     def logout(self, acess_token):
         pass
 
-    user_get = decorator(verify, user_get)
+    user_get = user_get
 
     def user_info_get(self, access_token, uid, ext_only=True):
         b = UserBasic()
@@ -57,6 +41,6 @@ if __name__ == '__main__':
     r.client_secret = '7mVpcYfpSwOowDzOGekYdA'
     h = Handler()
     #ret = h.login_by_mail(r, 'fy0@qq.com','794613852')
-    print h.user_get(168)
+    print h.user_get('NYUrNthVRWe9moLBp5NhMQ', 168)
     #print ret
 

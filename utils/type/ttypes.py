@@ -318,7 +318,7 @@ class AuthResponse:
 class UserBasic:
   """
   Attributes:
-   - uid
+   - id
    - name
    - gender
    - org
@@ -328,7 +328,7 @@ class UserBasic:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'uid', None, None, ), # 1
+    (1, TType.I64, 'id', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.I32, 'gender', None, None, ), # 3
     (4, TType.STRING, 'org', None, None, ), # 4
@@ -336,8 +336,8 @@ class UserBasic:
     (6, TType.STRING, 'avator', None, None, ), # 6
   )
 
-  def __init__(self, uid=None, name=None, gender=None, org=None, job=None, avator=None,):
-    self.uid = uid
+  def __init__(self, id=None, name=None, gender=None, org=None, job=None, avator=None,):
+    self.id = id
     self.name = name
     self.gender = gender
     self.org = org
@@ -355,7 +355,7 @@ class UserBasic:
         break
       if fid == 1:
         if ftype == TType.I64:
-          self.uid = iprot.readI64();
+          self.id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -393,9 +393,9 @@ class UserBasic:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('UserBasic')
-    if self.uid is not None:
-      oprot.writeFieldBegin('uid', TType.I64, 1)
-      oprot.writeI64(self.uid)
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.I64, 1)
+      oprot.writeI64(self.id)
       oprot.writeFieldEnd()
     if self.name is not None:
       oprot.writeFieldBegin('name', TType.STRING, 2)
@@ -421,8 +421,8 @@ class UserBasic:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.uid is None:
-      raise TProtocol.TProtocolException(message='Required field uid is unset!')
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
     if self.name is None:
       raise TProtocol.TProtocolException(message='Required field name is unset!')
     if self.gender is None:

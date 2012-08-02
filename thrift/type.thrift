@@ -43,8 +43,8 @@ struct UserBasic {
 
 struct UserExt {
     1:  required    string      intro,
-    2:  required    list<i64>   following_list,
-    3:  required    list<i64>   followed_list
+    2:  required    list<i64>   following,
+    3:  required    list<i64>   followed
 }
 
 struct User {
