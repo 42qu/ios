@@ -1653,26 +1653,26 @@
 @interface task_list_args : NSObject <NSCoding> {
   NSString * __access_token;
   int __type;
+  TaskFilter * __filter;
   int64_t __last_id;
   int64_t __num;
-  TaskFilter * __filter;
 
   BOOL __access_token_isset;
   BOOL __type_isset;
+  BOOL __filter_isset;
   BOOL __last_id_isset;
   BOOL __num_isset;
-  BOOL __filter_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=access_token, setter=setAccess_token:) NSString * access_token;
 @property (nonatomic, getter=type, setter=setType:) int type;
+@property (nonatomic, retain, getter=filter, setter=setFilter:) TaskFilter * filter;
 @property (nonatomic, getter=last_id, setter=setLast_id:) int64_t last_id;
 @property (nonatomic, getter=num, setter=setNum:) int64_t num;
-@property (nonatomic, retain, getter=filter, setter=setFilter:) TaskFilter * filter;
 #endif
 
-- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num filter: (TaskFilter *) filter;
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type filter: (TaskFilter *) filter last_id: (int64_t) last_id num: (int64_t) num;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1685,6 +1685,10 @@
 - (void) setType: (int) type;
 - (BOOL) typeIsSet;
 
+- (TaskFilter *) filter;
+- (void) setFilter: (TaskFilter *) filter;
+- (BOOL) filterIsSet;
+
 - (int64_t) last_id;
 - (void) setLast_id: (int64_t) last_id;
 - (BOOL) last_idIsSet;
@@ -1693,27 +1697,23 @@
 - (void) setNum: (int64_t) num;
 - (BOOL) numIsSet;
 
-- (TaskFilter *) filter;
-- (void) setFilter: (TaskFilter *) filter;
-- (BOOL) filterIsSet;
-
 @end
 
 @implementation task_list_args
 
-- (id) initWithAccess_token: (NSString *) access_token type: (int) type last_id: (int64_t) last_id num: (int64_t) num filter: (TaskFilter *) filter
+- (id) initWithAccess_token: (NSString *) access_token type: (int) type filter: (TaskFilter *) filter last_id: (int64_t) last_id num: (int64_t) num
 {
   self = [super init];
   __access_token = [access_token retain];
   __access_token_isset = YES;
   __type = type;
   __type_isset = YES;
+  __filter = [filter retain];
+  __filter_isset = YES;
   __last_id = last_id;
   __last_id_isset = YES;
   __num = num;
   __num_isset = YES;
-  __filter = [filter retain];
-  __filter_isset = YES;
   return self;
 }
 
@@ -1730,6 +1730,11 @@
     __type = [decoder decodeIntForKey: @"type"];
     __type_isset = YES;
   }
+  if ([decoder containsValueForKey: @"filter"])
+  {
+    __filter = [[decoder decodeObjectForKey: @"filter"] retain];
+    __filter_isset = YES;
+  }
   if ([decoder containsValueForKey: @"last_id"])
   {
     __last_id = [decoder decodeInt64ForKey: @"last_id"];
@@ -1739,11 +1744,6 @@
   {
     __num = [decoder decodeInt64ForKey: @"num"];
     __num_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"filter"])
-  {
-    __filter = [[decoder decodeObjectForKey: @"filter"] retain];
-    __filter_isset = YES;
   }
   return self;
 }
@@ -1758,6 +1758,10 @@
   {
     [encoder encodeInt: __type forKey: @"type"];
   }
+  if (__filter_isset)
+  {
+    [encoder encodeObject: __filter forKey: @"filter"];
+  }
   if (__last_id_isset)
   {
     [encoder encodeInt64: __last_id forKey: @"last_id"];
@@ -1765,10 +1769,6 @@
   if (__num_isset)
   {
     [encoder encodeInt64: __num forKey: @"num"];
-  }
-  if (__filter_isset)
-  {
-    [encoder encodeObject: __filter forKey: @"filter"];
   }
 }
 
@@ -1817,6 +1817,27 @@
   __type_isset = NO;
 }
 
+- (TaskFilter *) filter {
+  return [[__filter retain] autorelease];
+}
+
+- (void) setFilter: (TaskFilter *) filter {
+  [filter retain];
+  [__filter release];
+  __filter = filter;
+  __filter_isset = YES;
+}
+
+- (BOOL) filterIsSet {
+  return __filter_isset;
+}
+
+- (void) unsetFilter {
+  [__filter release];
+  __filter = nil;
+  __filter_isset = NO;
+}
+
 - (int64_t) last_id {
   return __last_id;
 }
@@ -1851,27 +1872,6 @@
   __num_isset = NO;
 }
 
-- (TaskFilter *) filter {
-  return [[__filter retain] autorelease];
-}
-
-- (void) setFilter: (TaskFilter *) filter {
-  [filter retain];
-  [__filter release];
-  __filter = filter;
-  __filter_isset = YES;
-}
-
-- (BOOL) filterIsSet {
-  return __filter_isset;
-}
-
-- (void) unsetFilter {
-  [__filter release];
-  __filter = nil;
-  __filter_isset = NO;
-}
-
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -1904,9 +1904,11 @@
         }
         break;
       case 3:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setLast_id: fieldValue];
+        if (fieldType == TType_STRUCT) {
+          TaskFilter *fieldValue = [[TaskFilter alloc] init];
+          [fieldValue read: inProtocol];
+          [self setFilter: fieldValue];
+          [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1914,17 +1916,15 @@
       case 4:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setNum: fieldValue];
+          [self setLast_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 5:
-        if (fieldType == TType_STRUCT) {
-          TaskFilter *fieldValue = [[TaskFilter alloc] init];
-          [fieldValue read: inProtocol];
-          [self setFilter: fieldValue];
-          [fieldValue release];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setNum: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1952,22 +1952,22 @@
     [outProtocol writeI32: __type];
     [outProtocol writeFieldEnd];
   }
+  if (__filter_isset) {
+    if (__filter != nil) {
+      [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 3];
+      [__filter write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
   if (__last_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 4];
     [outProtocol writeI64: __last_id];
     [outProtocol writeFieldEnd];
   }
   if (__num_isset) {
-    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
+    [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 5];
     [outProtocol writeI64: __num];
     [outProtocol writeFieldEnd];
-  }
-  if (__filter_isset) {
-    if (__filter != nil) {
-      [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 5];
-      [__filter write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -1979,12 +1979,12 @@
   [ms appendFormat: @"\"%@\"", __access_token];
   [ms appendString: @",type:"];
   [ms appendFormat: @"%i", __type];
+  [ms appendString: @",filter:"];
+  [ms appendFormat: @"%@", __filter];
   [ms appendString: @",last_id:"];
   [ms appendFormat: @"%qi", __last_id];
   [ms appendString: @",num:"];
   [ms appendFormat: @"%qi", __num];
-  [ms appendString: @",filter:"];
-  [ms appendFormat: @"%@", __filter];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -6457,7 +6457,7 @@
   return [self recv_user_list];
 }
 
-- (void) send_task_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num : (TaskFilter *) filter
+- (void) send_task_list: (NSString *) access_token : (int) type : (TaskFilter *) filter : (int64_t) last_id : (int64_t) num
 {
   [outProtocol writeMessageBeginWithName: @"task_list" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"task_list_args"];
@@ -6469,17 +6469,17 @@
   [outProtocol writeFieldBeginWithName: @"type" type: TType_I32 fieldID: 2];
   [outProtocol writeI32: type];
   [outProtocol writeFieldEnd];
-  [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 3];
-  [outProtocol writeI64: last_id];
-  [outProtocol writeFieldEnd];
-  [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 4];
-  [outProtocol writeI64: num];
-  [outProtocol writeFieldEnd];
   if (filter != nil)  {
-    [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 5];
+    [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 3];
     [filter write: outProtocol];
     [outProtocol writeFieldEnd];
   }
+  [outProtocol writeFieldBeginWithName: @"last_id" type: TType_I64 fieldID: 4];
+  [outProtocol writeI64: last_id];
+  [outProtocol writeFieldEnd];
+  [outProtocol writeFieldBeginWithName: @"num" type: TType_I64 fieldID: 5];
+  [outProtocol writeI64: num];
+  [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
   [outProtocol writeMessageEnd];
@@ -6505,9 +6505,9 @@
                                            reason: @"task_list failed: unknown result"];
 }
 
-- (NSArray *) task_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num : (TaskFilter *) filter
+- (NSArray *) task_list: (NSString *) access_token : (int) type : (TaskFilter *) filter : (int64_t) last_id : (int64_t) num
 {
-  [self send_task_list: access_token : type : last_id : num : filter];
+  [self send_task_list: access_token : type : filter : last_id : num];
   return [self recv_task_list];
 }
 
@@ -7339,7 +7339,7 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   Task_list_result * result = [[Task_list_result alloc] init];
-  [result setSuccess: [mService task_list: [args access_token]: [args type]: [args last_id]: [args num]: [args filter]]];
+  [result setSuccess: [mService task_list: [args access_token]: [args type]: [args filter]: [args last_id]: [args num]]];
   [outProtocol writeMessageBeginWithName: @"task_list"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];

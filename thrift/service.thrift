@@ -41,9 +41,9 @@ service Sns {
     list<type.TaskBasic> task_list(
         1: required string             access_token,
         2: required type.TaskListType  type,
-        3: required i64                last_id,
-        4: required i64                num
-        5: required type.TaskFilter    filter,
+        3: required type.TaskFilter    filter,
+        4: required i64                last_id,
+        5: required i64                num
     )
     
     type.Task task_get (

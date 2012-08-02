@@ -2,7 +2,7 @@
 import _env
 
 from ctrl.user import login_by_mail, user_get
-from ctrl.task import task_get, task_apply, my_task_accept, my_task_reject, task_new
+from ctrl.task import task_get, task_apply, my_task_accept, my_task_reject, task_new, task_list
 
 import logging
 
@@ -18,6 +18,7 @@ class Handler(object):
     my_task_accept = my_task_accept
     my_task_reject = my_task_reject
     task_new = task_new
+    task_list = task_list
 
     def user_info_get(self, access_token, uid, ext_only=True):
         b = UserBasic()
@@ -33,17 +34,4 @@ class Handler(object):
 
     def task_accept(self, access_token, user_id):
         pass
-
-if __name__ == '__main__':
-    from utils.type.ttypes import AuthRequest
-    r = AuthRequest()
-    r.client_id = 178
-    r.client_secret = '7mVpcYfpSwOowDzOGekYdA'
-    h = Handler()
-    #ret = h.login_by_mail(r, 'fy0@qq.com','794613852')
-    #print h.user_get('NYUrNthVRWe9moLBp5NhMQ', 168)
-    #print h.task_get('NYUrNthVRWe9moLBp5NhMQ', 191, False)
-    #print h.task_apply('NYUrNthVRWe9moLBp5NhMQ', 191, '123')
-    #h.my_task_accept('NYUrNthVRWe9moLBp5NhMQ', 191, 123)
-    #print ret
 

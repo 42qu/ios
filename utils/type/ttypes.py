@@ -82,27 +82,38 @@ class TaskStatus:
     "Open": 128,
   }
 
+class TaskSort:
+  ByTime = 0
+  ByCount = 1
+
+  _VALUES_TO_NAMES = {
+    0: "ByTime",
+    1: "ByCount",
+  }
+
+  _NAMES_TO_VALUES = {
+    "ByTime": 0,
+    "ByCount": 1,
+  }
+
 class TaskListType:
   All = 0
-  Recommend = 1
-  Nearby = 2
-  Following = 3
-  Staring = 4
+  Recommend = 2
+  Nearby = 4
+  Following = 8
 
   _VALUES_TO_NAMES = {
     0: "All",
-    1: "Recommend",
-    2: "Nearby",
-    3: "Following",
-    4: "Staring",
+    2: "Recommend",
+    4: "Nearby",
+    8: "Following",
   }
 
   _NAMES_TO_VALUES = {
     "All": 0,
-    "Recommend": 1,
-    "Nearby": 2,
-    "Following": 3,
-    "Staring": 4,
+    "Recommend": 2,
+    "Nearby": 4,
+    "Following": 8,
   }
 
 class MsgType:
@@ -635,34 +646,37 @@ class User:
 class TaskFilter:
   """
   Attributes:
-   - city
-   - pos
+   - sort
+   - city_id
+   - tag_id
    - distance
    - sponsor_gender
-   - difficulty
+   - level
    - reward
-   - reward_price
+   - reward_cent
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'city', None, None, ), # 1
-    (2, TType.STRING, 'pos', None, None, ), # 2
-    (3, TType.I64, 'distance', None, None, ), # 3
-    (4, TType.I32, 'sponsor_gender', None, None, ), # 4
-    (5, TType.I64, 'difficulty', None, None, ), # 5
-    (6, TType.BOOL, 'reward', None, None, ), # 6
-    (7, TType.I64, 'reward_price', None, None, ), # 7
+    (1, TType.I32, 'sort', None, None, ), # 1
+    (2, TType.I64, 'city_id', None, None, ), # 2
+    (3, TType.I64, 'tag_id', None, None, ), # 3
+    (4, TType.I64, 'distance', None, None, ), # 4
+    (5, TType.I32, 'sponsor_gender', None, None, ), # 5
+    (6, TType.I64, 'level', None, None, ), # 6
+    (7, TType.BOOL, 'reward', None, None, ), # 7
+    (8, TType.I64, 'reward_cent', None, None, ), # 8
   )
 
-  def __init__(self, city=None, pos=None, distance=None, sponsor_gender=None, difficulty=None, reward=None, reward_price=None,):
-    self.city = city
-    self.pos = pos
+  def __init__(self, sort=None, city_id=None, tag_id=None, distance=None, sponsor_gender=None, level=None, reward=None, reward_cent=None,):
+    self.sort = sort
+    self.city_id = city_id
+    self.tag_id = tag_id
     self.distance = distance
     self.sponsor_gender = sponsor_gender
-    self.difficulty = difficulty
+    self.level = level
     self.reward = reward
-    self.reward_price = reward_price
+    self.reward_cent = reward_cent
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -674,38 +688,43 @@ class TaskFilter:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.I64:
-          self.city = iprot.readI64();
+        if ftype == TType.I32:
+          self.sort = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.STRING:
-          self.pos = iprot.readString();
+        if ftype == TType.I64:
+          self.city_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.I64:
-          self.distance = iprot.readI64();
+          self.tag_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 4:
+        if ftype == TType.I64:
+          self.distance = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
         if ftype == TType.I32:
           self.sponsor_gender = iprot.readI32();
         else:
           iprot.skip(ftype)
-      elif fid == 5:
+      elif fid == 6:
         if ftype == TType.I64:
-          self.difficulty = iprot.readI64();
+          self.level = iprot.readI64();
         else:
           iprot.skip(ftype)
-      elif fid == 6:
+      elif fid == 7:
         if ftype == TType.BOOL:
           self.reward = iprot.readBool();
         else:
           iprot.skip(ftype)
-      elif fid == 7:
+      elif fid == 8:
         if ftype == TType.I64:
-          self.reward_price = iprot.readI64();
+          self.reward_cent = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -718,38 +737,44 @@ class TaskFilter:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TaskFilter')
-    if self.city is not None:
-      oprot.writeFieldBegin('city', TType.I64, 1)
-      oprot.writeI64(self.city)
+    if self.sort is not None:
+      oprot.writeFieldBegin('sort', TType.I32, 1)
+      oprot.writeI32(self.sort)
       oprot.writeFieldEnd()
-    if self.pos is not None:
-      oprot.writeFieldBegin('pos', TType.STRING, 2)
-      oprot.writeString(self.pos)
+    if self.city_id is not None:
+      oprot.writeFieldBegin('city_id', TType.I64, 2)
+      oprot.writeI64(self.city_id)
+      oprot.writeFieldEnd()
+    if self.tag_id is not None:
+      oprot.writeFieldBegin('tag_id', TType.I64, 3)
+      oprot.writeI64(self.tag_id)
       oprot.writeFieldEnd()
     if self.distance is not None:
-      oprot.writeFieldBegin('distance', TType.I64, 3)
+      oprot.writeFieldBegin('distance', TType.I64, 4)
       oprot.writeI64(self.distance)
       oprot.writeFieldEnd()
     if self.sponsor_gender is not None:
-      oprot.writeFieldBegin('sponsor_gender', TType.I32, 4)
+      oprot.writeFieldBegin('sponsor_gender', TType.I32, 5)
       oprot.writeI32(self.sponsor_gender)
       oprot.writeFieldEnd()
-    if self.difficulty is not None:
-      oprot.writeFieldBegin('difficulty', TType.I64, 5)
-      oprot.writeI64(self.difficulty)
+    if self.level is not None:
+      oprot.writeFieldBegin('level', TType.I64, 6)
+      oprot.writeI64(self.level)
       oprot.writeFieldEnd()
     if self.reward is not None:
-      oprot.writeFieldBegin('reward', TType.BOOL, 6)
+      oprot.writeFieldBegin('reward', TType.BOOL, 7)
       oprot.writeBool(self.reward)
       oprot.writeFieldEnd()
-    if self.reward_price is not None:
-      oprot.writeFieldBegin('reward_price', TType.I64, 7)
-      oprot.writeI64(self.reward_price)
+    if self.reward_cent is not None:
+      oprot.writeFieldBegin('reward_cent', TType.I64, 8)
+      oprot.writeI64(self.reward_cent)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.sort is None:
+      raise TProtocol.TProtocolException(message='Required field sort is unset!')
     return
 
 

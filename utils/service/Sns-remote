@@ -28,7 +28,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  User user_get(string access_token, i64 id, bool ext_only)'
   print '  void user_set(string access_token, User user)'
   print '   user_list(string access_token, UserListType type, i64 last_id, i64 num)'
-  print '   task_list(string access_token, TaskListType type, i64 last_id, i64 num, TaskFilter filter)'
+  print '   task_list(string access_token, TaskListType type, TaskFilter filter, i64 last_id, i64 num)'
   print '  Task task_get(i64 access_token, i64 id, bool ext_only)'
   print '  void task_set(string access_token, Task task)'
   print '  i64 task_new(string access_token, Task task)'

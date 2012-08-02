@@ -62,14 +62,20 @@ enum TaskStatus {
     Open = 128
 }
 
+enum TaskSort {
+    ByTime = 0,
+    ByCount = 1
+}
+
 struct TaskFilter {
-    1:  optional    i64             city,
-    2:  optional    string          pos,
-    3:  optional    i64             distance,
-    4:  optional    UserGender      sponsor_gender,
-    5:  optional    i64             difficulty,
-    6:  optional    bool            reward,
-    7:  optional    i64             reward_price
+    1:  required    TaskSort        sort,
+    2:  optional    i64             city_id,
+    3:  optional    i64             tag_id,
+    4:  optional    i64             distance,
+    5:  optional    UserGender      sponsor_gender,
+    6:  optional    i64             level,
+    7:  optional    bool            reward,
+    8:  optional    i64             reward_cent
 }
 
 struct TaskBasic {
@@ -102,10 +108,9 @@ struct Task {
 
 enum TaskListType {
     All = 0,
-    Recommend,
-    Nearby,
-    Following,
-    Staring
+    Recommend = 2,
+    Nearby = 4,
+    Following = 8
 }
 
 struct TaskListRequest {

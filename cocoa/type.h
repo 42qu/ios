@@ -36,12 +36,16 @@ enum TaskStatus {
   TaskStatus_Open = 128
 };
 
+enum TaskSort {
+  TaskSort_ByTime = 0,
+  TaskSort_ByCount = 1
+};
+
 enum TaskListType {
   TaskListType_All = 0,
-  TaskListType_Recommend = 1,
-  TaskListType_Nearby = 2,
-  TaskListType_Following = 3,
-  TaskListType_Staring = 4
+  TaskListType_Recommend = 2,
+  TaskListType_Nearby = 4,
+  TaskListType_Following = 8
 };
 
 enum MsgType {
@@ -245,45 +249,52 @@ typedef int64_t timestamp;
 @end
 
 @interface TaskFilter : NSObject <NSCoding> {
-  int64_t __city;
-  NSString * __pos;
+  int __sort;
+  int64_t __city_id;
+  int64_t __tag_id;
   int64_t __distance;
   int __sponsor_gender;
-  int64_t __difficulty;
+  int64_t __level;
   BOOL __reward;
-  int64_t __reward_price;
+  int64_t __reward_cent;
 
-  BOOL __city_isset;
-  BOOL __pos_isset;
+  BOOL __sort_isset;
+  BOOL __city_id_isset;
+  BOOL __tag_id_isset;
   BOOL __distance_isset;
   BOOL __sponsor_gender_isset;
-  BOOL __difficulty_isset;
+  BOOL __level_isset;
   BOOL __reward_isset;
-  BOOL __reward_price_isset;
+  BOOL __reward_cent_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=city, setter=setCity:) int64_t city;
-@property (nonatomic, retain, getter=pos, setter=setPos:) NSString * pos;
+@property (nonatomic, getter=sort, setter=setSort:) int sort;
+@property (nonatomic, getter=city_id, setter=setCity_id:) int64_t city_id;
+@property (nonatomic, getter=tag_id, setter=setTag_id:) int64_t tag_id;
 @property (nonatomic, getter=distance, setter=setDistance:) int64_t distance;
 @property (nonatomic, getter=sponsor_gender, setter=setSponsor_gender:) int sponsor_gender;
-@property (nonatomic, getter=difficulty, setter=setDifficulty:) int64_t difficulty;
+@property (nonatomic, getter=level, setter=setLevel:) int64_t level;
 @property (nonatomic, getter=reward, setter=setReward:) BOOL reward;
-@property (nonatomic, getter=reward_price, setter=setReward_price:) int64_t reward_price;
+@property (nonatomic, getter=reward_cent, setter=setReward_cent:) int64_t reward_cent;
 #endif
 
-- (id) initWithCity: (int64_t) city pos: (NSString *) pos distance: (int64_t) distance sponsor_gender: (int) sponsor_gender difficulty: (int64_t) difficulty reward: (BOOL) reward reward_price: (int64_t) reward_price;
+- (id) initWithSort: (int) sort city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) city;
-- (void) setCity: (int64_t) city;
-- (BOOL) cityIsSet;
+- (int) sort;
+- (void) setSort: (int) sort;
+- (BOOL) sortIsSet;
 
-- (NSString *) pos;
-- (void) setPos: (NSString *) pos;
-- (BOOL) posIsSet;
+- (int64_t) city_id;
+- (void) setCity_id: (int64_t) city_id;
+- (BOOL) city_idIsSet;
+
+- (int64_t) tag_id;
+- (void) setTag_id: (int64_t) tag_id;
+- (BOOL) tag_idIsSet;
 
 - (int64_t) distance;
 - (void) setDistance: (int64_t) distance;
@@ -293,17 +304,17 @@ typedef int64_t timestamp;
 - (void) setSponsor_gender: (int) sponsor_gender;
 - (BOOL) sponsor_genderIsSet;
 
-- (int64_t) difficulty;
-- (void) setDifficulty: (int64_t) difficulty;
-- (BOOL) difficultyIsSet;
+- (int64_t) level;
+- (void) setLevel: (int64_t) level;
+- (BOOL) levelIsSet;
 
 - (BOOL) reward;
 - (void) setReward: (BOOL) reward;
 - (BOOL) rewardIsSet;
 
-- (int64_t) reward_price;
-- (void) setReward_price: (int64_t) reward_price;
-- (BOOL) reward_priceIsSet;
+- (int64_t) reward_cent;
+- (void) setReward_cent: (int64_t) reward_cent;
+- (BOOL) reward_centIsSet;
 
 @end
 

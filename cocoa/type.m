@@ -1127,38 +1127,45 @@
 
 @implementation TaskFilter
 
-- (id) initWithCity: (int64_t) city pos: (NSString *) pos distance: (int64_t) distance sponsor_gender: (int) sponsor_gender difficulty: (int64_t) difficulty reward: (BOOL) reward reward_price: (int64_t) reward_price
+- (id) initWithSort: (int) sort city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent
 {
   self = [super init];
-  __city = city;
-  __city_isset = YES;
-  __pos = [pos retain];
-  __pos_isset = YES;
+  __sort = sort;
+  __sort_isset = YES;
+  __city_id = city_id;
+  __city_id_isset = YES;
+  __tag_id = tag_id;
+  __tag_id_isset = YES;
   __distance = distance;
   __distance_isset = YES;
   __sponsor_gender = sponsor_gender;
   __sponsor_gender_isset = YES;
-  __difficulty = difficulty;
-  __difficulty_isset = YES;
+  __level = level;
+  __level_isset = YES;
   __reward = reward;
   __reward_isset = YES;
-  __reward_price = reward_price;
-  __reward_price_isset = YES;
+  __reward_cent = reward_cent;
+  __reward_cent_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"city"])
+  if ([decoder containsValueForKey: @"sort"])
   {
-    __city = [decoder decodeInt64ForKey: @"city"];
-    __city_isset = YES;
+    __sort = [decoder decodeIntForKey: @"sort"];
+    __sort_isset = YES;
   }
-  if ([decoder containsValueForKey: @"pos"])
+  if ([decoder containsValueForKey: @"city_id"])
   {
-    __pos = [[decoder decodeObjectForKey: @"pos"] retain];
-    __pos_isset = YES;
+    __city_id = [decoder decodeInt64ForKey: @"city_id"];
+    __city_id_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"tag_id"])
+  {
+    __tag_id = [decoder decodeInt64ForKey: @"tag_id"];
+    __tag_id_isset = YES;
   }
   if ([decoder containsValueForKey: @"distance"])
   {
@@ -1170,33 +1177,37 @@
     __sponsor_gender = [decoder decodeIntForKey: @"sponsor_gender"];
     __sponsor_gender_isset = YES;
   }
-  if ([decoder containsValueForKey: @"difficulty"])
+  if ([decoder containsValueForKey: @"level"])
   {
-    __difficulty = [decoder decodeInt64ForKey: @"difficulty"];
-    __difficulty_isset = YES;
+    __level = [decoder decodeInt64ForKey: @"level"];
+    __level_isset = YES;
   }
   if ([decoder containsValueForKey: @"reward"])
   {
     __reward = [decoder decodeBoolForKey: @"reward"];
     __reward_isset = YES;
   }
-  if ([decoder containsValueForKey: @"reward_price"])
+  if ([decoder containsValueForKey: @"reward_cent"])
   {
-    __reward_price = [decoder decodeInt64ForKey: @"reward_price"];
-    __reward_price_isset = YES;
+    __reward_cent = [decoder decodeInt64ForKey: @"reward_cent"];
+    __reward_cent_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__city_isset)
+  if (__sort_isset)
   {
-    [encoder encodeInt64: __city forKey: @"city"];
+    [encoder encodeInt: __sort forKey: @"sort"];
   }
-  if (__pos_isset)
+  if (__city_id_isset)
   {
-    [encoder encodeObject: __pos forKey: @"pos"];
+    [encoder encodeInt64: __city_id forKey: @"city_id"];
+  }
+  if (__tag_id_isset)
+  {
+    [encoder encodeInt64: __tag_id forKey: @"tag_id"];
   }
   if (__distance_isset)
   {
@@ -1206,62 +1217,74 @@
   {
     [encoder encodeInt: __sponsor_gender forKey: @"sponsor_gender"];
   }
-  if (__difficulty_isset)
+  if (__level_isset)
   {
-    [encoder encodeInt64: __difficulty forKey: @"difficulty"];
+    [encoder encodeInt64: __level forKey: @"level"];
   }
   if (__reward_isset)
   {
     [encoder encodeBool: __reward forKey: @"reward"];
   }
-  if (__reward_price_isset)
+  if (__reward_cent_isset)
   {
-    [encoder encodeInt64: __reward_price forKey: @"reward_price"];
+    [encoder encodeInt64: __reward_cent forKey: @"reward_cent"];
   }
 }
 
 - (void) dealloc
 {
-  [__pos release];
   [super dealloc];
 }
 
-- (int64_t) city {
-  return __city;
+- (int) sort {
+  return __sort;
 }
 
-- (void) setCity: (int64_t) city {
-  __city = city;
-  __city_isset = YES;
+- (void) setSort: (int) sort {
+  __sort = sort;
+  __sort_isset = YES;
 }
 
-- (BOOL) cityIsSet {
-  return __city_isset;
+- (BOOL) sortIsSet {
+  return __sort_isset;
 }
 
-- (void) unsetCity {
-  __city_isset = NO;
+- (void) unsetSort {
+  __sort_isset = NO;
 }
 
-- (NSString *) pos {
-  return [[__pos retain] autorelease];
+- (int64_t) city_id {
+  return __city_id;
 }
 
-- (void) setPos: (NSString *) pos {
-  [pos retain];
-  [__pos release];
-  __pos = pos;
-  __pos_isset = YES;
+- (void) setCity_id: (int64_t) city_id {
+  __city_id = city_id;
+  __city_id_isset = YES;
 }
 
-- (BOOL) posIsSet {
-  return __pos_isset;
+- (BOOL) city_idIsSet {
+  return __city_id_isset;
 }
 
-- (void) unsetPos {
-  [__pos release];
-  __pos = nil;
-  __pos_isset = NO;
+- (void) unsetCity_id {
+  __city_id_isset = NO;
+}
+
+- (int64_t) tag_id {
+  return __tag_id;
+}
+
+- (void) setTag_id: (int64_t) tag_id {
+  __tag_id = tag_id;
+  __tag_id_isset = YES;
+}
+
+- (BOOL) tag_idIsSet {
+  return __tag_id_isset;
+}
+
+- (void) unsetTag_id {
+  __tag_id_isset = NO;
 }
 
 - (int64_t) distance {
@@ -1298,21 +1321,21 @@
   __sponsor_gender_isset = NO;
 }
 
-- (int64_t) difficulty {
-  return __difficulty;
+- (int64_t) level {
+  return __level;
 }
 
-- (void) setDifficulty: (int64_t) difficulty {
-  __difficulty = difficulty;
-  __difficulty_isset = YES;
+- (void) setLevel: (int64_t) level {
+  __level = level;
+  __level_isset = YES;
 }
 
-- (BOOL) difficultyIsSet {
-  return __difficulty_isset;
+- (BOOL) levelIsSet {
+  return __level_isset;
 }
 
-- (void) unsetDifficulty {
-  __difficulty_isset = NO;
+- (void) unsetLevel {
+  __level_isset = NO;
 }
 
 - (BOOL) reward {
@@ -1332,21 +1355,21 @@
   __reward_isset = NO;
 }
 
-- (int64_t) reward_price {
-  return __reward_price;
+- (int64_t) reward_cent {
+  return __reward_cent;
 }
 
-- (void) setReward_price: (int64_t) reward_price {
-  __reward_price = reward_price;
-  __reward_price_isset = YES;
+- (void) setReward_cent: (int64_t) reward_cent {
+  __reward_cent = reward_cent;
+  __reward_cent_isset = YES;
 }
 
-- (BOOL) reward_priceIsSet {
-  return __reward_price_isset;
+- (BOOL) reward_centIsSet {
+  return __reward_cent_isset;
 }
 
-- (void) unsetReward_price {
-  __reward_price_isset = NO;
+- (void) unsetReward_cent {
+  __reward_cent_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -1365,17 +1388,17 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setCity: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setSort: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setPos: fieldValue];
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setCity_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1383,12 +1406,20 @@
       case 3:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setDistance: fieldValue];
+          [self setTag_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 4:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDistance: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
         if (fieldType == TType_I32) {
           int fieldValue = [inProtocol readI32];
           [self setSponsor_gender: fieldValue];
@@ -1396,15 +1427,15 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 5:
+      case 6:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setDifficulty: fieldValue];
+          [self setLevel: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 6:
+      case 7:
         if (fieldType == TType_BOOL) {
           BOOL fieldValue = [inProtocol readBool];
           [self setReward: fieldValue];
@@ -1412,10 +1443,10 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 7:
+      case 8:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setReward_price: fieldValue];
+          [self setReward_cent: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1431,41 +1462,44 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"TaskFilter"];
-  if (__city_isset) {
-    [outProtocol writeFieldBeginWithName: @"city" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __city];
+  if (__sort_isset) {
+    [outProtocol writeFieldBeginWithName: @"sort" type: TType_I32 fieldID: 1];
+    [outProtocol writeI32: __sort];
     [outProtocol writeFieldEnd];
   }
-  if (__pos_isset) {
-    if (__pos != nil) {
-      [outProtocol writeFieldBeginWithName: @"pos" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __pos];
-      [outProtocol writeFieldEnd];
-    }
+  if (__city_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"city_id" type: TType_I64 fieldID: 2];
+    [outProtocol writeI64: __city_id];
+    [outProtocol writeFieldEnd];
+  }
+  if (__tag_id_isset) {
+    [outProtocol writeFieldBeginWithName: @"tag_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeI64: __tag_id];
+    [outProtocol writeFieldEnd];
   }
   if (__distance_isset) {
-    [outProtocol writeFieldBeginWithName: @"distance" type: TType_I64 fieldID: 3];
+    [outProtocol writeFieldBeginWithName: @"distance" type: TType_I64 fieldID: 4];
     [outProtocol writeI64: __distance];
     [outProtocol writeFieldEnd];
   }
   if (__sponsor_gender_isset) {
-    [outProtocol writeFieldBeginWithName: @"sponsor_gender" type: TType_I32 fieldID: 4];
+    [outProtocol writeFieldBeginWithName: @"sponsor_gender" type: TType_I32 fieldID: 5];
     [outProtocol writeI32: __sponsor_gender];
     [outProtocol writeFieldEnd];
   }
-  if (__difficulty_isset) {
-    [outProtocol writeFieldBeginWithName: @"difficulty" type: TType_I64 fieldID: 5];
-    [outProtocol writeI64: __difficulty];
+  if (__level_isset) {
+    [outProtocol writeFieldBeginWithName: @"level" type: TType_I64 fieldID: 6];
+    [outProtocol writeI64: __level];
     [outProtocol writeFieldEnd];
   }
   if (__reward_isset) {
-    [outProtocol writeFieldBeginWithName: @"reward" type: TType_BOOL fieldID: 6];
+    [outProtocol writeFieldBeginWithName: @"reward" type: TType_BOOL fieldID: 7];
     [outProtocol writeBool: __reward];
     [outProtocol writeFieldEnd];
   }
-  if (__reward_price_isset) {
-    [outProtocol writeFieldBeginWithName: @"reward_price" type: TType_I64 fieldID: 7];
-    [outProtocol writeI64: __reward_price];
+  if (__reward_cent_isset) {
+    [outProtocol writeFieldBeginWithName: @"reward_cent" type: TType_I64 fieldID: 8];
+    [outProtocol writeI64: __reward_cent];
     [outProtocol writeFieldEnd];
   }
   [outProtocol writeFieldStop];
@@ -1474,20 +1508,22 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskFilter("];
-  [ms appendString: @"city:"];
-  [ms appendFormat: @"%qi", __city];
-  [ms appendString: @",pos:"];
-  [ms appendFormat: @"\"%@\"", __pos];
+  [ms appendString: @"sort:"];
+  [ms appendFormat: @"%i", __sort];
+  [ms appendString: @",city_id:"];
+  [ms appendFormat: @"%qi", __city_id];
+  [ms appendString: @",tag_id:"];
+  [ms appendFormat: @"%qi", __tag_id];
   [ms appendString: @",distance:"];
   [ms appendFormat: @"%qi", __distance];
   [ms appendString: @",sponsor_gender:"];
   [ms appendFormat: @"%i", __sponsor_gender];
-  [ms appendString: @",difficulty:"];
-  [ms appendFormat: @"%qi", __difficulty];
+  [ms appendString: @",level:"];
+  [ms appendFormat: @"%qi", __level];
   [ms appendString: @",reward:"];
   [ms appendFormat: @"%i", __reward];
-  [ms appendString: @",reward_price:"];
-  [ms appendFormat: @"%qi", __reward_price];
+  [ms appendString: @",reward_cent:"];
+  [ms appendFormat: @"%qi", __reward_cent];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }

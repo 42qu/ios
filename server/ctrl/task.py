@@ -4,12 +4,14 @@
 import _env
 
 from kits import obj
+from ctrl.verify import verify, verify_get_user
 
 from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, task_apply_new, task_apply_user_id_list, po_task_new
 
-from ctrl.verify import verify, verify_get_user
+from model.task.tag import po_task_id_list_order_by_time, po_task_id_list_order_by_count, po_task_tag_id
 
 from utils.type.ttypes import Task, TaskBasic, TaskExt
+from utils.type.ttypes import TaskListType, TaskFilter, TaskSort
 
 @verify
 def task_get(self, access_token, id, ext_only=True):
@@ -83,4 +85,45 @@ def task_new(self, access_token, task, uid=None):
     o.reward = bas.reward
     o.reward_cent = bas.reward_cent
     po_task_new(uid, o, bas.tag_id)
+
+# TODO:回头做个信息互转的函数
+@verify_get_user
+def task_list(self, access_token, type, filter, last_id, num, uid=None):
+    lst = []
+    if type == TaskListType.All:
+        if filter.sort == TaskSort.ByTime:
+            po_list = po_task_id_list_order_by_time
+        else:
+            po_list = po_task_id_list_order_by_count
+        lst =  po_list(filter.tag_id, filter.city_id, filter.state, last_id, num)
+
+    ret = []
+
+    for i in lst:
+        po = po_task_get(i)
+        if po:
+            s = TASK_APPLY_STATE
+            _d = dict()
+            for i in (s.APPLY, s.ACCEPT):
+                _d[i] = list(task_apply_user_id_list(po.id, i))
+
+            baisc = TaskBasic(
+                id = po.id,
+                name         = po.name,
+                sponsor      = po.user_id,
+                tag_id       = po_task_tag_id(po.id),
+                intro        = po.txt,
+                state        = po.task.state,
+                area_id      = po.task.area_id,
+                address      = po.task.address,
+                begin_time   = po.task.begin_time,
+                reward       = po.task.reward,
+                reward_cent  = po.task.reward_cent,
+                apply_count = len(_d[s.APPLY]),
+                invite_count = 0,
+                accept_count = len(_d[s.ACCEPT]),
+            )
+            ret.append(baisc)
+
+    return ret
 
