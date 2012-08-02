@@ -2714,7 +2714,7 @@
 
 @implementation Msg
 
-- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text type: (int) type
+- (id) initWithSender: (int64_t) sender time: (timestamp) time text: (NSString *) text type: (int) type
 {
   self = [super init];
   __sender = sender;
@@ -2954,7 +2954,7 @@
 
 @implementation FeedMsg
 
-- (id) initWithSender: (NSString *) sender time: (int64_t) time type: (int) type content: (NSString *) content
+- (id) initWithSender: (NSString *) sender time: (timestamp) time type: (int) type content: (NSString *) content
 {
   self = [super init];
   __sender = [sender retain];

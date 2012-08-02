@@ -124,7 +124,7 @@ enum MsgType {
 
 struct Msg {
     1:  required    i64         sender,
-    2:  required    i64         time,
+    2:  required    timestamp   time,
     3:  required    string      text,
     4:  optional    MsgType     type
 }
@@ -141,7 +141,7 @@ enum FeedType {
 
 struct FeedMsg {
     1:  required   string     sender,
-    2:  required   i64        time,
+    2:  required   timestamp  time,
     3:  required   FeedType   type,
     4:  required   string     content
 }

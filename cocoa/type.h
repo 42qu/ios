@@ -505,7 +505,7 @@ typedef int64_t timestamp;
 
 @interface Msg : NSObject <NSCoding> {
   int64_t __sender;
-  int64_t __time;
+  timestamp __time;
   NSString * __text;
   int __type;
 
@@ -517,12 +517,12 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=sender, setter=setSender:) int64_t sender;
-@property (nonatomic, getter=time, setter=setTime:) int64_t time;
+@property (nonatomic, getter=time, setter=setTime:) timestamp time;
 @property (nonatomic, retain, getter=text, setter=setText:) NSString * text;
 @property (nonatomic, getter=type, setter=setType:) int type;
 #endif
 
-- (id) initWithSender: (int64_t) sender time: (int64_t) time text: (NSString *) text type: (int) type;
+- (id) initWithSender: (int64_t) sender time: (timestamp) time text: (NSString *) text type: (int) type;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -531,8 +531,8 @@ typedef int64_t timestamp;
 - (void) setSender: (int64_t) sender;
 - (BOOL) senderIsSet;
 
-- (int64_t) time;
-- (void) setTime: (int64_t) time;
+- (timestamp) time;
+- (void) setTime: (timestamp) time;
 - (BOOL) timeIsSet;
 
 - (NSString *) text;
@@ -547,7 +547,7 @@ typedef int64_t timestamp;
 
 @interface FeedMsg : NSObject <NSCoding> {
   NSString * __sender;
-  int64_t __time;
+  timestamp __time;
   int __type;
   NSString * __content;
 
@@ -559,12 +559,12 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=sender, setter=setSender:) NSString * sender;
-@property (nonatomic, getter=time, setter=setTime:) int64_t time;
+@property (nonatomic, getter=time, setter=setTime:) timestamp time;
 @property (nonatomic, getter=type, setter=setType:) int type;
 @property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
 #endif
 
-- (id) initWithSender: (NSString *) sender time: (int64_t) time type: (int) type content: (NSString *) content;
+- (id) initWithSender: (NSString *) sender time: (timestamp) time type: (int) type content: (NSString *) content;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -573,8 +573,8 @@ typedef int64_t timestamp;
 - (void) setSender: (NSString *) sender;
 - (BOOL) senderIsSet;
 
-- (int64_t) time;
-- (void) setTime: (int64_t) time;
+- (timestamp) time;
+- (void) setTime: (timestamp) time;
 - (BOOL) timeIsSet;
 
 - (int) type;
