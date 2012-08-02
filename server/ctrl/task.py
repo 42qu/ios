@@ -3,7 +3,7 @@
 
 import _env
 
-from model.task.task import TASK_APPLY_STATE, po_task_get, task_apply_new, task_apply_user_id_list
+from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, task_apply_new, task_apply_user_id_list
 
 from ctrl.verify import verify, verify_get_user
 
@@ -43,6 +43,7 @@ def task_get(self, access_token, id, ext_only=True):
     return Task(basic=basic, ext=ext)
 
 @verify_get_user
-def task_apply(self, access_token, task_id, uid, txt=''):
-    print uid
+def task_apply(self, access_token, task_id, txt='', uid=None):
+    task_apply_new(task_id, uid, TASK_APPLY_STATE.APPLY)
+    return True
 

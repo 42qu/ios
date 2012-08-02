@@ -39,6 +39,7 @@ if __name__ == '__main__':
     h = Handler()
     #ret = h.login_by_mail(r, 'fy0@qq.com','794613852')
     #print h.user_get('NYUrNthVRWe9moLBp5NhMQ', 168)
-    print h.task_get('NYUrNthVRWe9moLBp5NhMQ', 191, False)
+    #print h.task_get('NYUrNthVRWe9moLBp5NhMQ', 191, False)
+    #print h.task_apply('NYUrNthVRWe9moLBp5NhMQ', 191, '123')
     #print ret
 

@@ -23,7 +23,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] function [arg1 [arg2...]]'
   print ''
   print 'Functions:'
-  print '  i64 login_by_mail(AuthRequest auth, string mail, string password)'
+  print '  AuthResponse login_by_mail(AuthRequest auth, string mail, string password)'
   print '  void logout(string access_token)'
   print '  User user_get(string access_token, i64 id, bool ext_only)'
   print '  void user_set(string access_token, User user)'
