@@ -61,22 +61,25 @@ class UserListType:
 
 class TaskStatus:
   Removed = 0
-  Applied = 1
-  Accepted = 2
-  Rejected = 3
+  Apply = 16
+  Reject = 32
+  Close = 64
+  Open = 128
 
   _VALUES_TO_NAMES = {
     0: "Removed",
-    1: "Applied",
-    2: "Accepted",
-    3: "Rejected",
+    16: "Apply",
+    32: "Reject",
+    64: "Close",
+    128: "Open",
   }
 
   _NAMES_TO_VALUES = {
     "Removed": 0,
-    "Applied": 1,
-    "Accepted": 2,
-    "Rejected": 3,
+    "Apply": 16,
+    "Reject": 32,
+    "Close": 64,
+    "Open": 128,
   }
 
 class TaskListType:
@@ -451,21 +454,21 @@ class UserExt:
   """
   Attributes:
    - intro
-   - following_list
-   - followed_list
+   - following
+   - followed
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'intro', None, None, ), # 1
-    (2, TType.LIST, 'following_list', (TType.I64,None), None, ), # 2
-    (3, TType.LIST, 'followed_list', (TType.I64,None), None, ), # 3
+    (2, TType.LIST, 'following', (TType.I64,None), None, ), # 2
+    (3, TType.LIST, 'followed', (TType.I64,None), None, ), # 3
   )
 
-  def __init__(self, intro=None, following_list=None, followed_list=None,):
+  def __init__(self, intro=None, following=None, followed=None,):
     self.intro = intro
-    self.following_list = following_list
-    self.followed_list = followed_list
+    self.following = following
+    self.followed = followed
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -483,21 +486,21 @@ class UserExt:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.LIST:
-          self.following_list = []
+          self.following = []
           (_etype3, _size0) = iprot.readListBegin()
           for _i4 in xrange(_size0):
             _elem5 = iprot.readI64();
-            self.following_list.append(_elem5)
+            self.following.append(_elem5)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.LIST:
-          self.followed_list = []
+          self.followed = []
           (_etype9, _size6) = iprot.readListBegin()
           for _i10 in xrange(_size6):
             _elem11 = iprot.readI64();
-            self.followed_list.append(_elem11)
+            self.followed.append(_elem11)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -515,17 +518,17 @@ class UserExt:
       oprot.writeFieldBegin('intro', TType.STRING, 1)
       oprot.writeString(self.intro)
       oprot.writeFieldEnd()
-    if self.following_list is not None:
-      oprot.writeFieldBegin('following_list', TType.LIST, 2)
-      oprot.writeListBegin(TType.I64, len(self.following_list))
-      for iter12 in self.following_list:
+    if self.following is not None:
+      oprot.writeFieldBegin('following', TType.LIST, 2)
+      oprot.writeListBegin(TType.I64, len(self.following))
+      for iter12 in self.following:
         oprot.writeI64(iter12)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.followed_list is not None:
-      oprot.writeFieldBegin('followed_list', TType.LIST, 3)
-      oprot.writeListBegin(TType.I64, len(self.followed_list))
-      for iter13 in self.followed_list:
+    if self.followed is not None:
+      oprot.writeFieldBegin('followed', TType.LIST, 3)
+      oprot.writeListBegin(TType.I64, len(self.followed))
+      for iter13 in self.followed:
         oprot.writeI64(iter13)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
@@ -535,10 +538,10 @@ class UserExt:
   def validate(self):
     if self.intro is None:
       raise TProtocol.TProtocolException(message='Required field intro is unset!')
-    if self.following_list is None:
-      raise TProtocol.TProtocolException(message='Required field following_list is unset!')
-    if self.followed_list is None:
-      raise TProtocol.TProtocolException(message='Required field followed_list is unset!')
+    if self.following is None:
+      raise TProtocol.TProtocolException(message='Required field following is unset!')
+    if self.followed is None:
+      raise TProtocol.TProtocolException(message='Required field followed is unset!')
     return
 
 
@@ -764,46 +767,49 @@ class TaskFilter:
 class TaskBasic:
   """
   Attributes:
-   - tid
-   - title
+   - id
+   - name
    - sponsor
    - intro
-   - status
+   - state
+   - area_id
    - begin_time
-   - end_time
-   - planed
-   - applied
-   - invited
-   - accepted
+   - reward
+   - reward_cent
+   - apply_count
+   - invite_count
+   - accept_count
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'tid', None, None, ), # 1
-    (2, TType.STRING, 'title', None, None, ), # 2
+    (1, TType.I64, 'id', None, None, ), # 1
+    (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.I64, 'sponsor', None, None, ), # 3
     (4, TType.STRING, 'intro', None, None, ), # 4
-    (5, TType.I32, 'status', None, None, ), # 5
-    (6, TType.I64, 'begin_time', None, None, ), # 6
-    (7, TType.I64, 'end_time', None, None, ), # 7
-    (8, TType.I64, 'planed', None, None, ), # 8
-    (9, TType.I64, 'applied', None, None, ), # 9
-    (10, TType.I64, 'invited', None, None, ), # 10
-    (11, TType.I64, 'accepted', None, None, ), # 11
+    (5, TType.I32, 'state', None, None, ), # 5
+    (6, TType.I64, 'area_id', None, None, ), # 6
+    (7, TType.I64, 'begin_time', None, None, ), # 7
+    (8, TType.STRING, 'reward', None, None, ), # 8
+    (9, TType.I64, 'reward_cent', None, None, ), # 9
+    (10, TType.I64, 'apply_count', None, None, ), # 10
+    (11, TType.I64, 'invite_count', None, None, ), # 11
+    (12, TType.I64, 'accept_count', None, None, ), # 12
   )
 
-  def __init__(self, tid=None, title=None, sponsor=None, intro=None, status=None, begin_time=None, end_time=None, planed=None, applied=None, invited=None, accepted=None,):
-    self.tid = tid
-    self.title = title
+  def __init__(self, id=None, name=None, sponsor=None, intro=None, state=None, area_id=None, begin_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
+    self.id = id
+    self.name = name
     self.sponsor = sponsor
     self.intro = intro
-    self.status = status
+    self.state = state
+    self.area_id = area_id
     self.begin_time = begin_time
-    self.end_time = end_time
-    self.planed = planed
-    self.applied = applied
-    self.invited = invited
-    self.accepted = accepted
+    self.reward = reward
+    self.reward_cent = reward_cent
+    self.apply_count = apply_count
+    self.invite_count = invite_count
+    self.accept_count = accept_count
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -816,12 +822,12 @@ class TaskBasic:
         break
       if fid == 1:
         if ftype == TType.I64:
-          self.tid = iprot.readI64();
+          self.id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRING:
-          self.title = iprot.readString();
+          self.name = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 3:
@@ -836,37 +842,42 @@ class TaskBasic:
           iprot.skip(ftype)
       elif fid == 5:
         if ftype == TType.I32:
-          self.status = iprot.readI32();
+          self.state = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.I64:
-          self.begin_time = iprot.readI64();
+          self.area_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 7:
         if ftype == TType.I64:
-          self.end_time = iprot.readI64();
+          self.begin_time = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 8:
-        if ftype == TType.I64:
-          self.planed = iprot.readI64();
+        if ftype == TType.STRING:
+          self.reward = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 9:
         if ftype == TType.I64:
-          self.applied = iprot.readI64();
+          self.reward_cent = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 10:
         if ftype == TType.I64:
-          self.invited = iprot.readI64();
+          self.apply_count = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 11:
         if ftype == TType.I64:
-          self.accepted = iprot.readI64();
+          self.invite_count = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 12:
+        if ftype == TType.I64:
+          self.accept_count = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -879,13 +890,13 @@ class TaskBasic:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TaskBasic')
-    if self.tid is not None:
-      oprot.writeFieldBegin('tid', TType.I64, 1)
-      oprot.writeI64(self.tid)
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.I64, 1)
+      oprot.writeI64(self.id)
       oprot.writeFieldEnd()
-    if self.title is not None:
-      oprot.writeFieldBegin('title', TType.STRING, 2)
-      oprot.writeString(self.title)
+    if self.name is not None:
+      oprot.writeFieldBegin('name', TType.STRING, 2)
+      oprot.writeString(self.name)
       oprot.writeFieldEnd()
     if self.sponsor is not None:
       oprot.writeFieldBegin('sponsor', TType.I64, 3)
@@ -895,60 +906,66 @@ class TaskBasic:
       oprot.writeFieldBegin('intro', TType.STRING, 4)
       oprot.writeString(self.intro)
       oprot.writeFieldEnd()
-    if self.status is not None:
-      oprot.writeFieldBegin('status', TType.I32, 5)
-      oprot.writeI32(self.status)
+    if self.state is not None:
+      oprot.writeFieldBegin('state', TType.I32, 5)
+      oprot.writeI32(self.state)
+      oprot.writeFieldEnd()
+    if self.area_id is not None:
+      oprot.writeFieldBegin('area_id', TType.I64, 6)
+      oprot.writeI64(self.area_id)
       oprot.writeFieldEnd()
     if self.begin_time is not None:
-      oprot.writeFieldBegin('begin_time', TType.I64, 6)
+      oprot.writeFieldBegin('begin_time', TType.I64, 7)
       oprot.writeI64(self.begin_time)
       oprot.writeFieldEnd()
-    if self.end_time is not None:
-      oprot.writeFieldBegin('end_time', TType.I64, 7)
-      oprot.writeI64(self.end_time)
+    if self.reward is not None:
+      oprot.writeFieldBegin('reward', TType.STRING, 8)
+      oprot.writeString(self.reward)
       oprot.writeFieldEnd()
-    if self.planed is not None:
-      oprot.writeFieldBegin('planed', TType.I64, 8)
-      oprot.writeI64(self.planed)
+    if self.reward_cent is not None:
+      oprot.writeFieldBegin('reward_cent', TType.I64, 9)
+      oprot.writeI64(self.reward_cent)
       oprot.writeFieldEnd()
-    if self.applied is not None:
-      oprot.writeFieldBegin('applied', TType.I64, 9)
-      oprot.writeI64(self.applied)
+    if self.apply_count is not None:
+      oprot.writeFieldBegin('apply_count', TType.I64, 10)
+      oprot.writeI64(self.apply_count)
       oprot.writeFieldEnd()
-    if self.invited is not None:
-      oprot.writeFieldBegin('invited', TType.I64, 10)
-      oprot.writeI64(self.invited)
+    if self.invite_count is not None:
+      oprot.writeFieldBegin('invite_count', TType.I64, 11)
+      oprot.writeI64(self.invite_count)
       oprot.writeFieldEnd()
-    if self.accepted is not None:
-      oprot.writeFieldBegin('accepted', TType.I64, 11)
-      oprot.writeI64(self.accepted)
+    if self.accept_count is not None:
+      oprot.writeFieldBegin('accept_count', TType.I64, 12)
+      oprot.writeI64(self.accept_count)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.tid is None:
-      raise TProtocol.TProtocolException(message='Required field tid is unset!')
-    if self.title is None:
-      raise TProtocol.TProtocolException(message='Required field title is unset!')
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.name is None:
+      raise TProtocol.TProtocolException(message='Required field name is unset!')
     if self.sponsor is None:
       raise TProtocol.TProtocolException(message='Required field sponsor is unset!')
     if self.intro is None:
       raise TProtocol.TProtocolException(message='Required field intro is unset!')
-    if self.status is None:
-      raise TProtocol.TProtocolException(message='Required field status is unset!')
+    if self.state is None:
+      raise TProtocol.TProtocolException(message='Required field state is unset!')
+    if self.area_id is None:
+      raise TProtocol.TProtocolException(message='Required field area_id is unset!')
     if self.begin_time is None:
       raise TProtocol.TProtocolException(message='Required field begin_time is unset!')
-    if self.end_time is None:
-      raise TProtocol.TProtocolException(message='Required field end_time is unset!')
-    if self.planed is None:
-      raise TProtocol.TProtocolException(message='Required field planed is unset!')
-    if self.applied is None:
-      raise TProtocol.TProtocolException(message='Required field applied is unset!')
-    if self.invited is None:
-      raise TProtocol.TProtocolException(message='Required field invited is unset!')
-    if self.accepted is None:
-      raise TProtocol.TProtocolException(message='Required field accepted is unset!')
+    if self.reward is None:
+      raise TProtocol.TProtocolException(message='Required field reward is unset!')
+    if self.reward_cent is None:
+      raise TProtocol.TProtocolException(message='Required field reward_cent is unset!')
+    if self.apply_count is None:
+      raise TProtocol.TProtocolException(message='Required field apply_count is unset!')
+    if self.invite_count is None:
+      raise TProtocol.TProtocolException(message='Required field invite_count is unset!')
+    if self.accept_count is None:
+      raise TProtocol.TProtocolException(message='Required field accept_count is unset!')
     return
 
 
@@ -966,25 +983,22 @@ class TaskBasic:
 class TaskExt:
   """
   Attributes:
-   - status
-   - applied_list
-   - invited_list
-   - accepted_list
+   - applied
+   - invited
+   - accepted
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.LIST, 'status', (TType.I32,None), None, ), # 1
-    (2, TType.LIST, 'applied_list', (TType.I64,None), None, ), # 2
-    (3, TType.LIST, 'invited_list', (TType.I64,None), None, ), # 3
-    (4, TType.LIST, 'accepted_list', (TType.I64,None), None, ), # 4
+    (1, TType.LIST, 'applied', (TType.I64,None), None, ), # 1
+    (2, TType.LIST, 'invited', (TType.I64,None), None, ), # 2
+    (3, TType.LIST, 'accepted', (TType.I64,None), None, ), # 3
   )
 
-  def __init__(self, status=None, applied_list=None, invited_list=None, accepted_list=None,):
-    self.status = status
-    self.applied_list = applied_list
-    self.invited_list = invited_list
-    self.accepted_list = accepted_list
+  def __init__(self, applied=None, invited=None, accepted=None,):
+    self.applied = applied
+    self.invited = invited
+    self.accepted = accepted
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -997,41 +1011,31 @@ class TaskExt:
         break
       if fid == 1:
         if ftype == TType.LIST:
-          self.status = []
+          self.applied = []
           (_etype17, _size14) = iprot.readListBegin()
           for _i18 in xrange(_size14):
-            _elem19 = iprot.readI32();
-            self.status.append(_elem19)
+            _elem19 = iprot.readI64();
+            self.applied.append(_elem19)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.LIST:
-          self.applied_list = []
+          self.invited = []
           (_etype23, _size20) = iprot.readListBegin()
           for _i24 in xrange(_size20):
             _elem25 = iprot.readI64();
-            self.applied_list.append(_elem25)
+            self.invited.append(_elem25)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.LIST:
-          self.invited_list = []
+          self.accepted = []
           (_etype29, _size26) = iprot.readListBegin()
           for _i30 in xrange(_size26):
             _elem31 = iprot.readI64();
-            self.invited_list.append(_elem31)
-          iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.LIST:
-          self.accepted_list = []
-          (_etype35, _size32) = iprot.readListBegin()
-          for _i36 in xrange(_size32):
-            _elem37 = iprot.readI64();
-            self.accepted_list.append(_elem37)
+            self.accepted.append(_elem31)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1045,46 +1049,37 @@ class TaskExt:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TaskExt')
-    if self.status is not None:
-      oprot.writeFieldBegin('status', TType.LIST, 1)
-      oprot.writeListBegin(TType.I32, len(self.status))
-      for iter38 in self.status:
-        oprot.writeI32(iter38)
+    if self.applied is not None:
+      oprot.writeFieldBegin('applied', TType.LIST, 1)
+      oprot.writeListBegin(TType.I64, len(self.applied))
+      for iter32 in self.applied:
+        oprot.writeI64(iter32)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.applied_list is not None:
-      oprot.writeFieldBegin('applied_list', TType.LIST, 2)
-      oprot.writeListBegin(TType.I64, len(self.applied_list))
-      for iter39 in self.applied_list:
-        oprot.writeI64(iter39)
+    if self.invited is not None:
+      oprot.writeFieldBegin('invited', TType.LIST, 2)
+      oprot.writeListBegin(TType.I64, len(self.invited))
+      for iter33 in self.invited:
+        oprot.writeI64(iter33)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.invited_list is not None:
-      oprot.writeFieldBegin('invited_list', TType.LIST, 3)
-      oprot.writeListBegin(TType.I64, len(self.invited_list))
-      for iter40 in self.invited_list:
-        oprot.writeI64(iter40)
-      oprot.writeListEnd()
-      oprot.writeFieldEnd()
-    if self.accepted_list is not None:
-      oprot.writeFieldBegin('accepted_list', TType.LIST, 4)
-      oprot.writeListBegin(TType.I64, len(self.accepted_list))
-      for iter41 in self.accepted_list:
-        oprot.writeI64(iter41)
+    if self.accepted is not None:
+      oprot.writeFieldBegin('accepted', TType.LIST, 3)
+      oprot.writeListBegin(TType.I64, len(self.accepted))
+      for iter34 in self.accepted:
+        oprot.writeI64(iter34)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.status is None:
-      raise TProtocol.TProtocolException(message='Required field status is unset!')
-    if self.applied_list is None:
-      raise TProtocol.TProtocolException(message='Required field applied_list is unset!')
-    if self.invited_list is None:
-      raise TProtocol.TProtocolException(message='Required field invited_list is unset!')
-    if self.accepted_list is None:
-      raise TProtocol.TProtocolException(message='Required field accepted_list is unset!')
+    if self.applied is None:
+      raise TProtocol.TProtocolException(message='Required field applied is unset!')
+    if self.invited is None:
+      raise TProtocol.TProtocolException(message='Required field invited is unset!')
+    if self.accepted is None:
+      raise TProtocol.TProtocolException(message='Required field accepted is unset!')
     return
 
 
@@ -1178,20 +1173,20 @@ class Task:
 class TaskListRequest:
   """
   Attributes:
-   - lasttid
+   - lastid
    - length
    - type
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'lasttid', None, None, ), # 1
+    (1, TType.I64, 'lastid', None, None, ), # 1
     (2, TType.I64, 'length', None, None, ), # 2
     (3, TType.I32, 'type', None, None, ), # 3
   )
 
-  def __init__(self, lasttid=None, length=None, type=None,):
-    self.lasttid = lasttid
+  def __init__(self, lastid=None, length=None, type=None,):
+    self.lastid = lastid
     self.length = length
     self.type = type
 
@@ -1206,7 +1201,7 @@ class TaskListRequest:
         break
       if fid == 1:
         if ftype == TType.I64:
-          self.lasttid = iprot.readI64();
+          self.lastid = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -1229,9 +1224,9 @@ class TaskListRequest:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TaskListRequest')
-    if self.lasttid is not None:
-      oprot.writeFieldBegin('lasttid', TType.I64, 1)
-      oprot.writeI64(self.lasttid)
+    if self.lastid is not None:
+      oprot.writeFieldBegin('lastid', TType.I64, 1)
+      oprot.writeI64(self.lastid)
       oprot.writeFieldEnd()
     if self.length is not None:
       oprot.writeFieldBegin('length', TType.I64, 2)
@@ -1245,8 +1240,8 @@ class TaskListRequest:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.lasttid is None:
-      raise TProtocol.TProtocolException(message='Required field lasttid is unset!')
+    if self.lastid is None:
+      raise TProtocol.TProtocolException(message='Required field lastid is unset!')
     if self.length is None:
       raise TProtocol.TProtocolException(message='Required field length is unset!')
     if self.type is None:
