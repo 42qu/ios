@@ -47,7 +47,7 @@ service Sns {
     )
     
     type.Task task_get (
-        1: required i64                access_token,
+        1: required string             access_token,
         2: required i64                id,
         3: required bool               ext_only = true,
     )

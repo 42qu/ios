@@ -87,7 +87,7 @@ struct TaskBasic {
     6:  required    TaskStatus      state,
     7:  required    i64             area_id,
     8:  required    string          address,
-    9:  required    timestamp       begin_time,
+    9:  required    timestamp       end_time,
     10: required    string          reward,
     11: required    i64             reward_cent,
     12: required    i64             apply_count,

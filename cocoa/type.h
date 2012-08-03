@@ -327,7 +327,7 @@ typedef int64_t timestamp;
   int __state;
   int64_t __area_id;
   NSString * __address;
-  timestamp __begin_time;
+  timestamp __end_time;
   NSString * __reward;
   int64_t __reward_cent;
   int64_t __apply_count;
@@ -342,7 +342,7 @@ typedef int64_t timestamp;
   BOOL __state_isset;
   BOOL __area_id_isset;
   BOOL __address_isset;
-  BOOL __begin_time_isset;
+  BOOL __end_time_isset;
   BOOL __reward_isset;
   BOOL __reward_cent_isset;
   BOOL __apply_count_isset;
@@ -359,7 +359,7 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=state, setter=setState:) int state;
 @property (nonatomic, getter=area_id, setter=setArea_id:) int64_t area_id;
 @property (nonatomic, retain, getter=address, setter=setAddress:) NSString * address;
-@property (nonatomic, getter=begin_time, setter=setBegin_time:) timestamp begin_time;
+@property (nonatomic, getter=end_time, setter=setEnd_time:) timestamp end_time;
 @property (nonatomic, retain, getter=reward, setter=setReward:) NSString * reward;
 @property (nonatomic, getter=reward_cent, setter=setReward_cent:) int64_t reward_cent;
 @property (nonatomic, getter=apply_count, setter=setApply_count:) int64_t apply_count;
@@ -367,7 +367,7 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=accept_count, setter=setAccept_count:) int64_t accept_count;
 #endif
 
-- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id address: (NSString *) address begin_time: (timestamp) begin_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count;
+- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id address: (NSString *) address end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -404,9 +404,9 @@ typedef int64_t timestamp;
 - (void) setAddress: (NSString *) address;
 - (BOOL) addressIsSet;
 
-- (timestamp) begin_time;
-- (void) setBegin_time: (timestamp) begin_time;
-- (BOOL) begin_timeIsSet;
+- (timestamp) end_time;
+- (void) setEnd_time: (timestamp) end_time;
+- (BOOL) end_timeIsSet;
 
 - (NSString *) reward;
 - (void) setReward: (NSString *) reward;

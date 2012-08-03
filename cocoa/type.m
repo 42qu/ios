@@ -1532,7 +1532,7 @@
 
 @implementation TaskBasic
 
-- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id address: (NSString *) address begin_time: (timestamp) begin_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
+- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state area_id: (int64_t) area_id address: (NSString *) address end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
 {
   self = [super init];
   __id = id;
@@ -1551,8 +1551,8 @@
   __area_id_isset = YES;
   __address = [address retain];
   __address_isset = YES;
-  __begin_time = begin_time;
-  __begin_time_isset = YES;
+  __end_time = end_time;
+  __end_time_isset = YES;
   __reward = [reward retain];
   __reward_isset = YES;
   __reward_cent = reward_cent;
@@ -1609,10 +1609,10 @@
     __address = [[decoder decodeObjectForKey: @"address"] retain];
     __address_isset = YES;
   }
-  if ([decoder containsValueForKey: @"begin_time"])
+  if ([decoder containsValueForKey: @"end_time"])
   {
-    __begin_time = [decoder decodeInt64ForKey: @"begin_time"];
-    __begin_time_isset = YES;
+    __end_time = [decoder decodeInt64ForKey: @"end_time"];
+    __end_time_isset = YES;
   }
   if ([decoder containsValueForKey: @"reward"])
   {
@@ -1676,9 +1676,9 @@
   {
     [encoder encodeObject: __address forKey: @"address"];
   }
-  if (__begin_time_isset)
+  if (__end_time_isset)
   {
-    [encoder encodeInt64: __begin_time forKey: @"begin_time"];
+    [encoder encodeInt64: __end_time forKey: @"end_time"];
   }
   if (__reward_isset)
   {
@@ -1859,21 +1859,21 @@
   __address_isset = NO;
 }
 
-- (int64_t) begin_time {
-  return __begin_time;
+- (int64_t) end_time {
+  return __end_time;
 }
 
-- (void) setBegin_time: (int64_t) begin_time {
-  __begin_time = begin_time;
-  __begin_time_isset = YES;
+- (void) setEnd_time: (int64_t) end_time {
+  __end_time = end_time;
+  __end_time_isset = YES;
 }
 
-- (BOOL) begin_timeIsSet {
-  return __begin_time_isset;
+- (BOOL) end_timeIsSet {
+  return __end_time_isset;
 }
 
-- (void) unsetBegin_time {
-  __begin_time_isset = NO;
+- (void) unsetEnd_time {
+  __end_time_isset = NO;
 }
 
 - (NSString *) reward {
@@ -2047,7 +2047,7 @@
       case 9:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setBegin_time: fieldValue];
+          [self setEnd_time: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -2149,9 +2149,9 @@
       [outProtocol writeFieldEnd];
     }
   }
-  if (__begin_time_isset) {
-    [outProtocol writeFieldBeginWithName: @"begin_time" type: TType_I64 fieldID: 9];
-    [outProtocol writeI64: __begin_time];
+  if (__end_time_isset) {
+    [outProtocol writeFieldBeginWithName: @"end_time" type: TType_I64 fieldID: 9];
+    [outProtocol writeI64: __end_time];
     [outProtocol writeFieldEnd];
   }
   if (__reward_isset) {
@@ -2203,8 +2203,8 @@
   [ms appendFormat: @"%qi", __area_id];
   [ms appendString: @",address:"];
   [ms appendFormat: @"\"%@\"", __address];
-  [ms appendString: @",begin_time:"];
-  [ms appendFormat: @"%qi", __begin_time];
+  [ms appendString: @",end_time:"];
+  [ms appendFormat: @"%qi", __end_time];
   [ms appendString: @",reward:"];
   [ms appendFormat: @"\"%@\"", __reward];
   [ms appendString: @",reward_cent:"];

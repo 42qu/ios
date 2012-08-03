@@ -1913,7 +1913,7 @@ class task_get_args:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'access_token', None, None, ), # 1
+    (1, TType.STRING, 'access_token', None, None, ), # 1
     (2, TType.I64, 'id', None, None, ), # 2
     (3, TType.BOOL, 'ext_only', None, True, ), # 3
   )
@@ -1933,8 +1933,8 @@ class task_get_args:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.I64:
-          self.access_token = iprot.readI64();
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -1958,8 +1958,8 @@ class task_get_args:
       return
     oprot.writeStructBegin('task_get_args')
     if self.access_token is not None:
-      oprot.writeFieldBegin('access_token', TType.I64, 1)
-      oprot.writeI64(self.access_token)
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
     if self.id is not None:
       oprot.writeFieldBegin('id', TType.I64, 2)
