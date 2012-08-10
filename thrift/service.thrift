@@ -5,7 +5,10 @@ service Sns {
     # Auth
     
     type.AuthResponse login(
-        1:  type.AuthRequest    auth
+        1:  string      client_id,
+        2:  string      client_secret,
+        3:  string      mail,
+        4:  string      password
     )
     
     bool logout(
@@ -25,10 +28,10 @@ service Sns {
         2:  type.User   user
     )
      
-    list<type.UserBasic> user_list(
-        1:  string      access_token,
-        2:  list<i64>   id_list
-    )
+    #list<type.UserBasic> user_list(
+    #    1:  string      access_token,
+    #    2:  list<i64>   id_list
+    #)
 
     # Task
     
