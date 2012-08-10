@@ -15,20 +15,19 @@
 #import "type.h"
 
 @protocol Sns <NSObject>
-- (AuthResponse *) login_by_mail: (AuthRequest *) auth : (NSString *) mail : (NSString *) password;  // throws TException
-- (void) logout: (NSString *) access_token;  // throws TException
-- (User *) user_get: (NSString *) access_token : (int64_t) id : (BOOL) ext_only;  // throws TException
-- (void) user_set: (NSString *) access_token : (User *) user;  // throws TException
-- (NSArray *) user_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num;  // throws TException
-- (NSArray *) task_list: (NSString *) access_token : (int) type : (TaskFilter *) filter : (int64_t) last_id : (int64_t) num;  // throws TException
-- (Task *) task_get: (NSString *) access_token : (int64_t) id : (BOOL) ext_only;  // throws TException
-- (void) task_set: (NSString *) access_token : (Task *) task;  // throws TException
+- (AuthResponse *) login: (AuthRequest *) auth;  // throws TException
+- (BOOL) logout: (NSString *) access_token;  // throws TException
+- (User *) user_get: (NSString *) access_token : (int64_t) user_id;  // throws TException
+- (BOOL) user_set: (NSString *) access_token : (User *) user;  // throws TException
+- (NSArray *) user_list: (NSString *) access_token : (NSArray *) id_list;  // throws TException
+- (Task *) task_get: (NSString *) access_token : (int64_t) task_id;  // throws TException
+- (BOOL) task_set: (NSString *) access_token : (Task *) task;  // throws TException
 - (int64_t) task_new: (NSString *) access_token : (Task *) task;  // throws TException
-- (BOOL) task_apply: (NSString *) access_token : (int64_t) id : (NSString *) txt;  // throws TException
-- (BOOL) task_reject: (NSString *) access_token : (int64_t) id;  // throws TException
-- (BOOL) task_accept: (NSString *) access_token : (int64_t) id;  // throws TException
-- (BOOL) my_task_accept: (NSString *) access_token : (int64_t) task_id : (int64_t) user_id;  // throws TException
-- (BOOL) my_task_reject: (NSString *) access_token : (int64_t) task_id : (int64_t) user_id : (NSString *) txt;  // throws TException
+- (BOOL) task_apply: (NSString *) access_token : (int64_t) task_id : (NSString *) postscript;  // throws TException
+- (BOOL) task_reject_invitation: (NSString *) access_token : (int64_t) task_id;  // throws TException
+- (BOOL) task_accept_invitation: (NSString *) access_token : (int64_t) id;  // throws TException
+- (BOOL) task_accept_user: (NSString *) access_token : (int64_t) task_id : (int64_t) user_id;  // throws TException
+- (BOOL) task_reject_user: (NSString *) access_token : (int64_t) task_id : (int64_t) user_id : (NSString *) postscript;  // throws TException
 - (NSArray *) msg_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num;  // throws TException
 - (void) msg_send: (NSString *) access_token : (int64_t) send_to : (Msg *) msg;  // throws TException
 - (NSArray *) feed: (NSString *) access_token : (int64_t) last_id : (int64_t) num;  // throws TException

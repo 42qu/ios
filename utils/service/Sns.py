@@ -18,12 +18,10 @@ except:
 
 
 class Iface:
-  def login_by_mail(self, auth, mail, password):
+  def login(self, auth):
     """
     Parameters:
      - auth
-     - mail
-     - password
     """
     pass
 
@@ -34,12 +32,11 @@ class Iface:
     """
     pass
 
-  def user_get(self, access_token, id, ext_only):
+  def user_get(self, access_token, user_id):
     """
     Parameters:
      - access_token
-     - id
-     - ext_only
+     - user_id
     """
     pass
 
@@ -51,33 +48,19 @@ class Iface:
     """
     pass
 
-  def user_list(self, access_token, type, last_id, num):
+  def user_list(self, access_token, id_list):
     """
     Parameters:
      - access_token
-     - type
-     - last_id
-     - num
+     - id_list
     """
     pass
 
-  def task_list(self, access_token, type, filter, last_id, num):
+  def task_get(self, access_token, task_id):
     """
     Parameters:
      - access_token
-     - type
-     - filter
-     - last_id
-     - num
-    """
-    pass
-
-  def task_get(self, access_token, id, ext_only):
-    """
-    Parameters:
-     - access_token
-     - id
-     - ext_only
+     - task_id
     """
     pass
 
@@ -97,32 +80,32 @@ class Iface:
     """
     pass
 
-  def task_apply(self, access_token, id, txt):
+  def task_apply(self, access_token, task_id, postscript):
+    """
+    Parameters:
+     - access_token
+     - task_id
+     - postscript
+    """
+    pass
+
+  def task_reject_invitation(self, access_token, task_id):
+    """
+    Parameters:
+     - access_token
+     - task_id
+    """
+    pass
+
+  def task_accept_invitation(self, access_token, id):
     """
     Parameters:
      - access_token
      - id
-     - txt
     """
     pass
 
-  def task_reject(self, access_token, id):
-    """
-    Parameters:
-     - access_token
-     - id
-    """
-    pass
-
-  def task_accept(self, access_token, id):
-    """
-    Parameters:
-     - access_token
-     - id
-    """
-    pass
-
-  def my_task_accept(self, access_token, task_id, user_id):
+  def task_accept_user(self, access_token, task_id, user_id):
     """
     Parameters:
      - access_token
@@ -131,13 +114,13 @@ class Iface:
     """
     pass
 
-  def my_task_reject(self, access_token, task_id, user_id, txt):
+  def task_reject_user(self, access_token, task_id, user_id, postscript):
     """
     Parameters:
      - access_token
      - task_id
      - user_id
-     - txt
+     - postscript
     """
     pass
 
@@ -184,39 +167,35 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login_by_mail(self, auth, mail, password):
+  def login(self, auth):
     """
     Parameters:
      - auth
-     - mail
-     - password
     """
-    self.send_login_by_mail(auth, mail, password)
-    return self.recv_login_by_mail()
+    self.send_login(auth)
+    return self.recv_login()
 
-  def send_login_by_mail(self, auth, mail, password):
-    self._oprot.writeMessageBegin('login_by_mail', TMessageType.CALL, self._seqid)
-    args = login_by_mail_args()
+  def send_login(self, auth):
+    self._oprot.writeMessageBegin('login', TMessageType.CALL, self._seqid)
+    args = login_args()
     args.auth = auth
-    args.mail = mail
-    args.password = password
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_login_by_mail(self, ):
+  def recv_login(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = login_by_mail_result()
+    result = login_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "login_by_mail failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "login failed: unknown result");
 
   def logout(self, access_token):
     """
@@ -224,7 +203,7 @@ class Client(Iface):
      - access_token
     """
     self.send_logout(access_token)
-    self.recv_logout()
+    return self.recv_logout()
 
   def send_logout(self, access_token):
     self._oprot.writeMessageBegin('logout', TMessageType.CALL, self._seqid)
@@ -244,24 +223,24 @@ class Client(Iface):
     result = logout_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    return
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "logout failed: unknown result");
 
-  def user_get(self, access_token, id, ext_only):
+  def user_get(self, access_token, user_id):
     """
     Parameters:
      - access_token
-     - id
-     - ext_only
+     - user_id
     """
-    self.send_user_get(access_token, id, ext_only)
+    self.send_user_get(access_token, user_id)
     return self.recv_user_get()
 
-  def send_user_get(self, access_token, id, ext_only):
+  def send_user_get(self, access_token, user_id):
     self._oprot.writeMessageBegin('user_get', TMessageType.CALL, self._seqid)
     args = user_get_args()
     args.access_token = access_token
-    args.id = id
-    args.ext_only = ext_only
+    args.user_id = user_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -287,7 +266,7 @@ class Client(Iface):
      - user
     """
     self.send_user_set(access_token, user)
-    self.recv_user_set()
+    return self.recv_user_set()
 
   def send_user_set(self, access_token, user):
     self._oprot.writeMessageBegin('user_set', TMessageType.CALL, self._seqid)
@@ -308,26 +287,24 @@ class Client(Iface):
     result = user_set_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    return
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "user_set failed: unknown result");
 
-  def user_list(self, access_token, type, last_id, num):
+  def user_list(self, access_token, id_list):
     """
     Parameters:
      - access_token
-     - type
-     - last_id
-     - num
+     - id_list
     """
-    self.send_user_list(access_token, type, last_id, num)
+    self.send_user_list(access_token, id_list)
     return self.recv_user_list()
 
-  def send_user_list(self, access_token, type, last_id, num):
+  def send_user_list(self, access_token, id_list):
     self._oprot.writeMessageBegin('user_list', TMessageType.CALL, self._seqid)
     args = user_list_args()
     args.access_token = access_token
-    args.type = type
-    args.last_id = last_id
-    args.num = num
+    args.id_list = id_list
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -346,60 +323,20 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "user_list failed: unknown result");
 
-  def task_list(self, access_token, type, filter, last_id, num):
+  def task_get(self, access_token, task_id):
     """
     Parameters:
      - access_token
-     - type
-     - filter
-     - last_id
-     - num
+     - task_id
     """
-    self.send_task_list(access_token, type, filter, last_id, num)
-    return self.recv_task_list()
-
-  def send_task_list(self, access_token, type, filter, last_id, num):
-    self._oprot.writeMessageBegin('task_list', TMessageType.CALL, self._seqid)
-    args = task_list_args()
-    args.access_token = access_token
-    args.type = type
-    args.filter = filter
-    args.last_id = last_id
-    args.num = num
-    args.write(self._oprot)
-    self._oprot.writeMessageEnd()
-    self._oprot.trans.flush()
-
-  def recv_task_list(self, ):
-    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
-    if mtype == TMessageType.EXCEPTION:
-      x = TApplicationException()
-      x.read(self._iprot)
-      self._iprot.readMessageEnd()
-      raise x
-    result = task_list_result()
-    result.read(self._iprot)
-    self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_list failed: unknown result");
-
-  def task_get(self, access_token, id, ext_only):
-    """
-    Parameters:
-     - access_token
-     - id
-     - ext_only
-    """
-    self.send_task_get(access_token, id, ext_only)
+    self.send_task_get(access_token, task_id)
     return self.recv_task_get()
 
-  def send_task_get(self, access_token, id, ext_only):
+  def send_task_get(self, access_token, task_id):
     self._oprot.writeMessageBegin('task_get', TMessageType.CALL, self._seqid)
     args = task_get_args()
     args.access_token = access_token
-    args.id = id
-    args.ext_only = ext_only
+    args.task_id = task_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -425,7 +362,7 @@ class Client(Iface):
      - task
     """
     self.send_task_set(access_token, task)
-    self.recv_task_set()
+    return self.recv_task_set()
 
   def send_task_set(self, access_token, task):
     self._oprot.writeMessageBegin('task_set', TMessageType.CALL, self._seqid)
@@ -446,7 +383,9 @@ class Client(Iface):
     result = task_set_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    return
+    if result.success is not None:
+      return result.success
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_set failed: unknown result");
 
   def task_new(self, access_token, task):
     """
@@ -480,22 +419,22 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "task_new failed: unknown result");
 
-  def task_apply(self, access_token, id, txt):
+  def task_apply(self, access_token, task_id, postscript):
     """
     Parameters:
      - access_token
-     - id
-     - txt
+     - task_id
+     - postscript
     """
-    self.send_task_apply(access_token, id, txt)
+    self.send_task_apply(access_token, task_id, postscript)
     return self.recv_task_apply()
 
-  def send_task_apply(self, access_token, id, txt):
+  def send_task_apply(self, access_token, task_id, postscript):
     self._oprot.writeMessageBegin('task_apply', TMessageType.CALL, self._seqid)
     args = task_apply_args()
     args.access_token = access_token
-    args.id = id
-    args.txt = txt
+    args.task_id = task_id
+    args.postscript = postscript
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -514,83 +453,83 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "task_apply failed: unknown result");
 
-  def task_reject(self, access_token, id):
+  def task_reject_invitation(self, access_token, task_id):
     """
     Parameters:
      - access_token
-     - id
+     - task_id
     """
-    self.send_task_reject(access_token, id)
-    return self.recv_task_reject()
+    self.send_task_reject_invitation(access_token, task_id)
+    return self.recv_task_reject_invitation()
 
-  def send_task_reject(self, access_token, id):
-    self._oprot.writeMessageBegin('task_reject', TMessageType.CALL, self._seqid)
-    args = task_reject_args()
+  def send_task_reject_invitation(self, access_token, task_id):
+    self._oprot.writeMessageBegin('task_reject_invitation', TMessageType.CALL, self._seqid)
+    args = task_reject_invitation_args()
     args.access_token = access_token
-    args.id = id
+    args.task_id = task_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_task_reject(self, ):
+  def recv_task_reject_invitation(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = task_reject_result()
+    result = task_reject_invitation_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_reject failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_reject_invitation failed: unknown result");
 
-  def task_accept(self, access_token, id):
+  def task_accept_invitation(self, access_token, id):
     """
     Parameters:
      - access_token
      - id
     """
-    self.send_task_accept(access_token, id)
-    return self.recv_task_accept()
+    self.send_task_accept_invitation(access_token, id)
+    return self.recv_task_accept_invitation()
 
-  def send_task_accept(self, access_token, id):
-    self._oprot.writeMessageBegin('task_accept', TMessageType.CALL, self._seqid)
-    args = task_accept_args()
+  def send_task_accept_invitation(self, access_token, id):
+    self._oprot.writeMessageBegin('task_accept_invitation', TMessageType.CALL, self._seqid)
+    args = task_accept_invitation_args()
     args.access_token = access_token
     args.id = id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_task_accept(self, ):
+  def recv_task_accept_invitation(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = task_accept_result()
+    result = task_accept_invitation_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_accept failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_accept_invitation failed: unknown result");
 
-  def my_task_accept(self, access_token, task_id, user_id):
+  def task_accept_user(self, access_token, task_id, user_id):
     """
     Parameters:
      - access_token
      - task_id
      - user_id
     """
-    self.send_my_task_accept(access_token, task_id, user_id)
-    return self.recv_my_task_accept()
+    self.send_task_accept_user(access_token, task_id, user_id)
+    return self.recv_task_accept_user()
 
-  def send_my_task_accept(self, access_token, task_id, user_id):
-    self._oprot.writeMessageBegin('my_task_accept', TMessageType.CALL, self._seqid)
-    args = my_task_accept_args()
+  def send_task_accept_user(self, access_token, task_id, user_id):
+    self._oprot.writeMessageBegin('task_accept_user', TMessageType.CALL, self._seqid)
+    args = task_accept_user_args()
     args.access_token = access_token
     args.task_id = task_id
     args.user_id = user_id
@@ -598,55 +537,55 @@ class Client(Iface):
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_my_task_accept(self, ):
+  def recv_task_accept_user(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = my_task_accept_result()
+    result = task_accept_user_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "my_task_accept failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_accept_user failed: unknown result");
 
-  def my_task_reject(self, access_token, task_id, user_id, txt):
+  def task_reject_user(self, access_token, task_id, user_id, postscript):
     """
     Parameters:
      - access_token
      - task_id
      - user_id
-     - txt
+     - postscript
     """
-    self.send_my_task_reject(access_token, task_id, user_id, txt)
-    return self.recv_my_task_reject()
+    self.send_task_reject_user(access_token, task_id, user_id, postscript)
+    return self.recv_task_reject_user()
 
-  def send_my_task_reject(self, access_token, task_id, user_id, txt):
-    self._oprot.writeMessageBegin('my_task_reject', TMessageType.CALL, self._seqid)
-    args = my_task_reject_args()
+  def send_task_reject_user(self, access_token, task_id, user_id, postscript):
+    self._oprot.writeMessageBegin('task_reject_user', TMessageType.CALL, self._seqid)
+    args = task_reject_user_args()
     args.access_token = access_token
     args.task_id = task_id
     args.user_id = user_id
-    args.txt = txt
+    args.postscript = postscript
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_my_task_reject(self, ):
+  def recv_task_reject_user(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = my_task_reject_result()
+    result = task_reject_user_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "my_task_reject failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "task_reject_user failed: unknown result");
 
   def msg_list(self, access_token, type, last_id, num):
     """
@@ -785,20 +724,19 @@ class Processor(Iface, TProcessor):
   def __init__(self, handler):
     self._handler = handler
     self._processMap = {}
-    self._processMap["login_by_mail"] = Processor.process_login_by_mail
+    self._processMap["login"] = Processor.process_login
     self._processMap["logout"] = Processor.process_logout
     self._processMap["user_get"] = Processor.process_user_get
     self._processMap["user_set"] = Processor.process_user_set
     self._processMap["user_list"] = Processor.process_user_list
-    self._processMap["task_list"] = Processor.process_task_list
     self._processMap["task_get"] = Processor.process_task_get
     self._processMap["task_set"] = Processor.process_task_set
     self._processMap["task_new"] = Processor.process_task_new
     self._processMap["task_apply"] = Processor.process_task_apply
-    self._processMap["task_reject"] = Processor.process_task_reject
-    self._processMap["task_accept"] = Processor.process_task_accept
-    self._processMap["my_task_accept"] = Processor.process_my_task_accept
-    self._processMap["my_task_reject"] = Processor.process_my_task_reject
+    self._processMap["task_reject_invitation"] = Processor.process_task_reject_invitation
+    self._processMap["task_accept_invitation"] = Processor.process_task_accept_invitation
+    self._processMap["task_accept_user"] = Processor.process_task_accept_user
+    self._processMap["task_reject_user"] = Processor.process_task_reject_user
     self._processMap["msg_list"] = Processor.process_msg_list
     self._processMap["msg_send"] = Processor.process_msg_send
     self._processMap["feed"] = Processor.process_feed
@@ -819,13 +757,13 @@ class Processor(Iface, TProcessor):
       self._processMap[name](self, seqid, iprot, oprot)
     return True
 
-  def process_login_by_mail(self, seqid, iprot, oprot):
-    args = login_by_mail_args()
+  def process_login(self, seqid, iprot, oprot):
+    args = login_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = login_by_mail_result()
-    result.success = self._handler.login_by_mail(args.auth, args.mail, args.password)
-    oprot.writeMessageBegin("login_by_mail", TMessageType.REPLY, seqid)
+    result = login_result()
+    result.success = self._handler.login(args.auth)
+    oprot.writeMessageBegin("login", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -835,7 +773,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = logout_result()
-    self._handler.logout(args.access_token)
+    result.success = self._handler.logout(args.access_token)
     oprot.writeMessageBegin("logout", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -846,7 +784,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = user_get_result()
-    result.success = self._handler.user_get(args.access_token, args.id, args.ext_only)
+    result.success = self._handler.user_get(args.access_token, args.user_id)
     oprot.writeMessageBegin("user_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -857,7 +795,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = user_set_result()
-    self._handler.user_set(args.access_token, args.user)
+    result.success = self._handler.user_set(args.access_token, args.user)
     oprot.writeMessageBegin("user_set", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -868,19 +806,8 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = user_list_result()
-    result.success = self._handler.user_list(args.access_token, args.type, args.last_id, args.num)
+    result.success = self._handler.user_list(args.access_token, args.id_list)
     oprot.writeMessageBegin("user_list", TMessageType.REPLY, seqid)
-    result.write(oprot)
-    oprot.writeMessageEnd()
-    oprot.trans.flush()
-
-  def process_task_list(self, seqid, iprot, oprot):
-    args = task_list_args()
-    args.read(iprot)
-    iprot.readMessageEnd()
-    result = task_list_result()
-    result.success = self._handler.task_list(args.access_token, args.type, args.filter, args.last_id, args.num)
-    oprot.writeMessageBegin("task_list", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -890,7 +817,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_get_result()
-    result.success = self._handler.task_get(args.access_token, args.id, args.ext_only)
+    result.success = self._handler.task_get(args.access_token, args.task_id)
     oprot.writeMessageBegin("task_get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -901,7 +828,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_set_result()
-    self._handler.task_set(args.access_token, args.task)
+    result.success = self._handler.task_set(args.access_token, args.task)
     oprot.writeMessageBegin("task_set", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -923,52 +850,52 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = task_apply_result()
-    result.success = self._handler.task_apply(args.access_token, args.id, args.txt)
+    result.success = self._handler.task_apply(args.access_token, args.task_id, args.postscript)
     oprot.writeMessageBegin("task_apply", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_task_reject(self, seqid, iprot, oprot):
-    args = task_reject_args()
+  def process_task_reject_invitation(self, seqid, iprot, oprot):
+    args = task_reject_invitation_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = task_reject_result()
-    result.success = self._handler.task_reject(args.access_token, args.id)
-    oprot.writeMessageBegin("task_reject", TMessageType.REPLY, seqid)
+    result = task_reject_invitation_result()
+    result.success = self._handler.task_reject_invitation(args.access_token, args.task_id)
+    oprot.writeMessageBegin("task_reject_invitation", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_task_accept(self, seqid, iprot, oprot):
-    args = task_accept_args()
+  def process_task_accept_invitation(self, seqid, iprot, oprot):
+    args = task_accept_invitation_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = task_accept_result()
-    result.success = self._handler.task_accept(args.access_token, args.id)
-    oprot.writeMessageBegin("task_accept", TMessageType.REPLY, seqid)
+    result = task_accept_invitation_result()
+    result.success = self._handler.task_accept_invitation(args.access_token, args.id)
+    oprot.writeMessageBegin("task_accept_invitation", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_my_task_accept(self, seqid, iprot, oprot):
-    args = my_task_accept_args()
+  def process_task_accept_user(self, seqid, iprot, oprot):
+    args = task_accept_user_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = my_task_accept_result()
-    result.success = self._handler.my_task_accept(args.access_token, args.task_id, args.user_id)
-    oprot.writeMessageBegin("my_task_accept", TMessageType.REPLY, seqid)
+    result = task_accept_user_result()
+    result.success = self._handler.task_accept_user(args.access_token, args.task_id, args.user_id)
+    oprot.writeMessageBegin("task_accept_user", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_my_task_reject(self, seqid, iprot, oprot):
-    args = my_task_reject_args()
+  def process_task_reject_user(self, seqid, iprot, oprot):
+    args = task_reject_user_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = my_task_reject_result()
-    result.success = self._handler.my_task_reject(args.access_token, args.task_id, args.user_id, args.txt)
-    oprot.writeMessageBegin("my_task_reject", TMessageType.REPLY, seqid)
+    result = task_reject_user_result()
+    result.success = self._handler.task_reject_user(args.access_token, args.task_id, args.user_id, args.postscript)
+    oprot.writeMessageBegin("task_reject_user", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -1020,25 +947,19 @@ class Processor(Iface, TProcessor):
 
 # HELPER FUNCTIONS AND STRUCTURES
 
-class login_by_mail_args:
+class login_args:
   """
   Attributes:
    - auth
-   - mail
-   - password
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRUCT, 'auth', (type.ttypes.AuthRequest, type.ttypes.AuthRequest.thrift_spec), None, ), # 1
-    (2, TType.STRING, 'mail', None, None, ), # 2
-    (3, TType.STRING, 'password', None, None, ), # 3
   )
 
-  def __init__(self, auth=None, mail=None, password=None,):
+  def __init__(self, auth=None,):
     self.auth = auth
-    self.mail = mail
-    self.password = password
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1055,16 +976,6 @@ class login_by_mail_args:
           self.auth.read(iprot)
         else:
           iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.STRING:
-          self.mail = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRING:
-          self.password = iprot.readString();
-        else:
-          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1074,29 +985,15 @@ class login_by_mail_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_by_mail_args')
+    oprot.writeStructBegin('login_args')
     if self.auth is not None:
       oprot.writeFieldBegin('auth', TType.STRUCT, 1)
       self.auth.write(oprot)
-      oprot.writeFieldEnd()
-    if self.mail is not None:
-      oprot.writeFieldBegin('mail', TType.STRING, 2)
-      oprot.writeString(self.mail)
-      oprot.writeFieldEnd()
-    if self.password is not None:
-      oprot.writeFieldBegin('password', TType.STRING, 3)
-      oprot.writeString(self.password)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.auth is None:
-      raise TProtocol.TProtocolException(message='Required field auth is unset!')
-    if self.mail is None:
-      raise TProtocol.TProtocolException(message='Required field mail is unset!')
-    if self.password is None:
-      raise TProtocol.TProtocolException(message='Required field password is unset!')
     return
 
 
@@ -1111,7 +1008,7 @@ class login_by_mail_args:
   def __ne__(self, other):
     return not (self == other)
 
-class login_by_mail_result:
+class login_result:
   """
   Attributes:
    - success
@@ -1148,7 +1045,7 @@ class login_by_mail_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('login_by_mail_result')
+    oprot.writeStructBegin('login_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
@@ -1217,8 +1114,6 @@ class logout_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
     return
 
 
@@ -1234,9 +1129,17 @@ class logout_args:
     return not (self == other)
 
 class logout_result:
+  """
+  Attributes:
+   - success
+  """
 
   thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ), # 0
   )
+
+  def __init__(self, success=None,):
+    self.success = success
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1247,6 +1150,11 @@ class logout_result:
       (fname, ftype, fid) = iprot.readFieldBegin()
       if ftype == TType.STOP:
         break
+      if fid == 0:
+        if ftype == TType.BOOL:
+          self.success = iprot.readBool();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1257,6 +1165,10 @@ class logout_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('logout_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.BOOL, 0)
+      oprot.writeBool(self.success)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -1279,21 +1191,18 @@ class user_get_args:
   """
   Attributes:
    - access_token
-   - id
-   - ext_only
+   - user_id
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
-    (3, TType.BOOL, 'ext_only', None, True, ), # 3
+    (2, TType.I64, 'user_id', None, None, ), # 2
   )
 
-  def __init__(self, access_token=None, id=None, ext_only=thrift_spec[3][4],):
+  def __init__(self, access_token=None, user_id=None,):
     self.access_token = access_token
-    self.id = id
-    self.ext_only = ext_only
+    self.user_id = user_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1311,12 +1220,7 @@ class user_get_args:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.BOOL:
-          self.ext_only = iprot.readBool();
+          self.user_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -1333,24 +1237,14 @@ class user_get_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
-      oprot.writeI64(self.id)
-      oprot.writeFieldEnd()
-    if self.ext_only is not None:
-      oprot.writeFieldBegin('ext_only', TType.BOOL, 3)
-      oprot.writeBool(self.ext_only)
+    if self.user_id is not None:
+      oprot.writeFieldBegin('user_id', TType.I64, 2)
+      oprot.writeI64(self.user_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.ext_only is None:
-      raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
 
 
@@ -1484,10 +1378,6 @@ class user_set_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.user is None:
-      raise TProtocol.TProtocolException(message='Required field user is unset!')
     return
 
 
@@ -1503,9 +1393,17 @@ class user_set_args:
     return not (self == other)
 
 class user_set_result:
+  """
+  Attributes:
+   - success
+  """
 
   thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ), # 0
   )
+
+  def __init__(self, success=None,):
+    self.success = success
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1516,6 +1414,11 @@ class user_set_result:
       (fname, ftype, fid) = iprot.readFieldBegin()
       if ftype == TType.STOP:
         break
+      if fid == 0:
+        if ftype == TType.BOOL:
+          self.success = iprot.readBool();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1526,6 +1429,10 @@ class user_set_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('user_set_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.BOOL, 0)
+      oprot.writeBool(self.success)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -1548,24 +1455,18 @@ class user_list_args:
   """
   Attributes:
    - access_token
-   - type
-   - last_id
-   - num
+   - id_list
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I32, 'type', None, None, ), # 2
-    (3, TType.I64, 'last_id', None, None, ), # 3
-    (4, TType.I64, 'num', None, None, ), # 4
+    (2, TType.LIST, 'id_list', (TType.I64,None), None, ), # 2
   )
 
-  def __init__(self, access_token=None, type=None, last_id=None, num=None,):
+  def __init__(self, access_token=None, id_list=None,):
     self.access_token = access_token
-    self.type = type
-    self.last_id = last_id
-    self.num = num
+    self.id_list = id_list
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1582,18 +1483,13 @@ class user_list_args:
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.I32:
-          self.type = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.I64:
-          self.last_id = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.I64:
-          self.num = iprot.readI64();
+        if ftype == TType.LIST:
+          self.id_list = []
+          (_etype3, _size0) = iprot.readListBegin()
+          for _i4 in xrange(_size0):
+            _elem5 = iprot.readI64();
+            self.id_list.append(_elem5)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -1610,30 +1506,17 @@ class user_list_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.type is not None:
-      oprot.writeFieldBegin('type', TType.I32, 2)
-      oprot.writeI32(self.type)
-      oprot.writeFieldEnd()
-    if self.last_id is not None:
-      oprot.writeFieldBegin('last_id', TType.I64, 3)
-      oprot.writeI64(self.last_id)
-      oprot.writeFieldEnd()
-    if self.num is not None:
-      oprot.writeFieldBegin('num', TType.I64, 4)
-      oprot.writeI64(self.num)
+    if self.id_list is not None:
+      oprot.writeFieldBegin('id_list', TType.LIST, 2)
+      oprot.writeListBegin(TType.I64, len(self.id_list))
+      for iter6 in self.id_list:
+        oprot.writeI64(iter6)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.type is None:
-      raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.last_id is None:
-      raise TProtocol.TProtocolException(message='Required field last_id is unset!')
-    if self.num is None:
-      raise TProtocol.TProtocolException(message='Required field num is unset!')
     return
 
 
@@ -1673,196 +1556,9 @@ class user_list_result:
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = type.ttypes.UserBasic()
-            _elem5.read(iprot)
-            self.success.append(_elem5)
-          iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('user_list_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.LIST, 0)
-      oprot.writeListBegin(TType.STRUCT, len(self.success))
-      for iter6 in self.success:
-        iter6.write(oprot)
-      oprot.writeListEnd()
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class task_list_args:
-  """
-  Attributes:
-   - access_token
-   - type
-   - filter
-   - last_id
-   - num
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I32, 'type', None, None, ), # 2
-    (3, TType.STRUCT, 'filter', (type.ttypes.TaskFilter, type.ttypes.TaskFilter.thrift_spec), None, ), # 3
-    (4, TType.I64, 'last_id', None, None, ), # 4
-    (5, TType.I64, 'num', None, None, ), # 5
-  )
-
-  def __init__(self, access_token=None, type=None, filter=None, last_id=None, num=None,):
-    self.access_token = access_token
-    self.type = type
-    self.filter = filter
-    self.last_id = last_id
-    self.num = num
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRING:
-          self.access_token = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.I32:
-          self.type = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.STRUCT:
-          self.filter = type.ttypes.TaskFilter()
-          self.filter.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.I64:
-          self.last_id = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      elif fid == 5:
-        if ftype == TType.I64:
-          self.num = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('task_list_args')
-    if self.access_token is not None:
-      oprot.writeFieldBegin('access_token', TType.STRING, 1)
-      oprot.writeString(self.access_token)
-      oprot.writeFieldEnd()
-    if self.type is not None:
-      oprot.writeFieldBegin('type', TType.I32, 2)
-      oprot.writeI32(self.type)
-      oprot.writeFieldEnd()
-    if self.filter is not None:
-      oprot.writeFieldBegin('filter', TType.STRUCT, 3)
-      self.filter.write(oprot)
-      oprot.writeFieldEnd()
-    if self.last_id is not None:
-      oprot.writeFieldBegin('last_id', TType.I64, 4)
-      oprot.writeI64(self.last_id)
-      oprot.writeFieldEnd()
-    if self.num is not None:
-      oprot.writeFieldBegin('num', TType.I64, 5)
-      oprot.writeI64(self.num)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.type is None:
-      raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.filter is None:
-      raise TProtocol.TProtocolException(message='Required field filter is unset!')
-    if self.last_id is None:
-      raise TProtocol.TProtocolException(message='Required field last_id is unset!')
-    if self.num is None:
-      raise TProtocol.TProtocolException(message='Required field num is unset!')
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class task_list_result:
-  """
-  Attributes:
-   - success
-  """
-
-  thrift_spec = (
-    (0, TType.LIST, 'success', (TType.STRUCT,(type.ttypes.TaskBasic, type.ttypes.TaskBasic.thrift_spec)), None, ), # 0
-  )
-
-  def __init__(self, success=None,):
-    self.success = success
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 0:
-        if ftype == TType.LIST:
-          self.success = []
           (_etype10, _size7) = iprot.readListBegin()
           for _i11 in xrange(_size7):
-            _elem12 = type.ttypes.TaskBasic()
+            _elem12 = type.ttypes.UserBasic()
             _elem12.read(iprot)
             self.success.append(_elem12)
           iprot.readListEnd()
@@ -1877,7 +1573,7 @@ class task_list_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('task_list_result')
+    oprot.writeStructBegin('user_list_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRUCT, len(self.success))
@@ -1907,21 +1603,18 @@ class task_get_args:
   """
   Attributes:
    - access_token
-   - id
-   - ext_only
+   - task_id
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
-    (3, TType.BOOL, 'ext_only', None, True, ), # 3
+    (2, TType.I64, 'task_id', None, None, ), # 2
   )
 
-  def __init__(self, access_token=None, id=None, ext_only=thrift_spec[3][4],):
+  def __init__(self, access_token=None, task_id=None,):
     self.access_token = access_token
-    self.id = id
-    self.ext_only = ext_only
+    self.task_id = task_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1939,12 +1632,7 @@ class task_get_args:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.BOOL:
-          self.ext_only = iprot.readBool();
+          self.task_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       else:
@@ -1961,24 +1649,14 @@ class task_get_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
-      oprot.writeI64(self.id)
-      oprot.writeFieldEnd()
-    if self.ext_only is not None:
-      oprot.writeFieldBegin('ext_only', TType.BOOL, 3)
-      oprot.writeBool(self.ext_only)
+    if self.task_id is not None:
+      oprot.writeFieldBegin('task_id', TType.I64, 2)
+      oprot.writeI64(self.task_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.ext_only is None:
-      raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
 
 
@@ -2112,10 +1790,6 @@ class task_set_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task is None:
-      raise TProtocol.TProtocolException(message='Required field task is unset!')
     return
 
 
@@ -2131,9 +1805,17 @@ class task_set_args:
     return not (self == other)
 
 class task_set_result:
+  """
+  Attributes:
+   - success
+  """
 
   thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ), # 0
   )
+
+  def __init__(self, success=None,):
+    self.success = success
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2144,6 +1826,11 @@ class task_set_result:
       (fname, ftype, fid) = iprot.readFieldBegin()
       if ftype == TType.STOP:
         break
+      if fid == 0:
+        if ftype == TType.BOOL:
+          self.success = iprot.readBool();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2154,6 +1841,10 @@ class task_set_result:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('task_set_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.BOOL, 0)
+      oprot.writeBool(self.success)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -2231,10 +1922,6 @@ class task_new_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task is None:
-      raise TProtocol.TProtocolException(message='Required field task is unset!')
     return
 
 
@@ -2312,21 +1999,21 @@ class task_apply_args:
   """
   Attributes:
    - access_token
-   - id
-   - txt
+   - task_id
+   - postscript
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
-    (3, TType.STRING, 'txt', None, None, ), # 3
+    (2, TType.I64, 'task_id', None, None, ), # 2
+    (3, TType.STRING, 'postscript', None, None, ), # 3
   )
 
-  def __init__(self, access_token=None, id=None, txt=None,):
+  def __init__(self, access_token=None, task_id=None, postscript=None,):
     self.access_token = access_token
-    self.id = id
-    self.txt = txt
+    self.task_id = task_id
+    self.postscript = postscript
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2344,12 +2031,12 @@ class task_apply_args:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
+          self.task_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.STRING:
-          self.txt = iprot.readString();
+          self.postscript = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -2366,24 +2053,18 @@ class task_apply_args:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
       oprot.writeFieldEnd()
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
-      oprot.writeI64(self.id)
+    if self.task_id is not None:
+      oprot.writeFieldBegin('task_id', TType.I64, 2)
+      oprot.writeI64(self.task_id)
       oprot.writeFieldEnd()
-    if self.txt is not None:
-      oprot.writeFieldBegin('txt', TType.STRING, 3)
-      oprot.writeString(self.txt)
+    if self.postscript is not None:
+      oprot.writeFieldBegin('postscript', TType.STRING, 3)
+      oprot.writeString(self.postscript)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.txt is None:
-      raise TProtocol.TProtocolException(message='Required field txt is unset!')
     return
 
 
@@ -2457,7 +2138,138 @@ class task_apply_result:
   def __ne__(self, other):
     return not (self == other)
 
-class task_reject_args:
+class task_reject_invitation_args:
+  """
+  Attributes:
+   - access_token
+   - task_id
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'access_token', None, None, ), # 1
+    (2, TType.I64, 'task_id', None, None, ), # 2
+  )
+
+  def __init__(self, access_token=None, task_id=None,):
+    self.access_token = access_token
+    self.task_id = task_id
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.access_token = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I64:
+          self.task_id = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_reject_invitation_args')
+    if self.access_token is not None:
+      oprot.writeFieldBegin('access_token', TType.STRING, 1)
+      oprot.writeString(self.access_token)
+      oprot.writeFieldEnd()
+    if self.task_id is not None:
+      oprot.writeFieldBegin('task_id', TType.I64, 2)
+      oprot.writeI64(self.task_id)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_reject_invitation_result:
+  """
+  Attributes:
+   - success
+  """
+
+  thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ), # 0
+  )
+
+  def __init__(self, success=None,):
+    self.success = success
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.BOOL:
+          self.success = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('task_reject_invitation_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.BOOL, 0)
+      oprot.writeBool(self.success)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class task_accept_invitation_args:
   """
   Attributes:
    - access_token
@@ -2502,7 +2314,7 @@ class task_reject_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('task_reject_args')
+    oprot.writeStructBegin('task_accept_invitation_args')
     if self.access_token is not None:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
@@ -2529,7 +2341,7 @@ class task_reject_args:
   def __ne__(self, other):
     return not (self == other)
 
-class task_reject_result:
+class task_accept_invitation_result:
   """
   Attributes:
    - success
@@ -2565,7 +2377,7 @@ class task_reject_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('task_reject_result')
+    oprot.writeStructBegin('task_accept_invitation_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.BOOL, 0)
       oprot.writeBool(self.success)
@@ -2588,138 +2400,7 @@ class task_reject_result:
   def __ne__(self, other):
     return not (self == other)
 
-class task_accept_args:
-  """
-  Attributes:
-   - access_token
-   - id
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRING, 'access_token', None, None, ), # 1
-    (2, TType.I64, 'id', None, None, ), # 2
-  )
-
-  def __init__(self, access_token=None, id=None,):
-    self.access_token = access_token
-    self.id = id
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRING:
-          self.access_token = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.I64:
-          self.id = iprot.readI64();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('task_accept_args')
-    if self.access_token is not None:
-      oprot.writeFieldBegin('access_token', TType.STRING, 1)
-      oprot.writeString(self.access_token)
-      oprot.writeFieldEnd()
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 2)
-      oprot.writeI64(self.id)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class task_accept_result:
-  """
-  Attributes:
-   - success
-  """
-
-  thrift_spec = (
-    (0, TType.BOOL, 'success', None, None, ), # 0
-  )
-
-  def __init__(self, success=None,):
-    self.success = success
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 0:
-        if ftype == TType.BOOL:
-          self.success = iprot.readBool();
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('task_accept_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.BOOL, 0)
-      oprot.writeBool(self.success)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class my_task_accept_args:
+class task_accept_user_args:
   """
   Attributes:
    - access_token
@@ -2772,7 +2453,7 @@ class my_task_accept_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('my_task_accept_args')
+    oprot.writeStructBegin('task_accept_user_args')
     if self.access_token is not None:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
@@ -2789,12 +2470,6 @@ class my_task_accept_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task_id is None:
-      raise TProtocol.TProtocolException(message='Required field task_id is unset!')
-    if self.user_id is None:
-      raise TProtocol.TProtocolException(message='Required field user_id is unset!')
     return
 
 
@@ -2809,7 +2484,7 @@ class my_task_accept_args:
   def __ne__(self, other):
     return not (self == other)
 
-class my_task_accept_result:
+class task_accept_user_result:
   """
   Attributes:
    - success
@@ -2845,7 +2520,7 @@ class my_task_accept_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('my_task_accept_result')
+    oprot.writeStructBegin('task_accept_user_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.BOOL, 0)
       oprot.writeBool(self.success)
@@ -2868,13 +2543,13 @@ class my_task_accept_result:
   def __ne__(self, other):
     return not (self == other)
 
-class my_task_reject_args:
+class task_reject_user_args:
   """
   Attributes:
    - access_token
    - task_id
    - user_id
-   - txt
+   - postscript
   """
 
   thrift_spec = (
@@ -2882,14 +2557,14 @@ class my_task_reject_args:
     (1, TType.STRING, 'access_token', None, None, ), # 1
     (2, TType.I64, 'task_id', None, None, ), # 2
     (3, TType.I64, 'user_id', None, None, ), # 3
-    (4, TType.STRING, 'txt', None, None, ), # 4
+    (4, TType.STRING, 'postscript', None, None, ), # 4
   )
 
-  def __init__(self, access_token=None, task_id=None, user_id=None, txt=None,):
+  def __init__(self, access_token=None, task_id=None, user_id=None, postscript=None,):
     self.access_token = access_token
     self.task_id = task_id
     self.user_id = user_id
-    self.txt = txt
+    self.postscript = postscript
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2917,7 +2592,7 @@ class my_task_reject_args:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.STRING:
-          self.txt = iprot.readString();
+          self.postscript = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -2929,7 +2604,7 @@ class my_task_reject_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('my_task_reject_args')
+    oprot.writeStructBegin('task_reject_user_args')
     if self.access_token is not None:
       oprot.writeFieldBegin('access_token', TType.STRING, 1)
       oprot.writeString(self.access_token)
@@ -2942,22 +2617,14 @@ class my_task_reject_args:
       oprot.writeFieldBegin('user_id', TType.I64, 3)
       oprot.writeI64(self.user_id)
       oprot.writeFieldEnd()
-    if self.txt is not None:
-      oprot.writeFieldBegin('txt', TType.STRING, 4)
-      oprot.writeString(self.txt)
+    if self.postscript is not None:
+      oprot.writeFieldBegin('postscript', TType.STRING, 4)
+      oprot.writeString(self.postscript)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task_id is None:
-      raise TProtocol.TProtocolException(message='Required field task_id is unset!')
-    if self.user_id is None:
-      raise TProtocol.TProtocolException(message='Required field user_id is unset!')
-    if self.txt is None:
-      raise TProtocol.TProtocolException(message='Required field txt is unset!')
     return
 
 
@@ -2972,7 +2639,7 @@ class my_task_reject_args:
   def __ne__(self, other):
     return not (self == other)
 
-class my_task_reject_result:
+class task_reject_user_result:
   """
   Attributes:
    - success
@@ -3008,7 +2675,7 @@ class my_task_reject_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('my_task_reject_result')
+    oprot.writeStructBegin('task_reject_user_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.BOOL, 0)
       oprot.writeBool(self.success)
