@@ -71,7 +71,12 @@ struct TaskBasic {
     3:  required    string          title,
     4:  required    string          intro,
     5:  required    string          cover, # URL
-    7:  required    UserBasic       sponsor
+    6:  required    UserBasic       sponsor,
+    7:  required    i64             interested_count,
+    8:  required    i64             accepted_count,
+    9:  optional    i64             invited_count,
+    10: optional    i64             applied_count,
+    11: optional    i64             rejected_count
 }
 
 struct TaskExt {
