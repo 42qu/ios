@@ -5,14 +5,16 @@ typedef i64 timestamp
 # Auth
 
 struct AuthRequest {
-    1:  required    i64     client_id,
-    2:  required    string  client_secret
+    1:  required    i64         client_id,
+    2:  required    string      client_secret,
+    3:  required    string      mail,
+    4:  required    string      password
 }
 
 struct AuthResponse {
-    1:  required    string        access_token,
-    2:  required    timestamp     expire_in,
-    3:  required    i64           user_id
+    1:  required    string      access_token,
+    2:  required    timestamp   expire_in,
+    3:  required    i64         user_id
 }
 
 # User
@@ -33,7 +35,7 @@ enum UserListType {
 }
 
 struct UserBasic {
-    1:  required    i64             id,
+    1:  required    i64             user_id,
     2:  required    string          name,
     3:  required    UserGender      gender,
     4:  required    string          org,
@@ -42,82 +44,60 @@ struct UserBasic {
 }
 
 struct UserExt {
-    1:  required    string      intro,
-    2:  required    list<i64>   following,
-    3:  required    list<i64>   followed
+    1:  required    string          intro,
+    2:  required    list<i64>       following,
+    3:  required    list<i64>       followed
 }
 
 struct User {
-    1:  optional    UserBasic   basic,
-    2:  required    UserExt     ext
+    1:  optional    UserBasic       basic,
+    2:  required    UserExt         ext
 }
 
 # Task
 
-enum TaskStatus {
-    Removed = 0,    
-    Apply = 16,    # Applied but no response
-    Reject = 32,
-    Close = 64,
-    Open = 128
-}
-
-enum TaskSort {
-    ByTime = 0,
-    ByCount = 1
-}
-
-struct TaskFilter {
-    1:  required    TaskSort        sort,
-    2:  optional    TaskStatus      state,
-    3:  optional    i64             city_id,
-    4:  optional    i64             tag_id,
-    5:  optional    i64             distance,
-    6:  optional    UserGender      sponsor_gender,
-    7:  optional    i64             level,
-    8:  optional    bool            reward,
-    9:  optional    i64             reward_cent
+enum TaskState {
+    Normal = 0,
+    Interested, # Added to collection
+    Accepted,
+    Applied, # Applied but no response
+    Invited, # Invited but not yet accepted
+    Rejected
 }
 
 struct TaskBasic {
-    1:  required    i64             id,
-    2:  required    string          name,
-    3:  required    i64             sponsor,
-    4:  required    i64             tag_id,
-    5:  required    string          intro,
-    6:  required    TaskStatus      state,
-    7:  required    i64             area_id,
-    8:  required    i64             address_id,
-    9:  required    timestamp       end_time,
-    10: required    string          reward,
-    11: required    i64             reward_cent,
-    12: required    i64             apply_count,
-    13: required    i64             invite_count,
-    14: required    i64             accept_count
+    1:  required    i64             task_id,
+    2:  required    TaskState       state,
+    3:  required    string          title,
+    4:  required    string          intro,
+    5:  required    string          cover, # URL
+    7:  required    UserBasic       sponsor
 }
 
 struct TaskExt {
-    1:  required    list<i64>           applied,
-    2:  required    list<i64>           invited,
-    3:  required    list<i64>           accepted
+    1:  required    list<i64>       interested_list,
+    2:  required    list<i64>       accepted_list,
+    3:  optional    list<i64>       invited_list,
+    4:  optional    list<i64>       applied_list
+    #5:  optional    list<i64>       rejected_list
 }
 
 struct Task {
-    1:  optional    TaskBasic   basic,
-    2:  required    TaskExt     ext
+    1:  optional    TaskBasic       basic,
+    2:  required    TaskExt         ext
 }
 
 enum TaskListType {
     All = 0,
-    Recommend = 2,
-    Nearby = 4,
-    Following = 8
+    Recommend,
+    Nearby,
+    Following
 }
 
 struct TaskListRequest {
-    1:  required    i64             lastid,
-    2:  required    i64             length
-    3:  required    TaskListType    type
+    1:  required    TaskListType    type,
+    2:  required    i64             lastid,
+    3:  required    i64             length
 }
 
 # Message
