@@ -50,7 +50,7 @@ struct UserExt {
 }
 
 struct User {
-    1:  optional    UserBasic       basic,
+    1:  required    UserBasic       basic,
     2:  required    UserExt         ext
 }
 
@@ -72,23 +72,26 @@ struct TaskBasic {
     4:  required    string          intro,
     5:  required    string          cover, # URL
     6:  required    UserBasic       sponsor,
-    7:  required    i64             interested_count,
-    8:  required    i64             accepted_count,
-    9:  optional    i64             invited_count,
-    10: optional    i64             applied_count,
-    11: optional    i64             rejected_count
+    7:  required    timestamp       start_time,
+    8:  required    timestamp       end_time,
+    9:  required    i64             interested_count,
+    10: required    i64             accepted_count,
+    11: optional    i64             invited_count,
+    12: optional    i64             applied_count,
+    13: optional    i64             rejected_count
 }
 
 struct TaskExt {
-    1:  required    list<i64>       interested_list,
-    2:  required    list<i64>       accepted_list,
-    3:  optional    list<i64>       invited_list,
-    4:  optional    list<i64>       applied_list
-    #5:  optional    list<i64>       rejected_list
+    1:  required    string          intro_detail,
+    2:  required    list<i64>       interested_list,
+    3:  required    list<i64>       accepted_list,
+    4:  optional    list<i64>       invited_list,
+    5:  optional    list<i64>       applied_list
+    6:  optional    list<i64>       rejected_list
 }
 
 struct Task {
-    1:  optional    TaskBasic       basic,
+    1:  required    TaskBasic       basic,
     2:  required    TaskExt         ext
 }
 
