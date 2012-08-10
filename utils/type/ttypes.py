@@ -811,7 +811,7 @@ class TaskBasic:
    - intro
    - state
    - area_id
-   - address
+   - address_id
    - end_time
    - reward
    - reward_cent
@@ -829,7 +829,7 @@ class TaskBasic:
     (5, TType.STRING, 'intro', None, None, ), # 5
     (6, TType.I32, 'state', None, None, ), # 6
     (7, TType.I64, 'area_id', None, None, ), # 7
-    (8, TType.STRING, 'address', None, None, ), # 8
+    (8, TType.I64, 'address_id', None, None, ), # 8
     (9, TType.I64, 'end_time', None, None, ), # 9
     (10, TType.STRING, 'reward', None, None, ), # 10
     (11, TType.I64, 'reward_cent', None, None, ), # 11
@@ -838,7 +838,7 @@ class TaskBasic:
     (14, TType.I64, 'accept_count', None, None, ), # 14
   )
 
-  def __init__(self, id=None, name=None, sponsor=None, tag_id=None, intro=None, state=None, area_id=None, address=None, end_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
+  def __init__(self, id=None, name=None, sponsor=None, tag_id=None, intro=None, state=None, area_id=None, address_id=None, end_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
     self.id = id
     self.name = name
     self.sponsor = sponsor
@@ -846,7 +846,7 @@ class TaskBasic:
     self.intro = intro
     self.state = state
     self.area_id = area_id
-    self.address = address
+    self.address_id = address_id
     self.end_time = end_time
     self.reward = reward
     self.reward_cent = reward_cent
@@ -899,8 +899,8 @@ class TaskBasic:
         else:
           iprot.skip(ftype)
       elif fid == 8:
-        if ftype == TType.STRING:
-          self.address = iprot.readString();
+        if ftype == TType.I64:
+          self.address_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 9:
@@ -971,9 +971,9 @@ class TaskBasic:
       oprot.writeFieldBegin('area_id', TType.I64, 7)
       oprot.writeI64(self.area_id)
       oprot.writeFieldEnd()
-    if self.address is not None:
-      oprot.writeFieldBegin('address', TType.STRING, 8)
-      oprot.writeString(self.address)
+    if self.address_id is not None:
+      oprot.writeFieldBegin('address_id', TType.I64, 8)
+      oprot.writeI64(self.address_id)
       oprot.writeFieldEnd()
     if self.end_time is not None:
       oprot.writeFieldBegin('end_time', TType.I64, 9)
@@ -1017,8 +1017,8 @@ class TaskBasic:
       raise TProtocol.TProtocolException(message='Required field state is unset!')
     if self.area_id is None:
       raise TProtocol.TProtocolException(message='Required field area_id is unset!')
-    if self.address is None:
-      raise TProtocol.TProtocolException(message='Required field address is unset!')
+    if self.address_id is None:
+      raise TProtocol.TProtocolException(message='Required field address_id is unset!')
     if self.end_time is None:
       raise TProtocol.TProtocolException(message='Required field end_time is unset!')
     if self.reward is None:
