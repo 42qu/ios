@@ -647,6 +647,7 @@ class TaskFilter:
   """
   Attributes:
    - sort
+   - state
    - city_id
    - tag_id
    - distance
@@ -659,17 +660,19 @@ class TaskFilter:
   thrift_spec = (
     None, # 0
     (1, TType.I32, 'sort', None, None, ), # 1
-    (2, TType.I64, 'city_id', None, None, ), # 2
-    (3, TType.I64, 'tag_id', None, None, ), # 3
-    (4, TType.I64, 'distance', None, None, ), # 4
-    (5, TType.I32, 'sponsor_gender', None, None, ), # 5
-    (6, TType.I64, 'level', None, None, ), # 6
-    (7, TType.BOOL, 'reward', None, None, ), # 7
-    (8, TType.I64, 'reward_cent', None, None, ), # 8
+    (2, TType.I32, 'state', None, None, ), # 2
+    (3, TType.I64, 'city_id', None, None, ), # 3
+    (4, TType.I64, 'tag_id', None, None, ), # 4
+    (5, TType.I64, 'distance', None, None, ), # 5
+    (6, TType.I32, 'sponsor_gender', None, None, ), # 6
+    (7, TType.I64, 'level', None, None, ), # 7
+    (8, TType.BOOL, 'reward', None, None, ), # 8
+    (9, TType.I64, 'reward_cent', None, None, ), # 9
   )
 
-  def __init__(self, sort=None, city_id=None, tag_id=None, distance=None, sponsor_gender=None, level=None, reward=None, reward_cent=None,):
+  def __init__(self, sort=None, state=None, city_id=None, tag_id=None, distance=None, sponsor_gender=None, level=None, reward=None, reward_cent=None,):
     self.sort = sort
+    self.state = state
     self.city_id = city_id
     self.tag_id = tag_id
     self.distance = distance
@@ -693,36 +696,41 @@ class TaskFilter:
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.I64:
-          self.city_id = iprot.readI64();
+        if ftype == TType.I32:
+          self.state = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.I64:
-          self.tag_id = iprot.readI64();
+          self.city_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.I64:
-          self.distance = iprot.readI64();
+          self.tag_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 5:
+        if ftype == TType.I64:
+          self.distance = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
         if ftype == TType.I32:
           self.sponsor_gender = iprot.readI32();
         else:
           iprot.skip(ftype)
-      elif fid == 6:
+      elif fid == 7:
         if ftype == TType.I64:
           self.level = iprot.readI64();
         else:
           iprot.skip(ftype)
-      elif fid == 7:
+      elif fid == 8:
         if ftype == TType.BOOL:
           self.reward = iprot.readBool();
         else:
           iprot.skip(ftype)
-      elif fid == 8:
+      elif fid == 9:
         if ftype == TType.I64:
           self.reward_cent = iprot.readI64();
         else:
@@ -741,32 +749,36 @@ class TaskFilter:
       oprot.writeFieldBegin('sort', TType.I32, 1)
       oprot.writeI32(self.sort)
       oprot.writeFieldEnd()
+    if self.state is not None:
+      oprot.writeFieldBegin('state', TType.I32, 2)
+      oprot.writeI32(self.state)
+      oprot.writeFieldEnd()
     if self.city_id is not None:
-      oprot.writeFieldBegin('city_id', TType.I64, 2)
+      oprot.writeFieldBegin('city_id', TType.I64, 3)
       oprot.writeI64(self.city_id)
       oprot.writeFieldEnd()
     if self.tag_id is not None:
-      oprot.writeFieldBegin('tag_id', TType.I64, 3)
+      oprot.writeFieldBegin('tag_id', TType.I64, 4)
       oprot.writeI64(self.tag_id)
       oprot.writeFieldEnd()
     if self.distance is not None:
-      oprot.writeFieldBegin('distance', TType.I64, 4)
+      oprot.writeFieldBegin('distance', TType.I64, 5)
       oprot.writeI64(self.distance)
       oprot.writeFieldEnd()
     if self.sponsor_gender is not None:
-      oprot.writeFieldBegin('sponsor_gender', TType.I32, 5)
+      oprot.writeFieldBegin('sponsor_gender', TType.I32, 6)
       oprot.writeI32(self.sponsor_gender)
       oprot.writeFieldEnd()
     if self.level is not None:
-      oprot.writeFieldBegin('level', TType.I64, 6)
+      oprot.writeFieldBegin('level', TType.I64, 7)
       oprot.writeI64(self.level)
       oprot.writeFieldEnd()
     if self.reward is not None:
-      oprot.writeFieldBegin('reward', TType.BOOL, 7)
+      oprot.writeFieldBegin('reward', TType.BOOL, 8)
       oprot.writeBool(self.reward)
       oprot.writeFieldEnd()
     if self.reward_cent is not None:
-      oprot.writeFieldBegin('reward_cent', TType.I64, 8)
+      oprot.writeFieldBegin('reward_cent', TType.I64, 9)
       oprot.writeI64(self.reward_cent)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()

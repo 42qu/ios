@@ -69,13 +69,14 @@ enum TaskSort {
 
 struct TaskFilter {
     1:  required    TaskSort        sort,
-    2:  optional    i64             city_id,
-    3:  optional    i64             tag_id,
-    4:  optional    i64             distance,
-    5:  optional    UserGender      sponsor_gender,
-    6:  optional    i64             level,
-    7:  optional    bool            reward,
-    8:  optional    i64             reward_cent
+    2:  optional    TaskStatus      state,
+    3:  optional    i64             city_id,
+    4:  optional    i64             tag_id,
+    5:  optional    i64             distance,
+    6:  optional    UserGender      sponsor_gender,
+    7:  optional    i64             level,
+    8:  optional    bool            reward,
+    9:  optional    i64             reward_cent
 }
 
 struct TaskBasic {

@@ -1127,11 +1127,13 @@
 
 @implementation TaskFilter
 
-- (id) initWithSort: (int) sort city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent
+- (id) initWithSort: (int) sort state: (int) state city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent
 {
   self = [super init];
   __sort = sort;
   __sort_isset = YES;
+  __state = state;
+  __state_isset = YES;
   __city_id = city_id;
   __city_id_isset = YES;
   __tag_id = tag_id;
@@ -1156,6 +1158,11 @@
   {
     __sort = [decoder decodeIntForKey: @"sort"];
     __sort_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"state"])
+  {
+    __state = [decoder decodeIntForKey: @"state"];
+    __state_isset = YES;
   }
   if ([decoder containsValueForKey: @"city_id"])
   {
@@ -1200,6 +1207,10 @@
   if (__sort_isset)
   {
     [encoder encodeInt: __sort forKey: @"sort"];
+  }
+  if (__state_isset)
+  {
+    [encoder encodeInt: __state forKey: @"state"];
   }
   if (__city_id_isset)
   {
@@ -1251,6 +1262,23 @@
 
 - (void) unsetSort {
   __sort_isset = NO;
+}
+
+- (int) state {
+  return __state;
+}
+
+- (void) setState: (int) state {
+  __state = state;
+  __state_isset = YES;
+}
+
+- (BOOL) stateIsSet {
+  return __state_isset;
+}
+
+- (void) unsetState {
+  __state_isset = NO;
 }
 
 - (int64_t) city_id {
@@ -1396,9 +1424,9 @@
         }
         break;
       case 2:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setCity_id: fieldValue];
+        if (fieldType == TType_I32) {
+          int fieldValue = [inProtocol readI32];
+          [self setState: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1406,7 +1434,7 @@
       case 3:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setTag_id: fieldValue];
+          [self setCity_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -1414,12 +1442,20 @@
       case 4:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setDistance: fieldValue];
+          [self setTag_id: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 5:
+        if (fieldType == TType_I64) {
+          int64_t fieldValue = [inProtocol readI64];
+          [self setDistance: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
         if (fieldType == TType_I32) {
           int fieldValue = [inProtocol readI32];
           [self setSponsor_gender: fieldValue];
@@ -1427,7 +1463,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 6:
+      case 7:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setLevel: fieldValue];
@@ -1435,7 +1471,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 7:
+      case 8:
         if (fieldType == TType_BOOL) {
           BOOL fieldValue = [inProtocol readBool];
           [self setReward: fieldValue];
@@ -1443,7 +1479,7 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 8:
+      case 9:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
           [self setReward_cent: fieldValue];
@@ -1467,38 +1503,43 @@
     [outProtocol writeI32: __sort];
     [outProtocol writeFieldEnd];
   }
+  if (__state_isset) {
+    [outProtocol writeFieldBeginWithName: @"state" type: TType_I32 fieldID: 2];
+    [outProtocol writeI32: __state];
+    [outProtocol writeFieldEnd];
+  }
   if (__city_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"city_id" type: TType_I64 fieldID: 2];
+    [outProtocol writeFieldBeginWithName: @"city_id" type: TType_I64 fieldID: 3];
     [outProtocol writeI64: __city_id];
     [outProtocol writeFieldEnd];
   }
   if (__tag_id_isset) {
-    [outProtocol writeFieldBeginWithName: @"tag_id" type: TType_I64 fieldID: 3];
+    [outProtocol writeFieldBeginWithName: @"tag_id" type: TType_I64 fieldID: 4];
     [outProtocol writeI64: __tag_id];
     [outProtocol writeFieldEnd];
   }
   if (__distance_isset) {
-    [outProtocol writeFieldBeginWithName: @"distance" type: TType_I64 fieldID: 4];
+    [outProtocol writeFieldBeginWithName: @"distance" type: TType_I64 fieldID: 5];
     [outProtocol writeI64: __distance];
     [outProtocol writeFieldEnd];
   }
   if (__sponsor_gender_isset) {
-    [outProtocol writeFieldBeginWithName: @"sponsor_gender" type: TType_I32 fieldID: 5];
+    [outProtocol writeFieldBeginWithName: @"sponsor_gender" type: TType_I32 fieldID: 6];
     [outProtocol writeI32: __sponsor_gender];
     [outProtocol writeFieldEnd];
   }
   if (__level_isset) {
-    [outProtocol writeFieldBeginWithName: @"level" type: TType_I64 fieldID: 6];
+    [outProtocol writeFieldBeginWithName: @"level" type: TType_I64 fieldID: 7];
     [outProtocol writeI64: __level];
     [outProtocol writeFieldEnd];
   }
   if (__reward_isset) {
-    [outProtocol writeFieldBeginWithName: @"reward" type: TType_BOOL fieldID: 7];
+    [outProtocol writeFieldBeginWithName: @"reward" type: TType_BOOL fieldID: 8];
     [outProtocol writeBool: __reward];
     [outProtocol writeFieldEnd];
   }
   if (__reward_cent_isset) {
-    [outProtocol writeFieldBeginWithName: @"reward_cent" type: TType_I64 fieldID: 8];
+    [outProtocol writeFieldBeginWithName: @"reward_cent" type: TType_I64 fieldID: 9];
     [outProtocol writeI64: __reward_cent];
     [outProtocol writeFieldEnd];
   }
@@ -1510,6 +1551,8 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskFilter("];
   [ms appendString: @"sort:"];
   [ms appendFormat: @"%i", __sort];
+  [ms appendString: @",state:"];
+  [ms appendFormat: @"%i", __state];
   [ms appendString: @",city_id:"];
   [ms appendFormat: @"%qi", __city_id];
   [ms appendString: @",tag_id:"];

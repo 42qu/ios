@@ -250,6 +250,7 @@ typedef int64_t timestamp;
 
 @interface TaskFilter : NSObject <NSCoding> {
   int __sort;
+  int __state;
   int64_t __city_id;
   int64_t __tag_id;
   int64_t __distance;
@@ -259,6 +260,7 @@ typedef int64_t timestamp;
   int64_t __reward_cent;
 
   BOOL __sort_isset;
+  BOOL __state_isset;
   BOOL __city_id_isset;
   BOOL __tag_id_isset;
   BOOL __distance_isset;
@@ -270,6 +272,7 @@ typedef int64_t timestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=sort, setter=setSort:) int sort;
+@property (nonatomic, getter=state, setter=setState:) int state;
 @property (nonatomic, getter=city_id, setter=setCity_id:) int64_t city_id;
 @property (nonatomic, getter=tag_id, setter=setTag_id:) int64_t tag_id;
 @property (nonatomic, getter=distance, setter=setDistance:) int64_t distance;
@@ -279,7 +282,7 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=reward_cent, setter=setReward_cent:) int64_t reward_cent;
 #endif
 
-- (id) initWithSort: (int) sort city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent;
+- (id) initWithSort: (int) sort state: (int) state city_id: (int64_t) city_id tag_id: (int64_t) tag_id distance: (int64_t) distance sponsor_gender: (int) sponsor_gender level: (int64_t) level reward: (BOOL) reward reward_cent: (int64_t) reward_cent;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -287,6 +290,10 @@ typedef int64_t timestamp;
 - (int) sort;
 - (void) setSort: (int) sort;
 - (BOOL) sortIsSet;
+
+- (int) state;
+- (void) setState: (int) state;
+- (BOOL) stateIsSet;
 
 - (int64_t) city_id;
 - (void) setCity_id: (int64_t) city_id;
