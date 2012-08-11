@@ -18,10 +18,11 @@ except:
 
 
 class Iface:
-  def login_by_mail(self, auth, mail, password):
+  def login_by_mail(self, client_id, client_secret, mail, password):
     """
     Parameters:
-     - auth
+     - client_id
+     - client_secret
      - mail
      - password
     """
@@ -184,20 +185,22 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def login_by_mail(self, auth, mail, password):
+  def login_by_mail(self, client_id, client_secret, mail, password):
     """
     Parameters:
-     - auth
+     - client_id
+     - client_secret
      - mail
      - password
     """
-    self.send_login_by_mail(auth, mail, password)
+    self.send_login_by_mail(client_id, client_secret, mail, password)
     return self.recv_login_by_mail()
 
-  def send_login_by_mail(self, auth, mail, password):
+  def send_login_by_mail(self, client_id, client_secret, mail, password):
     self._oprot.writeMessageBegin('login_by_mail', TMessageType.CALL, self._seqid)
     args = login_by_mail_args()
-    args.auth = auth
+    args.client_id = client_id
+    args.client_secret = client_secret
     args.mail = mail
     args.password = password
     args.write(self._oprot)
@@ -824,7 +827,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = login_by_mail_result()
-    result.success = self._handler.login_by_mail(args.auth, args.mail, args.password)
+    result.success = self._handler.login_by_mail(args.client_id, args.client_secret, args.mail, args.password)
     oprot.writeMessageBegin("login_by_mail", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1023,20 +1026,23 @@ class Processor(Iface, TProcessor):
 class login_by_mail_args:
   """
   Attributes:
-   - auth
+   - client_id
+   - client_secret
    - mail
    - password
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'auth', (type.ttypes.AuthRequest, type.ttypes.AuthRequest.thrift_spec), None, ), # 1
-    (2, TType.STRING, 'mail', None, None, ), # 2
-    (3, TType.STRING, 'password', None, None, ), # 3
+    (1, TType.I64, 'client_id', None, None, ), # 1
+    (2, TType.STRING, 'client_secret', None, None, ), # 2
+    (3, TType.STRING, 'mail', None, None, ), # 3
+    (4, TType.STRING, 'password', None, None, ), # 4
   )
 
-  def __init__(self, auth=None, mail=None, password=None,):
-    self.auth = auth
+  def __init__(self, client_id=None, client_secret=None, mail=None, password=None,):
+    self.client_id = client_id
+    self.client_secret = client_secret
     self.mail = mail
     self.password = password
 
@@ -1050,17 +1056,21 @@ class login_by_mail_args:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRUCT:
-          self.auth = type.ttypes.AuthRequest()
-          self.auth.read(iprot)
+        if ftype == TType.I64:
+          self.client_id = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRING:
-          self.mail = iprot.readString();
+          self.client_secret = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 3:
+        if ftype == TType.STRING:
+          self.mail = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
         if ftype == TType.STRING:
           self.password = iprot.readString();
         else:
@@ -1075,28 +1085,26 @@ class login_by_mail_args:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('login_by_mail_args')
-    if self.auth is not None:
-      oprot.writeFieldBegin('auth', TType.STRUCT, 1)
-      self.auth.write(oprot)
+    if self.client_id is not None:
+      oprot.writeFieldBegin('client_id', TType.I64, 1)
+      oprot.writeI64(self.client_id)
+      oprot.writeFieldEnd()
+    if self.client_secret is not None:
+      oprot.writeFieldBegin('client_secret', TType.STRING, 2)
+      oprot.writeString(self.client_secret)
       oprot.writeFieldEnd()
     if self.mail is not None:
-      oprot.writeFieldBegin('mail', TType.STRING, 2)
+      oprot.writeFieldBegin('mail', TType.STRING, 3)
       oprot.writeString(self.mail)
       oprot.writeFieldEnd()
     if self.password is not None:
-      oprot.writeFieldBegin('password', TType.STRING, 3)
+      oprot.writeFieldBegin('password', TType.STRING, 4)
       oprot.writeString(self.password)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.auth is None:
-      raise TProtocol.TProtocolException(message='Required field auth is unset!')
-    if self.mail is None:
-      raise TProtocol.TProtocolException(message='Required field mail is unset!')
-    if self.password is None:
-      raise TProtocol.TProtocolException(message='Required field password is unset!')
     return
 
 
@@ -1217,8 +1225,6 @@ class logout_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
     return
 
 
@@ -1345,12 +1351,6 @@ class user_get_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.ext_only is None:
-      raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
 
 
@@ -1484,10 +1484,6 @@ class user_set_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.user is None:
-      raise TProtocol.TProtocolException(message='Required field user is unset!')
     return
 
 
@@ -1626,14 +1622,6 @@ class user_list_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.type is None:
-      raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.last_id is None:
-      raise TProtocol.TProtocolException(message='Required field last_id is unset!')
-    if self.num is None:
-      raise TProtocol.TProtocolException(message='Required field num is unset!')
     return
 
 
@@ -1811,16 +1799,6 @@ class task_list_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.type is None:
-      raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.filter is None:
-      raise TProtocol.TProtocolException(message='Required field filter is unset!')
-    if self.last_id is None:
-      raise TProtocol.TProtocolException(message='Required field last_id is unset!')
-    if self.num is None:
-      raise TProtocol.TProtocolException(message='Required field num is unset!')
     return
 
 
@@ -1973,12 +1951,6 @@ class task_get_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.ext_only is None:
-      raise TProtocol.TProtocolException(message='Required field ext_only is unset!')
     return
 
 
@@ -2112,10 +2084,6 @@ class task_set_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task is None:
-      raise TProtocol.TProtocolException(message='Required field task is unset!')
     return
 
 
@@ -2231,10 +2199,6 @@ class task_new_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task is None:
-      raise TProtocol.TProtocolException(message='Required field task is unset!')
     return
 
 
@@ -2378,12 +2342,6 @@ class task_apply_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
-    if self.txt is None:
-      raise TProtocol.TProtocolException(message='Required field txt is unset!')
     return
 
 
@@ -2789,12 +2747,6 @@ class my_task_accept_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task_id is None:
-      raise TProtocol.TProtocolException(message='Required field task_id is unset!')
-    if self.user_id is None:
-      raise TProtocol.TProtocolException(message='Required field user_id is unset!')
     return
 
 
@@ -2950,14 +2902,6 @@ class my_task_reject_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.task_id is None:
-      raise TProtocol.TProtocolException(message='Required field task_id is unset!')
-    if self.user_id is None:
-      raise TProtocol.TProtocolException(message='Required field user_id is unset!')
-    if self.txt is None:
-      raise TProtocol.TProtocolException(message='Required field txt is unset!')
     return
 
 
@@ -3113,14 +3057,6 @@ class msg_list_args:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.access_token is None:
-      raise TProtocol.TProtocolException(message='Required field access_token is unset!')
-    if self.type is None:
-      raise TProtocol.TProtocolException(message='Required field type is unset!')
-    if self.last_id is None:
-      raise TProtocol.TProtocolException(message='Required field last_id is unset!')
-    if self.num is None:
-      raise TProtocol.TProtocolException(message='Required field num is unset!')
     return
 
 

@@ -80,7 +80,7 @@ def task_new(self, access_token, task, uid=None):
     o.name = bas.name
     o.txt = bas.intro
     o.area_id = bas.area_id
-    o.address = bas.address
+    o.address_id = bas.address_id
     o.end_time = bas.end_time
     o.reward = bas.reward
     o.reward_cent = bas.reward_cent
@@ -89,6 +89,9 @@ def task_new(self, access_token, task, uid=None):
 # TODO:回头做个信息互转的函数
 @verify_get_user
 def task_list(self, access_token, type, filter, last_id, num, uid=None):
+    print 'task_list'
+    print type
+    print filter
     lst = []
     if type == TaskListType.All:
         if filter.sort == TaskSort.ByTime:
@@ -115,11 +118,11 @@ def task_list(self, access_token, type, filter, last_id, num, uid=None):
                 intro        = po.txt,
                 state        = po.task.state,
                 area_id      = po.task.area_id,
-                address      = po.task.address_id,
-                end_time   = po.task.end_time,
+                address_id   = po.task.address_id,
+                end_time     = po.task.end_time,
                 reward       = po.task.reward,
                 reward_cent  = po.task.reward_cent,
-                apply_count = len(_d[s.APPLY]),
+                apply_count  = len(_d[s.APPLY]),
                 invite_count = 0,
                 accept_count = len(_d[s.ACCEPT]),
             )

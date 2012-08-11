@@ -4,11 +4,6 @@ typedef i64 timestamp
 
 # Auth
 
-struct AuthRequest {
-    1:  required    i64     client_id,
-    2:  required    string  client_secret
-}
-
 struct AuthResponse {
     1:  required    string        access_token,
     2:  required    timestamp     expire_in,
@@ -42,21 +37,21 @@ struct UserBasic {
 }
 
 struct UserExt {
-    1:  required    string      intro,
-    2:  required    list<i64>   following,
-    3:  required    list<i64>   followed
+    1:  required    string          intro,
+    2:  required    list<i64>       following,
+    3:  required    list<i64>       followed
 }
 
 struct User {
-    1:  optional    UserBasic   basic,
-    2:  required    UserExt     ext
+    1:  optional    UserBasic       basic,
+    2:  required    UserExt         ext
 }
 
 # Task
 
 enum TaskStatus {
     Removed = 0,    
-    Apply = 16,    # Applied but no response
+    Apply = 16,
     Reject = 32,
     Close = 64,
     Open = 128
@@ -83,41 +78,43 @@ struct TaskBasic {
     1:  required    i64             id,
     2:  required    string          name,
     3:  required    i64             sponsor,
-    4:  required    i64             tag_id,
-    5:  required    string          intro,
-    6:  required    TaskStatus      state,
-    7:  required    i64             area_id,
-    8:  required    i64             address_id,
-    9:  required    timestamp       end_time,
-    10: required    string          reward,
-    11: required    i64             reward_cent,
-    12: required    i64             apply_count,
-    13: required    i64             invite_count,
-    14: required    i64             accept_count
+    4:  required    string          sponsor_name,
+    5:  required    i64             tag_id,
+    6:  required    string          intro,
+    7:  required    TaskStatus      state,
+    8:  required    string          cover,
+    9:  required    i64             area_id,
+    10: required    i64             address_id,
+    11: required    timestamp       end_time,
+    12: required    string          reward,
+    13: required    i64             reward_cent,
+    14: required    i64             apply_count,
+    15: required    i64             invite_count,
+    16: required    i64             accept_count
 }
 
 struct TaskExt {
-    1:  required    list<i64>           applied,
-    2:  required    list<i64>           invited,
-    3:  required    list<i64>           accepted
+    1:  required    list<i64>       applied_list,
+    2:  required    list<i64>       invited_list,
+    3:  required    list<i64>       accepted_list
 }
 
 struct Task {
-    1:  optional    TaskBasic   basic,
-    2:  required    TaskExt     ext
+    1:  optional    TaskBasic       basic,
+    2:  required    TaskExt         ext
 }
 
 enum TaskListType {
     All = 0,
-    Recommend = 2,
-    Nearby = 4,
-    Following = 8
+    Recommend,
+    Nearby,
+    Following
 }
 
 struct TaskListRequest {
-    1:  required    i64             lastid,
-    2:  required    i64             length
-    3:  required    TaskListType    type
+    1:  required    TaskListType    type
+    2:  required    i64             lastid,
+    3:  required    i64             length
 }
 
 # Message
