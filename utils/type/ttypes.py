@@ -256,7 +256,7 @@ class AuthResponse:
 class UserBasic:
   """
   Attributes:
-   - id
+   - gid
    - name
    - gender
    - org
@@ -266,7 +266,7 @@ class UserBasic:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'id', None, None, ), # 1
+    (1, TType.I64, 'gid', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.I32, 'gender', None, None, ), # 3
     (4, TType.STRING, 'org', None, None, ), # 4
@@ -274,8 +274,8 @@ class UserBasic:
     (6, TType.STRING, 'avator', None, None, ), # 6
   )
 
-  def __init__(self, id=None, name=None, gender=None, org=None, job=None, avator=None,):
-    self.id = id
+  def __init__(self, gid=None, name=None, gender=None, org=None, job=None, avator=None,):
+    self.gid = gid
     self.name = name
     self.gender = gender
     self.org = org
@@ -293,7 +293,7 @@ class UserBasic:
         break
       if fid == 1:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
+          self.gid = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -331,9 +331,9 @@ class UserBasic:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('UserBasic')
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 1)
-      oprot.writeI64(self.id)
+    if self.gid is not None:
+      oprot.writeFieldBegin('gid', TType.I64, 1)
+      oprot.writeI64(self.gid)
       oprot.writeFieldEnd()
     if self.name is not None:
       oprot.writeFieldBegin('name', TType.STRING, 2)
@@ -359,8 +359,8 @@ class UserBasic:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.gid is None:
+      raise TProtocol.TProtocolException(message='Required field gid is unset!')
     if self.name is None:
       raise TProtocol.TProtocolException(message='Required field name is unset!')
     if self.gender is None:
@@ -730,7 +730,7 @@ class TaskFilter:
 class TaskBasic:
   """
   Attributes:
-   - id
+   - gid
    - name
    - sponsor
    - sponsor_name
@@ -750,7 +750,7 @@ class TaskBasic:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I64, 'id', None, None, ), # 1
+    (1, TType.I64, 'gid', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.I64, 'sponsor', None, None, ), # 3
     (4, TType.STRING, 'sponsor_name', None, None, ), # 4
@@ -768,8 +768,8 @@ class TaskBasic:
     (16, TType.I64, 'accept_count', None, None, ), # 16
   )
 
-  def __init__(self, id=None, name=None, sponsor=None, sponsor_name=None, tag_id=None, intro=None, state=None, cover=None, area_id=None, address_id=None, end_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
-    self.id = id
+  def __init__(self, gid=None, name=None, sponsor=None, sponsor_name=None, tag_id=None, intro=None, state=None, cover=None, area_id=None, address_id=None, end_time=None, reward=None, reward_cent=None, apply_count=None, invite_count=None, accept_count=None,):
+    self.gid = gid
     self.name = name
     self.sponsor = sponsor
     self.sponsor_name = sponsor_name
@@ -797,7 +797,7 @@ class TaskBasic:
         break
       if fid == 1:
         if ftype == TType.I64:
-          self.id = iprot.readI64();
+          self.gid = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 2:
@@ -885,9 +885,9 @@ class TaskBasic:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TaskBasic')
-    if self.id is not None:
-      oprot.writeFieldBegin('id', TType.I64, 1)
-      oprot.writeI64(self.id)
+    if self.gid is not None:
+      oprot.writeFieldBegin('gid', TType.I64, 1)
+      oprot.writeI64(self.gid)
       oprot.writeFieldEnd()
     if self.name is not None:
       oprot.writeFieldBegin('name', TType.STRING, 2)
@@ -953,8 +953,8 @@ class TaskBasic:
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.id is None:
-      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.gid is None:
+      raise TProtocol.TProtocolException(message='Required field gid is unset!')
     if self.name is None:
       raise TProtocol.TProtocolException(message='Required field name is unset!')
     if self.sponsor is None:

@@ -8,7 +8,7 @@ from ctrl.verify import verify, verify_get_user
 
 from model.base.user_name import UserName
 
-from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, task_apply_new, task_apply_user_id_list, po_task_new
+from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, po_task_get_list, task_apply_new, task_apply_user_id_list, po_task_new
 
 from model.task.tag import po_task_id_list_order_by_time, po_task_id_list_order_by_count, po_task_tag_id
 
@@ -16,23 +16,24 @@ from utils.type.ttypes import Task, TaskBasic, TaskExt
 from utils.type.ttypes import TaskListType, TaskFilter, TaskSort
 
 def _po_task_to_task_basic(po):
-    t = po.task
-    basic = TaskBasic(
-        id = po.id,
-        name = po.name,
-        sponsor = po.user_id,
-        sponsor_name = UserName.get(po.user_id),
-        intro = po.txt,
-        state = t.state,
-        area_id = t.area_id,
-        end_time = t.end_time,
-        reward = t.reward,
-        reward_cent = t.reward_cent,
-        apply_count = 0,
-        invite_count = 0,
-        accept_count = 0,
-    )
-    return basic
+    if po and po.task:
+        t = po.task
+        basic = TaskBasic(
+            id = po.id,
+            name = po.name,
+            sponsor = po.user_id,
+            sponsor_name = UserName.get(po.user_id),
+            intro = po.txt,
+            state = t.state,
+            area_id = t.area_id,
+            end_time = t.end_time,
+            reward = t.reward,
+            reward_cent = t.reward_cent,
+            apply_count = 0,
+            invite_count = 0,
+            accept_count = 0,
+        )
+        return basic
 
 def _task_basic_to_po_task(bas):
     o = obj()
@@ -113,4 +114,8 @@ def task_list(self, access_token, type, filter, last_id, num, uid=None):
             ret.append(baisc)
 
     return ret
+
+@verify
+def task_list_fetch(self, id_list):
+    return map(_po_task_to_task_basic, po_task_get_list(id_list))
 

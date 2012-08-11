@@ -1,8 +1,10 @@
 #coding:utf-8
 import _env
 
-from ctrl.user import login_by_mail, user_ext_get
-from ctrl.task import task_ext_get, task_apply, my_task_accept, my_task_reject, task_new, task_list
+from ctrl.user import login_by_mail, user_ext_get, user_list_fetch
+from ctrl.task import task_ext_get, task_list, task_list_fetch
+from ctrl.task import task_apply, task_new
+from ctrl.task import my_task_accept, my_task_reject
 
 import logging
 
@@ -18,7 +20,11 @@ class Handler(object):
     my_task_accept = my_task_accept
     my_task_reject = my_task_reject
     task_new = task_new
+
+    user_list_fetch = user_list_fetch
+
     task_list = task_list
+    task_list_fetch = task_list_fetch
 
     def user_info_get(self, access_token, uid, ext_only=True):
         b = UserBasic()

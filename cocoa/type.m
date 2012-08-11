@@ -214,11 +214,11 @@
 
 @implementation UserBasic
 
-- (id) initWithId: (int64_t) id name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
+- (id) initWithGid: (int64_t) gid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator
 {
   self = [super init];
-  __id = id;
-  __id_isset = YES;
+  __gid = gid;
+  __gid_isset = YES;
   __name = [name retain];
   __name_isset = YES;
   __gender = gender;
@@ -235,10 +235,10 @@
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"id"])
+  if ([decoder containsValueForKey: @"gid"])
   {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
+    __gid = [decoder decodeInt64ForKey: @"gid"];
+    __gid_isset = YES;
   }
   if ([decoder containsValueForKey: @"name"])
   {
@@ -270,9 +270,9 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__id_isset)
+  if (__gid_isset)
   {
-    [encoder encodeInt64: __id forKey: @"id"];
+    [encoder encodeInt64: __gid forKey: @"gid"];
   }
   if (__name_isset)
   {
@@ -305,21 +305,21 @@
   [super dealloc];
 }
 
-- (int64_t) id {
-  return __id;
+- (int64_t) gid {
+  return __gid;
 }
 
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
+- (void) setGid: (int64_t) gid {
+  __gid = gid;
+  __gid_isset = YES;
 }
 
-- (BOOL) idIsSet {
-  return __id_isset;
+- (BOOL) gidIsSet {
+  return __gid_isset;
 }
 
-- (void) unsetId {
-  __id_isset = NO;
+- (void) unsetGid {
+  __gid_isset = NO;
 }
 
 - (NSString *) name {
@@ -441,7 +441,7 @@
       case 1:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
+          [self setGid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -497,9 +497,9 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"UserBasic"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
+  if (__gid_isset) {
+    [outProtocol writeFieldBeginWithName: @"gid" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __gid];
     [outProtocol writeFieldEnd];
   }
   if (__name_isset) {
@@ -541,8 +541,8 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"UserBasic("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @"gid:"];
+  [ms appendFormat: @"%qi", __gid];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",gender:"];
@@ -1421,11 +1421,11 @@
 
 @implementation TaskBasic
 
-- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor sponsor_name: (NSString *) sponsor_name tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state cover: (NSString *) cover area_id: (int64_t) area_id address_id: (int64_t) address_id end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
+- (id) initWithGid: (int64_t) gid name: (NSString *) name sponsor: (int64_t) sponsor sponsor_name: (NSString *) sponsor_name tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state cover: (NSString *) cover area_id: (int64_t) area_id address_id: (int64_t) address_id end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count
 {
   self = [super init];
-  __id = id;
-  __id_isset = YES;
+  __gid = gid;
+  __gid_isset = YES;
   __name = [name retain];
   __name_isset = YES;
   __sponsor = sponsor;
@@ -1462,10 +1462,10 @@
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"id"])
+  if ([decoder containsValueForKey: @"gid"])
   {
-    __id = [decoder decodeInt64ForKey: @"id"];
-    __id_isset = YES;
+    __gid = [decoder decodeInt64ForKey: @"gid"];
+    __gid_isset = YES;
   }
   if ([decoder containsValueForKey: @"name"])
   {
@@ -1547,9 +1547,9 @@
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__id_isset)
+  if (__gid_isset)
   {
-    [encoder encodeInt64: __id forKey: @"id"];
+    [encoder encodeInt64: __gid forKey: @"gid"];
   }
   if (__name_isset)
   {
@@ -1623,21 +1623,21 @@
   [super dealloc];
 }
 
-- (int64_t) id {
-  return __id;
+- (int64_t) gid {
+  return __gid;
 }
 
-- (void) setId: (int64_t) id {
-  __id = id;
-  __id_isset = YES;
+- (void) setGid: (int64_t) gid {
+  __gid = gid;
+  __gid_isset = YES;
 }
 
-- (BOOL) idIsSet {
-  return __id_isset;
+- (BOOL) gidIsSet {
+  return __gid_isset;
 }
 
-- (void) unsetId {
-  __id_isset = NO;
+- (void) unsetGid {
+  __gid_isset = NO;
 }
 
 - (NSString *) name {
@@ -1933,7 +1933,7 @@
       case 1:
         if (fieldType == TType_I64) {
           int64_t fieldValue = [inProtocol readI64];
-          [self setId: fieldValue];
+          [self setGid: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -2069,9 +2069,9 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"TaskBasic"];
-  if (__id_isset) {
-    [outProtocol writeFieldBeginWithName: @"id" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __id];
+  if (__gid_isset) {
+    [outProtocol writeFieldBeginWithName: @"gid" type: TType_I64 fieldID: 1];
+    [outProtocol writeI64: __gid];
     [outProtocol writeFieldEnd];
   }
   if (__name_isset) {
@@ -2165,8 +2165,8 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"TaskBasic("];
-  [ms appendString: @"id:"];
-  [ms appendFormat: @"%qi", __id];
+  [ms appendString: @"gid:"];
+  [ms appendFormat: @"%qi", __gid];
   [ms appendString: @",name:"];
   [ms appendFormat: @"\"%@\"", __name];
   [ms appendString: @",sponsor:"];

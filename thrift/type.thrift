@@ -28,7 +28,7 @@ enum UserListType {
 }
 
 struct UserBasic {
-    1:  required    i64             id,
+    1:  required    i64             gid,
     2:  required    string          name,
     3:  required    UserGender      gender,
     4:  required    string          org,
@@ -75,7 +75,7 @@ struct TaskFilter {
 }
 
 struct TaskBasic {
-    1:  required    i64             id,
+    1:  required    i64             gid,
     2:  required    string          name,
     3:  required    i64             sponsor,
     4:  required    string          sponsor_name,

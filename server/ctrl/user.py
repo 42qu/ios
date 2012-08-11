@@ -15,6 +15,9 @@ from utils.type.ttypes import User, UserGender, UserBasic, UserExt
 
 from server.ctrl.verify import verify
 
+def _user_to_user_basic(u):
+    UserBasic()
+
 def login_by_mail(self, client_id, client_secret,  mail, pw):
     print 'login_by_mail'
     user_id = user_id_by_mail(mail)
@@ -46,4 +49,8 @@ def user_ext_get(self, access_token, id):
         )
 
     return ext
+
+@verify
+def user_list_fetch(id_list):
+    pass
 

@@ -102,14 +102,14 @@ typedef int64_t timestamp;
 @end
 
 @interface UserBasic : NSObject <NSCoding> {
-  int64_t __id;
+  int64_t __gid;
   NSString * __name;
   int __gender;
   NSString * __org;
   NSString * __job;
   NSString * __avator;
 
-  BOOL __id_isset;
+  BOOL __gid_isset;
   BOOL __name_isset;
   BOOL __gender_isset;
   BOOL __org_isset;
@@ -118,7 +118,7 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=gid, setter=setGid:) int64_t gid;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, getter=gender, setter=setGender:) int gender;
 @property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
@@ -126,14 +126,14 @@ typedef int64_t timestamp;
 @property (nonatomic, retain, getter=avator, setter=setAvator:) NSString * avator;
 #endif
 
-- (id) initWithId: (int64_t) id name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
+- (id) initWithGid: (int64_t) gid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
+- (int64_t) gid;
+- (void) setGid: (int64_t) gid;
+- (BOOL) gidIsSet;
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;
@@ -298,7 +298,7 @@ typedef int64_t timestamp;
 @end
 
 @interface TaskBasic : NSObject <NSCoding> {
-  int64_t __id;
+  int64_t __gid;
   NSString * __name;
   int64_t __sponsor;
   NSString * __sponsor_name;
@@ -315,7 +315,7 @@ typedef int64_t timestamp;
   int64_t __invite_count;
   int64_t __accept_count;
 
-  BOOL __id_isset;
+  BOOL __gid_isset;
   BOOL __name_isset;
   BOOL __sponsor_isset;
   BOOL __sponsor_name_isset;
@@ -334,7 +334,7 @@ typedef int64_t timestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=id, setter=setId:) int64_t id;
+@property (nonatomic, getter=gid, setter=setGid:) int64_t gid;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, getter=sponsor, setter=setSponsor:) int64_t sponsor;
 @property (nonatomic, retain, getter=sponsor_name, setter=setSponsor_name:) NSString * sponsor_name;
@@ -352,14 +352,14 @@ typedef int64_t timestamp;
 @property (nonatomic, getter=accept_count, setter=setAccept_count:) int64_t accept_count;
 #endif
 
-- (id) initWithId: (int64_t) id name: (NSString *) name sponsor: (int64_t) sponsor sponsor_name: (NSString *) sponsor_name tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state cover: (NSString *) cover area_id: (int64_t) area_id address_id: (int64_t) address_id end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count;
+- (id) initWithGid: (int64_t) gid name: (NSString *) name sponsor: (int64_t) sponsor sponsor_name: (NSString *) sponsor_name tag_id: (int64_t) tag_id intro: (NSString *) intro state: (int) state cover: (NSString *) cover area_id: (int64_t) area_id address_id: (int64_t) address_id end_time: (timestamp) end_time reward: (NSString *) reward reward_cent: (int64_t) reward_cent apply_count: (int64_t) apply_count invite_count: (int64_t) invite_count accept_count: (int64_t) accept_count;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (int64_t) id;
-- (void) setId: (int64_t) id;
-- (BOOL) idIsSet;
+- (int64_t) gid;
+- (void) setGid: (int64_t) gid;
+- (BOOL) gidIsSet;
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;
