@@ -10,13 +10,24 @@ from utils.type.ttypes import AuthResponse
 
 import model.base.user_name
 import model.user.user_ico
+
 from model.base.user import User as _User
-from utils.type.ttypes import User, UserGender, UserBasic, UserExt
+from model.user.user_career import user_title
+from model.user.user_info import motto_by_id, user_info_by_id
+from utils.type.ttypes import User, UserGender, UserMarry, UserBasic, UserExt
 
 from server.ctrl.verify import verify
 
 def _user_to_user_basic(u):
-    UserBasic()
+    if u:
+        return UserBasic(
+            gid = u.id,
+            name = u.name,
+            gender = 0,
+            org = u.title[0],
+            title = u.title[1],
+            avatar = u.ico.link
+        )
 
 def login_by_mail(self, client_id, client_secret,  mail, pw):
     print 'login_by_mail'
@@ -42,8 +53,12 @@ def user_ext_get(self, access_token, id):
     print 'user_ext_get'
     # TODO:另一端暂无对应
     u = _User(id)
+    info = user_info_by_id(id)
 
-    ext = UserExt(intro="简介暂时没有对应参数",
+    ext = UserExt(
+            motto = motto_by_id(id),
+            intro = info.txt,
+            marry = UserMarry(info.marrige_state),
             following=[],
             followed=[]
         )
@@ -51,6 +66,9 @@ def user_ext_get(self, access_token, id):
     return ext
 
 @verify
-def user_list_fetch(id_list):
-    pass
+def user_list_fetch(self, id_list):
+    lst = []
+    for i in id_list:
+        lst.append(_User(i))
+    return map(_user_to_user_basic, lst)
 

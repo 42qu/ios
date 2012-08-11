@@ -8,7 +8,7 @@ from ctrl.verify import verify, verify_get_user
 
 from model.base.user_name import UserName
 
-from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, po_task_get_list, task_apply_new, task_apply_user_id_list, po_task_new
+from model.task.task import TASK_APPLY_STATE, TASK_APPLY_STATE, po_task_get, po_task_get_list, task_apply_new, task_apply_user_id_list, po_task_new, po_task_count_by_state
 
 from model.task.tag import po_task_id_list_order_by_time, po_task_id_list_order_by_count, po_task_tag_id
 
@@ -19,7 +19,7 @@ def _po_task_to_task_basic(po):
     if po and po.task:
         t = po.task
         basic = TaskBasic(
-            id = po.id,
+            gid = po.id,
             name = po.name,
             sponsor = po.user_id,
             sponsor_name = UserName.get(po.user_id),
@@ -29,9 +29,9 @@ def _po_task_to_task_basic(po):
             end_time = t.end_time,
             reward = t.reward,
             reward_cent = t.reward_cent,
-            apply_count = 0,
+            apply_count = po_task_count_by_state(po.id, TASK_APPLY_STATE.APPLY),
             invite_count = 0,
-            accept_count = 0,
+            accept_count = po_task_count_by_state(po.id, TASK_APPLY_STATE.APPLY),
         )
         return basic
 

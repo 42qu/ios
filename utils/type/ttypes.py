@@ -33,6 +33,23 @@ class UserGender:
     "Female": 2,
   }
 
+class UserMarry:
+  Single = 1
+  InLove = 2
+  Married = 3
+
+  _VALUES_TO_NAMES = {
+    1: "Single",
+    2: "InLove",
+    3: "Married",
+  }
+
+  _NAMES_TO_VALUES = {
+    "Single": 1,
+    "InLove": 2,
+    "Married": 3,
+  }
+
 class UserListType:
   All = 0
   Recommend = 1
@@ -260,27 +277,28 @@ class UserBasic:
    - name
    - gender
    - org
-   - job
-   - avator
+   - title
+   - avatar
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.I64, 'gid', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
-    (3, TType.I32, 'gender', None, None, ), # 3
-    (4, TType.STRING, 'org', None, None, ), # 4
-    (5, TType.STRING, 'job', None, None, ), # 5
-    (6, TType.STRING, 'avator', None, None, ), # 6
+    None, # 3
+    (4, TType.I32, 'gender', None, None, ), # 4
+    (5, TType.STRING, 'org', None, None, ), # 5
+    (6, TType.STRING, 'title', None, None, ), # 6
+    (7, TType.STRING, 'avatar', None, None, ), # 7
   )
 
-  def __init__(self, gid=None, name=None, gender=None, org=None, job=None, avator=None,):
+  def __init__(self, gid=None, name=None, gender=None, org=None, title=None, avatar=None,):
     self.gid = gid
     self.name = name
     self.gender = gender
     self.org = org
-    self.job = job
-    self.avator = avator
+    self.title = title
+    self.avatar = avatar
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -301,24 +319,24 @@ class UserBasic:
           self.name = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 3:
+      elif fid == 4:
         if ftype == TType.I32:
           self.gender = iprot.readI32();
         else:
           iprot.skip(ftype)
-      elif fid == 4:
+      elif fid == 5:
         if ftype == TType.STRING:
           self.org = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 5:
-        if ftype == TType.STRING:
-          self.job = iprot.readString();
-        else:
-          iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.STRING:
-          self.avator = iprot.readString();
+          self.title = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.STRING:
+          self.avatar = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -340,20 +358,20 @@ class UserBasic:
       oprot.writeString(self.name)
       oprot.writeFieldEnd()
     if self.gender is not None:
-      oprot.writeFieldBegin('gender', TType.I32, 3)
+      oprot.writeFieldBegin('gender', TType.I32, 4)
       oprot.writeI32(self.gender)
       oprot.writeFieldEnd()
     if self.org is not None:
-      oprot.writeFieldBegin('org', TType.STRING, 4)
+      oprot.writeFieldBegin('org', TType.STRING, 5)
       oprot.writeString(self.org)
       oprot.writeFieldEnd()
-    if self.job is not None:
-      oprot.writeFieldBegin('job', TType.STRING, 5)
-      oprot.writeString(self.job)
+    if self.title is not None:
+      oprot.writeFieldBegin('title', TType.STRING, 6)
+      oprot.writeString(self.title)
       oprot.writeFieldEnd()
-    if self.avator is not None:
-      oprot.writeFieldBegin('avator', TType.STRING, 6)
-      oprot.writeString(self.avator)
+    if self.avatar is not None:
+      oprot.writeFieldBegin('avatar', TType.STRING, 7)
+      oprot.writeString(self.avatar)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -367,10 +385,10 @@ class UserBasic:
       raise TProtocol.TProtocolException(message='Required field gender is unset!')
     if self.org is None:
       raise TProtocol.TProtocolException(message='Required field org is unset!')
-    if self.job is None:
-      raise TProtocol.TProtocolException(message='Required field job is unset!')
-    if self.avator is None:
-      raise TProtocol.TProtocolException(message='Required field avator is unset!')
+    if self.title is None:
+      raise TProtocol.TProtocolException(message='Required field title is unset!')
+    if self.avatar is None:
+      raise TProtocol.TProtocolException(message='Required field avatar is unset!')
     return
 
 
@@ -388,20 +406,26 @@ class UserBasic:
 class UserExt:
   """
   Attributes:
+   - motto
    - intro
+   - marry
    - following
    - followed
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'intro', None, None, ), # 1
-    (2, TType.LIST, 'following', (TType.I64,None), None, ), # 2
-    (3, TType.LIST, 'followed', (TType.I64,None), None, ), # 3
+    (1, TType.STRING, 'motto', None, None, ), # 1
+    (2, TType.STRING, 'intro', None, None, ), # 2
+    (3, TType.I32, 'marry', None, None, ), # 3
+    (4, TType.LIST, 'following', (TType.I64,None), None, ), # 4
+    (5, TType.LIST, 'followed', (TType.I64,None), None, ), # 5
   )
 
-  def __init__(self, intro=None, following=None, followed=None,):
+  def __init__(self, motto=None, intro=None, marry=None, following=None, followed=None,):
+    self.motto = motto
     self.intro = intro
+    self.marry = marry
     self.following = following
     self.followed = followed
 
@@ -416,10 +440,20 @@ class UserExt:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.intro = iprot.readString();
+          self.motto = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
+        if ftype == TType.STRING:
+          self.intro = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.marry = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
         if ftype == TType.LIST:
           self.following = []
           (_etype3, _size0) = iprot.readListBegin()
@@ -429,7 +463,7 @@ class UserExt:
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
-      elif fid == 3:
+      elif fid == 5:
         if ftype == TType.LIST:
           self.followed = []
           (_etype9, _size6) = iprot.readListBegin()
@@ -449,19 +483,27 @@ class UserExt:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('UserExt')
+    if self.motto is not None:
+      oprot.writeFieldBegin('motto', TType.STRING, 1)
+      oprot.writeString(self.motto)
+      oprot.writeFieldEnd()
     if self.intro is not None:
-      oprot.writeFieldBegin('intro', TType.STRING, 1)
+      oprot.writeFieldBegin('intro', TType.STRING, 2)
       oprot.writeString(self.intro)
       oprot.writeFieldEnd()
+    if self.marry is not None:
+      oprot.writeFieldBegin('marry', TType.I32, 3)
+      oprot.writeI32(self.marry)
+      oprot.writeFieldEnd()
     if self.following is not None:
-      oprot.writeFieldBegin('following', TType.LIST, 2)
+      oprot.writeFieldBegin('following', TType.LIST, 4)
       oprot.writeListBegin(TType.I64, len(self.following))
       for iter12 in self.following:
         oprot.writeI64(iter12)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.followed is not None:
-      oprot.writeFieldBegin('followed', TType.LIST, 3)
+      oprot.writeFieldBegin('followed', TType.LIST, 5)
       oprot.writeListBegin(TType.I64, len(self.followed))
       for iter13 in self.followed:
         oprot.writeI64(iter13)
@@ -471,8 +513,12 @@ class UserExt:
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.motto is None:
+      raise TProtocol.TProtocolException(message='Required field motto is unset!')
     if self.intro is None:
       raise TProtocol.TProtocolException(message='Required field intro is unset!')
+    if self.marry is None:
+      raise TProtocol.TProtocolException(message='Required field marry is unset!')
     if self.following is None:
       raise TProtocol.TProtocolException(message='Required field following is unset!')
     if self.followed is None:

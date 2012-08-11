@@ -19,6 +19,12 @@ enum UserGender {
   UserGender_Female = 2
 };
 
+enum UserMarry {
+  UserMarry_Single = 1,
+  UserMarry_InLove = 2,
+  UserMarry_Married = 3
+};
+
 enum UserListType {
   UserListType_All = 0,
   UserListType_Recommend = 1,
@@ -106,15 +112,15 @@ typedef int64_t timestamp;
   NSString * __name;
   int __gender;
   NSString * __org;
-  NSString * __job;
-  NSString * __avator;
+  NSString * __title;
+  NSString * __avatar;
 
   BOOL __gid_isset;
   BOOL __name_isset;
   BOOL __gender_isset;
   BOOL __org_isset;
-  BOOL __job_isset;
-  BOOL __avator_isset;
+  BOOL __title_isset;
+  BOOL __avatar_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -122,11 +128,11 @@ typedef int64_t timestamp;
 @property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, getter=gender, setter=setGender:) int gender;
 @property (nonatomic, retain, getter=org, setter=setOrg:) NSString * org;
-@property (nonatomic, retain, getter=job, setter=setJob:) NSString * job;
-@property (nonatomic, retain, getter=avator, setter=setAvator:) NSString * avator;
+@property (nonatomic, retain, getter=title, setter=setTitle:) NSString * title;
+@property (nonatomic, retain, getter=avatar, setter=setAvatar:) NSString * avatar;
 #endif
 
-- (id) initWithGid: (int64_t) gid name: (NSString *) name gender: (int) gender org: (NSString *) org job: (NSString *) job avator: (NSString *) avator;
+- (id) initWithGid: (int64_t) gid name: (NSString *) name gender: (int) gender org: (NSString *) org title: (NSString *) title avatar: (NSString *) avatar;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -147,40 +153,54 @@ typedef int64_t timestamp;
 - (void) setOrg: (NSString *) org;
 - (BOOL) orgIsSet;
 
-- (NSString *) job;
-- (void) setJob: (NSString *) job;
-- (BOOL) jobIsSet;
+- (NSString *) title;
+- (void) setTitle: (NSString *) title;
+- (BOOL) titleIsSet;
 
-- (NSString *) avator;
-- (void) setAvator: (NSString *) avator;
-- (BOOL) avatorIsSet;
+- (NSString *) avatar;
+- (void) setAvatar: (NSString *) avatar;
+- (BOOL) avatarIsSet;
 
 @end
 
 @interface UserExt : NSObject <NSCoding> {
+  NSString * __motto;
   NSString * __intro;
+  int __marry;
   NSArray * __following;
   NSArray * __followed;
 
+  BOOL __motto_isset;
   BOOL __intro_isset;
+  BOOL __marry_isset;
   BOOL __following_isset;
   BOOL __followed_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=motto, setter=setMotto:) NSString * motto;
 @property (nonatomic, retain, getter=intro, setter=setIntro:) NSString * intro;
+@property (nonatomic, getter=marry, setter=setMarry:) int marry;
 @property (nonatomic, retain, getter=following, setter=setFollowing:) NSArray * following;
 @property (nonatomic, retain, getter=followed, setter=setFollowed:) NSArray * followed;
 #endif
 
-- (id) initWithIntro: (NSString *) intro following: (NSArray *) following followed: (NSArray *) followed;
+- (id) initWithMotto: (NSString *) motto intro: (NSString *) intro marry: (int) marry following: (NSArray *) following followed: (NSArray *) followed;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
+- (NSString *) motto;
+- (void) setMotto: (NSString *) motto;
+- (BOOL) mottoIsSet;
+
 - (NSString *) intro;
 - (void) setIntro: (NSString *) intro;
 - (BOOL) introIsSet;
+
+- (int) marry;
+- (void) setMarry: (int) marry;
+- (BOOL) marryIsSet;
 
 - (NSArray *) following;
 - (void) setFollowing: (NSArray *) following;

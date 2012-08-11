@@ -14,8 +14,14 @@ struct AuthResponse {
 
 enum UserGender {
     Unknown = 0,
-    Male,
-    Female
+    Male = 1,
+    Female = 2
+}
+
+enum UserMarry {
+    Single = 1,
+    InLove = 2,
+    Married = 3
 }
 
 enum UserListType {
@@ -30,16 +36,18 @@ enum UserListType {
 struct UserBasic {
     1:  required    i64             gid,
     2:  required    string          name,
-    3:  required    UserGender      gender,
-    4:  required    string          org,
-    5:  required    string          job,
-    6:  required    string          avator # URL
+    4:  required    UserGender      gender,
+    5:  required    string          org,
+    6:  required    string          title,
+    7:  required    string          avatar # URL
 }
 
 struct UserExt {
-    1:  required    string          intro,
-    2:  required    list<i64>       following,
-    3:  required    list<i64>       followed
+    1:  required    string          motto,
+    2:  required    string          intro,
+    3:  required    UserMarry       marry,
+    4:  required    list<i64>       following,
+    5:  required    list<i64>       followed
 }
 
 struct User {
