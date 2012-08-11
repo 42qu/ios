@@ -43,7 +43,7 @@ struct UserExt {
 }
 
 struct User {
-    1:  optional    UserBasic       basic,
+    1:  required    UserBasic       basic,
     2:  required    UserExt         ext
 }
 
@@ -100,7 +100,7 @@ struct TaskExt {
 }
 
 struct Task {
-    1:  optional    TaskBasic       basic,
+    1:  required    TaskBasic       basic,
     2:  required    TaskExt         ext
 }
 
@@ -109,12 +109,6 @@ enum TaskListType {
     Recommend,
     Nearby,
     Following
-}
-
-struct TaskListRequest {
-    1:  required    TaskListType    type
-    2:  required    i64             lastid,
-    3:  required    i64             length
 }
 
 # Message

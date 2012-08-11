@@ -5,30 +5,29 @@ service Sns {
     # Auth
     
     type.AuthResponse login_by_mail(
-        1: i64    client_id,
-        2: string client_secret,
-        3: string mail,
-        4: string password
+        1: i64                client_id,
+        2: string             client_secret,
+        3: string             mail,
+        4: string             password
     )
     
     void logout(
-        1: string access_token
+        1: string             access_token
     )
     
     # User
 
     /* 约定：id为0，相当于查询自己 */
-    type.User user_get(
-        1: string  access_token,
-        2: i64     id,
-        3: bool    ext_only = true
+    type.UserExt user_ext_get(
+        1: string             access_token,
+        2: i64                gid,
     )
 
     void user_set(
         1: string    access_token,
-        2: type.User user
+        2: type.User          user
     )
-     
+ 
     list<type.UserBasic> user_list(
         1: string             access_token,
         2: type.UserListType  type,
@@ -47,10 +46,9 @@ service Sns {
         5: i64                num
     )
     
-    type.Task task_get (
+    type.TaskExt task_ext_get (
         1: string             access_token,
-        2: i64                id,
-        3: bool               ext_only = true,
+        2: i64                gid,
     )
     
     void task_set (
@@ -65,18 +63,18 @@ service Sns {
 
     bool task_apply(
         1: string access_token,
-        2: i64    id,
+        2: i64    gid,
         3: string txt
     )
     
     bool task_reject(
         1: string access_token,
-        2: i64    id
+        2: i64    gid
     )
     
     bool task_accept(
         1: string access_token,
-        2: i64    id
+        2: i64    gid
     )
  
     bool my_task_accept(

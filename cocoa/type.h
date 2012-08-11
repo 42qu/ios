@@ -486,41 +486,6 @@ typedef int64_t timestamp;
 
 @end
 
-@interface TaskListRequest : NSObject <NSCoding> {
-  int __type;
-  int64_t __lastid;
-  int64_t __length;
-
-  BOOL __type_isset;
-  BOOL __lastid_isset;
-  BOOL __length_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=type, setter=setType:) int type;
-@property (nonatomic, getter=lastid, setter=setLastid:) int64_t lastid;
-@property (nonatomic, getter=length, setter=setLength:) int64_t length;
-#endif
-
-- (id) initWithType: (int) type lastid: (int64_t) lastid length: (int64_t) length;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (int) type;
-- (void) setType: (int) type;
-- (BOOL) typeIsSet;
-
-- (int64_t) lastid;
-- (void) setLastid: (int64_t) lastid;
-- (BOOL) lastidIsSet;
-
-- (int64_t) length;
-- (void) setLength: (int64_t) length;
-- (BOOL) lengthIsSet;
-
-@end
-
 @interface Msg : NSObject <NSCoding> {
   int64_t __sender;
   timestamp __time;
