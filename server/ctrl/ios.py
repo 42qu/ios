@@ -1,8 +1,8 @@
 #coding:utf-8
 import _env
 
-from ctrl.user import login_by_mail, user_get
-from ctrl.task import task_get, task_apply, my_task_accept, my_task_reject, task_new, task_list
+from ctrl.user import login_by_mail, user_ext_get
+from ctrl.task import task_ext_get, task_apply, my_task_accept, my_task_reject, task_new, task_list
 
 import logging
 
@@ -12,8 +12,8 @@ class Handler(object):
     def logout(self, acess_token):
         pass
 
-    user_get = user_get
-    task_get = task_get
+    user_ext_get = user_ext_get
+    task_ext_get = task_ext_get
     task_apply = task_apply
     my_task_accept = my_task_accept
     my_task_reject = my_task_reject

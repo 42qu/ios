@@ -15,7 +15,7 @@ from utils.type.ttypes import User, UserGender, UserBasic, UserExt
 
 from server.ctrl.verify import verify
 
-def login_by_mail(self, client_id,, client_secret,  mail, pw):
+def login_by_mail(self, client_id, client_secret,  mail, pw):
     print 'login_by_mail'
     user_id = user_id_by_mail(mail)
     if user_id:

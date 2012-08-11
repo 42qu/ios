@@ -28,7 +28,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  UserExt user_ext_get(string access_token, i64 gid)'
   print '  void user_set(string access_token, User user)'
   print '   user_list(string access_token, UserListType type, i64 last_id, i64 num)'
+  print '   user_list_fetch( id_list)'
   print '   task_list(string access_token, TaskListType type, TaskFilter filter, i64 last_id, i64 num)'
+  print '   task_list_fetch( id_list)'
   print '  TaskExt task_ext_get(string access_token, i64 gid)'
   print '  void task_set(string access_token, Task task)'
   print '  i64 task_new(string access_token, Task task)'
@@ -122,11 +124,23 @@ elif cmd == 'user_list':
     sys.exit(1)
   pp.pprint(client.user_list(args[0],eval(args[1]),eval(args[2]),eval(args[3]),))
 
+elif cmd == 'user_list_fetch':
+  if len(args) != 1:
+    print 'user_list_fetch requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.user_list_fetch(eval(args[0]),))
+
 elif cmd == 'task_list':
   if len(args) != 5:
     print 'task_list requires 5 args'
     sys.exit(1)
   pp.pprint(client.task_list(args[0],eval(args[1]),eval(args[2]),eval(args[3]),eval(args[4]),))
+
+elif cmd == 'task_list_fetch':
+  if len(args) != 1:
+    print 'task_list_fetch requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.task_list_fetch(eval(args[0]),))
 
 elif cmd == 'task_ext_get':
   if len(args) != 2:

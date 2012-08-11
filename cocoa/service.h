@@ -20,7 +20,9 @@
 - (UserExt *) user_ext_get: (NSString *) access_token : (int64_t) gid;  // throws TException
 - (void) user_set: (NSString *) access_token : (User *) user;  // throws TException
 - (NSArray *) user_list: (NSString *) access_token : (int) type : (int64_t) last_id : (int64_t) num;  // throws TException
+- (NSArray *) user_list_fetch: (NSArray *) id_list;  // throws TException
 - (NSArray *) task_list: (NSString *) access_token : (int) type : (TaskFilter *) filter : (int64_t) last_id : (int64_t) num;  // throws TException
+- (NSArray *) task_list_fetch: (NSArray *) id_list;  // throws TException
 - (TaskExt *) task_ext_get: (NSString *) access_token : (int64_t) gid;  // throws TException
 - (void) task_set: (NSString *) access_token : (Task *) task;  // throws TException
 - (int64_t) task_new: (NSString *) access_token : (Task *) task;  // throws TException

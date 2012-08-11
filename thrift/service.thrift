@@ -35,6 +35,10 @@ service Sns {
         4: i64                num
     )
 
+    list<type.UserBasic> user_list_fetch(
+        1: list<i64>          id_list
+    )
+    
     # Task
     
     /* 约定: last_id 为0，相当于为最后一条信息的id */
@@ -44,6 +48,10 @@ service Sns {
         3: type.TaskFilter    filter,
         4: i64                last_id,
         5: i64                num
+    )
+
+    list<type.TaskBasic> task_list_fetch(
+        1: list<i64>          id_list
     )
     
     type.TaskExt task_ext_get (
