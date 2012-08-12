@@ -68,29 +68,25 @@ service Sns {
     bool task_invite(
         1:  string      access_token,
         2:  i64         task_id,
-        3:  list<i64>   user_id_list
+        3:  list<i64>   user_id_list,
+        4:  string      postscript
     )
     
     bool task_reply_application(
         1:  string      access_token,
         2:  i64         task_id,
         3:  i64         user_id,
-        4:  bool        accepted
+        4:  bool        accepted,
+        5:  string      postscript
     )
     
     bool task_reply_invitation(
         1:  string      access_token,
         2:  i64         task_id,
-        3:  bool        accepted
-    )
-    
-    bool task_reject_user(
-        1:  string      access_token,
-        2:  i64         task_id,
-        3:  i64         user_id,
+        3:  bool        accepted,
         4:  string      postscript
     )
-   
+    
     # Message
 
     list<type.Msg> msg_list(
