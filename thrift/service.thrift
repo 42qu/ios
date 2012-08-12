@@ -64,21 +64,24 @@ service Sns {
         2:  i64         task_id,
         3:  string      postscript
     )
-    
-    bool task_reject_invitation(
-        1:  string      access_token,
-        2:  i64         task_id
-    )
-    
-    bool task_accept_invitation(
-        1:  string      access_token,
-        2:  i64         id
-    )
- 
-    bool task_accept_user(
+
+    bool task_invite(
         1:  string      access_token,
         2:  i64         task_id,
-        3:  i64         user_id
+        3:  list<i64>   user_id_list
+    )
+    
+    bool task_reply_application(
+        1:  string      access_token,
+        2:  i64         task_id,
+        3:  i64         user_id,
+        4:  bool        accepted
+    )
+    
+    bool task_reply_invitation(
+        1:  string      access_token,
+        2:  i64         task_id,
+        3:  bool        accepted
     )
     
     bool task_reject_user(
